@@ -336,14 +336,14 @@ export const TimerCard = () => {
             <Card
                 onMouseEnter={() => setIsHovered(true)}
                 onMouseLeave={() => setIsHovered(false)}
-                className="relative overflow-hidden group hover:shadow-lg transition-all duration-500 cursor-pointer border border-black/20 ring-1 ring-black/5 dark:border-white/10 hover:border-black/30 hover:ring-black/10"
+                className="relative overflow-hidden group hover:shadow-lg transition-all duration-500 dark:bg-black bg-white border-[1px] border-black/[0.15] dark:border-white/[0.08] hover:border-black/25 dark:hover:border-white/[0.15] ring-1 ring-black/[0.05] dark:ring-white/[0.05]"
                 style={{
                     minHeight: '320px',
-                    minWidth: isDesktop ? '390px' : 'auto', // Apply min-width only for desktop
+                    minWidth: isDesktop ? '390px' : 'auto',
                     display: 'flex',
                     flexDirection: 'column',
                     transform: isHovered ? 'translateY(-4px)' : 'translateY(0)',
-                    transition: 'transform 0.3s ease-out, min-width 0.3s ease-out', // Smooth transition for min-width changes
+                    transition: 'transform 0.3s ease-out, min-width 0.3s ease-out',
                     padding: '1.5rem',
                 }}
             >

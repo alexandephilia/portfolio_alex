@@ -211,7 +211,7 @@ export const PomodoroCard = () => {
             <Card
                 onMouseEnter={() => setIsHovered(true)}
                 onMouseLeave={() => setIsHovered(false)}
-                className="relative overflow-hidden group hover:shadow-lg transition-all duration-500 border border-black/20 ring-1 ring-black/5 dark:border-white/10 hover:border-black/30 hover:ring-black/10"
+                className="relative overflow-hidden group hover:shadow-lg transition-all duration-500 dark:bg-black bg-white border-[1px] border-black/[0.15] dark:border-white/[0.08] hover:border-black/25 dark:hover:border-white/[0.15] ring-1 ring-black/[0.05] dark:ring-white/[0.05]"
                 style={{
                     minHeight: '320px',
                     padding: '1.5rem',

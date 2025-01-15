@@ -353,7 +353,7 @@ const Index = () => {
                   {/* First line - Combined description */}
                   <div className="inline-flex flex-wrap items-center justify-center gap-0.5 text-[11px] md:text-sm lg:text-base">
                     <span className="inline-flex items-center">
-                      <strong className="dark:text-white dark:drop-shadow-[0_0_0.3rem_#ffffff70]">An over thinker and coffee lover (yep),</strong>
+                      <strong className="dark:text-white dark:drop-shadow-[0_0_0.3rem_#ffffff70]">An over-thinker and coffee lover (yep),</strong>
                     </span>
                     <span className="inline-flex items-center">
                       <strong className="dark:text-white dark:drop-shadow-[0_0_0.3rem_#ffffff70]">also a front end developer who thinks about</strong>
