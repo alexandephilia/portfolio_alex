@@ -272,7 +272,7 @@ const AnimatedTooltip = React.forwardRef<
           <Ariakit.Tooltip
             store={tooltip}
             gutter={4}
-            className="text-[10px] text-white bg-muted/50 backdrop-blur-sm px-3 py-2 rounded-full flex items-center gap-1.5 border border-muted-foreground/10 shadow-sm z-[100] min-w-[140px] justify-center"
+            className="text-[10px] text-foreground bg-muted/50 backdrop-blur-sm px-3 py-2 rounded-full flex items-center gap-1.5 border border-muted-foreground/10 shadow-sm z-[100] min-w-[140px] justify-center"
             render={
               <motion.div
                 initial={{ 
@@ -334,7 +334,7 @@ const AnimatedTooltip = React.forwardRef<
                       }
                     }}
                   >
-                    <GitCommit className="w-3 h-3 text-white" />
+                    <GitCommit className="w-3 h-3 text-muted-foreground" />
                   </motion.div>
                   <motion.div 
                     className="flex items-center"
@@ -434,7 +434,7 @@ const SkillCard = ({
                 >
                 <AnimatedTooltip content={skillDescriptions[skill.name]}>
                   <div className="flex flex-col items-center sm:flex-row sm:items-start gap-2 text-center sm:text-left">
-                    <skill.icon className="h-4 w-4 text-white/70" />
+                    <skill.icon className="h-4 w-4 text-muted-foreground" />
                     <div className="flex flex-col items-center sm:items-start">
                       <span className="text-sm">{skill.name}</span>
                       <Badge 
