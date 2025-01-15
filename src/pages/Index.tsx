@@ -379,10 +379,10 @@ const Index = () => {
               }
               profileImage="/Untitled.jpeg"
             />
-            <ProjectsSection />
             <SkillsSection />
-            <BlogSection />
+            <ProjectsSection />
             <GitProjectsSection />
+            <BlogSection />
             <ContactSection />
           </div>
         </motion.div>
