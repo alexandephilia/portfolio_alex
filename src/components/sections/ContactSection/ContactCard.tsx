@@ -91,23 +91,29 @@ export const ContactCard = ({ title, icon: Icon, value, color, delay = 0, href }
           initial: {
             scale: 1,
             rotate: 0,
+            y: 0,
             color: "inherit",
             filter: "none"
           },
           hover: {
-            scale: [1, 1.2, 1.15],
-            rotate: [0, -20, 20, -10, 10, 0],
+            scale: [1, 1.1, 1.1, 1.1],
+            rotate: [0, -8, 8, 0],
+            y: [0, -2, -2, 0],
             color: hoverColor,
             filter: `drop-shadow(0 0 10px ${hoverColor})`,
             transition: {
-              duration: 0.6,
+              duration: 2,
               rotate: { 
-                duration: 0.5,
+                duration: 1.5,
                 repeat: Infinity,
-                repeatType: "reverse",
-                ease: "easeInOut"
+                repeatType: "mirror",
+                ease: [0.45, 0, 0.55, 1]
               },
-              scale: { type: "spring", stiffness: 400, damping: 10 }
+              scale: { 
+                type: "spring", 
+                stiffness: 200, 
+                damping: 15 
+              }
             }
           }
         };
@@ -116,18 +122,32 @@ export const ContactCard = ({ title, icon: Icon, value, color, delay = 0, href }
           initial: {
             scale: 1,
             y: 0,
+            x: 0,
+            rotate: 0,
             color: "inherit",
             filter: "none"
           },
           hover: {
-            scale: [1, 1.3, 1.2],
-            y: [0, -5, 0],
+            scale: [1, 1.15, 1.15, 1.15, 1.15, 1],
+            y: [0, -3, -3, -3, -3, 0],
+            x: [0, -2, 2, -2, 2, 0],
+            rotate: [0, -5, 5, -5, 5, 0],
             color: hoverColor,
-            filter: `drop-shadow(0 0 12px ${hoverColor})`,
+            filter: [
+              "drop-shadow(0 0 0px transparent)",
+              `drop-shadow(0 0 10px ${hoverColor})`,
+              `drop-shadow(0 0 15px ${hoverColor})`,
+              `drop-shadow(0 0 20px ${hoverColor})`,
+              `drop-shadow(0 0 15px ${hoverColor})`,
+              `drop-shadow(0 0 10px ${hoverColor})`
+            ],
             transition: {
-              duration: 0.4,
-              scale: { type: "spring", stiffness: 500, damping: 7 },
-              y: { type: "spring", stiffness: 400, damping: 8 }
+              duration: 1.2,
+              repeat: Infinity,
+              repeatType: "loop",
+              ease: "easeInOut",
+              times: [0, 0.2, 0.4, 0.6, 0.8, 1],
+              scale: { type: "spring", stiffness: 400, damping: 10 }
             }
           }
         };
