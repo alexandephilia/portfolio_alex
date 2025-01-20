@@ -1,7 +1,16 @@
-import { Button } from "@/components/ui/button";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import FloatingMenu from "@/components/FloatingMenu";
 import { ModeToggle } from "@/components/mode-toggle";
-import { Github, Linkedin, Mail, User, Menu, Book, Wrench, Heart, Coffee } from "lucide-react";
+import { MobileNav } from "@/components/navigation/MobileNav";
+import BlogSection from "@/components/sections/BlogSection";
+import { ContactSection } from "@/components/sections/ContactSection";
+import { GitProjectsSection } from "@/components/sections/GitProjectsSection";
+import { HeroSection } from "@/components/sections/HeroSection";
+import { ProjectsSection } from "@/components/sections/ProjectsSection";
+import { SkillsSection } from "@/components/sections/SkillsSection";
+import { AnimatedGradientText } from "@/components/ui/animated-text";
+import { AnimatedTyping } from "@/components/ui/animated-typing";
+import { Button } from "@/components/ui/button";
+import { GradientBlur } from "@/components/ui/gradient-blur";
 import {
   NavigationMenu,
   NavigationMenuContent,
@@ -11,57 +20,11 @@ import {
   NavigationMenuTrigger,
 } from "@/components/ui/navigation-menu";
 import { cn } from "@/lib/utils";
-import React from "react";
-import { ProjectsSection } from "@/components/sections/ProjectsSection";
-import { Code, Server } from "lucide-react";
-import {
-  SiReact,
-  SiTypescript,
-  SiTailwindcss,
-  SiNextdotjs,
-  SiNodedotjs,
-  SiExpress,
-  SiPostgresql,
-  SiMongodb,
-  SiWebflow,
-  SiFramer,
-  SiVercel,
-  SiGithub,
-  SiHtml5,
-  SiCss3,
-  SiJavascript,
-  SiNetlify,
-  SiReplit,
-  SiCardano
-} from "react-icons/si";
-import { Badge } from "@/components/ui/badge";
-import {
-  Tooltip,
-  TooltipContent,
-  TooltipProvider,
-  TooltipTrigger,
-} from "@/components/ui/tooltip";
-import {
-  Sheet,
-  SheetContent,
-  SheetTrigger,
-} from "@/components/ui/sheet";
-import { StatusBadge } from "@/components/ui/statusbadge";
-import { SkillsSection } from "@/components/sections/SkillsSection";
-import { motion, useAnimationControls } from "framer-motion";
-import BlogSection from "@/components/sections/BlogSection";
-import { ContactSection } from "@/components/sections/ContactSection";
-import { useEffect } from "react";
+import { AnimatePresence, motion, useAnimationControls } from "framer-motion";
+import { Coffee } from "lucide-react";
 import { useTheme } from "next-themes";
-import FloatingMenu from "@/components/FloatingMenu";
-import { MobileNav } from "@/components/navigation/MobileNav";
-import { HeroSection } from "@/components/sections/HeroSection";
-import { AnimatedGradientText } from "@/components/ui/animated-text";
-import { AnimatedTyping } from "@/components/ui/animated-typing";
-import { GradientBlur } from "@/components/ui/gradient-blur";
-import { useLocation, Link } from 'react-router-dom';
-import { AnimatePresence } from 'framer-motion';
-import { GitProjectsSection } from "@/components/sections/GitProjectsSection";
+import React, { useEffect } from "react";
+import { Link, useLocation } from 'react-router-dom';
 
 const ListItem = React.forwardRef<
   React.ElementRef<"a">,
@@ -89,11 +52,19 @@ const ListItem = React.forwardRef<
 });
 ListItem.displayName = "ListItem";
 
-interface GrainProps {
-  opacity?: number;
+interface HeroSectionProps {
+  name: string;
+  title: React.ReactNode;
+  subtitle: React.ReactNode;
+  profileImage: string;
 }
 
-const Grain = React.memo(({ opacity = 0.8 }: GrainProps) => {
+interface GrainProps {
+  /** Base opacity value for the grain effect. Defaults to 0.8 */
+  baseOpacity?: number;
+}
+
+const Grain = React.memo(({ baseOpacity = 0.8 }: GrainProps) => {
   const controls = useAnimationControls();
   const { theme } = useTheme();
 
@@ -113,18 +84,7 @@ const Grain = React.memo(({ opacity = 0.8 }: GrainProps) => {
     });
   }, [controls]);
 
-  const grainStyle = React.useMemo(() => ({
-    width: "100%",
-    height: "100%",
-    position: "fixed" as const,
-    top: 0,
-    left: 0,
-    pointerEvents: "none" as const,
-    zIndex: 9999,
-    overflow: "hidden",
-    willChange: "transform",
-    transform: "translateZ(0)"
-  }), []);
+  const grainClassName = "fixed w-full h-full top-0 left-0 pointer-events-none z-[9999] overflow-hidden will-change-transform transform-gpu";
 
   const overlayStyle = React.useMemo(() => ({
     backgroundSize: "32px 32px",
@@ -132,7 +92,9 @@ const Grain = React.memo(({ opacity = 0.8 }: GrainProps) => {
     background: theme === 'dark'
       ? "url('https://framerusercontent.com/images/rR6HYXBrMmX4cRpXfXUOvpvpB0.png')"
       : "url('https://framerusercontent.com/images/rR6HYXBrMmX4cRpXfXUOvpvpB0.png')",
-    opacity: theme === 'dark' ? opacity : opacity * 0.8,
+    opacity: theme === 'dark' 
+      ? baseOpacity 
+      : baseOpacity * 0.8,
     inset: "-200%",
     width: "500%",
     height: "500%",
@@ -143,10 +105,10 @@ const Grain = React.memo(({ opacity = 0.8 }: GrainProps) => {
     backfaceVisibility: "hidden" as const,
     perspective: 1000,
     transformStyle: "preserve-3d" as const
-  }), [theme, opacity]);
+  }), [theme, baseOpacity]);
 
   return (
-    <div style={grainStyle}>
+    <div className={grainClassName}>
       <motion.div
         animate={controls}
         style={overlayStyle}
@@ -156,6 +118,8 @@ const Grain = React.memo(({ opacity = 0.8 }: GrainProps) => {
   );
 });
 
+Grain.displayName = 'Grain';
+
 const Index = () => {
   const location = useLocation();
 
@@ -163,7 +127,7 @@ const Index = () => {
     if (process.env.NODE_ENV === 'development') {
       const observer = new PerformanceObserver((list) => {
         for (const entry of list.getEntries()) {
-          if (entry.duration > 16.67) { // Longer than one frame
+          if (entry.duration > 16.67) { // ? Longer than one frame
             console.warn('Long task detected:', entry);
           }
         }
@@ -360,7 +324,7 @@ const Index = () => {
                     </span>
                     <span className="inline-flex items-center pl-1">
                       <AnimatedTyping
-                        words={["coffee", "crypto", "life", "space", "abyss", "ai"]}
+                        words={['coffee', 'crypto', 'life', 'space', 'abyss', 'ai']}
                         className="text-[11px] md:text-sm lg:text-base font-bold text-[#2a2a29] drop-shadow-[0_0_0.0rem_#656564] animate-pulse mix-blend-screen filter brightness-150 dark:text-[#EEEEEE] dark:drop-shadow-[0_0_0.3rem_#00ff9570] dark:animate-pulse dark:mix-blend-screen dark:filter dark:brightness-100"
                       />
                     </span>
@@ -370,7 +334,7 @@ const Index = () => {
               subtitle={
                 <>
                   <span className="text-[11px] md:text-sm lg:text-base">
-                    and experiment in the cosmic absurdity of life.{" "}
+                    and experiment in the cosmic absurdity of life. {" "}
                     <strong className="dark:text-white dark:drop-shadow-[0_0_0.3rem_#ffffff70]">
                       Starting from 0 to 1, or probably creating an accidental masterpiece.
                     </strong>
@@ -389,7 +353,7 @@ const Index = () => {
       </AnimatePresence>
 
       {/* Add Grain effect */}
-      <Grain opacity={0.05} />
+      <Grain baseOpacity={0.05} />
 
       {/* Footer Section */}
       <footer className="border-t mt-16 relative z-10">

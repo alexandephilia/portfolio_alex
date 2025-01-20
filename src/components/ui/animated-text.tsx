@@ -1,6 +1,6 @@
+import { useTheme } from "@/components/theme-provider";
 import { motion, useAnimationControls } from "framer-motion";
 import { useEffect, useState } from "react";
-import { useTheme } from "@/components/theme-provider";
 
 interface AnimatedTextProps {
   text: string;
@@ -26,12 +26,16 @@ export const AnimatedGradientText = ({ text, className = "" }: AnimatedTextProps
   }, []);
 
   useEffect(() => {
+    // Create an infinite seamless shimmer animation
     controls.start({
-      backgroundPosition: ["0% 50%", "-200% 50%"],
+      backgroundPosition: ["0% 50%", "-100% 50%", "-200% 50%"],
       transition: {
-        duration: 3,
-        ease: "linear",
+        times: [0, 0.5, 1],
+        duration: 6,
+        ease: [0.36, 0, 0.66, 1], // Custom bezier curve for smooth motion
         repeat: Infinity,
+        repeatType: "loop",
+        repeatDelay: 0,
       }
     });
   }, [controls]);
@@ -45,13 +49,31 @@ export const AnimatedGradientText = ({ text, className = "" }: AnimatedTextProps
       className={`font-bold ${className}`}
       style={{
         backgroundImage: effectiveTheme === 'dark'
-          ? "linear-gradient(to right, #ffffff, #6b7280, #6b7280, #6b7280, #ffffff)"
-          : "linear-gradient(to right, #000000, #4b5563, #4b5563, #4b5563, #000000)",
+          ? `linear-gradient(
+              135deg,
+              rgba(255, 255, 255, 1) 0%,
+              rgba(107, 114, 128, 0.9) 25%,
+              rgba(255, 255, 255, 1) 50%,
+              rgba(107, 114, 128, 0.9) 75%,
+              rgba(255, 255, 255, 1) 100%
+            )`
+          : `linear-gradient(
+              135deg,
+              rgba(0, 0, 0, 1) 0%,
+              rgba(75, 85, 99, 0.9) 25%,
+              rgba(0, 0, 0, 1) 50%,
+              rgba(75, 85, 99, 0.9) 75%,
+              rgba(0, 0, 0, 1) 100%
+            )`,
         backgroundSize: "200% 100%",
         WebkitBackgroundClip: "text",
         backgroundClip: "text",
         WebkitTextFillColor: "transparent",
         textFillColor: "transparent",
+        // Add subtle text shadow for depth
+        textShadow: effectiveTheme === 'dark' 
+          ? '0 0 30px rgba(255,255,255,0.15)'
+          : '0 0 30px rgba(0,0,0,0.15)',
       }}
     >
       {text}
