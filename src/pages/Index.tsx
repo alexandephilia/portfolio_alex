@@ -316,18 +316,16 @@ const Index = () => {
                 <div className="flex flex-col items-center text-center gap-1 px-1">
                   <div className="inline-flex flex-wrap items-center justify-center gap-0.5 text-[11px] md:text-sm lg:text-base">
                     <span className="inline-flex items-center">
-                      <strong className="dark:text-white dark:drop-shadow-[0_0_0.3rem_#ffffff70]">An over-thinker, science fiction enthusiast and coffee lover (yep) who found a joy in experimenting,</strong>
+                      <strong className="dark:text-white dark:drop-shadow-[0_0_0.3rem_#ffffff70]">An over-thinker, science fiction enthusiast and coffee lover (yep) who found a joy in experimenting and exploration, also a front end developer</strong>
                     </span>
-                  </div>
-                  <div className="inline-flex flex-wrap items-center justify-center gap-0.5 text-[11px] md:text-sm lg:text-base">
-                    <span className="inline-flex items-center">
-                      <strong className="dark:text-white dark:drop-shadow-[0_0_0.3rem_#ffffff70]">also a front end developer who thinks about</strong>
-                    </span>
-                    <span className="inline-flex items-center pl-1">
-                      <AnimatedTyping
-                        words={['coffee', 'crypto', 'life', 'space', 'abyss', 'ai']}
-                        className="text-[11px] md:text-sm lg:text-base font-bold text-[#2a2a29] drop-shadow-[0_0_0.0rem_#656564] animate-pulse mix-blend-screen filter brightness-150 dark:text-[#EEEEEE] dark:drop-shadow-[0_0_0.3rem_#00ff9570] dark:animate-pulse dark:mix-blend-screen dark:filter dark:brightness-100"
-                      />
+                    <span className="inline-flex items-center whitespace-nowrap">
+                      <strong className="dark:text-white dark:drop-shadow-[0_0_0.3rem_#ffffff70]">who thinks about</strong>
+                      <span className="ml-2">
+                        <AnimatedTyping
+                          words={['coffee', 'crypto', 'life', 'space', 'abyss', 'ai']}
+                          className="text-[11px] md:text-sm lg:text-base font-bold text-[#2a2a29] drop-shadow-[0_0_0.0rem_#656564] animate-pulse mix-blend-screen filter brightness-150 dark:text-[#EEEEEE] dark:drop-shadow-[0_0_0.3rem_#00ff9570] dark:animate-pulse dark:mix-blend-screen dark:filter dark:brightness-100"
+                        />
+                      </span>
                     </span>
                   </div>
                 </div>
@@ -335,7 +333,7 @@ const Index = () => {
               subtitle={
                 <div className="flex flex-col items-center text-center gap-2 dark:text-white dark:drop-shadow-[0_0_0.3rem_#ffffff70] max-w-[340px] sm:max-w-none mx-auto">
                   <p className="flex flex-wrap items-center justify-center gap-1.5 text-[11px] md:text-sm lg:text-base">
-                    Lost in digital realities with {" "}
+                    <strong>Lost in digital realities with </strong>
                     <motion.span
                       className="inline-flex items-center gap-0.5 px-1.5 py-0.5 md:px-2 md:py-0.5 rounded-full bg-blue-500/10 dark:bg-blue-500/20 border border-blue-500/20"
                       whileHover={{ scale: 1.05 }}
@@ -344,7 +342,7 @@ const Index = () => {
                       <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/react/react-original.svg" className="w-3 h-3 md:w-3.5 md:h-3.5" alt="React" />
                       <span className="text-[9px] md:text-xs text-blue-500 dark:text-blue-400">React</span>
                     </motion.span>
-                    {" "}and{" "}
+                    <strong>and</strong>
                     <motion.span
                       className="inline-flex items-center gap-0.5 px-1.5 py-0.5 md:px-2 md:py-0.5 rounded-full bg-cyan-500/10 dark:bg-cyan-500/20 border border-cyan-500/20"
                       whileHover={{ scale: 1.05 }}
@@ -355,7 +353,7 @@ const Index = () => {
                       </svg>
                       <span className="text-[9px] md:text-xs text-cyan-500 dark:text-cyan-400">Tailwind</span>
                     </motion.span>
-                    {"diving into "}
+                    <strong>diving into </strong>
                     <motion.span
                       className="inline-flex items-center gap-0.5 px-1.5 py-0.5 md:px-2 md:py-0.5 rounded-full bg-yellow-500/10 dark:bg-yellow-500/20 border border-yellow-500/20"
                       whileHover={{ scale: 1.05 }}
@@ -366,7 +364,7 @@ const Index = () => {
                       </svg>
                       <span className="text-[9px] md:text-xs text-yellow-500 dark:text-yellow-400">AI</span>
                     </motion.span>
-                    {" "}and crafting{" "}
+                    <strong>and crafting </strong>
                     <motion.span
                       className="inline-flex items-center gap-0.5 px-1.5 py-0.5 md:px-2 md:py-0.5 rounded-full bg-purple-500/10 dark:bg-purple-500/20 border border-purple-500/20"
                       whileHover={{ scale: 1.05 }}
@@ -377,7 +375,7 @@ const Index = () => {
                       </svg>
                       <span className="text-[9px] md:text-xs text-purple-500 dark:text-purple-400">Prompt Engineer</span>
                     </motion.span>
-                    {" "}— while questioning the absurdity of binary existence.
+                    <strong>— while questioning the absurdity of binary existence.</strong>
                   </p>
                 </div>
               }
