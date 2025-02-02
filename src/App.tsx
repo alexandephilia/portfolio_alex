@@ -4,7 +4,7 @@ import { Toaster } from "@/components/ui/toaster";
 import { Toaster as Sonner } from "@/components/ui/sonner";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
-import { BrowserRouter as Router, Routes, Route, useLocation } from "react-router-dom";
+import { BrowserRouter as Router, Routes, Route, useLocation, Navigate } from "react-router-dom";
 import { ThemeProvider } from "./components/theme-provider";
 import CustomCursor from "./components/CustomCursor";
 import TerminalLoader from "./components/TerminalLoader";
@@ -184,11 +184,11 @@ const AppRoutes = () => {
   const isComingFromProject = previousPath?.startsWith('/projects/');
 
   return (
-    <Routes location={location}>
-      <Route
-        path="/"
-        element={
-          <AnimatePresence mode="wait" onExitComplete={() => null}>
+    <AnimatePresence mode="wait">
+      <Routes location={location} key={location.pathname}>
+        <Route
+          path="/"
+          element={
             <Suspense fallback={isComingFromProject ? <ScrambleLoader /> : null}>
               <motion.div
                 key="index"
@@ -202,13 +202,11 @@ const AppRoutes = () => {
                 </TerminalLoaderWrapper>
               </motion.div>
             </Suspense>
-          </AnimatePresence>
-        }
-      />
-      <Route
-        path="/projects/ai"
-        element={
-          <AnimatePresence mode="wait" onExitComplete={() => null}>
+          }
+        />
+        <Route
+          path="/projects/ai"
+          element={
             <Suspense fallback={<ScrambleLoader />}>
               <motion.div
                 key="ai"
@@ -222,13 +220,11 @@ const AppRoutes = () => {
                 </DelayedRender>
               </motion.div>
             </Suspense>
-          </AnimatePresence>
-        }
-      />
-      <Route
-        path="/projects/prompt"
-        element={
-          <AnimatePresence mode="wait" onExitComplete={() => null}>
+          }
+        />
+        <Route
+          path="/projects/prompt"
+          element={
             <Suspense fallback={<ScrambleLoader />}>
               <motion.div
                 key="prompt"
@@ -242,27 +238,40 @@ const AppRoutes = () => {
                 </DelayedRender>
               </motion.div>
             </Suspense>
-          </AnimatePresence>
-        }
-      />
-    </Routes>
+          }
+        />
+        <Route
+          path="*"
+          element={
+            <motion.div
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              transition={{ duration: 0.3 }}
+            >
+              <Navigate to="/" replace />
+            </motion.div>
+          }
+        />
+      </Routes>
+    </AnimatePresence>
   );
 };
 
 const App = () => {
   return (
-    <QueryClientProvider client={queryClient}>
-      <ThemeProvider defaultTheme="system" storageKey="vite-ui-theme">
-        <TooltipProvider>
-          <CustomCursor />
-          <Toaster />
-          <Sonner />
-          <Router>
+    <Router>
+      <QueryClientProvider client={queryClient}>
+        <ThemeProvider defaultTheme="system" storageKey="vite-ui-theme">
+          <TooltipProvider>
+            <CustomCursor />
+            <Toaster />
+            <Sonner />
             <AppRoutes />
-          </Router>
-        </TooltipProvider>
-      </ThemeProvider>
-    </QueryClientProvider>
+          </TooltipProvider>
+        </ThemeProvider>
+      </QueryClientProvider>
+    </Router>
   );
 };
 
