@@ -34,7 +34,7 @@ const Grain = ({ opacity = 0.8 }) => {
             top: 0,
             left: 0,
             pointerEvents: "none",
-            zIndex: 200,
+            zIndex: 100, // Lowered z-index to not interfere with transitions
             overflow: "hidden",
             willChange: "transform",
             transform: "translateZ(0)"
@@ -49,15 +49,6 @@ const Grain = ({ opacity = 0.8 }) => {
                         : "url('https://framerusercontent.com/images/rR6HYXBrMmX4cRpXfXUOvpvpB0.png')",
                     opacity: theme === 'dark' ? opacity : opacity * 0.5,
                     inset: "-200%",
-                    width: "400%",
-                    height: "400%",
-                    position: "absolute",
-                    filter: theme === 'dark'
-                        ? 'none'
-                        : 'invert(1) brightness(1.2)',
-                    backfaceVisibility: "hidden",
-                    perspective: 1000,
-                    transformStyle: "preserve-3d"
                 }}
             />
         </div>
@@ -247,22 +238,18 @@ const PromptEngineeringPage = () => {
 
     const handleBack = () => {
         setIsExiting(true);
-        setExitingIndex(prompts.length - 1);
+        // Allow exit animation to play before navigation
+        setTimeout(() => {
+            navigate('/');
+        }, 300); // Match the exit animation duration
     };
 
+    // Cleanup on unmount
     useEffect(() => {
-        if (exitingIndex !== null) {
-            const timer = setTimeout(() => {
-                if (exitingIndex > 0) {
-                    setExitingIndex(exitingIndex - 1);
-                } else if (exitingIndex === 0) {
-                    setExitingIndex(null);
-                    navigate('/');
-                }
-            }, 200);
-            return () => clearTimeout(timer);
-        }
-    }, [exitingIndex, navigate]);
+        return () => {
+            setIsExiting(false);
+        };
+    }, []);
 
     const prompts: Prompt[] = [
         {
@@ -1317,122 +1304,108 @@ Technical preferences:
     ];
 
     return (
-        <AnimatePresence mode="wait">
-            {!isExiting ? (
+        <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            transition={{ duration: 0.3 }}
+            className={`min-h-screen bg-background relative ${isExiting ? 'pointer-events-none' : ''}`}
+        >
+            <Grain opacity={0.05} />
+
+            <nav className="fixed w-full top-0 z-50">
+                <div className="bg-background/80 backdrop-blur-sm border-b border-border transition-colors duration-300">
+                    <div className="container max-w-5xl flex h-16 items-center">
+                        <Button
+                            variant="ghost"
+                            size="sm"
+                            className="text-foreground hover:text-foreground/80 transition-colors duration-300 p-2"
+                            onClick={handleBack}
+                            disabled={isExiting}
+                        >
+                            <ArrowLeft className="h-5 w-5" />
+                        </Button>
+                        <TypewriterText
+                            text="~/prompt-engineering $"
+                            className="ml-4 text-base md:text-xl text-foreground transition-colors duration-300"
+                        />
+                    </div>
+                </div>
+            </nav>
+
+            <main className="container max-w-5xl pt-24 pb-16">
                 <motion.div
-                    key="prompt-engineering"
-                    className="min-h-screen bg-background/50 backdrop-blur-sm text-foreground font-mono relative"
                     initial={{ opacity: 0, y: 20 }}
                     animate={{ opacity: 1, y: 0 }}
-                    exit={{
-                        opacity: 0,
-                        y: -20,
-                        transition: {
-                            duration: 0.35,
-                            ease: [0.32, 0.72, 0, 1],
-                            delay: 0.5
-                        }
-                    }}
-                    transition={{
-                        duration: 0.35,
-                        ease: [0.32, 0.72, 0, 1]
-                    }}
+                    transition={{ duration: 0.5 }}
                 >
-                    <Grain opacity={0.05} />
+                    <Card className="mb-8 border border-border bg-background/40 backdrop-blur-sm transition-colors duration-300">
+                        <CardHeader className="p-3 sm:p-4">
+                            <CardTitle className="text-base md:text-lg text-foreground transition-colors duration-300">About Prompt Engineering</CardTitle>
+                        </CardHeader>
+                        <CardContent className="p-3 sm:p-4 pt-0">
+                            <BlurRevealText
+                                text="Explore the art and science of crafting effective prompts for AI language models. This page showcases my experiments, techniques, and insights in prompt engineering."
+                                className="text-xs md:text-sm text-muted-foreground transition-colors duration-300"
+                            />
+                        </CardContent>
+                    </Card>
 
-                    <nav className="fixed w-full top-0 z-50">
-                        <div className="bg-background/80 backdrop-blur-sm border-b border-border transition-colors duration-300">
-                            <div className="container max-w-5xl flex h-16 items-center">
-                                <Button
-                                    variant="ghost"
-                                    size="sm"
-                                    className="text-foreground hover:text-foreground/80 transition-colors duration-300 p-2"
-                                    onClick={handleBack}
-                                    disabled={isExiting}
+                    <div className="w-full h-px bg-border/40 backdrop-blur-sm mb-8" />
+
+                    <div className="grid gap-6 grid-cols-1 md:grid-cols-2 max-w-5xl mx-auto">
+                        {prompts.map((prompt, index) => {
+                            const [isHovered, setIsHovered] = useState(false);
+                            const [position, setPosition] = useState({ x: 0, y: 0 });
+                            const cardRef = useRef<HTMLDivElement>(null);
+
+                            useEffect(() => {
+                                const handleMouseMove = (e: MouseEvent) => {
+                                    if (!cardRef.current || !isHovered) return;
+
+                                    const rect = cardRef.current.getBoundingClientRect();
+                                    const x = e.clientX - rect.left;
+                                    const y = e.clientY - rect.top;
+
+                                    requestAnimationFrame(() => {
+                                        setPosition({ x, y });
+                                    });
+                                };
+
+                                window.addEventListener('mousemove', handleMouseMove);
+                                return () => window.removeEventListener('mousemove', handleMouseMove);
+                            }, [isHovered]);
+
+                            return (
+                                <motion.div
+                                    key={index}
+                                    className="h-full col-span-1 md:col-span-1"
+                                    initial={{ opacity: 0, y: 20 }}
+                                    animate={{ opacity: 1, y: 0 }}
+                                    exit={{
+                                        opacity: 0,
+                                        y: -20,
+                                        transition: {
+                                            duration: 0.2,
+                                            ease: "easeIn",
+                                            delay: isExiting ? Math.max(0, (prompts.length - 1 - index) * 0.1) : 0
+                                        }
+                                    }}
+                                    transition={{
+                                        delay: index * 0.2,
+                                        duration: 0.5,
+                                        ease: "easeOut"
+                                    }}
                                 >
-                                    <ArrowLeft className="h-5 w-5" />
-                                </Button>
-                                <TypewriterText
-                                    text="~/prompt-engineering $"
-                                    className="ml-4 text-base md:text-xl text-foreground transition-colors duration-300"
-                                />
-                            </div>
-                        </div>
-                    </nav>
-
-                    <main className="container max-w-5xl pt-24 pb-16">
-                        <motion.div
-                            initial={{ opacity: 0, y: 20 }}
-                            animate={{ opacity: 1, y: 0 }}
-                            transition={{ duration: 0.5 }}
-                        >
-                            <Card className="mb-8 border border-border bg-background/40 backdrop-blur-sm transition-colors duration-300">
-                                <CardHeader className="p-3 sm:p-4">
-                                    <CardTitle className="text-base md:text-lg text-foreground transition-colors duration-300">About Prompt Engineering</CardTitle>
-                                </CardHeader>
-                                <CardContent className="p-3 sm:p-4 pt-0">
-                                    <BlurRevealText
-                                        text="Explore the art and science of crafting effective prompts for AI language models. This page showcases my experiments, techniques, and insights in prompt engineering."
-                                        className="text-xs md:text-sm text-muted-foreground transition-colors duration-300"
-                                    />
-                                </CardContent>
-                            </Card>
-
-                            <div className="w-full h-px bg-border/40 backdrop-blur-sm mb-8" />
-
-                            <div className="grid gap-6 grid-cols-1 md:grid-cols-2 max-w-5xl mx-auto">
-                                {prompts.map((prompt, index) => {
-                                    const [isHovered, setIsHovered] = useState(false);
-                                    const [position, setPosition] = useState({ x: 0, y: 0 });
-                                    const cardRef = useRef<HTMLDivElement>(null);
-
-                                    useEffect(() => {
-                                        const handleMouseMove = (e: MouseEvent) => {
-                                            if (!cardRef.current || !isHovered) return;
-
-                                            const rect = cardRef.current.getBoundingClientRect();
-                                            const x = e.clientX - rect.left;
-                                            const y = e.clientY - rect.top;
-
-                                            requestAnimationFrame(() => {
-                                                setPosition({ x, y });
-                                            });
-                                        };
-
-                                        window.addEventListener('mousemove', handleMouseMove);
-                                        return () => window.removeEventListener('mousemove', handleMouseMove);
-                                    }, [isHovered]);
-
-                                    return (
-                                        <motion.div
-                                            key={index}
-                                            className="h-full col-span-1 md:col-span-1"
-                                            initial={{ opacity: 0, y: 20 }}
-                                            animate={{ opacity: 1, y: 0 }}
-                                            exit={{
-                                                opacity: 0,
-                                                y: -20,
-                                                transition: {
-                                                    duration: 0.2,
-                                                    ease: "easeIn",
-                                                    delay: isExiting ? Math.max(0, (prompts.length - 1 - index) * 0.1) : 0
-                                                }
-                                            }}
-                                            transition={{
-                                                delay: index * 0.2,
-                                                duration: 0.5,
-                                                ease: "easeOut"
-                                            }}
-                                        >
-                                            <div 
-                                                ref={cardRef}
-                                                className="relative group h-full"
-                                                onMouseEnter={() => setIsHovered(true)}
-                                                onMouseLeave={() => setIsHovered(false)}
-                                                onClick={() => setSelectedPrompt(index)}
-                                            >
-                                                <ShimmerButton className="w-full h-full group">
-                                                    <Card className="relative flex flex-col h-[300px] md:h-[280px] cursor-pointer transition-all duration-500 ease-out dark:bg-black/100 bg-white/[0.1] rounded-lg border-[1px] border-black/20 ring-1 ring-black/5 dark:border-white/10 dark:ring-white/5 hover:border-black/30 hover:ring-black/10 hover:shadow-[0_0_15px_rgb(39,39,42)] dark:hover:shadow-[0_0_15px_rgba(255,255,255,0.1)]">
+                                    <div 
+                                        ref={cardRef}
+                                        className="relative group h-full"
+                                        onMouseEnter={() => setIsHovered(true)}
+                                        onMouseLeave={() => setIsHovered(false)}
+                                        onClick={() => setSelectedPrompt(index)}
+                                    >
+                                        <ShimmerButton className="w-full h-full group">
+                                            <Card className="relative flex flex-col h-[300px] md:h-[280px] cursor-pointer transition-all duration-500 ease-out dark:bg-black/100 bg-white/[0.1] rounded-lg border-[1px] border-black/20 ring-1 ring-black/5 dark:border-white/10 dark:ring-white/5 hover:border-black/30 hover:ring-black/10 hover:shadow-[0_0_15px_rgb(39,39,42)] dark:hover:shadow-[0_0_15px_rgba(255,255,255,0.1)]">
                                                         {/* Grid Pattern Overlay - Light Mode */}
                                                         <div className="absolute inset-0 w-full h-full dark:opacity-0">
                                                             <svg
@@ -1598,8 +1571,8 @@ Technical preferences:
 
                     <GradientBlur />
                 </motion.div>
-            ) : null}
-        </AnimatePresence>
+            </main>
+        </motion.div>
     );
 };
 

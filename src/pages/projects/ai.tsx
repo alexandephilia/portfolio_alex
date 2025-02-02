@@ -33,7 +33,7 @@ const Grain = ({ opacity = 0.8 }) => {
             top: 0,
             left: 0,
             pointerEvents: "none",
-            zIndex: 9999,
+            zIndex: 100,
             overflow: "hidden",
             willChange: "transform",
             transform: "translateZ(0)"
@@ -48,15 +48,6 @@ const Grain = ({ opacity = 0.8 }) => {
                         : "url('https://framerusercontent.com/images/rR6HYXBrMmX4cRpXfXUOvpvpB0.png')",
                     opacity: theme === 'dark' ? opacity : opacity * 0.8,
                     inset: "-200%",
-                    width: "400%",
-                    height: "400%",
-                    position: "absolute",
-                    filter: theme === 'dark'
-                        ? 'none'
-                        : 'invert(1) brightness(0.8)',
-                    backfaceVisibility: "hidden",
-                    perspective: 1000,
-                    transformStyle: "preserve-3d"
                 }}
             />
         </div>
@@ -211,253 +202,229 @@ const BlurRevealText = ({ text, delay = 0, className = "" }: {
 const AIResearchPage = () => {
     const navigate = useNavigate();
     const [isExiting, setIsExiting] = useState(false);
-    const [exitingIndex, setExitingIndex] = useState<number | null>(null);
 
     const handleBack = () => {
         setIsExiting(true);
-        // Start from the last item
-        setExitingIndex(researchLinks.length - 1);
+        setTimeout(() => {
+            navigate('/');
+        }, 300);
     };
 
     useEffect(() => {
-        if (exitingIndex !== null) {
-            const timer = setTimeout(() => {
-                if (exitingIndex > 0) {
-                    setExitingIndex(exitingIndex - 1);
-                } else if (exitingIndex === 0) {
-                    setExitingIndex(null);
-                    navigate('/');
-                }
-            }, 200);
-            return () => clearTimeout(timer);
-        }
-    }, [exitingIndex, navigate]);
+        return () => {
+            setIsExiting(false);
+        };
+    }, []);
 
     return (
-        <AnimatePresence mode="wait">
-            {!isExiting ? (
-                <motion.div
-                    key="ai-research"
-                    className="min-h-screen bg-background/50 backdrop-blur-sm text-foreground font-mono relative"
-                    initial={{ opacity: 0, y: 20 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    exit={{
-                        opacity: 0,
-                        y: -20,
-                        transition: {
-                            duration: 0.35,
-                            ease: [0.32, 0.72, 0, 1],
-                            delay: 0.5
-                        }
-                    }}
-                    transition={{
-                        duration: 0.35,
-                        ease: [0.32, 0.72, 0, 1]
-                    }}
-                >
-                    <Grain opacity={0.05} />
+        <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            transition={{ duration: 0.3 }}
+            className={`min-h-screen bg-background relative ${isExiting ? 'pointer-events-none' : ''}`}
+        >
+            <Grain opacity={0.05} />
 
-                    <nav className="fixed w-full top-0 z-50">
-                        <div className="bg-background/80 backdrop-blur-sm border-b border-border transition-colors duration-300">
-                            <div className="container max-w-5xl flex h-16 items-center">
-                                <Button
-                                    variant="ghost"
-                                    size="sm"
-                                    className="text-foreground hover:text-foreground/80"
-                                    onClick={handleBack}
-                                    disabled={isExiting}
-                                >
-                                    <ArrowLeft className="h-5 w-5" />
-                                </Button>
-                                <TypewriterText
-                                    text="~/ai-research $"
-                                    className="ml-4 text-base md:text-xl text-foreground"
-                                />
-                            </div>
-                        </div>
-                    </nav>
-
-                    <div className="container max-w-5xl pt-24 pb-16">
-                        <div className="opacity-100">
-                            <div className="grid gap-6 grid-cols-1 md:grid-cols-2 max-w-5xl mx-auto">
-                                {researchLinks.map((link, index) => {
-                                    const [isHovered, setIsHovered] = useState(false);
-                                    const [position, setPosition] = useState({ x: 0, y: 0 });
-                                    const cardRef = useRef<HTMLDivElement>(null);
-
-                                    useEffect(() => {
-                                        const handleMouseMove = (e: MouseEvent) => {
-                                            if (!cardRef.current || !isHovered) return;
-
-                                            const rect = cardRef.current.getBoundingClientRect();
-                                            const x = e.clientX - rect.left;
-                                            const y = e.clientY - rect.top;
-
-                                            requestAnimationFrame(() => {
-                                                setPosition({ x, y });
-                                            });
-                                        };
-
-                                        window.addEventListener('mousemove', handleMouseMove);
-                                        return () => window.removeEventListener('mousemove', handleMouseMove);
-                                    }, [isHovered]);
-
-                                    return (
-                                        <motion.div
-                                            key={index}
-                                            className="h-full col-span-1 md:col-span-1"
-                                            initial={{ opacity: 0, y: 20 }}
-                                            animate={{ opacity: 1, y: 0 }}
-                                            exit={{
-                                                opacity: 0,
-                                                y: -20,
-                                                transition: {
-                                                    duration: 0.2,
-                                                    ease: "easeIn",
-                                                    delay: isExiting ? Math.max(0, (researchLinks.length - 1 - index) * 0.1) : 0
-                                                }
-                                            }}
-                                            transition={{
-                                                delay: index * 0.2,
-                                                duration: 0.5,
-                                                ease: "easeOut"
-                                            }}
-                                        >
-                                            <div 
-                                                ref={cardRef}
-                                                className="relative group h-full"
-                                                onMouseEnter={() => setIsHovered(true)}
-                                                onMouseLeave={() => setIsHovered(false)}
-                                            >
-                                                <ShimmerButton className="w-full h-full group">
-                                                    <Card className="relative flex flex-col h-[300px] md:h-[280px] cursor-pointer transition-all duration-500 ease-out dark:bg-black/100 bg-white/[0.1] rounded-lg border-[1px] border-black/20 ring-1 ring-black/5 dark:border-white/10 dark:ring-white/5 hover:border-black/30 hover:ring-black/10 hover:shadow-[0_0_15px_rgb(39,39,42)] dark:hover:shadow-[0_0_15px_rgba(255,255,255,0.1)]">
-                                                        {/* Grid Pattern Overlay - Light Mode */}
-                                                        <div className="absolute inset-0 w-full h-full dark:opacity-0">
-                                                            <svg
-                                                                className="w-full h-full opacity-[0.08]"
-                                                                xmlns="http://www.w3.org/2000/svg"
-                                                                width="100%"
-                                                                height="100%"
-                                                            >
-                                                                <defs>
-                                                                    <pattern
-                                                                        id={`ai-grid-light-${index}`}
-                                                                        width="24"
-                                                                        height="24"
-                                                                        patternUnits="userSpaceOnUse"
-                                                                    >
-                                                                        <path
-                                                                            d="M 24 0 L 0 0 0 24"
-                                                                            fill="none"
-                                                                            stroke="black"
-                                                                            strokeWidth="0.5"
-                                                                        />
-                                                                    </pattern>
-                                                                    <linearGradient id={`ai-fade-light-${index}`} x1="0" y1="1" x2="0.5" y2="0.5">
-                                                                        <stop offset="0" stopColor="white" />
-                                                                        <stop offset="1" stopColor="white" stopOpacity="0" />
-                                                                    </linearGradient>
-                                                                    <mask id={`ai-fade-mask-light-${index}`}>
-                                                                        <rect width="100%" height="100%" fill={`url(#ai-fade-light-${index})`} />
-                                                                    </mask>
-                                                                </defs>
-                                                                <rect width="100%" height="100%" fill={`url(#ai-grid-light-${index})`} mask={`url(#ai-fade-mask-light-${index})`} />
-                                                            </svg>
-                                                        </div>
-
-                                                        {/* Grid Pattern Overlay - Dark Mode */}
-                                                        <div className="absolute inset-0 w-full h-full opacity-0 dark:opacity-100">
-                                                            <svg
-                                                                className="w-full h-full opacity-[0.65]"
-                                                                xmlns="http://www.w3.org/2000/svg"
-                                                                width="100%"
-                                                                height="100%"
-                                                            >
-                                                                <defs>
-                                                                    <pattern
-                                                                        id={`ai-grid-dark-${index}`}
-                                                                        width="24"
-                                                                        height="24"
-                                                                        patternUnits="userSpaceOnUse"
-                                                                    >
-                                                                        <path
-                                                                            d="M 24 0 L 0 0 0 24"
-                                                                            fill="none"
-                                                                            stroke="rgba(255, 255, 255, 0.3)"
-                                                                            strokeWidth="0.5"
-                                                                        />
-                                                                    </pattern>
-                                                                    <linearGradient id={`ai-fade-dark-${index}`} x1="0" y1="1" x2="0.4" y2="0.8">
-                                                                        <stop offset="0" stopColor="white" />
-                                                                        <stop offset="1" stopColor="white" stopOpacity="0" />
-                                                                    </linearGradient>
-                                                                    <mask id={`ai-fade-mask-dark-${index}`}>
-                                                                        <rect width="100%" height="100%" fill={`url(#ai-fade-dark-${index})`} />
-                                                                    </mask>
-                                                                </defs>
-                                                                <rect width="100%" height="100%" fill={`url(#ai-grid-dark-${index})`} mask={`url(#ai-fade-mask-dark-${index})`} />
-                                                            </svg>
-                                                        </div>
-
-                                                        <CardHeader className="p-4 relative z-20">
-                                                            <CardTitle className="text-sm md:text-base text-foreground transition-colors duration-300 flex items-center gap-2">
-                                                                <ExternalLink className="h-4 w-4 text-muted-foreground" />
-                                                                {link.title}
-                                                            </CardTitle>
-                                                        </CardHeader>
-                                                        <CardContent className="p-4 pt-0 flex-grow relative z-20">
-                                                            <div className="relative h-full">
-                                                                <p className="text-sm text-muted-foreground/80 leading-relaxed">
-                                                                    {link.description}
-                                                                </p>
-                                                                <div className="mt-4 flex flex-wrap gap-2">
-                                                                    {link.tags.map((tag, tagIndex) => (
-                                                                        <Badge 
-                                                                            key={tagIndex}
-                                                                            variant="secondary" 
-                                                                            className="text-[10px] md:text-xs bg-muted/10 backdrop-blur-sm transition-colors duration-300"
-                                                                        >
-                                                                            {tag}
-                                                                        </Badge>
-                                                                    ))}
-                                                                </div>
-                                                            </div>
-                                                        </CardContent>
-                                                        <CardFooter className="p-4 pt-0 flex justify-between items-center mt-auto relative z-20 border-t border-border/50">
-                                                            <div className="text-[10px] md:text-xs text-muted-foreground transition-colors duration-300">
-                                                                {link.category}
-                                                            </div>
-                                                            <Button
-                                                                variant="ghost"
-                                                                size="sm"
-                                                                className="h-8 w-8 p-0 hover:bg-muted/30 bg-muted/20 backdrop-blur-sm transition-all duration-300"
-                                                                onClick={() => window.open(link.url, '_blank', 'noopener,noreferrer')}
-                                                            >
-                                                                <ExternalLink className="h-4 w-4" />
-                                                            </Button>
-                                                        </CardFooter>
-
-                                                        {/* Shimmer effect */}
-                                                        {isHovered && (
-                                                            <div
-                                                                className="absolute inset-0 z-10 transition-opacity duration-300"
-                                                                style={{
-                                                                    background: `radial-gradient(600px circle at ${position.x}px ${position.y}px, rgba(255,255,255,0.1), transparent 40%)`
-                                                                }}
-                                                            />
-                                                        )}
-                                                    </Card>
-                                                </ShimmerButton>
-                                            </div>
-                                        </motion.div>
-                                    );
-                                })}
-                            </div>
-                        </div>
+            <nav className="fixed w-full top-0 z-50">
+                <div className="bg-background/80 backdrop-blur-sm border-b border-border transition-colors duration-300">
+                    <div className="container max-w-5xl flex h-16 items-center">
+                        <Button
+                            variant="ghost"
+                            size="sm"
+                            className="text-foreground hover:text-foreground/80"
+                            onClick={handleBack}
+                            disabled={isExiting}
+                        >
+                            <ArrowLeft className="h-5 w-5" />
+                        </Button>
+                        <TypewriterText
+                            text="~/ai-research $"
+                            className="ml-4 text-base md:text-xl text-foreground"
+                        />
                     </div>
-                </motion.div>
-            ) : null}
-        </AnimatePresence>
+                </div>
+            </nav>
+
+            <div className="container max-w-5xl pt-24 pb-16">
+                <div className="opacity-100">
+                    <div className="grid gap-6 grid-cols-1 md:grid-cols-2 max-w-5xl mx-auto">
+                        {researchLinks.map((link, index) => {
+                            const [isHovered, setIsHovered] = useState(false);
+                            const [position, setPosition] = useState({ x: 0, y: 0 });
+                            const cardRef = useRef<HTMLDivElement>(null);
+
+                            useEffect(() => {
+                                const handleMouseMove = (e: MouseEvent) => {
+                                    if (!cardRef.current || !isHovered) return;
+
+                                    const rect = cardRef.current.getBoundingClientRect();
+                                    const x = e.clientX - rect.left;
+                                    const y = e.clientY - rect.top;
+
+                                    requestAnimationFrame(() => {
+                                        setPosition({ x, y });
+                                    });
+                                };
+
+                                window.addEventListener('mousemove', handleMouseMove);
+                                return () => window.removeEventListener('mousemove', handleMouseMove);
+                            }, [isHovered]);
+
+                            return (
+                                <motion.div
+                                    key={index}
+                                    className="h-full col-span-1 md:col-span-1"
+                                    initial={{ opacity: 0, y: 20 }}
+                                    animate={{ opacity: 1, y: 0 }}
+                                    exit={{
+                                        opacity: 0,
+                                        y: -20,
+                                        transition: {
+                                            duration: 0.2,
+                                            ease: "easeIn",
+                                            delay: isExiting ? Math.max(0, (researchLinks.length - 1 - index) * 0.1) : 0
+                                        }
+                                    }}
+                                    transition={{
+                                        delay: index * 0.2,
+                                        duration: 0.5,
+                                        ease: "easeOut"
+                                    }}
+                                >
+                                    <div 
+                                        ref={cardRef}
+                                        className="relative group h-full"
+                                        onMouseEnter={() => setIsHovered(true)}
+                                        onMouseLeave={() => setIsHovered(false)}
+                                    >
+                                        <ShimmerButton className="w-full h-full group">
+                                            <Card className="relative flex flex-col h-[300px] md:h-[280px] cursor-pointer transition-all duration-500 ease-out dark:bg-black/100 bg-white/[0.1] rounded-lg border-[1px] border-black/20 ring-1 ring-black/5 dark:border-white/10 dark:ring-white/5 hover:border-black/30 hover:ring-black/10 hover:shadow-[0_0_15px_rgb(39,39,42)] dark:hover:shadow-[0_0_15px_rgba(255,255,255,0.1)]">
+                                                {/* Grid Pattern Overlay - Light Mode */}
+                                                <div className="absolute inset-0 w-full h-full dark:opacity-0">
+                                                    <svg
+                                                        className="w-full h-full opacity-[0.08]"
+                                                        xmlns="http://www.w3.org/2000/svg"
+                                                        width="100%"
+                                                        height="100%"
+                                                    >
+                                                        <defs>
+                                                            <pattern
+                                                                id={`ai-grid-light-${index}`}
+                                                                width="24"
+                                                                height="24"
+                                                                patternUnits="userSpaceOnUse"
+                                                            >
+                                                                <path
+                                                                    d="M 24 0 L 0 0 0 24"
+                                                                    fill="none"
+                                                                    stroke="black"
+                                                                    strokeWidth="0.5"
+                                                                />
+                                                            </pattern>
+                                                            <linearGradient id={`ai-fade-light-${index}`} x1="0" y1="1" x2="0.5" y2="0.5">
+                                                                <stop offset="0" stopColor="white" />
+                                                                <stop offset="1" stopColor="white" stopOpacity="0" />
+                                                            </linearGradient>
+                                                            <mask id={`ai-fade-mask-light-${index}`}>
+                                                                <rect width="100%" height="100%" fill={`url(#ai-fade-light-${index})`} />
+                                                            </mask>
+                                                        </defs>
+                                                        <rect width="100%" height="100%" fill={`url(#ai-grid-light-${index})`} mask={`url(#ai-fade-mask-light-${index})`} />
+                                                    </svg>
+                                                </div>
+
+                                                {/* Grid Pattern Overlay - Dark Mode */}
+                                                <div className="absolute inset-0 w-full h-full opacity-0 dark:opacity-100">
+                                                    <svg
+                                                        className="w-full h-full opacity-[0.65]"
+                                                        xmlns="http://www.w3.org/2000/svg"
+                                                        width="100%"
+                                                        height="100%"
+                                                    >
+                                                        <defs>
+                                                            <pattern
+                                                                id={`ai-grid-dark-${index}`}
+                                                                width="24"
+                                                                height="24"
+                                                                patternUnits="userSpaceOnUse"
+                                                            >
+                                                                <path
+                                                                    d="M 24 0 L 0 0 0 24"
+                                                                    fill="none"
+                                                                    stroke="rgba(255, 255, 255, 0.3)"
+                                                                    strokeWidth="0.5"
+                                                                />
+                                                            </pattern>
+                                                            <linearGradient id={`ai-fade-dark-${index}`} x1="0" y1="1" x2="0.4" y2="0.8">
+                                                                <stop offset="0" stopColor="white" />
+                                                                <stop offset="1" stopColor="white" stopOpacity="0" />
+                                                            </linearGradient>
+                                                            <mask id={`ai-fade-mask-dark-${index}`}>
+                                                                <rect width="100%" height="100%" fill={`url(#ai-fade-dark-${index})`} />
+                                                            </mask>
+                                                        </defs>
+                                                        <rect width="100%" height="100%" fill={`url(#ai-grid-dark-${index})`} mask={`url(#ai-fade-mask-dark-${index})`} />
+                                                    </svg>
+                                                </div>
+
+                                                <CardHeader className="p-4 relative z-20">
+                                                    <CardTitle className="text-sm md:text-base text-foreground transition-colors duration-300 flex items-center gap-2">
+                                                        <ExternalLink className="h-4 w-4 text-muted-foreground" />
+                                                        {link.title}
+                                                    </CardTitle>
+                                                </CardHeader>
+                                                <CardContent className="p-4 pt-0 flex-grow relative z-20">
+                                                    <div className="relative h-full">
+                                                        <p className="text-sm text-muted-foreground/80 leading-relaxed">
+                                                            {link.description}
+                                                        </p>
+                                                        <div className="mt-4 flex flex-wrap gap-2">
+                                                            {link.tags.map((tag, tagIndex) => (
+                                                                <Badge 
+                                                                    key={tagIndex}
+                                                                    variant="secondary" 
+                                                                    className="text-[10px] md:text-xs bg-muted/10 backdrop-blur-sm transition-colors duration-300"
+                                                                >
+                                                                    {tag}
+                                                                </Badge>
+                                                            ))}
+                                                        </div>
+                                                    </div>
+                                                </CardContent>
+                                                <CardFooter className="p-4 pt-0 flex justify-between items-center mt-auto relative z-20 border-t border-border/50">
+                                                    <div className="text-[10px] md:text-xs text-muted-foreground transition-colors duration-300">
+                                                        {link.category}
+                                                    </div>
+                                                    <Button
+                                                        variant="ghost"
+                                                        size="sm"
+                                                        className="h-8 w-8 p-0 hover:bg-muted/30 bg-muted/20 backdrop-blur-sm transition-all duration-300"
+                                                        onClick={() => window.open(link.url, '_blank', 'noopener,noreferrer')}
+                                                    >
+                                                        <ExternalLink className="h-4 w-4" />
+                                                    </Button>
+                                                </CardFooter>
+
+                                                {/* Shimmer effect */}
+                                                {isHovered && (
+                                                    <div
+                                                        className="absolute inset-0 z-10 transition-opacity duration-300"
+                                                        style={{
+                                                            background: `radial-gradient(600px circle at ${position.x}px ${position.y}px, rgba(255,255,255,0.1), transparent 40%)`
+                                                        }}
+                                                    />
+                                                )}
+                                            </Card>
+                                        </ShimmerButton>
+                                    </div>
+                                </motion.div>
+                            );
+                        })}
+                    </div>
+                </div>
+            </div>
+        </motion.div>
     );
 };
 
