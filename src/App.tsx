@@ -97,27 +97,16 @@ const ScrambleLoader = () => {
 };
 
 // Wrapper component that ensures minimum display time
-const DelayedRender = ({ 
-  children,
-  isBackNavigation = false 
-}: { 
-  children: React.ReactNode;
-  isBackNavigation?: boolean;
-}) => {
-  const [shouldRender, setShouldRender] = useState(isBackNavigation);
+const DelayedRender = ({ children }: { children: React.ReactNode }) => {
+  const [shouldRender, setShouldRender] = useState(false);
 
   useEffect(() => {
-    if (isBackNavigation) {
-      setShouldRender(true);
-      return;
-    }
-
     const timer = setTimeout(() => {
       setShouldRender(true);
-    }, 1000);
+    }, 1000); // Minimum 1 second display time
 
     return () => clearTimeout(timer);
-  }, [isBackNavigation]);
+  }, []);
 
   return (
     <AnimatePresence mode="wait">
@@ -137,27 +126,16 @@ const DelayedRender = ({
 };
 
 // Wrapper component that ensures minimum display time for Terminal Loader
-const TerminalLoaderWrapper = ({ 
-  children,
-  isBackNavigation = false 
-}: { 
-  children: React.ReactNode;
-  isBackNavigation?: boolean;
-}) => {
-  const [shouldRender, setShouldRender] = useState(isBackNavigation);
+const TerminalLoaderWrapper = ({ children }: { children: React.ReactNode }) => {
+  const [shouldRender, setShouldRender] = useState(false);
 
   useEffect(() => {
-    if (isBackNavigation) {
-      setShouldRender(true);
-      return;
-    }
-
     const timer = setTimeout(() => {
       setShouldRender(true);
-    }, 2000);
+    }, 2000); // Minimum 2 second display time for terminal effect
 
     return () => clearTimeout(timer);
-  }, [isBackNavigation]);
+  }, []);
 
   return (
     <AnimatePresence mode="wait">
@@ -183,7 +161,7 @@ const TerminalLoaderWrapper = ({
           transition={{ 
             duration: 0.8,
             ease: "easeInOut",
-            delay: isBackNavigation ? 0 : 0.2
+            delay: 0.2 // Small delay to ensure smooth transition
           }}
         >
           {children}
@@ -196,91 +174,78 @@ const TerminalLoaderWrapper = ({
 const AppRoutes = () => {
   const location = useLocation();
   const [previousPath, setPreviousPath] = useState<string | null>(null);
-  const [isBackNavigation, setIsBackNavigation] = useState(false);
 
-  // Track navigation and detect back button
+  // Track navigation
   useEffect(() => {
-    const handlePopState = () => {
-      setIsBackNavigation(true);
-    };
+    setPreviousPath(location.pathname);
+  }, [location]);
 
-    window.addEventListener('popstate', handlePopState);
-    
-    if (!isBackNavigation) {
-      setPreviousPath(location.pathname);
-    }
-
-    return () => {
-      window.removeEventListener('popstate', handlePopState);
-      setIsBackNavigation(false);
-    };
-  }, [location, isBackNavigation]);
-
-  // Only show scramble when navigating forward to project pages
-  const isComingFromProject = previousPath?.startsWith('/projects/') && !isBackNavigation;
+  // Only show scramble when coming back from project pages
+  const isComingFromProject = previousPath?.startsWith('/projects/');
 
   return (
-    <AnimatePresence mode="sync">
-      <Routes>
-        <Route
-          path="/"
-          element={
-            <Suspense fallback={null}>
+    <Routes location={location}>
+      <Route
+        path="/"
+        element={
+          <AnimatePresence mode="wait" onExitComplete={() => null}>
+            <Suspense fallback={isComingFromProject ? <ScrambleLoader /> : null}>
               <motion.div
-                key={location.pathname}
+                key="index"
                 initial={{ opacity: 0 }}
                 animate={{ opacity: 1 }}
                 exit={{ opacity: 0 }}
-                transition={{ 
-                  duration: isBackNavigation ? 0.2 : 0.3,
-                  ease: isBackNavigation ? "easeOut" : "easeInOut"
-                }}
+                transition={{ duration: 0.3 }}
               >
-                <TerminalLoaderWrapper isBackNavigation={isBackNavigation}>
+                <TerminalLoaderWrapper>
                   <Index />
                 </TerminalLoaderWrapper>
               </motion.div>
             </Suspense>
-          }
-        />
-        <Route
-          path="/projects/ai"
-          element={
-            <Suspense fallback={null}>
+          </AnimatePresence>
+        }
+      />
+      <Route
+        path="/projects/ai"
+        element={
+          <AnimatePresence mode="wait" onExitComplete={() => null}>
+            <Suspense fallback={<ScrambleLoader />}>
               <motion.div
-                key={location.pathname}
+                key="ai"
                 initial={{ opacity: 0 }}
                 animate={{ opacity: 1 }}
                 exit={{ opacity: 0 }}
                 transition={{ duration: 0.3 }}
               >
-                <DelayedRender isBackNavigation={isBackNavigation}>
+                <DelayedRender>
                   <AIResearchPage />
                 </DelayedRender>
               </motion.div>
             </Suspense>
-          }
-        />
-        <Route
-          path="/projects/prompt"
-          element={
-            <Suspense fallback={null}>
+          </AnimatePresence>
+        }
+      />
+      <Route
+        path="/projects/prompt"
+        element={
+          <AnimatePresence mode="wait" onExitComplete={() => null}>
+            <Suspense fallback={<ScrambleLoader />}>
               <motion.div
-                key={location.pathname}
+                key="prompt"
                 initial={{ opacity: 0 }}
                 animate={{ opacity: 1 }}
                 exit={{ opacity: 0 }}
                 transition={{ duration: 0.3 }}
               >
-                <DelayedRender isBackNavigation={isBackNavigation}>
+                <DelayedRender>
                   <PromptEngineeringPage />
                 </DelayedRender>
               </motion.div>
             </Suspense>
-          }
-        />
-      </Routes>
-    </AnimatePresence>
+          </AnimatePresence>
+        }
+      />
+    </Routes>
   );
 };
 
