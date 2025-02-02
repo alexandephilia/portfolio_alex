@@ -97,16 +97,27 @@ const ScrambleLoader = () => {
 };
 
 // Wrapper component that ensures minimum display time
-const DelayedRender = ({ children }: { children: React.ReactNode }) => {
-  const [shouldRender, setShouldRender] = useState(false);
+const DelayedRender = ({ 
+  children,
+  isBackNavigation = false 
+}: { 
+  children: React.ReactNode;
+  isBackNavigation?: boolean;
+}) => {
+  const [shouldRender, setShouldRender] = useState(isBackNavigation);
 
   useEffect(() => {
+    if (isBackNavigation) {
+      setShouldRender(true);
+      return;
+    }
+
     const timer = setTimeout(() => {
       setShouldRender(true);
-    }, 1000); // Minimum 1 second display time
+    }, 1000);
 
     return () => clearTimeout(timer);
-  }, []);
+  }, [isBackNavigation]);
 
   return (
     <AnimatePresence mode="wait">
@@ -126,16 +137,27 @@ const DelayedRender = ({ children }: { children: React.ReactNode }) => {
 };
 
 // Wrapper component that ensures minimum display time for Terminal Loader
-const TerminalLoaderWrapper = ({ children }: { children: React.ReactNode }) => {
-  const [shouldRender, setShouldRender] = useState(false);
+const TerminalLoaderWrapper = ({ 
+  children,
+  isBackNavigation = false 
+}: { 
+  children: React.ReactNode;
+  isBackNavigation?: boolean;
+}) => {
+  const [shouldRender, setShouldRender] = useState(isBackNavigation);
 
   useEffect(() => {
+    if (isBackNavigation) {
+      setShouldRender(true);
+      return;
+    }
+
     const timer = setTimeout(() => {
       setShouldRender(true);
-    }, 2000); // Minimum 2 second display time for terminal effect
+    }, 2000);
 
     return () => clearTimeout(timer);
-  }, []);
+  }, [isBackNavigation]);
 
   return (
     <AnimatePresence mode="wait">
@@ -161,7 +183,7 @@ const TerminalLoaderWrapper = ({ children }: { children: React.ReactNode }) => {
           transition={{ 
             duration: 0.8,
             ease: "easeInOut",
-            delay: 0.2 // Small delay to ensure smooth transition
+            delay: isBackNavigation ? 0 : 0.2
           }}
         >
           {children}
@@ -203,7 +225,7 @@ const AppRoutes = () => {
         <Route
           path="/"
           element={
-            <Suspense fallback={isComingFromProject ? <ScrambleLoader /> : null}>
+            <Suspense fallback={null}>
               <motion.div
                 key={location.pathname}
                 initial={{ opacity: 0 }}
@@ -214,13 +236,9 @@ const AppRoutes = () => {
                   ease: isBackNavigation ? "easeOut" : "easeInOut"
                 }}
               >
-                {!isBackNavigation ? (
-                  <TerminalLoaderWrapper>
-                    <Index />
-                  </TerminalLoaderWrapper>
-                ) : (
+                <TerminalLoaderWrapper isBackNavigation={isBackNavigation}>
                   <Index />
-                )}
+                </TerminalLoaderWrapper>
               </motion.div>
             </Suspense>
           }
@@ -228,7 +246,7 @@ const AppRoutes = () => {
         <Route
           path="/projects/ai"
           element={
-            <Suspense fallback={<ScrambleLoader />}>
+            <Suspense fallback={null}>
               <motion.div
                 key={location.pathname}
                 initial={{ opacity: 0 }}
@@ -236,7 +254,7 @@ const AppRoutes = () => {
                 exit={{ opacity: 0 }}
                 transition={{ duration: 0.3 }}
               >
-                <DelayedRender>
+                <DelayedRender isBackNavigation={isBackNavigation}>
                   <AIResearchPage />
                 </DelayedRender>
               </motion.div>
@@ -246,7 +264,7 @@ const AppRoutes = () => {
         <Route
           path="/projects/prompt"
           element={
-            <Suspense fallback={<ScrambleLoader />}>
+            <Suspense fallback={null}>
               <motion.div
                 key={location.pathname}
                 initial={{ opacity: 0 }}
@@ -254,7 +272,7 @@ const AppRoutes = () => {
                 exit={{ opacity: 0 }}
                 transition={{ duration: 0.3 }}
               >
-                <DelayedRender>
+                <DelayedRender isBackNavigation={isBackNavigation}>
                   <PromptEngineeringPage />
                 </DelayedRender>
               </motion.div>
