@@ -34,9 +34,19 @@ const GrainOverlay: React.FC<NoiseProps> = ({
 
     const resize = () => {
       if (!canvas) return
-      canvas.width = window.innerWidth * window.devicePixelRatio
-      canvas.height = window.innerHeight * window.devicePixelRatio
-      ctx.scale(1, 1)
+      // Use the actual viewport size including scroll
+      const width = Math.max(document.documentElement.clientWidth || 0, window.innerWidth || 0)
+      const height = Math.max(document.documentElement.clientHeight || 0, window.innerHeight || 0)
+      
+      const dpr = window.devicePixelRatio || 1
+      canvas.width = width * dpr
+      canvas.height = height * dpr
+      
+      // Set the CSS dimensions to cover the viewport
+      canvas.style.width = '100vw'
+      canvas.style.height = '100vh'
+      
+      ctx.scale(dpr, dpr)
     }
 
     const updatePattern = () => {
@@ -68,21 +78,32 @@ const GrainOverlay: React.FC<NoiseProps> = ({
       window.requestAnimationFrame(loop)
     }
 
-    window.addEventListener("resize", resize)
+    // Initial setup
     resize()
+    
+    // Handle resize and orientation changes
+    window.addEventListener("resize", resize)
+    window.addEventListener("orientationchange", resize)
+    
+    // Start animation loop
     loop()
 
     return () => {
       window.removeEventListener("resize", resize)
+      window.removeEventListener("orientationchange", resize)
     }
   }, [theme, baseOpacity])
 
   return (
     <canvas 
       ref={grainRef} 
-      className="fixed w-full h-full top-0 left-0 pointer-events-none z-[9999] overflow-hidden will-change-transform"
+      className="fixed top-0 left-0 w-screen h-screen pointer-events-none z-[9999] overflow-hidden"
       style={{
         filter: theme === 'dark' ? 'none' : 'invert(1) brightness(0.8)',
+        transform: 'translateZ(0)',
+        backfaceVisibility: 'hidden',
+        perspective: 1000,
+        willChange: 'transform'
       }}
     />
   )

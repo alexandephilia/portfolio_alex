@@ -15,7 +15,8 @@ export const GradientBlur: React.FC<GradientBlurProps> = ({ isFixed = true, clas
                 height: isFixed ? '6vh' : '12vh',
                 transform: 'translateZ(0)',
                 willChange: 'transform',
-                isolation: 'isolate'
+                isolation: 'isolate',
+                zIndex: 20
             }}
         >
             {/* Layer 1 */}
