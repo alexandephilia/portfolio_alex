@@ -34,6 +34,7 @@ const GrainOverlay: React.FC<NoiseProps> = ({
 
     const resize = () => {
       if (!canvas) return
+      
       // Use the actual viewport size including scroll
       const width = Math.max(document.documentElement.clientWidth || 0, window.innerWidth || 0)
       const height = Math.max(document.documentElement.clientHeight || 0, window.innerHeight || 0)
@@ -43,8 +44,12 @@ const GrainOverlay: React.FC<NoiseProps> = ({
       canvas.height = height * dpr
       
       // Set the CSS dimensions to cover the viewport
-      canvas.style.width = '100vw'
-      canvas.style.height = '100vh'
+      canvas.style.width = '100dvw'
+      canvas.style.height = '100dvh'
+      canvas.style.position = 'fixed'
+      canvas.style.top = '0'
+      canvas.style.left = '0'
+      
       
       ctx.scale(dpr, dpr)
     }
@@ -95,17 +100,37 @@ const GrainOverlay: React.FC<NoiseProps> = ({
   }, [theme, baseOpacity])
 
   return (
-    <canvas 
-      ref={grainRef} 
-      className="fixed top-0 left-0 w-screen h-screen pointer-events-none z-[9999] overflow-hidden"
-      style={{
-        filter: theme === 'dark' ? 'none' : 'invert(1) brightness(0.8)',
-        transform: 'translateZ(0)',
-        backfaceVisibility: 'hidden',
-        perspective: 1000,
-        willChange: 'transform'
+    <div 
+      style={{ 
+        position: 'fixed',
+        top: 0,
+        left: 0,
+        width: '100%',
+        height: '100%',
+        zIndex: 2147483647, // Maximum 32-bit integer
+        contain: 'strict',
+        isolation: 'isolate',
+        pointerEvents: 'none'
       }}
-    />
+    >
+      <canvas 
+        ref={grainRef} 
+        style={{
+          position: 'absolute',
+          top: 0,
+          left: 0,
+          width: '100dvw',
+          height: '100dvh',
+          filter: theme === 'dark' ? 'none' : 'invert(1) brightness(0.8)',
+          transform: 'translate3d(0, 0, 0)',
+          backfaceVisibility: 'hidden',
+          perspective: 1000,
+          willChange: 'transform',
+          isolation: 'isolate',
+          contain: 'strict'
+        }}
+      />
+    </div>
   )
 }
 
