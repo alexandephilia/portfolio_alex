@@ -174,14 +174,28 @@ const TerminalLoaderWrapper = ({ children }: { children: React.ReactNode }) => {
 const AppRoutes = () => {
   const location = useLocation();
   const [previousPath, setPreviousPath] = useState<string | null>(null);
+  const [isBackNavigation, setIsBackNavigation] = useState(false);
 
-  // Track navigation
+  // Track navigation and detect back button
   useEffect(() => {
-    setPreviousPath(location.pathname);
-  }, [location]);
+    const handlePopState = () => {
+      setIsBackNavigation(true);
+    };
 
-  // Only show scramble when coming back from project pages
-  const isComingFromProject = previousPath?.startsWith('/projects/');
+    window.addEventListener('popstate', handlePopState);
+    
+    if (!isBackNavigation) {
+      setPreviousPath(location.pathname);
+    }
+
+    return () => {
+      window.removeEventListener('popstate', handlePopState);
+      setIsBackNavigation(false);
+    };
+  }, [location, isBackNavigation]);
+
+  // Only show scramble when navigating forward to project pages
+  const isComingFromProject = previousPath?.startsWith('/projects/') && !isBackNavigation;
 
   return (
     <AnimatePresence mode="sync">
@@ -195,11 +209,18 @@ const AppRoutes = () => {
                 initial={{ opacity: 0 }}
                 animate={{ opacity: 1 }}
                 exit={{ opacity: 0 }}
-                transition={{ duration: 0.3 }}
+                transition={{ 
+                  duration: isBackNavigation ? 0.2 : 0.3,
+                  ease: isBackNavigation ? "easeOut" : "easeInOut"
+                }}
               >
-                <TerminalLoaderWrapper>
+                {!isBackNavigation ? (
+                  <TerminalLoaderWrapper>
+                    <Index />
+                  </TerminalLoaderWrapper>
+                ) : (
                   <Index />
-                </TerminalLoaderWrapper>
+                )}
               </motion.div>
             </Suspense>
           }
