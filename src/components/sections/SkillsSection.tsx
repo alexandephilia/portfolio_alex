@@ -257,14 +257,52 @@ const AnimatedTooltip = React.forwardRef<
   HTMLDivElement,
   { content: string; children: React.ReactNode }
 >(({ content, children }, ref) => {
+  const [isTouchVisible, setIsTouchVisible] = React.useState(false);
+  const touchTimeoutRef = React.useRef<NodeJS.Timeout>();
+  
   const tooltip = Ariakit.useTooltipStore({
-    placement: "top"
+    placement: "top",
+    open: isTouchVisible
   });
+  
   const mounted = Ariakit.useStoreState(tooltip, "mounted");
+
+  // Clean up timeout on unmount
+  React.useEffect(() => {
+    return () => {
+      if (touchTimeoutRef.current) {
+        clearTimeout(touchTimeoutRef.current);
+      }
+    };
+  }, []);
+
+  const handleTouchStart = (e: React.TouchEvent) => {
+    e.preventDefault(); // Prevent ghost clicks
+    if (touchTimeoutRef.current) {
+      clearTimeout(touchTimeoutRef.current);
+    }
+    setIsTouchVisible(true);
+  };
+
+  const handleTouchEnd = (e: React.TouchEvent) => {
+    e.preventDefault(); // Prevent ghost clicks
+    if (touchTimeoutRef.current) {
+      clearTimeout(touchTimeoutRef.current);
+    }
+    touchTimeoutRef.current = setTimeout(() => {
+      setIsTouchVisible(false);
+    }, 1500); // Keep tooltip visible for 1.5s after touch
+  };
 
   return (
     <Ariakit.TooltipProvider store={tooltip}>
-      <Ariakit.TooltipAnchor ref={ref} className="cursor-default">
+      <Ariakit.TooltipAnchor 
+        ref={ref} 
+        className="cursor-default touch-none"
+        onTouchStart={handleTouchStart}
+        onTouchEnd={handleTouchEnd}
+        onTouchCancel={handleTouchEnd}
+      >
         {children}
       </Ariakit.TooltipAnchor>
       <AnimatePresence>
@@ -390,27 +428,22 @@ const SkillCard = ({
   skills: Skill[];
 }) => {
   const overallProgress = getOverallProgress(categorySkills);
-  const [isTouched, setIsTouched] = React.useState(false);
 
   return (
     <ShimmerButton className="w-full group">
       <Card 
-        className={`
+        className="
           relative overflow-hidden dark:bg-black/100 bg-white/[0.1] 
           border-[1px] border-[#0071a9]/[0.15] dark:border-white/[0.08] 
           hover:border-[#0071a9]/25 dark:hover:border-white/[0.15] 
           transition-all duration-500 group-hover:shadow-lg
           ring-1 ring-[#0071a9]/[0.05] dark:ring-white/[0.05] shadow-sm 
           hover:shadow-[0_0_15px_rgba(0,113,169,0.1)] dark:hover:shadow-[0_0_15px_rgba(255,255,255,0.1)]
-          ${isTouched ? 'border-[#0071a9]/25 dark:border-white/[0.15] shadow-lg' : ''}
-        `}
-        onTouchStart={() => setIsTouched(true)}
-        onTouchEnd={() => setIsTouched(false)}
-        onTouchCancel={() => setIsTouched(false)}
+        "
       >
         <CardContent className="p-6">
           <div className="flex items-center gap-2 mb-4">
-            <Icon className={`h-5 w-5 text-muted-foreground group-hover:text-primary transition-colors ${isTouched ? 'text-primary' : ''}`} />
+            <Icon className="h-5 w-5 text-muted-foreground group-hover:text-primary transition-colors" />
             <h3 className="text-lg font-semibold">{title}</h3>
           </div>
 
@@ -433,31 +466,66 @@ const SkillCard = ({
           
           {/* Skills Grid */}
           <div className="grid grid-cols-2 gap-4">
-            {categorySkills.map((skill) => (
-              <motion.div
-                key={skill.name}
-                className="relative"
-                initial={{ opacity: 0, y: 20 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
-                transition={{ duration: 0.5 }}
-              >
-                <AnimatedTooltip content={skillDescriptions[skill.name]}>
-                  <div className="flex flex-col items-center sm:flex-row sm:items-start gap-2 text-center sm:text-left">
-                    <skill.icon className={`h-4 w-4 text-muted-foreground ${isTouched ? 'text-primary' : ''}`} />
-                    <div className="flex flex-col items-center sm:items-start">
-                      <span className="text-sm">{skill.name}</span>
-                      <Badge 
-                        variant="secondary" 
-                        className={`text-[9px] px-1 py-0 w-fit mt-0.5 ${getLevelColor(skill.level)}`}
-                      >
-                        {skill.level}
-                      </Badge>
+            {categorySkills.map((skill) => {
+              const [isTouched, setIsTouched] = React.useState(false);
+              const touchTimeoutRef = React.useRef<NodeJS.Timeout>();
+              
+              const handleTouchEnd = () => {
+                // Clear any existing timeout
+                if (touchTimeoutRef.current) {
+                  clearTimeout(touchTimeoutRef.current);
+                }
+                // Add a small delay before removing the touch state
+                touchTimeoutRef.current = setTimeout(() => {
+                  setIsTouched(false);
+                }, 150); // 150ms delay matches most tap/click animations
+              };
+
+              React.useEffect(() => {
+                return () => {
+                  // Cleanup timeout on unmount
+                  if (touchTimeoutRef.current) {
+                    clearTimeout(touchTimeoutRef.current);
+                  }
+                };
+              }, []);
+              
+              return (
+                <motion.div
+                  key={skill.name}
+                  className="relative"
+                  initial={{ opacity: 0, y: 20 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  viewport={{ once: true }}
+                  transition={{ duration: 0.5 }}
+                >
+                  <AnimatedTooltip content={skillDescriptions[skill.name]}>
+                    <div 
+                      className="flex flex-col items-center sm:flex-row sm:items-start gap-2 text-center sm:text-left"
+                      onTouchStart={() => setIsTouched(true)}
+                      onTouchEnd={handleTouchEnd}
+                      onTouchCancel={handleTouchEnd}
+                    >
+                      <skill.icon className={`h-4 w-4 text-muted-foreground transition-colors ${isTouched ? 'text-primary' : ''}`} />
+                      <div className="flex flex-col items-center sm:items-start">
+                        <span className="text-sm">{skill.name}</span>
+                        <Badge 
+                          variant="secondary" 
+                          className={`
+                            text-[9px] px-1 py-0 w-fit mt-0.5 
+                            ${getLevelColor(skill.level)}
+                            transition-all duration-150
+                            ${isTouched ? 'scale-110 transform' : ''}
+                          `}
+                        >
+                          {skill.level}
+                        </Badge>
+                      </div>
                     </div>
-                  </div>
-                </AnimatedTooltip>
-              </motion.div>
-            ))}
+                  </AnimatedTooltip>
+                </motion.div>
+              );
+            })}
           </div>
         </CardContent>
       </Card>
