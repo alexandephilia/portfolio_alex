@@ -117,7 +117,7 @@ export const ContactForm = () => {
               <div className="flex justify-center mt-6">
                 <motion.div
                   ref={buttonRef}
-                  className="relative h-9 cursor-pointer overflow-hidden rounded-full p-[1px] group"
+                  className="relative h-9 md:h-10 cursor-pointer overflow-hidden rounded-full p-[1px] group"
                   whileHover={{ scale: 1.01 }}
                   whileTap={{ scale: 0.99 }}
                   style={{
@@ -149,7 +149,7 @@ export const ContactForm = () => {
                   <div className="absolute inset-[1px] rounded-full bg-black dark:bg-zinc-950" />
                   <Button
                     type="submit"
-                    className="relative h-full px-6 rounded-full bg-[#0071a9] dark:bg-zinc-950 font-medium text-xs text-white transition-all hover:bg-[#0071a9]/90 dark:hover:bg-zinc-900"
+                    className="relative h-full px-6 md:px-8 text-xs md:text-sm rounded-full bg-[#0071a9] dark:bg-zinc-950 font-medium text-white transition-all hover:bg-[#0071a9]/90 dark:hover:bg-black"
                   >
                     Send Message
                   </Button>
