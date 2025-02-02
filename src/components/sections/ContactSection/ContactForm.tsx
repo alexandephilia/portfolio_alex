@@ -114,7 +114,7 @@ export const ContactForm = () => {
                 />
               </div>
 
-              <div className="flex justify-end">
+              <div className="flex justify-center mt-6">
                 <motion.div
                   ref={buttonRef}
                   className="relative h-9 cursor-pointer overflow-hidden rounded-full p-[1px] group"
