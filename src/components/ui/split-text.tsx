@@ -125,7 +125,12 @@ const SplitText: React.FC<SplitTextProps> = ({
     );
 
     return (
-        <div style={{ width: '100%', display: 'flex', justifyContent: 'center' }}>
+        <div style={{ 
+            width: '100%', 
+            display: 'flex', 
+            justifyContent: 'center',
+            overflow: 'visible'
+        }}>
             <p
                 ref={ref}
                 className={`split-parent ${className}`}
