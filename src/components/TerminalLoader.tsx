@@ -9,22 +9,12 @@ const TerminalLoader = () => {
     const navigate = useNavigate();
 
     const text = "Hello!";
-    const totalLetters = text.length;
     const baseDelay = { mobile: 75, tablet: 100, desktop: 150 };
-
-    // Calculate total animation time including all letters
-    const getTotalAnimationTime = () => {
-        // Use the desktop delay as base since it's the longest
-        return totalLetters * baseDelay.desktop + 1000; // Add 1s buffer for safety
-    };
 
     useEffect(() => {
         if (isAnimationComplete && !shouldExit) {
-            // Wait for all letters to finish before starting exit
-            const timer = setTimeout(() => {
-                setShouldExit(true);
-            }, 1000); // Small buffer after last letter
-            return () => clearTimeout(timer);
+            // Start exit animation immediately after split-text completes
+            setShouldExit(true);
         }
 
         if (shouldExit) {
