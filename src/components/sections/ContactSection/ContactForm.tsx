@@ -149,7 +149,7 @@ export const ContactForm = () => {
                   <div className="absolute inset-[1px] rounded-full bg-black dark:bg-zinc-950" />
                   <Button
                     type="submit"
-                    className="relative h-full px-6 rounded-full bg-[#0071a9] dark:bg-[#0071a9] font-medium text-xs text-white transition-all hover:bg-[#0071a9]/90 dark:hover:bg-[#0071a9]/90"
+                    className="relative h-full px-6 rounded-full bg-[#0071a9] dark:bg-zinc-950 font-medium text-xs text-white transition-all hover:bg-[#0071a9]/90 dark:hover:bg-zinc-900"
                   >
                     Send Message
                   </Button>

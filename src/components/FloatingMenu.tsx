@@ -719,7 +719,8 @@ const FloatingMenu = () => {
           <motion.div
             className={cn(
               "absolute left-1/2 shadow-lg border border-border/50 transition-colors duration-300",
-              "bg-background/30 backdrop-blur-md"
+              "bg-background/20 dark:bg-background/10 backdrop-blur-md dark:backdrop-blur-xl",
+              "dark:shadow-[0_0_30px_rgba(0,0,0,0.3)] dark:border-white/10"
             )}
             animate={{
               width: isOpen
@@ -735,7 +736,7 @@ const FloatingMenu = () => {
               damping: 20,
               mass: 1.2,
               duration: 0.8,
-              delay: iconsHaveFadedOut ? 0 : 0.4 // Delay menu unexpand until icons fade out completely
+              delay: iconsHaveFadedOut ? 0 : 0.4
             }}
           >
             {/* Animated menu items container */}
