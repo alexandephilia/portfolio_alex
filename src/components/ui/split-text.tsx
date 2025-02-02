@@ -80,11 +80,9 @@ const SplitText: React.FC<SplitTextProps> = ({
         animatedCount.current += 1;
         if (animatedCount.current === totalLetters) {
             setAllLettersAnimated(true);
-            setTimeout(() => {
-                if (onLetterAnimationComplete) {
-                    onLetterAnimationComplete();
-                }
-            }, 300);
+            if (onLetterAnimationComplete) {
+                onLetterAnimationComplete();
+            }
         }
     };
 
@@ -99,11 +97,19 @@ const SplitText: React.FC<SplitTextProps> = ({
             to: inView
                 ? async (next: (props: any) => Promise<void>) => {
                     await next(animationTo);
-                    handleLetterComplete();
                 }
                 : animationFrom,
+            config: {
+                duration: 400,
+                easing: easing
+            },
             delay: i * currentDelay,
-            config: { easing },
+            immediate: !inView,
+            onRest: () => {
+                if (i === letters.length - 1) {
+                    handleLetterComplete();
+                }
+            }
         }))
     );
 

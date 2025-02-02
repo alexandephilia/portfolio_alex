@@ -5,35 +5,24 @@ import { useNavigate } from "react-router-dom";
 
 const TerminalLoader = () => {
     const [isAnimationComplete, setIsAnimationComplete] = useState(false);
-    const [shouldExit, setShouldExit] = useState(false);
     const navigate = useNavigate();
 
     const text = "Hello!";
     const baseDelay = { mobile: 75, tablet: 100, desktop: 150 };
+    const exitDuration = 0.6;
 
-    useEffect(() => {
-        if (isAnimationComplete && !shouldExit) {
-            // Start exit animation immediately after split-text completes
-            setShouldExit(true);
-        }
-
-        if (shouldExit) {
-            // Only navigate after exit animation is done
-            const timer = setTimeout(() => {
-                navigate("/");
-            }, 500); // Match the exit animation duration
-            return () => clearTimeout(timer);
-        }
-    }, [isAnimationComplete, shouldExit, navigate]);
+    const handleAnimationComplete = () => {
+        setIsAnimationComplete(true);
+    };
 
     return (
-        <AnimatePresence mode="wait">
-            {!shouldExit && (
+        <AnimatePresence mode="wait" onExitComplete={() => navigate("/")}>
+            {!isAnimationComplete && (
                 <motion.div
                     className="flex items-center justify-center min-h-screen bg-background"
                     initial={{ opacity: 1 }}
                     exit={{ opacity: 0 }}
-                    transition={{ duration: 0.5 }}
+                    transition={{ duration: exitDuration, ease: "easeInOut" }}
                 >
                     <SplitText
                         text={text}
@@ -42,7 +31,7 @@ const TerminalLoader = () => {
                         animationFrom={{ opacity: 0, transform: 'translate3d(0,40px,0)' }}
                         animationTo={{ opacity: 1, transform: 'translate3d(0,0,0)' }}
                         textAlign="center"
-                        onLetterAnimationComplete={() => setIsAnimationComplete(true)}
+                        onLetterAnimationComplete={handleAnimationComplete}
                         fontSize={{ mobile: '3rem', tablet: '5rem', desktop: '9rem' }}
                     />
                 </motion.div>
