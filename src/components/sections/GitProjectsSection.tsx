@@ -447,6 +447,26 @@ const BranchTimeline = ({ projects }: { projects: GitProject[] }) => {
   
   // Add scramble text state
   const [scrambleText, setScrambleText] = React.useState("");
+
+  // Add ref for tooltip container
+  const tooltipRef = React.useRef<HTMLDivElement>(null);
+  
+  // Handle touch events and clicks outside tooltip
+  React.useEffect(() => {
+    const handleTouchOutside = (event: TouchEvent | MouseEvent) => {
+      if (tooltipRef.current && !tooltipRef.current.contains(event.target as Node)) {
+        setHoveredBranch(null);
+      }
+    };
+
+    document.addEventListener('touchstart', handleTouchOutside);
+    document.addEventListener('mousedown', handleTouchOutside);
+
+    return () => {
+      document.removeEventListener('touchstart', handleTouchOutside);
+      document.removeEventListener('mousedown', handleTouchOutside);
+    };
+  }, []);
   
   // Scramble effect hook
   React.useEffect(() => {
@@ -458,18 +478,16 @@ const BranchTimeline = ({ projects }: { projects: GitProject[] }) => {
                      "main";
     
     let iteration = 0;
-    const scrambleIterations = 15; // Increased iterations for more scramble effect
+    const scrambleIterations = 15;
     
     const interval = setInterval(() => {
       setScrambleText(
         finalText
           .split("")
           .map((char, index) => {
-            // Show actual character after scramble phase
             if (iteration > scrambleIterations) {
               return index < (iteration - scrambleIterations) ? char : generateRandomNumber();
             }
-            // Pure scramble phase
             return generateRandomNumber();
           })
           .join("")
@@ -480,7 +498,7 @@ const BranchTimeline = ({ projects }: { projects: GitProject[] }) => {
       if (iteration >= finalText.length + scrambleIterations + 1) {
         clearInterval(interval);
       }
-    }, 40); // Slowed down slightly for better readability
+    }, 40);
     
     return () => clearInterval(interval);
   }, [hoveredBranch]);
@@ -567,6 +585,10 @@ const BranchTimeline = ({ projects }: { projects: GitProject[] }) => {
               transition={{ delay: branchIndex * 0.2 }}
               onMouseEnter={() => setHoveredBranch(branchName)}
               onMouseLeave={() => setHoveredBranch(null)}
+              onTouchStart={(e) => {
+                e.preventDefault();
+                setHoveredBranch(branchName);
+              }}
             >
               <motion.div
                 className="relative z-[15] bg-white dark:bg-black backdrop-blur-sm p-1.5 rounded-full border border-muted-foreground/20 shadow-sm"
@@ -595,45 +617,11 @@ const BranchTimeline = ({ projects }: { projects: GitProject[] }) => {
               <AnimatePresence>
                 {hoveredBranch === branchName && (
                   <motion.div
+                    ref={tooltipRef}
                     className="absolute left-[calc(30%-2rem)] -top-8 text-[10px] text-muted-foreground/70 bg-white dark:bg-black backdrop-blur-sm px-3 py-1 rounded-full flex items-center gap-1.5 border border-muted-foreground/10 shadow-sm z-[100] min-w-[140px] justify-center overflow-hidden lg:left-[calc(50%-4rem)]"
-                    initial={{ 
-                      opacity: 0, 
-                      y: 20, 
-                      scale: 0.95,
-                      filter: "blur(4px)"
-                    }}
-                    animate={{ 
-                      opacity: 1, 
-                      y: 0, 
-                      scale: 1,
-                      filter: "blur(0px)",
-                      transition: {
-                        type: "spring",
-                        stiffness: 400,
-                        damping: 25,
-                        mass: 0.5,
-                        duration: 0.5
-                      }
-                    }}
-                    exit={{ 
-                      opacity: 0, 
-                      y: 20, 
-                      scale: 0.95,
-                      filter: "blur(4px)",
-                      transition: {
-                        type: "spring",
-                        stiffness: 400,
-                        damping: 25,
-                        mass: 0.5,
-                        duration: 0.3
-                      }
-                    }}
-                    whileHover={{ 
-                      scale: 1.02,
-                      transition: {
-                        duration: 0.2
-                      }
-                    }}
+                    initial={{ opacity: 0, y: 20, scale: 0.95, filter: "blur(4px)" }}
+                    animate={{ opacity: 1, y: 0, scale: 1, filter: "blur(0px)" }}
+                    exit={{ opacity: 0, y: 20, scale: 0.95, filter: "blur(4px)" }}
                   >
                     <motion.div
                       initial={{ 

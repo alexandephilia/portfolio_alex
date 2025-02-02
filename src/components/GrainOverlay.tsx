@@ -48,8 +48,8 @@ const GrainOverlay: React.FC<NoiseProps> = ({
       canvas.height = height * dpr
       
       // Set display size
-      canvas.style.width = width + 'px'
-      canvas.style.height = height + 'px'
+      canvas.style.width = '100vw'
+      canvas.style.height = '100vh'
       
       // Scale context
       ctx.scale(dpr, dpr)
@@ -119,10 +119,10 @@ const GrainOverlay: React.FC<NoiseProps> = ({
     <div 
       style={{ 
         position: 'fixed',
-        top: 0,
         left: 0,
-        right: 0,
-        bottom: 0,
+        top: 0,
+        width: '100vw',
+        height: '100vh',
         zIndex: 2147483647,
         isolation: 'isolate',
         pointerEvents: 'none',
@@ -134,10 +134,10 @@ const GrainOverlay: React.FC<NoiseProps> = ({
         ref={grainRef} 
         style={{
           position: 'absolute',
-          top: 0,
           left: 0,
-          width: '100%',
-          height: '100%',
+          top: 0,
+          width: '100vw',
+          height: '100vh',
           filter: theme === 'dark' ? 'none' : 'invert(1) brightness(0.8)',
           transform: 'translate3d(0, 0, 0)',
           backfaceVisibility: 'hidden',

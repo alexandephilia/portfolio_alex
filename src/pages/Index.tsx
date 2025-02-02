@@ -331,7 +331,7 @@ const Index = () => {
       </AnimatePresence>
 
       {/* Add Grain effect */}
-      <GrainOverlay baseOpacity={0.08} />
+      <GrainOverlay baseOpacity={0.05} />
 
       {/* Footer Section */}
       <footer className="border-t mt-16 relative z-10">
