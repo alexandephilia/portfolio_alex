@@ -4,16 +4,33 @@ import { Toaster } from "@/components/ui/toaster";
 import { Toaster as Sonner } from "@/components/ui/sonner";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
-import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import { BrowserRouter as Router, Routes, Route, useLocation } from "react-router-dom";
 import { ThemeProvider } from "./components/theme-provider";
 import CustomCursor from "./components/CustomCursor";
 import TerminalLoader from "./components/TerminalLoader";
 import { motion, AnimatePresence } from "framer-motion";
 
-// Lazy load pages
-const Index = lazy(() => import("./pages/Index"));
-const AIResearchPage = lazy(() => import("./pages/projects/ai"));
-const PromptEngineeringPage = lazy(() => import("./pages/projects/prompt"));
+// Lazy load pages with explicit loading states
+const Index = lazy(() => 
+  Promise.all([
+    import("./pages/Index"),
+    new Promise(resolve => setTimeout(resolve, 500)) // Minimum loading time
+  ]).then(([module]) => module)
+);
+
+const AIResearchPage = lazy(() => 
+  Promise.all([
+    import("./pages/projects/ai"),
+    new Promise(resolve => setTimeout(resolve, 500)) // Minimum loading time
+  ]).then(([module]) => module)
+);
+
+const PromptEngineeringPage = lazy(() => 
+  Promise.all([
+    import("./pages/projects/prompt"),
+    new Promise(resolve => setTimeout(resolve, 500)) // Minimum loading time
+  ]).then(([module]) => module)
+);
 
 const queryClient = new QueryClient();
 
@@ -108,14 +125,117 @@ const DelayedRender = ({ children }: { children: React.ReactNode }) => {
   );
 };
 
-const App = () => {
-  const [isFirstLoad, setIsFirstLoad] = useState(true);
+// Wrapper component that ensures minimum display time for Terminal Loader
+const TerminalLoaderWrapper = ({ children }: { children: React.ReactNode }) => {
+  const [shouldRender, setShouldRender] = useState(false);
 
   useEffect(() => {
-    // Set isFirstLoad to false after initial render
-    setIsFirstLoad(false);
+    const timer = setTimeout(() => {
+      setShouldRender(true);
+    }, 2000); // Minimum 2 second display time for terminal effect
+
+    return () => clearTimeout(timer);
   }, []);
 
+  return (
+    <AnimatePresence mode="wait">
+      {!shouldRender ? (
+        <motion.div
+          key="loader"
+          initial={{ opacity: 1 }}
+          exit={{ 
+            opacity: 0,
+            transition: {
+              duration: 0.8,
+              ease: "easeInOut"
+            }
+          }}
+        >
+          <TerminalLoader />
+        </motion.div>
+      ) : (
+        <motion.div
+          key="content"
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ 
+            duration: 0.8,
+            ease: "easeInOut",
+            delay: 0.2 // Small delay to ensure smooth transition
+          }}
+        >
+          {children}
+        </motion.div>
+      )}
+    </AnimatePresence>
+  );
+};
+
+const AppRoutes = () => {
+  const location = useLocation();
+  const [previousPath, setPreviousPath] = useState<string | null>(null);
+
+  // Track navigation
+  useEffect(() => {
+    setPreviousPath(location.pathname);
+  }, [location]);
+
+  // Only show scramble when coming back from project pages
+  const isComingFromProject = previousPath?.startsWith('/projects/');
+
+  return (
+    <AnimatePresence mode="wait">
+      <Routes location={location} key={location.pathname}>
+        <Route
+          path="/"
+          element={
+            <Suspense fallback={isComingFromProject ? <ScrambleLoader /> : null}>
+              <TerminalLoaderWrapper>
+                <Index />
+              </TerminalLoaderWrapper>
+            </Suspense>
+          }
+        />
+        <Route
+          path="/projects/ai"
+          element={
+            <Suspense fallback={<ScrambleLoader />}>
+              <motion.div
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                exit={{ opacity: 0 }}
+                transition={{ duration: 0.3 }}
+              >
+                <DelayedRender>
+                  <AIResearchPage />
+                </DelayedRender>
+              </motion.div>
+            </Suspense>
+          }
+        />
+        <Route
+          path="/projects/prompt"
+          element={
+            <Suspense fallback={<ScrambleLoader />}>
+              <motion.div
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                exit={{ opacity: 0 }}
+                transition={{ duration: 0.3 }}
+              >
+                <DelayedRender>
+                  <PromptEngineeringPage />
+                </DelayedRender>
+              </motion.div>
+            </Suspense>
+          }
+        />
+      </Routes>
+    </AnimatePresence>
+  );
+};
+
+const App = () => {
   return (
     <QueryClientProvider client={queryClient}>
       <ThemeProvider defaultTheme="system" storageKey="vite-ui-theme">
@@ -124,29 +244,7 @@ const App = () => {
           <Toaster />
           <Sonner />
           <Router>
-            <Routes>
-              <Route
-                path="/"
-                element={
-                  <Suspense fallback={<TerminalLoader />}>
-                    <Index />
-                  </Suspense>
-                }
-              />
-              <Route
-                path="/projects/*"
-                element={
-                  <Suspense fallback={<ScrambleLoader />}>
-                    <DelayedRender>
-                      <Routes>
-                        <Route path="/ai" element={<AIResearchPage />} />
-                        <Route path="/prompt" element={<PromptEngineeringPage />} />
-                      </Routes>
-                    </DelayedRender>
-                  </Suspense>
-                }
-              />
-            </Routes>
+            <AppRoutes />
           </Router>
         </TooltipProvider>
       </ThemeProvider>
