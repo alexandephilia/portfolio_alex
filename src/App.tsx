@@ -185,12 +185,13 @@ const AppRoutes = () => {
 
   return (
     <AnimatePresence mode="sync">
-      <Routes location={location} key={location.pathname}>
+      <Routes>
         <Route
           path="/"
           element={
             <Suspense fallback={isComingFromProject ? <ScrambleLoader /> : null}>
               <motion.div
+                key={location.pathname}
                 initial={{ opacity: 0 }}
                 animate={{ opacity: 1 }}
                 exit={{ opacity: 0 }}
@@ -208,6 +209,7 @@ const AppRoutes = () => {
           element={
             <Suspense fallback={<ScrambleLoader />}>
               <motion.div
+                key={location.pathname}
                 initial={{ opacity: 0 }}
                 animate={{ opacity: 1 }}
                 exit={{ opacity: 0 }}
@@ -225,6 +227,7 @@ const AppRoutes = () => {
           element={
             <Suspense fallback={<ScrambleLoader />}>
               <motion.div
+                key={location.pathname}
                 initial={{ opacity: 0 }}
                 animate={{ opacity: 1 }}
                 exit={{ opacity: 0 }}
