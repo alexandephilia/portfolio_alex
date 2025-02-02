@@ -215,23 +215,17 @@ const AIResearchPage = () => {
 
     const handleBack = () => {
         setIsExiting(true);
-        // Start from the last item
-        setExitingIndex(researchLinks.length - 1);
+        window.history.back();
     };
 
     useEffect(() => {
-        if (exitingIndex !== null) {
+        if (isExiting) {
             const timer = setTimeout(() => {
-                if (exitingIndex > 0) {
-                    setExitingIndex(exitingIndex - 1);
-                } else if (exitingIndex === 0) {
-                    setExitingIndex(null);
-                    navigate('/');
-                }
-            }, 200);
+                setIsExiting(false);
+            }, 300); // Match the exit animation duration
             return () => clearTimeout(timer);
         }
-    }, [exitingIndex, navigate]);
+    }, [isExiting]);
 
     return (
         <AnimatePresence mode="wait">
@@ -245,14 +239,9 @@ const AIResearchPage = () => {
                         opacity: 0,
                         y: -20,
                         transition: {
-                            duration: 0.35,
-                            ease: [0.32, 0.72, 0, 1],
-                            delay: 0.5
+                            duration: 0.3,
+                            ease: [0.32, 0.72, 0, 1]
                         }
-                    }}
-                    transition={{
-                        duration: 0.35,
-                        ease: [0.32, 0.72, 0, 1]
                     }}
                 >
                     <Grain opacity={0.05} />

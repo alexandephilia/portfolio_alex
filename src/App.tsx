@@ -4,7 +4,7 @@ import { Toaster } from "@/components/ui/toaster";
 import { Toaster as Sonner } from "@/components/ui/sonner";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
-import { BrowserRouter as Router, Routes, Route, useLocation, Navigate } from "react-router-dom";
+import { BrowserRouter as Router, Routes, Route, useLocation } from "react-router-dom";
 import { ThemeProvider } from "./components/theme-provider";
 import CustomCursor from "./components/CustomCursor";
 import TerminalLoader from "./components/TerminalLoader";
@@ -184,14 +184,13 @@ const AppRoutes = () => {
   const isComingFromProject = previousPath?.startsWith('/projects/');
 
   return (
-    <AnimatePresence mode="wait">
+    <AnimatePresence mode="sync" initial={false}>
       <Routes location={location} key={location.pathname}>
         <Route
           path="/"
           element={
             <Suspense fallback={isComingFromProject ? <ScrambleLoader /> : null}>
               <motion.div
-                key="index"
                 initial={{ opacity: 0 }}
                 animate={{ opacity: 1 }}
                 exit={{ opacity: 0 }}
@@ -209,7 +208,6 @@ const AppRoutes = () => {
           element={
             <Suspense fallback={<ScrambleLoader />}>
               <motion.div
-                key="ai"
                 initial={{ opacity: 0 }}
                 animate={{ opacity: 1 }}
                 exit={{ opacity: 0 }}
@@ -227,7 +225,6 @@ const AppRoutes = () => {
           element={
             <Suspense fallback={<ScrambleLoader />}>
               <motion.div
-                key="prompt"
                 initial={{ opacity: 0 }}
                 animate={{ opacity: 1 }}
                 exit={{ opacity: 0 }}
@@ -240,19 +237,6 @@ const AppRoutes = () => {
             </Suspense>
           }
         />
-        <Route
-          path="*"
-          element={
-            <motion.div
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              exit={{ opacity: 0 }}
-              transition={{ duration: 0.3 }}
-            >
-              <Navigate to="/" replace />
-            </motion.div>
-          }
-        />
       </Routes>
     </AnimatePresence>
   );
@@ -260,18 +244,18 @@ const AppRoutes = () => {
 
 const App = () => {
   return (
-    <Router>
-      <QueryClientProvider client={queryClient}>
-        <ThemeProvider defaultTheme="system" storageKey="vite-ui-theme">
-          <TooltipProvider>
-            <CustomCursor />
-            <Toaster />
-            <Sonner />
+    <QueryClientProvider client={queryClient}>
+      <ThemeProvider defaultTheme="system" storageKey="vite-ui-theme">
+        <TooltipProvider>
+          <CustomCursor />
+          <Toaster />
+          <Sonner />
+          <Router>
             <AppRoutes />
-          </TooltipProvider>
-        </ThemeProvider>
-      </QueryClientProvider>
-    </Router>
+          </Router>
+        </TooltipProvider>
+      </ThemeProvider>
+    </QueryClientProvider>
   );
 };
 
