@@ -335,7 +335,7 @@ const Index = () => {
                   <p className="flex flex-wrap items-center justify-center gap-1.5 text-[11px] md:text-sm lg:text-base">
                     <strong>Lost in digital realities with </strong>
                     <motion.span
-                      className="inline-flex items-center gap-0.5 px-1.5 py-0.5 md:px-2 md:py-0.5 rounded-full bg-blue-500/10 dark:bg-blue-500/20 border border-blue-500/20"
+                      className="inline-flex items-center gap-0.5 px-1.5 py-0.5 md:px-2 md:py-0.5 rounded-full bg-blue-500/20 dark:bg-blue-500/20 border border-blue-500/20 shadow-sm shadow-blue-500/20 dark:shadow-none"
                       whileHover={{ scale: 1.05 }}
                       transition={{ type: "spring", stiffness: 400, damping: 10 }}
                     >
@@ -344,7 +344,7 @@ const Index = () => {
                     </motion.span>
                     <strong>and</strong>
                     <motion.span
-                      className="inline-flex items-center gap-0.5 px-1.5 py-0.5 md:px-2 md:py-0.5 rounded-full bg-cyan-500/10 dark:bg-cyan-500/20 border border-cyan-500/20"
+                      className="inline-flex items-center gap-0.5 px-1.5 py-0.5 md:px-2 md:py-0.5 rounded-full bg-cyan-500/20 dark:bg-cyan-500/20 border border-cyan-500/20 shadow-sm shadow-cyan-500/20 dark:shadow-none"
                       whileHover={{ scale: 1.05 }}
                       transition={{ type: "spring", stiffness: 400, damping: 10 }}
                     >
@@ -355,7 +355,7 @@ const Index = () => {
                     </motion.span>
                     <strong>diving into </strong>
                     <motion.span
-                      className="inline-flex items-center gap-0.5 px-1.5 py-0.5 md:px-2 md:py-0.5 rounded-full bg-yellow-500/10 dark:bg-yellow-500/20 border border-yellow-500/20"
+                      className="inline-flex items-center gap-0.5 px-1.5 py-0.5 md:px-2 md:py-0.5 rounded-full bg-yellow-500/20 dark:bg-yellow-500/20 border border-yellow-500/20 shadow-sm shadow-yellow-500/20 dark:shadow-none"
                       whileHover={{ scale: 1.05 }}
                       transition={{ type: "spring", stiffness: 400, damping: 10 }}
                     >
@@ -366,7 +366,7 @@ const Index = () => {
                     </motion.span>
                     <strong>and crafting </strong>
                     <motion.span
-                      className="inline-flex items-center gap-0.5 px-1.5 py-0.5 md:px-2 md:py-0.5 rounded-full bg-purple-500/10 dark:bg-purple-500/20 border border-purple-500/20"
+                      className="inline-flex items-center gap-0.5 px-1.5 py-0.5 md:px-2 md:py-0.5 rounded-full bg-purple-500/20 dark:bg-purple-500/20 border border-purple-500/20 shadow-sm shadow-purple-500/20 dark:shadow-none"
                       whileHover={{ scale: 1.05 }}
                       transition={{ type: "spring", stiffness: 400, damping: 10 }}
                     >

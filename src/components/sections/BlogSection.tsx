@@ -613,12 +613,15 @@ const BlogSection = () => {
         <AnimatePresence>
           {selectedPost && (
             <motion.div
-              initial={{ opacity: 0, backdropFilter: "blur(0px)" }}
-              animate={{ opacity: 1, backdropFilter: "blur(4px)" }}
-              exit={{ opacity: 0, backdropFilter: "blur(0px)" }}
-              className="fixed inset-0 dark:bg-black/75 bg-white/75 dark:sm:bg-black/90 sm:bg-white/90 
-                backdrop-saturate-150 flex items-center justify-center p-2 sm:p-4 z-[60]
-                [mask-image:radial-gradient(circle_at_center,black_60%,transparent_100%)]"
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              className="fixed inset-0 
+                dark:bg-black/25 bg-white/10
+                backdrop-blur-md [-webkit-backdrop-filter:blur(16px)]
+                flex items-center justify-center p-2 sm:p-4 z-[60]
+                [@supports_not_(backdrop-filter:blur(16px))]:bg-black/70
+                dark:[@supports_not_(backdrop-filter:blur(16px))]:bg-black/90"
               onClick={(e) => {
                 if (e.target === e.currentTarget) {
                   setSelectedPost(null);
@@ -628,14 +631,26 @@ const BlogSection = () => {
               <FocusScope contain restoreFocus autoFocus>
                 <motion.div
                   ref={modalRef}
-                  initial={{ scale: 0.9, opacity: 0 }}
-                  animate={{ scale: 1, opacity: 1 }}
-                  exit={{ scale: 0.9, opacity: 0 }}
-                  transition={{ type: "spring", damping: 20, stiffness: 300 }}
-                  className="bg-white/[0.1] dark:bg-black/90 text-card-foreground rounded-lg shadow-lg overflow-hidden w-full max-w-3xl 
-                    max-h-[90vh] sm:max-h-[80vh] flex flex-col focus:outline-none m-2 sm:m-0
-                    border-[1px] border-black/20 ring-1 ring-black/5 
-                    dark:border-white/10 dark:ring-white/5"
+                  initial={{ scale: 0.95, opacity: 0, y: 10 }}
+                  animate={{ scale: 1, opacity: 1, y: 0 }}
+                  exit={{ scale: 0.95, opacity: 0, y: 10 }}
+                  transition={{ 
+                    type: "spring", 
+                    damping: 25, 
+                    stiffness: 350,
+                    opacity: { duration: 0.15 }
+                  }}
+                  className="bg-white/40 dark:bg-black/40 
+                    backdrop-blur-md [-webkit-backdrop-filter:blur(8px)]
+                    [@supports_not_(backdrop-filter:blur(8px))]:bg-white/95
+                    dark:[@supports_not_(backdrop-filter:blur(8px))]:bg-black/95
+                    text-card-foreground rounded-lg
+                    overflow-hidden w-full max-w-3xl 
+                    max-h-[90vh] sm:max-h-[80vh] flex flex-col 
+                    focus:outline-none m-2 sm:m-0
+                    border border-black/5 dark:border-white/10
+                    shadow-[0_0_1px_rgba(0,0,0,0.1),0_2px_4px_-2px_rgba(0,0,0,0.1),0_5px_12px_-4px_rgba(0,0,0,0.15),0_12px_24px_-8px_rgba(0,0,0,0.05)]
+                    dark:shadow-[0_0_1px_rgba(255,255,255,0.1),0_2px_4px_-2px_rgba(0,0,0,0.2),0_5px_12px_-4px_rgba(0,0,0,0.5),0_12px_24px_-8px_rgba(0,0,0,0.8)]"
                   tabIndex={-1}
                   role="dialog"
                   aria-modal="true"

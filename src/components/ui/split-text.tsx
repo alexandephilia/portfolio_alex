@@ -19,7 +19,7 @@ interface SplitTextProps {
 const SplitText: React.FC<SplitTextProps> = ({
     text = '',
     className = '',
-    delay = { mobile: 150, tablet: 150, desktop: 150 },
+    delay = { mobile: 35, tablet: 45, desktop: 55 },
     animationFrom = { opacity: 0, transform: 'translate3d(0,40px,0)' },
     animationTo = { opacity: 1, transform: 'translate3d(0,0,0)' },
     easing = (t: number) => t,
@@ -93,17 +93,28 @@ const SplitText: React.FC<SplitTextProps> = ({
     const springs = useSprings(
         letters.length,
         letters.map((_, i) => ({
-            from: animationFrom,
-            to: inView
-                ? async (next: (props: any) => Promise<void>) => {
-                    await next(animationTo);
-                }
-                : animationFrom,
-            config: {
-                duration: 400,
-                easing: easing
+            from: {
+                opacity: 0,
+                transform: 'translate3d(0,40px,0)',
+                filter: 'blur(15px)'
             },
-            delay: i * currentDelay,
+            to: inView
+                ? {
+                    opacity: 1,
+                    transform: 'translate3d(0,0,0)',
+                    filter: 'blur(0px)'
+                }
+                : {
+                    opacity: 0,
+                    transform: 'translate3d(0,40px,0)',
+                    filter: 'blur(15px)'
+                },
+            config: {
+                mass: 3,
+                tension: 380,
+                friction: 23
+            },
+            delay: i * currentDelay * 2.2,
             immediate: !inView,
             onRest: () => {
                 if (i === letters.length - 1) {
@@ -114,51 +125,53 @@ const SplitText: React.FC<SplitTextProps> = ({
     );
 
     return (
-        <p
-            ref={ref}
-            className={`split-parent ${className}`}
-            style={{
-                textAlign,
-                overflow: 'hidden',
-                display: 'inline-block',
-                whiteSpace: 'normal',
-                wordWrap: 'break-word',
-                maxWidth: '100%',
-                fontSize: currentFontSize,
-            }}
-        >
-            {words.map((word, wordIndex) => (
-                <span
-                    key={wordIndex}
-                    style={{
-                        display: 'inline-block',
-                        whiteSpace: 'nowrap',
-                        marginRight: currentSpacing,
-                        verticalAlign: 'top'
-                    }}
-                >
-                    {word.map((letter, letterIndex) => {
-                        const index = words
-                            .slice(0, wordIndex)
-                            .reduce((acc, w) => acc + w.length, 0) + letterIndex;
+        <div style={{ width: '100%', display: 'flex', justifyContent: 'center' }}>
+            <p
+                ref={ref}
+                className={`split-parent ${className}`}
+                style={{
+                    textAlign,
+                    overflow: 'hidden',
+                    display: 'block',
+                    whiteSpace: 'normal',
+                    wordWrap: 'break-word',
+                    width: '100%',
+                    fontSize: currentFontSize,
+                }}
+            >
+                {words.map((word, wordIndex) => (
+                    <span
+                        key={wordIndex}
+                        style={{
+                            display: 'inline-block',
+                            whiteSpace: 'nowrap',
+                            marginRight: wordIndex === words.length - 1 ? 0 : currentSpacing,
+                            verticalAlign: 'top'
+                        }}
+                    >
+                        {word.map((letter, letterIndex) => {
+                            const index = words
+                                .slice(0, wordIndex)
+                                .reduce((acc, w) => acc + w.length, 0) + letterIndex;
 
-                        return (
-                            <animated.span
-                                key={index}
-                                style={{
-                                    ...springs[index],
-                                    display: 'inline-block',
-                                    willChange: 'transform, opacity',
-                                    verticalAlign: 'top',
-                                }}
-                            >
-                                {letter}
-                            </animated.span>
-                        );
-                    })}
-                </span>
-            ))}
-        </p>
+                            return (
+                                <animated.span
+                                    key={index}
+                                    style={{
+                                        ...springs[index],
+                                        display: 'inline-block',
+                                        willChange: 'transform, opacity',
+                                        verticalAlign: 'top',
+                                    }}
+                                >
+                                    {letter}
+                                </animated.span>
+                            );
+                        })}
+                    </span>
+                ))}
+            </p>
+        </div>
     );
 };
 

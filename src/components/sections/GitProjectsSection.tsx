@@ -297,11 +297,14 @@ const ProjectCard = ({
           }}
         >
           <Card 
-            className="relative overflow-hidden dark:bg-black/100 bg-white/[0.1] 
-              border-[1px] border-black/[0.15] dark:border-white/[0.08] 
-              hover:border-black/25 dark:hover:border-white/[0.15] 
+            className="relative overflow-hidden bg-white dark:bg-black/100
+              border-[1px] border-[#0071a9]/[0.15] dark:border-white/[0.08] 
+              hover:border-[#0071a9]/25 dark:hover:border-white/[0.15] 
               transition-all duration-500 group-hover:shadow-lg
-              ring-1 ring-black/[0.05] dark:ring-white/[0.05]"
+              ring-1 ring-[#0071a9]/[0.05] dark:ring-white/[0.05]
+              backdrop-blur-sm dark:backdrop-blur-md
+              [@supports_not_(backdrop-filter:blur(8px))]:bg-white
+              dark:[@supports_not_(backdrop-filter:blur(8px))]:bg-black/95"
             onMouseEnter={() => setIsHovered(true)}
             onMouseLeave={() => setIsHovered(false)}
           >

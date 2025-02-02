@@ -59,11 +59,11 @@ export const AnimatedGradientText = ({ text, className = "" }: AnimatedTextProps
             )`
           : `linear-gradient(
               135deg,
-              rgba(0, 0, 0, 1) 0%,
-              rgba(75, 85, 99, 0.9) 25%,
-              rgba(0, 0, 0, 1) 50%,
-              rgba(75, 85, 99, 0.9) 75%,
-              rgba(0, 0, 0, 1) 100%
+              rgba(0, 113, 169, 1) 0%,
+              rgba(41, 143, 194, 0.7) 15%,
+              rgba(0, 113, 169, 1) 50%,
+              rgba(41, 143, 194, 0.7) 75%,
+              rgba(0, 113, 169, 1) 100%
             )`,
         backgroundSize: "200% 100%",
         WebkitBackgroundClip: "text",
@@ -73,7 +73,7 @@ export const AnimatedGradientText = ({ text, className = "" }: AnimatedTextProps
         // Add subtle text shadow for depth
         textShadow: effectiveTheme === 'dark' 
           ? '0 0 30px rgba(255,255,255,0.15)'
-          : '0 0 30px rgba(0,0,0,0.15)',
+          : '0 0 30px rgba(41,143,194,0.2)',
       }}
     >
       {text}

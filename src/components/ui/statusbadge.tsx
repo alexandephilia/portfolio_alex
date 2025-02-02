@@ -10,22 +10,22 @@ export function StatusBadge({ status, icon, text }: StatusBadgeProps) {
   const getStatusColor = (status: string) => {
     switch (status.toLowerCase()) {
       case "working on":
-        return "bg-sky-400/80";
+        return "bg-[#0071a9]/80";
       case "completed":
-        return "bg-sky-400/80";
+        return "bg-[#0071a9]/80";
       default:
-        return "bg-sky-400/80";
+        return "bg-[#0071a9]/80";
     }
   };
 
   const getStatusGlow = (status: string) => {
     switch (status.toLowerCase()) {
       case "working on":
-        return "shadow-[0_0_8px_#38bdf8,0_0_15px_rgba(56,189,248,0.6)]";
+        return "shadow-[0_0_8px_#0071a9,0_0_15px_rgba(0,113,169,0.6)]";
       case "completed":
-        return "shadow-[0_0_8px_#38bdf8,0_0_15px_rgba(56,189,248,0.6)]";
+        return "shadow-[0_0_8px_#0071a9,0_0_15px_rgba(0,113,169,0.6)]";
       default:
-        return "shadow-[0_0_8px_#38bdf8,0_0_15px_rgba(56,189,248,0.6)]";
+        return "shadow-[0_0_8px_#0071a9,0_0_15px_rgba(0,113,169,0.6)]";
     }
   };
 
