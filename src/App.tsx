@@ -58,7 +58,7 @@ const ScrambleLoader = () => {
       exit={{ opacity: 0 }}
     >
       <div className="font-mono text-foreground/80 text-lg flex items-center">
-        <motion.span 
+        <motion.span
           dangerouslySetInnerHTML={{ __html: scrambledText }}
           className="[&_.blur-sm]:blur-[2px] [&_.no-blur]:blur-none"
         />
@@ -108,41 +108,50 @@ const DelayedRender = ({ children }: { children: React.ReactNode }) => {
   );
 };
 
-const App = () => (
-  <QueryClientProvider client={queryClient}>
-    <ThemeProvider defaultTheme="system" storageKey="vite-ui-theme">
-      <TooltipProvider>
-        <CustomCursor />
-        <Toaster />
-        <Sonner />
-        <Router>
-          <Routes>
-            <Route
-              path="/"
-              element={
-                <Suspense fallback={<TerminalLoader />}>
-                  <Index />
-                </Suspense>
-              }
-            />
-            <Route
-              path="/projects/*"
-              element={
-                <Suspense fallback={<ScrambleLoader />}>
-                  <DelayedRender>
-                    <Routes>
-                      <Route path="/ai" element={<AIResearchPage />} />
-                      <Route path="/prompt" element={<PromptEngineeringPage />} />
-                    </Routes>
-                  </DelayedRender>
-                </Suspense>
-              }
-            />
-          </Routes>
-        </Router>
-      </TooltipProvider>
-    </ThemeProvider>
-  </QueryClientProvider>
-);
+const App = () => {
+  const [isFirstLoad, setIsFirstLoad] = useState(true);
+
+  useEffect(() => {
+    // Set isFirstLoad to false after initial render
+    setIsFirstLoad(false);
+  }, []);
+
+  return (
+    <QueryClientProvider client={queryClient}>
+      <ThemeProvider defaultTheme="system" storageKey="vite-ui-theme">
+        <TooltipProvider>
+          <CustomCursor />
+          <Toaster />
+          <Sonner />
+          <Router>
+            <Routes>
+              <Route
+                path="/"
+                element={
+                  <Suspense fallback={<TerminalLoader />}>
+                    <Index />
+                  </Suspense>
+                }
+              />
+              <Route
+                path="/projects/*"
+                element={
+                  <Suspense fallback={<ScrambleLoader />}>
+                    <DelayedRender>
+                      <Routes>
+                        <Route path="/ai" element={<AIResearchPage />} />
+                        <Route path="/prompt" element={<PromptEngineeringPage />} />
+                      </Routes>
+                    </DelayedRender>
+                  </Suspense>
+                }
+              />
+            </Routes>
+          </Router>
+        </TooltipProvider>
+      </ThemeProvider>
+    </QueryClientProvider>
+  );
+};
 
 export default App;

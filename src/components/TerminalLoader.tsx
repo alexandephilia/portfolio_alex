@@ -1,78 +1,64 @@
 import { useEffect, useState } from "react";
+import SplitText from "@/components/ui/split-text";
+import { motion, AnimatePresence } from "framer-motion";
+import { useNavigate } from "react-router-dom";
 
 const TerminalLoader = () => {
-    const [lines, setLines] = useState<Array<{ char: string; revealed: boolean }[]>>([[]]);
-    const loadingText = [
+    const [isAnimationComplete, setIsAnimationComplete] = useState(false);
+    const [shouldExit, setShouldExit] = useState(false);
+    const navigate = useNavigate();
 
-        "$ establishing_connection",
-    ];
-    const [currentLineIndex, setCurrentLineIndex] = useState(0);
-    const [currentCharIndex, setCurrentCharIndex] = useState(0);
+    const text = "Hello!";
+    const totalLetters = text.length;
+    const baseDelay = { mobile: 75, tablet: 100, desktop: 150 };
 
-    // Handle typing and immediate reveal of characters
+    // Calculate total animation time including all letters
+    const getTotalAnimationTime = () => {
+        // Use the desktop delay as base since it's the longest
+        return totalLetters * baseDelay.desktop + 1000; // Add 1s buffer for safety
+    };
+
     useEffect(() => {
-        if (currentLineIndex >= loadingText.length) return;
-        const currentLine = loadingText[currentLineIndex];
-
-        if (currentCharIndex < currentLine.length) {
+        if (isAnimationComplete && !shouldExit) {
+            // Wait for all letters to finish before starting exit
             const timer = setTimeout(() => {
-                // Add new character as revealed
-                setLines(prev => {
-                    const newLines = [...prev];
-                    newLines[currentLineIndex] = [
-                        ...newLines[currentLineIndex],
-                        { char: currentLine[currentCharIndex], revealed: false }
-                    ];
-
-                    // Reveal the character after a brief delay
-                    setTimeout(() => {
-                        setLines(prevLines => {
-                            const updatedLines = [...prevLines];
-                            updatedLines[currentLineIndex][currentCharIndex].revealed = true;
-                            return updatedLines;
-                        });
-                    }, 100); // Adjust this delay to control when the character reveals after typing
-
-                    return newLines;
-                });
-                setCurrentCharIndex(prev => prev + 1);
-            }, 35); // Typing speed
+                setShouldExit(true);
+            }, 1000); // Small buffer after last letter
             return () => clearTimeout(timer);
-        } else {
-            // Move to next line after current line is complete
-            const nextLineTimer = setTimeout(() => {
-                if (currentLineIndex < loadingText.length - 1) {
-                    setCurrentLineIndex(prev => prev + 1);
-                    setCurrentCharIndex(0);
-                    setLines(prev => [...prev, []]);
-                }
-            }, 400); // Delay before next line
-            return () => clearTimeout(nextLineTimer);
         }
-    }, [currentLineIndex, currentCharIndex]);
+
+        if (shouldExit) {
+            // Only navigate after exit animation is done
+            const timer = setTimeout(() => {
+                navigate("/");
+            }, 500); // Match the exit animation duration
+            return () => clearTimeout(timer);
+        }
+    }, [isAnimationComplete, shouldExit, navigate]);
 
     return (
-        <div className="flex items-center justify-center min-h-screen bg-background">
-            <pre className="font-mono text-sm sm:text-base text-foreground">
-                {lines.map((line, lineIndex) => (
-                    <div key={lineIndex}>
-                        {line.map((char, charIndex) => (
-                            <span
-                                key={charIndex}
-                                className={`inline-block transition-all duration-300
-                  ${char.revealed ? 'blur-none opacity-100' : 'blur-[4px] opacity-40'}`}
-                            >
-                                {char.char}
-                            </span>
-                        ))}
-                        {lineIndex === currentLineIndex && (
-                            <span className="animate-pulse inline-block">_</span>
-                        )}
-                    </div>
-                ))}
-            </pre>
-        </div>
+        <AnimatePresence mode="wait">
+            {!shouldExit && (
+                <motion.div
+                    className="flex items-center justify-center min-h-screen bg-background"
+                    initial={{ opacity: 1 }}
+                    exit={{ opacity: 0 }}
+                    transition={{ duration: 0.5 }}
+                >
+                    <SplitText
+                        text={text}
+                        className="text-8xl font-bold text-foreground"
+                        delay={baseDelay}
+                        animationFrom={{ opacity: 0, transform: 'translate3d(0,40px,0)' }}
+                        animationTo={{ opacity: 1, transform: 'translate3d(0,0,0)' }}
+                        textAlign="center"
+                        onLetterAnimationComplete={() => setIsAnimationComplete(true)}
+                        fontSize={{ mobile: '3rem', tablet: '5rem', desktop: '9rem' }}
+                    />
+                </motion.div>
+            )}
+        </AnimatePresence>
     );
 };
 
-export default TerminalLoader; 
+export default TerminalLoader;
