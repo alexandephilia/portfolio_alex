@@ -390,51 +390,61 @@ const SkillCard = ({
   skills: Skill[];
 }) => {
   const overallProgress = getOverallProgress(categorySkills);
+  const [isTouched, setIsTouched] = React.useState(false);
 
   return (
-      <ShimmerButton className="w-full group">
-        <Card className="relative overflow-hidden dark:bg-black/100 bg-white/[0.1] 
+    <ShimmerButton className="w-full group">
+      <Card 
+        className={`
+          relative overflow-hidden dark:bg-black/100 bg-white/[0.1] 
           border-[1px] border-[#0071a9]/[0.15] dark:border-white/[0.08] 
           hover:border-[#0071a9]/25 dark:hover:border-white/[0.15] 
           transition-all duration-500 group-hover:shadow-lg
-          ring-1 ring-[#0071a9]/[0.05] dark:ring-white/[0.05] shadow-sm hover:shadow-[0_0_15px_rgba(0,113,169,0.1)] dark:hover:shadow-[0_0_15px_rgba(255,255,255,0.1)]">
-          <CardContent className="p-6">
-            <div className="flex items-center gap-2 mb-4">
-              <Icon className="h-5 w-5 text-muted-foreground group-hover:text-primary transition-colors" />
-              <h3 className="text-lg font-semibold">{title}</h3>
-            </div>
+          ring-1 ring-[#0071a9]/[0.05] dark:ring-white/[0.05] shadow-sm 
+          hover:shadow-[0_0_15px_rgba(0,113,169,0.1)] dark:hover:shadow-[0_0_15px_rgba(255,255,255,0.1)]
+          ${isTouched ? 'border-[#0071a9]/25 dark:border-white/[0.15] shadow-lg' : ''}
+        `}
+        onTouchStart={() => setIsTouched(true)}
+        onTouchEnd={() => setIsTouched(false)}
+        onTouchCancel={() => setIsTouched(false)}
+      >
+        <CardContent className="p-6">
+          <div className="flex items-center gap-2 mb-4">
+            <Icon className={`h-5 w-5 text-muted-foreground group-hover:text-primary transition-colors ${isTouched ? 'text-primary' : ''}`} />
+            <h3 className="text-lg font-semibold">{title}</h3>
+          </div>
 
-            {/* Overall Progress */}
-            <div className="mb-6">
-              <div className="flex items-center justify-between mb-2">
-                <span className="text-xs text-muted-foreground">Overall Proficiency</span>
-                <span className="text-xs font-medium">{Math.round(overallProgress)}%</span>
-              </div>
-              <div className="h-1.5 bg-muted/50 rounded-full overflow-hidden">
-                <motion.div
-                  className="h-full bg-gradient-to-r from-primary/50 to-primary rounded-full"
-                  initial={{ width: 0 }}
-                  whileInView={{ width: `${overallProgress}%` }}
-                  viewport={{ once: true }}
-                  transition={{ duration: 1, delay: 0.2 }}
-                />
-              </div>
+          {/* Overall Progress */}
+          <div className="mb-6">
+            <div className="flex items-center justify-between mb-2">
+              <span className="text-xs text-muted-foreground">Overall Proficiency</span>
+              <span className="text-xs font-medium">{Math.round(overallProgress)}%</span>
             </div>
-            
-            {/* Skills Grid */}
-            <div className="grid grid-cols-2 gap-4">
-              {categorySkills.map((skill) => (
-                <motion.div
-                  key={skill.name}
-                  className="relative"
-                  initial={{ opacity: 0, y: 20 }}
-                  whileInView={{ opacity: 1, y: 0 }}
-                  viewport={{ once: true }}
-                  transition={{ duration: 0.5 }}
-                >
+            <div className="h-1.5 bg-muted/50 rounded-full overflow-hidden">
+              <motion.div
+                className="h-full bg-gradient-to-r from-primary/50 to-primary rounded-full"
+                initial={{ width: 0 }}
+                whileInView={{ width: `${overallProgress}%` }}
+                viewport={{ once: true }}
+                transition={{ duration: 1, delay: 0.2 }}
+              />
+            </div>
+          </div>
+          
+          {/* Skills Grid */}
+          <div className="grid grid-cols-2 gap-4">
+            {categorySkills.map((skill) => (
+              <motion.div
+                key={skill.name}
+                className="relative"
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ duration: 0.5 }}
+              >
                 <AnimatedTooltip content={skillDescriptions[skill.name]}>
                   <div className="flex flex-col items-center sm:flex-row sm:items-start gap-2 text-center sm:text-left">
-                    <skill.icon className="h-4 w-4 text-muted-foreground" />
+                    <skill.icon className={`h-4 w-4 text-muted-foreground ${isTouched ? 'text-primary' : ''}`} />
                     <div className="flex flex-col items-center sm:items-start">
                       <span className="text-sm">{skill.name}</span>
                       <Badge 
@@ -446,12 +456,12 @@ const SkillCard = ({
                     </div>
                   </div>
                 </AnimatedTooltip>
-                </motion.div>
-              ))}
-            </div>
-          </CardContent>
-        </Card>
-      </ShimmerButton>
+              </motion.div>
+            ))}
+          </div>
+        </CardContent>
+      </Card>
+    </ShimmerButton>
   );
 };
 

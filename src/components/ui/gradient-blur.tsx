@@ -1,11 +1,18 @@
 import React from 'react';
 
-export const GradientBlur = () => {
+interface GradientBlurProps {
+    isFixed?: boolean;
+    className?: string;
+}
+
+export const GradientBlur: React.FC<GradientBlurProps> = ({ isFixed = true, className = '' }) => {
+    const positionClass = isFixed ? 'fixed' : 'absolute';
+    
     return (
         <div
-            className="fixed bottom-0 left-0 right-0 z-40 pointer-events-none"
+            className={`${positionClass} bottom-0 left-0 right-0 pointer-events-none ${className}`}
             style={{
-                height: '6vh',
+                height: isFixed ? '6vh' : '12vh',
                 transform: 'translateZ(0)',
                 willChange: 'transform',
                 isolation: 'isolate'

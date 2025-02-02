@@ -9,6 +9,7 @@ import { ThemeProvider } from "./components/theme-provider";
 import CustomCursor from "./components/CustomCursor";
 import TerminalLoader from "./components/TerminalLoader";
 import { motion, AnimatePresence } from "framer-motion";
+import { BlogModalProvider } from './contexts/BlogModalContext';
 
 // Lazy load pages with explicit loading states
 const Index = lazy(() => 
@@ -257,14 +258,16 @@ const usePrevPath = () => {
 const App = () => {
   return (
     <QueryClientProvider client={queryClient}>
-      <ThemeProvider defaultTheme="system" storageKey="vite-ui-theme">
+      <ThemeProvider defaultTheme="dark" storageKey="vite-ui-theme">
         <TooltipProvider>
-          <CustomCursor />
-          <Toaster />
-          <Sonner />
-          <Router>
-            <AppRoutes />
-          </Router>
+          <BlogModalProvider>
+            <Router>
+              <CustomCursor />
+              <Toaster />
+              <Sonner />
+              <AppRoutes />
+            </Router>
+          </BlogModalProvider>
         </TooltipProvider>
       </ThemeProvider>
     </QueryClientProvider>

@@ -1,4 +1,6 @@
 import { useEffect, useState, useRef } from "react";
+import { motion } from "framer-motion";
+import { cn } from "../lib/utils";
 
 const CustomCursor = () => {
   const cursorRef = useRef<HTMLDivElement>(null);
@@ -204,47 +206,62 @@ const CustomCursor = () => {
     <div
       ref={cursorRef}
       className={`
-        fixed inset-0 pointer-events-none z-[9999] mix-blend-difference
+        fixed inset-0 pointer-events-none z-[999999] mix-blend-difference
         transform will-change-transform
         transition-all duration-150
-        ${cursorVariant === 'default' ? 'w-2 h-2 rounded-full bg-white' : ''}
-        ${cursorVariant === 'text' ? 'w-1.5 h-1.5 rounded-full bg-white' : ''}
-        ${cursorVariant === 'link' ? 'w-3 h-3 rounded-full bg-white/90 blur-[0.5px]' : ''}
-        ${cursorVariant === 'button' ? 'w-4 h-4 rounded-full bg-white/80 blur-[1px]' : ''}
+        ${cursorVariant === 'default' ? 'w-2 h-2' : ''}
+        ${cursorVariant === 'text' ? 'w-1.5 h-1.5' : ''}
+        ${cursorVariant === 'link' ? 'w-3 h-3' : ''}
+        ${cursorVariant === 'button' ? 'w-4 h-4' : ''}
         ${isHovered ? 'scale-[1.5] mix-blend-difference' : 'scale-100'}
       `}
       style={{
         transition: magneticElement ? 'none' : 'transform 0.2s ease-out',
+        transform: 'translate3d(0,0,0)', // Force GPU acceleration
       }}
     >
+      {/* Base cursor dot with blur effect */}
+      <div className="absolute inset-0 rounded-full bg-white/90 backdrop-blur-[0.5px] cursor-blur" />
+      <div className="absolute inset-0 rounded-full bg-white/70 backdrop-blur-[1px] cursor-blur" />
+      <div className="absolute inset-0 rounded-full bg-white/50 backdrop-blur-[2px] cursor-blur" />
+      
+      {/* Magnetic effect layers */}
       {magneticStrengthRef.current > 0 && (
         <>
           <div
-            className="absolute inset-0 rounded-full"
+            className="absolute inset-0 rounded-full cursor-blur-strong"
             style={{
               background: `radial-gradient(circle, rgba(255,255,255,0.9) 0%, transparent 70%)`,
-              transform: `scale(${1 + magneticStrengthRef.current * 1.2})`,
+              transform: `translate3d(0,0,0) scale(${1 + magneticStrengthRef.current * 1.2})`,
               opacity: magneticStrengthRef.current * 0.6,
-              animation: 'pulse 1.5s ease-in-out infinite'
+              animation: 'pulse 1.5s ease-in-out infinite',
+              backdropFilter: 'blur(3px)',
+              WebkitBackdropFilter: 'blur(3px)'
             }}
           />
           <div
-            className="absolute inset-0 rounded-full"
+            className="absolute inset-0 rounded-full cursor-blur"
             style={{
               border: '1px solid rgba(255,255,255,0.3)',
-              transform: `scale(${1 + magneticStrengthRef.current * 1.5})`,
-              opacity: magneticStrengthRef.current * 0.3
+              transform: `translate3d(0,0,0) scale(${1 + magneticStrengthRef.current * 1.5})`,
+              opacity: magneticStrengthRef.current * 0.3,
+              backdropFilter: 'blur(2px)',
+              WebkitBackdropFilter: 'blur(2px)'
             }}
           />
         </>
       )}
 
+      {/* Interactive state effect */}
       {(cursorVariant === 'link' || cursorVariant === 'button') && (
         <div
-          className="absolute inset-0 rounded-full bg-white/20"
+          className="absolute inset-0 rounded-full bg-white/20 cursor-blur"
           style={{
             animation: 'ping 1s cubic-bezier(0, 0, 0.2, 1) infinite',
-            opacity: magneticStrengthRef.current > 0 ? 0.3 : 0.2
+            opacity: magneticStrengthRef.current > 0 ? 0.3 : 0.2,
+            backdropFilter: 'blur(1px)',
+            WebkitBackdropFilter: 'blur(1px)',
+            transform: 'translate3d(0,0,0)'
           }}
         />
       )}
