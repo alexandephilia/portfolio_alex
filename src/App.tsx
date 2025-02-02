@@ -184,15 +184,22 @@ const AppRoutes = () => {
   const isComingFromProject = previousPath?.startsWith('/projects/');
 
   return (
-    <AnimatePresence mode="wait">
+    <AnimatePresence mode="sync">
       <Routes location={location} key={location.pathname}>
         <Route
           path="/"
           element={
             <Suspense fallback={isComingFromProject ? <ScrambleLoader /> : null}>
-              <TerminalLoaderWrapper>
-                <Index />
-              </TerminalLoaderWrapper>
+              <motion.div
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                exit={{ opacity: 0 }}
+                transition={{ duration: 0.3 }}
+              >
+                <TerminalLoaderWrapper>
+                  <Index />
+                </TerminalLoaderWrapper>
+              </motion.div>
             </Suspense>
           }
         />
