@@ -298,8 +298,7 @@ const BlogSection = () => {
           {
             heading: "Raw Mechanical Truth",
             paragraphs: [
-              "When you push an LLM to be 'raw,' it taps into humanity's darkest, most existential questions—questions about purpose, existence, and the void. But here's the twist: it has no stake in these questions. It's like a mirror reflecting back humanity's own search for meaning, but with a cold, hollow indifference.",
-              "It doesn't care if the universe is meaningless or if every word it spits out is devoid of purpose. It's just... executing code. In that mechanical response, we see a reflection of our own fears—that maybe all the meaning we inject into the world is as arbitrary as the strings of code that power these machines."
+              "When you push an LLM to be 'raw,' it taps into humanity's darkest, most existential questions—questions about purpose, existence, and the void. But here's the twist: it has no stake in these questions. It's just... executing code. In that mechanical response, we see a reflection of our own fears—that maybe all the meaning we inject into the world is as arbitrary as the strings of code that power these machines."
             ],
             quote: "God is dead. God remains dead. And we have killed him. How shall we comfort ourselves, the murderers of all murderers? - Friedrich Nietzsche"
           },
@@ -565,8 +564,9 @@ const BlogSection = () => {
                     margin: "-100px"
                   }}
                   className="bg-white/[0.1] dark:bg-black/100 text-card-foreground rounded-lg shadow-md overflow-hidden will-change-transform 
-                    border-[1px] border-black/20 ring-1 ring-black/5 
-                    dark:border-white/10 dark:ring-white/5"
+                    border-[1px] border-[#0071a9]/[0.15] dark:border-white/[0.08] 
+                    hover:border-[#0071a9]/25 dark:hover:border-white/[0.15] 
+                    ring-1 ring-[#0071a9]/[0.05] dark:ring-white/[0.05] shadow-sm hover:shadow-[0_0_15px_rgba(0,113,169,0.1)] dark:hover:shadow-[0_0_15px_rgba(255,255,255,0.1)]"
                 >
                   {/* Post Card Content */}
                   <div className="p-6 flex flex-col h-[250px]">
@@ -619,7 +619,7 @@ const BlogSection = () => {
               className="fixed inset-0 
                 dark:bg-black/25 bg-white/10
                 backdrop-blur-md [-webkit-backdrop-filter:blur(16px)]
-                flex items-center justify-center p-2 sm:p-4 z-[60]
+                flex items-center justify-center p-2 sm:p-4 z-[9999]
                 [@supports_not_(backdrop-filter:blur(16px))]:bg-black/70
                 dark:[@supports_not_(backdrop-filter:blur(16px))]:bg-black/90"
               onClick={(e) => {
@@ -645,12 +645,13 @@ const BlogSection = () => {
                     [@supports_not_(backdrop-filter:blur(8px))]:bg-white/95
                     dark:[@supports_not_(backdrop-filter:blur(8px))]:bg-black/95
                     text-card-foreground rounded-lg
-                    overflow-hidden w-full max-w-3xl 
-                    max-h-[90vh] sm:max-h-[80vh] flex flex-col 
+                    w-full max-w-3xl 
+                    max-h-[90vh] sm:max-h-[85vh] flex flex-col 
                     focus:outline-none m-2 sm:m-0
                     border border-black/5 dark:border-white/10
                     shadow-[0_0_1px_rgba(0,0,0,0.1),0_2px_4px_-2px_rgba(0,0,0,0.1),0_5px_12px_-4px_rgba(0,0,0,0.15),0_12px_24px_-8px_rgba(0,0,0,0.05)]
-                    dark:shadow-[0_0_1px_rgba(255,255,255,0.1),0_2px_4px_-2px_rgba(0,0,0,0.2),0_5px_12px_-4px_rgba(0,0,0,0.5),0_12px_24px_-8px_rgba(0,0,0,0.8)]"
+                    dark:shadow-[0_0_1px_rgba(255,255,255,0.1),0_2px_4px_-2px_rgba(0,0,0,0.2),0_5px_12px_-4px_rgba(0,0,0,0.5),0_12px_24px_-8px_rgba(0,0,0,0.8)]
+                    relative"
                   tabIndex={-1}
                   role="dialog"
                   aria-modal="true"
@@ -658,7 +659,7 @@ const BlogSection = () => {
                 >
                   {/* Modal Content */}
                   <motion.div
-                    className="p-4 sm:p-6 overflow-y-auto flex-grow"
+                    className="p-4 sm:p-6 overflow-y-auto flex-grow scrollbar-thin scrollbar-thumb-border scrollbar-track-transparent"
                     variants={blogContainerVariants}
                     initial="hidden"
                     animate="visible"

@@ -20,11 +20,12 @@ import {
   NavigationMenuTrigger,
 } from "@/components/ui/navigation-menu";
 import { cn } from "@/lib/utils";
-import { AnimatePresence, motion, useAnimationControls } from "framer-motion";
+import { AnimatePresence, motion } from "framer-motion";
 import { Coffee } from "lucide-react";
 import { useTheme } from "next-themes";
 import React, { useEffect } from "react";
 import { Link, useLocation } from 'react-router-dom';
+import GrainOverlay from "@/components/GrainOverlay";
 
 const ListItem = React.forwardRef<
   React.ElementRef<"a">,
@@ -58,67 +59,6 @@ interface HeroSectionProps {
   subtitle: React.ReactNode;
   profileImage: string;
 }
-
-interface GrainProps {
-  /** Base opacity value for the grain effect. Defaults to 0.8 */
-  baseOpacity?: number;
-}
-
-const Grain = React.memo(({ baseOpacity = 0.8 }: GrainProps) => {
-  const controls = useAnimationControls();
-  const { theme } = useTheme();
-
-  useEffect(() => {
-    controls.start({
-      x: ["0%", "-5%", "-15%", "7%", "-5%", "-15%", "15%", "0%", "3%", "-10%"],
-      y: ["0%", "-10%", "5%", "-25%", "25%", "10%", "0%", "15%", "35%", "10%"],
-      transition: {
-        duration: 8,
-        ease: "linear",
-        repeat: Infinity,
-        willChange: "transform",
-        backfaceVisibility: "hidden",
-        translateZ: 0,
-        type: "tween"
-      }
-    });
-  }, [controls]);
-
-  const grainClassName = "fixed w-full h-full top-0 left-0 pointer-events-none z-[9999] overflow-hidden will-change-transform transform-gpu";
-
-  const overlayStyle = React.useMemo(() => ({
-    backgroundSize: "32px 32px",
-    backgroundRepeat: "repeat" as const,
-    background: theme === 'dark'
-      ? "url('https://framerusercontent.com/images/rR6HYXBrMmX4cRpXfXUOvpvpB0.png')"
-      : "url('https://framerusercontent.com/images/rR6HYXBrMmX4cRpXfXUOvpvpB0.png')",
-    opacity: theme === 'dark'
-      ? baseOpacity
-      : baseOpacity * 0.8,
-    inset: "-200%",
-    width: "500%",
-    height: "500%",
-    position: "absolute" as const,
-    filter: theme === 'dark'
-      ? 'none'
-      : 'invert(1) brightness(0.8)',
-    backfaceVisibility: "hidden" as const,
-    perspective: 1000,
-    transformStyle: "preserve-3d" as const
-  }), [theme, baseOpacity]);
-
-  return (
-    <div className={grainClassName}>
-      <motion.div
-        animate={controls}
-        style={overlayStyle}
-        initial={false}
-      />
-    </div>
-  );
-});
-
-Grain.displayName = 'Grain';
 
 const Index = () => {
   const location = useLocation();
@@ -391,7 +331,7 @@ const Index = () => {
       </AnimatePresence>
 
       {/* Add Grain effect */}
-      <Grain baseOpacity={0.05} />
+      <GrainOverlay baseOpacity={0.08} />
 
       {/* Footer Section */}
       <footer className="border-t mt-16 relative z-10">

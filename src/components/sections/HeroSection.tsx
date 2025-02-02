@@ -145,9 +145,8 @@ export const HeroSection = ({
           <ShimmerButton className="w-full">
             <div
               className="group relative transition-all duration-500 dark:bg-black/90 bg-white/[0.1] p-8 rounded-lg 
-                border-[1px] border-black/20 ring-1 ring-black/5 
-                dark:border-white/10 dark:ring-white/5
-"
+                border-[1px] border-[#0071a9]/[0.15] dark:border-white/[0.08] hover:border-[#0071a9]/25 dark:hover:border-white/[0.15] 
+                ring-1 ring-[#0071a9]/[0.05] dark:ring-white/[0.05] shadow-sm hover:shadow-[0_0_15px_rgba(0,113,169,0.1)] dark:hover:shadow-[0_0_15px_rgba(255,255,255,0.1)]"
             >
               {/* Grid Pattern Overlay - Light Mode */}
               <div className="absolute inset-0 w-full h-full dark:opacity-0">

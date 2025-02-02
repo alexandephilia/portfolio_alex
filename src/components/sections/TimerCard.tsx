@@ -336,7 +336,7 @@ export const TimerCard = () => {
             <Card
                 onMouseEnter={() => setIsHovered(true)}
                 onMouseLeave={() => setIsHovered(false)}
-                className="relative overflow-hidden group hover:shadow-lg transition-all duration-500 dark:bg-black bg-white border-[1px] border-black/[0.15] dark:border-white/[0.08] hover:border-black/25 dark:hover:border-white/[0.15] ring-1 ring-black/[0.05] dark:ring-white/[0.05]"
+                className="relative overflow-hidden group hover:shadow-lg transition-all duration-500 dark:bg-black bg-white border-[1px] border-[#0071a9]/[0.15] dark:border-white/[0.08] hover:border-[#0071a9]/25 dark:hover:border-white/[0.15] ring-1 ring-[#0071a9]/[0.05] dark:ring-white/[0.05] shadow-sm hover:shadow-[0_0_15px_rgba(0,113,169,0.1)] dark:hover:shadow-[0_0_15px_rgba(255,255,255,0.1)]"
                 style={{
                     minHeight: '320px',
                     minWidth: isDesktop ? '390px' : 'auto',

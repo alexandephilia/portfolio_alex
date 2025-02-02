@@ -173,33 +173,37 @@ const TerminalLoaderWrapper = ({ children }: { children: React.ReactNode }) => {
 
 const AppRoutes = () => {
   const location = useLocation();
-  const [previousPath, setPreviousPath] = useState<string | null>(null);
-
-  // Track navigation
-  useEffect(() => {
-    setPreviousPath(location.pathname);
-  }, [location]);
-
-  // Only show scramble when coming back from project pages
-  const isComingFromProject = previousPath?.startsWith('/projects/');
+  const previousPath = usePrevPath();
+  const isNavigatingFromProject = previousPath?.includes('/projects');
 
   return (
-    <AnimatePresence mode="sync" initial={false}>
+    <AnimatePresence mode="wait" initial={false}>
       <Routes location={location} key={location.pathname}>
         <Route
           path="/"
           element={
-            <Suspense fallback={isComingFromProject ? <ScrambleLoader /> : null}>
-              <motion.div
-                initial={{ opacity: 0 }}
-                animate={{ opacity: 1 }}
-                exit={{ opacity: 0 }}
-                transition={{ duration: 0.3 }}
-              >
-                <TerminalLoaderWrapper>
+            <Suspense fallback={null}>
+              {isNavigatingFromProject ? (
+                <motion.div
+                  initial={{ opacity: 0 }}
+                  animate={{ opacity: 1 }}
+                  exit={{ opacity: 0 }}
+                  transition={{ duration: 0.3 }}
+                >
                   <Index />
+                </motion.div>
+              ) : (
+                <TerminalLoaderWrapper>
+                  <motion.div
+                    initial={{ opacity: 0 }}
+                    animate={{ opacity: 1 }}
+                    exit={{ opacity: 0 }}
+                    transition={{ duration: 0.3 }}
+                  >
+                    <Index />
+                  </motion.div>
                 </TerminalLoaderWrapper>
-              </motion.div>
+              )}
             </Suspense>
           }
         />
@@ -208,14 +212,12 @@ const AppRoutes = () => {
           element={
             <Suspense fallback={<ScrambleLoader />}>
               <motion.div
-                initial={{ opacity: 0 }}
-                animate={{ opacity: 1 }}
-                exit={{ opacity: 0 }}
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                exit={{ opacity: 0, y: -20 }}
                 transition={{ duration: 0.3 }}
               >
-                <DelayedRender>
-                  <AIResearchPage />
-                </DelayedRender>
+                <AIResearchPage />
               </motion.div>
             </Suspense>
           }
@@ -225,14 +227,12 @@ const AppRoutes = () => {
           element={
             <Suspense fallback={<ScrambleLoader />}>
               <motion.div
-                initial={{ opacity: 0 }}
-                animate={{ opacity: 1 }}
-                exit={{ opacity: 0 }}
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                exit={{ opacity: 0, y: -20 }}
                 transition={{ duration: 0.3 }}
               >
-                <DelayedRender>
-                  <PromptEngineeringPage />
-                </DelayedRender>
+                <PromptEngineeringPage />
               </motion.div>
             </Suspense>
           }
@@ -240,6 +240,18 @@ const AppRoutes = () => {
       </Routes>
     </AnimatePresence>
   );
+};
+
+// Add this hook to track previous path
+const usePrevPath = () => {
+  const location = useLocation();
+  const [prevPath, setPrevPath] = useState<string | null>(null);
+
+  useEffect(() => {
+    setPrevPath(location.pathname);
+  }, [location]);
+
+  return prevPath;
 };
 
 const App = () => {

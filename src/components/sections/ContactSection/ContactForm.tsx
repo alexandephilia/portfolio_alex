@@ -41,8 +41,9 @@ export const ContactForm = () => {
       className="w-full"
     >
       <Card className="overflow-hidden w-full bg-white dark:bg-black/100 
-        border-[1px] border-black/20 ring-1 ring-black/5 
-        dark:border-white/10 dark:ring-white/5">
+        border-[1px] border-[#0071a9]/[0.15] dark:border-white/[0.08] 
+        hover:border-[#0071a9]/25 dark:hover:border-white/[0.15] 
+        ring-1 ring-[#0071a9]/[0.05] dark:ring-white/[0.05] shadow-sm hover:shadow-[0_0_15px_rgba(0,113,169,0.1)] dark:hover:shadow-[0_0_15px_rgba(255,255,255,0.1)]">
         <div className="md:grid md:grid-cols-3">
           <div className="p-6 md:col-span-1 dark:text-white bg-white dark:bg-black/100">
             <h3 className="text-base md:text-xl font-bold mb-3">Let's Connect</h3>
@@ -67,9 +68,9 @@ export const ContactForm = () => {
                     name="name"
                     value={formData.name}
                     onChange={handleChange}
-                    className="w-full rounded-md border bg-white/[0.1] dark:bg-black/100 border-black/20 dark:border-white/10 
+                    className="w-full rounded-md border bg-white/[0.1] dark:bg-black/100 border-[#0071a9]/[0.15] dark:border-white/10 
                       px-3 py-2 text-sm dark:text-white placeholder:text-gray-500 
-                      focus:outline-none focus:ring-2 focus:ring-gray-200 dark:focus:ring-zinc-700/30 transition-all"
+                      focus:outline-none focus:ring-2 focus:ring-[#0071a9]/20 dark:focus:ring-zinc-700/30 transition-all"
                     required
                   />
                 </div>
@@ -80,9 +81,9 @@ export const ContactForm = () => {
                     type="email"
                     value={formData.email}
                     onChange={handleChange}
-                    className="w-full rounded-md border bg-white/[0.1] dark:bg-black/100 border-black/20 dark:border-white/10 
+                    className="w-full rounded-md border bg-white/[0.1] dark:bg-black/100 border-[#0071a9]/[0.15] dark:border-white/10 
                       px-3 py-2 text-sm dark:text-white placeholder:text-gray-500 
-                      focus:outline-none focus:ring-2 focus:ring-gray-200 dark:focus:ring-zinc-700/30 transition-all"
+                      focus:outline-none focus:ring-2 focus:ring-[#0071a9]/20 dark:focus:ring-zinc-700/30 transition-all"
                     required
                   />
                 </div>
@@ -94,9 +95,9 @@ export const ContactForm = () => {
                   name="subject"
                   value={formData.subject}
                   onChange={handleChange}
-                  className="w-full rounded-md border bg-white/[0.1] dark:bg-black/100 border-black/20 dark:border-white/10 
+                  className="w-full rounded-md border bg-white/[0.1] dark:bg-black/100 border-[#0071a9]/[0.15] dark:border-white/10 
                     px-3 py-2 text-sm dark:text-white placeholder:text-gray-500 
-                    focus:outline-none focus:ring-2 focus:ring-gray-200 dark:focus:ring-zinc-700/30 transition-all"
+                    focus:outline-none focus:ring-2 focus:ring-[#0071a9]/20 dark:focus:ring-zinc-700/30 transition-all"
                   required
                 />
               </div>
@@ -107,9 +108,9 @@ export const ContactForm = () => {
                   name="message"
                   value={formData.message}
                   onChange={handleChange}
-                  className="w-full rounded-md border bg-white/[0.1] dark:bg-black/100 border-black/20 dark:border-white/10 
+                  className="w-full rounded-md border bg-white/[0.1] dark:bg-black/100 border-[#0071a9]/[0.15] dark:border-white/10 
                     px-3 py-2 h-32 resize-none text-sm text-black dark:text-white placeholder:text-gray-500 
-                    focus:outline-none focus:ring-2 focus:ring-gray-200 dark:focus:ring-zinc-700/30 transition-all"
+                    focus:outline-none focus:ring-2 focus:ring-[#0071a9]/20 dark:focus:ring-zinc-700/30 transition-all"
                   required
                 />
               </div>

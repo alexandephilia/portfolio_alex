@@ -194,8 +194,9 @@ export const ContactCard = ({ title, icon: Icon, value, color, delay = 0, href }
           >
             <motion.div
               className={`group transition-all ${color} cursor-pointer w-full bg-white dark:bg-black/100 
-                border-[1px] border-black/20 ring-1 ring-black/5 
-                dark:border-white/10 dark:ring-white/5`}
+                border-[1px] border-[#0071a9]/[0.15] dark:border-white/[0.08] 
+                hover:border-[${hoverColor}]/25 dark:hover:border-white/[0.15] 
+                ring-1 ring-[#0071a9]/[0.05] dark:ring-white/[0.05]`}
               initial="initial"
               whileHover="hover"
               animate="initial"

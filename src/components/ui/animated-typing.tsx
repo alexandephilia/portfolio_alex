@@ -100,7 +100,7 @@ export const AnimatedTyping = ({ words, className = "", textSize = "text-[11px] 
             duration: 0.6,
             repeat: Infinity,
             repeatType: "reverse",
-            ease: "steps(2)"
+            ease: [0.5, 0, 0.5, 1]
           }
         }}
         className="inline-block ml-[1px] text-[#2a2a29] dark:text-[#EEEEEE] dark:drop-shadow-[0_0_0.3rem_#ffffff70]"

@@ -394,10 +394,10 @@ const SkillCard = ({
   return (
       <ShimmerButton className="w-full group">
         <Card className="relative overflow-hidden dark:bg-black/100 bg-white/[0.1] 
-          border-[1px] border-black/[0.15] dark:border-white/[0.08] 
-          hover:border-black/25 dark:hover:border-white/[0.15] 
+          border-[1px] border-[#0071a9]/[0.15] dark:border-white/[0.08] 
+          hover:border-[#0071a9]/25 dark:hover:border-white/[0.15] 
           transition-all duration-500 group-hover:shadow-lg
-          ring-1 ring-black/[0.05] dark:ring-white/[0.05]">
+          ring-1 ring-[#0071a9]/[0.05] dark:ring-white/[0.05] shadow-sm hover:shadow-[0_0_15px_rgba(0,113,169,0.1)] dark:hover:shadow-[0_0_15px_rgba(255,255,255,0.1)]">
           <CardContent className="p-6">
             <div className="flex items-center gap-2 mb-4">
               <Icon className="h-5 w-5 text-muted-foreground group-hover:text-primary transition-colors" />

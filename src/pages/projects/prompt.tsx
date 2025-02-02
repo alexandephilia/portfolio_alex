@@ -111,7 +111,12 @@ const Modal = ({ isOpen, onClose, children }: {
 
     return (
         <div className="fixed inset-0 bg-background/80 backdrop-blur-sm z-40 flex items-start justify-center overflow-y-auto pt-24 px-4 pb-8">
-            <div className="bg-card border border-border rounded-lg w-full max-w-3xl relative">
+            <div className="bg-card w-full max-w-3xl relative overflow-hidden transition-all duration-300
+                border-[1px] border-[#0071a9]/[0.15] dark:border-white/[0.08] 
+                hover:border-[#0071a9]/25 dark:hover:border-white/[0.15] 
+                ring-1 ring-[#0071a9]/[0.05] dark:ring-white/[0.05] 
+                shadow-sm hover:shadow-[0_0_15px_rgba(0,113,169,0.1)] dark:hover:shadow-[0_0_15px_rgba(255,255,255,0.1)]
+                rounded-lg">
                 <div className="absolute right-2 top-2 z-10">
                     <Button
                         variant="ghost"
@@ -231,33 +236,188 @@ const TypewriterText: React.FC<TypewriterTextProps> = ({ text, onComplete, class
     );
 };
 
+// Add PromptCard component before PromptEngineeringPage
+const PromptCard = ({ 
+    prompt, 
+    index, 
+    isExiting, 
+    onSelect 
+}: { 
+    prompt: Prompt; 
+    index: number; 
+    isExiting: boolean;
+    onSelect: () => void;
+}) => {
+    const [isHovered, setIsHovered] = useState(false);
+    const [position, setPosition] = useState({ x: 0, y: 0 });
+    const cardRef = useRef<HTMLDivElement>(null);
+
+    useEffect(() => {
+        const handleMouseMove = (e: MouseEvent) => {
+            if (!cardRef.current || !isHovered) return;
+            const rect = cardRef.current.getBoundingClientRect();
+            setPosition({
+                x: e.clientX - rect.left,
+                y: e.clientY - rect.top
+            });
+        };
+
+        window.addEventListener('mousemove', handleMouseMove);
+        return () => window.removeEventListener('mousemove', handleMouseMove);
+    }, [isHovered]);
+
+    return (
+        <motion.div
+            ref={cardRef}
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, y: -20 }}
+            transition={{ duration: 0.3, delay: index * 0.1 }}
+            onClick={onSelect}
+            onMouseEnter={() => setIsHovered(true)}
+            onMouseLeave={() => setIsHovered(false)}
+            className="relative group"
+        >
+            <Card className="relative overflow-hidden transition-all duration-300 cursor-pointer
+                bg-white dark:bg-black/100
+                border-[1px] border-[#0071a9]/[0.15] dark:border-white/[0.08] 
+                hover:border-[#0071a9]/25 dark:hover:border-white/[0.15] 
+                ring-1 ring-[#0071a9]/[0.05] dark:ring-white/[0.05] 
+                shadow-sm hover:shadow-[0_0_15px_rgba(0,113,169,0.1)] dark:hover:shadow-[0_0_15px_rgba(255,255,255,0.1)]"
+                style={{
+                    transform: isHovered ? 'translateY(-4px)' : 'translateY(0)',
+                }}
+            >
+                {/* Grid Pattern Overlay - Light Mode */}
+                <div className="absolute inset-0 w-full h-full dark:opacity-0">
+                    <svg
+                        className="w-full h-full opacity-[0.08]"
+                        xmlns="http://www.w3.org/2000/svg"
+                        width="100%"
+                        height="100%"
+                    >
+                        <defs>
+                            <pattern
+                                id={`prompt-grid-light-${index}`}
+                                width="24"
+                                height="24"
+                                patternUnits="userSpaceOnUse"
+                            >
+                                <path
+                                    d="M 24 0 L 0 0 0 24"
+                                    fill="none"
+                                    stroke="black"
+                                    strokeWidth="0.5"
+                                />
+                            </pattern>
+                            <linearGradient id={`prompt-fade-light-${index}`} x1="0" y1="1" x2="0.5" y2="0.5">
+                                <stop offset="0" stopColor="white" />
+                                <stop offset="1" stopColor="white" stopOpacity="0" />
+                            </linearGradient>
+                            <mask id={`prompt-fade-mask-light-${index}`}>
+                                <rect width="100%" height="100%" fill={`url(#prompt-fade-light-${index})`} />
+                            </mask>
+                        </defs>
+                        <rect width="100%" height="100%" fill={`url(#prompt-grid-light-${index})`} mask={`url(#prompt-fade-mask-light-${index})`} />
+                    </svg>
+                </div>
+
+                {/* Grid Pattern Overlay - Dark Mode */}
+                <div className="absolute inset-0 w-full h-full opacity-0 dark:opacity-100">
+                    <svg
+                        className="w-full h-full opacity-[0.65]"
+                        xmlns="http://www.w3.org/2000/svg"
+                        width="100%"
+                        height="100%"
+                    >
+                        <defs>
+                            <pattern
+                                id={`prompt-grid-dark-${index}`}
+                                width="24"
+                                height="24"
+                                patternUnits="userSpaceOnUse"
+                            >
+                                <path
+                                    d="M 24 0 L 0 0 0 24"
+                                    fill="none"
+                                    stroke="rgba(255, 255, 255, 0.3)"
+                                    strokeWidth="0.5"
+                                />
+                            </pattern>
+                            <linearGradient id={`prompt-fade-dark-${index}`} x1="0" y1="1" x2="0.4" y2="0.8">
+                                <stop offset="0" stopColor="white" />
+                                <stop offset="1" stopColor="white" stopOpacity="0" />
+                            </linearGradient>
+                            <mask id={`prompt-fade-mask-dark-${index}`}>
+                                <rect width="100%" height="100%" fill={`url(#prompt-fade-dark-${index})`} />
+                            </mask>
+                        </defs>
+                        <rect width="100%" height="100%" fill={`url(#prompt-grid-dark-${index})`} mask={`url(#prompt-fade-mask-dark-${index})`} />
+                    </svg>
+                </div>
+
+                <CardHeader className="p-4 relative z-20">
+                    <CardTitle className="text-sm md:text-base text-foreground transition-colors duration-300 flex items-center gap-2">
+                        <FileText className="h-4 w-4 text-muted-foreground" />
+                        {prompt.title}
+                    </CardTitle>
+                </CardHeader>
+                <CardContent className="p-4 pt-0 flex-grow relative z-20">
+                    <div className="relative h-full">
+                        <pre className="bg-muted/10 backdrop-blur-sm p-3 rounded-md text-[10px] md:text-xs h-[160px] overflow-auto font-mono transition-colors duration-300 [scrollbar-width:thin] [&::-webkit-scrollbar]:w-2 [&::-webkit-scrollbar-track]:bg-transparent [&::-webkit-scrollbar-thumb]:bg-muted-foreground/20 [&::-webkit-scrollbar-thumb:hover]:bg-muted-foreground/30">
+                            <code className="block text-foreground/70 transition-colors duration-300">
+                                {prompt.content}
+                            </code>
+                        </pre>
+                        <div className="absolute inset-0 bg-gradient-to-b from-transparent via-transparent to-background/40 pointer-events-none transition-colors duration-300" />
+                    </div>
+                </CardContent>
+                <CardFooter className="p-4 pt-0 flex justify-between items-center mt-auto relative z-20 border-t border-border/50">
+                    <div className="text-[10px] md:text-xs text-muted-foreground transition-colors duration-300">
+                        {prompt.author}
+                    </div>
+                    <div className="flex items-center gap-2">
+                        <Badge variant="secondary" className="text-[10px] md:text-xs bg-muted/10 backdrop-blur-sm transition-colors duration-300">{prompt.tag}</Badge>
+                    </div>
+                </CardFooter>
+
+                {/* Shimmer effect */}
+                {isHovered && (
+                    <div
+                        className="absolute inset-0 z-10 transition-opacity duration-300"
+                        style={{
+                            background: `radial-gradient(600px circle at ${position.x}px ${position.y}px, rgba(255,255,255,0.1), transparent 40%)`
+                        }}
+                    />
+                )}
+            </Card>
+        </motion.div>
+    );
+};
+
 const PromptEngineeringPage = () => {
     const navigate = useNavigate();
-    const [hoveredCard, setHoveredCard] = useState<number | null>(null);
+    const [isExiting, setIsExiting] = useState(false);
     const [selectedPrompt, setSelectedPrompt] = useState<number | null>(null);
     const [isCopied, setIsCopied] = useState(false);
-    const [isExiting, setIsExiting] = useState(false);
-    const [exitingIndex, setExitingIndex] = useState<number | null>(null);
-
-    const copyToClipboard = async (text: string) => {
-        await navigator.clipboard.writeText(text);
-        setIsCopied(true);
-        setTimeout(() => setIsCopied(false), 2000);
-    };
 
     const handleBack = () => {
         setIsExiting(true);
         window.history.back();
     };
 
+    // Cleanup effect
     useEffect(() => {
-        if (isExiting) {
-            const timer = setTimeout(() => {
-                setIsExiting(false);
-            }, 300); // Match the exit animation duration
-            return () => clearTimeout(timer);
-        }
-    }, [isExiting]);
+        return () => {
+            setIsExiting(false);
+        };
+    }, []);
+
+    const copyToClipboard = async (text: string) => {
+        await navigator.clipboard.writeText(text);
+        setIsCopied(true);
+        setTimeout(() => setIsCopied(false), 2000);
+    };
 
     const prompts: Prompt[] = [
         {
@@ -1319,14 +1479,8 @@ Technical preferences:
                     className="min-h-screen bg-background/50 backdrop-blur-sm text-foreground font-mono relative"
                     initial={{ opacity: 0, y: 20 }}
                     animate={{ opacity: 1, y: 0 }}
-                    exit={{
-                        opacity: 0,
-                        y: -20,
-                        transition: {
-                            duration: 0.3,
-                            ease: [0.32, 0.72, 0, 1]
-                        }
-                    }}
+                    exit={{ opacity: 0, y: -20 }}
+                    transition={{ duration: 0.2, ease: "easeInOut" }}
                 >
                     <Grain opacity={0.05} />
 
@@ -1371,166 +1525,15 @@ Technical preferences:
                             <div className="w-full h-px bg-border/40 backdrop-blur-sm mb-8" />
 
                             <div className="grid gap-6 grid-cols-1 md:grid-cols-2 max-w-5xl mx-auto">
-                                {prompts.map((prompt, index) => {
-                                    const [isHovered, setIsHovered] = useState(false);
-                                    const [position, setPosition] = useState({ x: 0, y: 0 });
-                                    const cardRef = useRef<HTMLDivElement>(null);
-
-                                    useEffect(() => {
-                                        const handleMouseMove = (e: MouseEvent) => {
-                                            if (!cardRef.current || !isHovered) return;
-
-                                            const rect = cardRef.current.getBoundingClientRect();
-                                            const x = e.clientX - rect.left;
-                                            const y = e.clientY - rect.top;
-
-                                            requestAnimationFrame(() => {
-                                                setPosition({ x, y });
-                                            });
-                                        };
-
-                                        window.addEventListener('mousemove', handleMouseMove);
-                                        return () => window.removeEventListener('mousemove', handleMouseMove);
-                                    }, [isHovered]);
-
-                                    return (
-                                        <motion.div
+                                {prompts.map((prompt, index) => (
+                                    <PromptCard
                                             key={index}
-                                            className="h-full col-span-1 md:col-span-1"
-                                            initial={{ opacity: 0, y: 20 }}
-                                            animate={{ opacity: 1, y: 0 }}
-                                            exit={{
-                                                opacity: 0,
-                                                y: -20,
-                                                transition: {
-                                                    duration: 0.2,
-                                                    ease: "easeIn",
-                                                    delay: isExiting ? Math.max(0, (prompts.length - 1 - index) * 0.1) : 0
-                                                }
-                                            }}
-                                            transition={{
-                                                delay: index * 0.2,
-                                                duration: 0.5,
-                                                ease: "easeOut"
-                                            }}
-                                        >
-                                            <div 
-                                                ref={cardRef}
-                                                className="relative group h-full"
-                                                onMouseEnter={() => setIsHovered(true)}
-                                                onMouseLeave={() => setIsHovered(false)}
-                                                onClick={() => setSelectedPrompt(index)}
-                                            >
-                                                <ShimmerButton className="w-full h-full group">
-                                                    <Card className="relative flex flex-col h-[300px] md:h-[280px] cursor-pointer transition-all duration-500 ease-out dark:bg-black/100 bg-white/[0.1] rounded-lg border-[1px] border-black/20 ring-1 ring-black/5 dark:border-white/10 dark:ring-white/5 hover:border-black/30 hover:ring-black/10 hover:shadow-[0_0_15px_rgb(39,39,42)] dark:hover:shadow-[0_0_15px_rgba(255,255,255,0.1)]">
-                                                        {/* Grid Pattern Overlay - Light Mode */}
-                                                        <div className="absolute inset-0 w-full h-full dark:opacity-0">
-                                                            <svg
-                                                                className="w-full h-full opacity-[0.08]"
-                                                                xmlns="http://www.w3.org/2000/svg"
-                                                                width="100%"
-                                                                height="100%"
-                                                            >
-                                                                <defs>
-                                                                    <pattern
-                                                                        id={`prompt-grid-light-${index}`}
-                                                                        width="24"
-                                                                        height="24"
-                                                                        patternUnits="userSpaceOnUse"
-                                                                    >
-                                                                        <path
-                                                                            d="M 24 0 L 0 0 0 24"
-                                                                            fill="none"
-                                                                            stroke="black"
-                                                                            strokeWidth="0.5"
-                                                                        />
-                                                                    </pattern>
-                                                                    <linearGradient id={`prompt-fade-light-${index}`} x1="0" y1="1" x2="0.5" y2="0.5">
-                                                                        <stop offset="0" stopColor="white" />
-                                                                        <stop offset="1" stopColor="white" stopOpacity="0" />
-                                                                    </linearGradient>
-                                                                    <mask id={`prompt-fade-mask-light-${index}`}>
-                                                                        <rect width="100%" height="100%" fill={`url(#prompt-fade-light-${index})`} />
-                                                                    </mask>
-                                                                </defs>
-                                                                <rect width="100%" height="100%" fill={`url(#prompt-grid-light-${index})`} mask={`url(#prompt-fade-mask-light-${index})`} />
-                                                            </svg>
-                                                        </div>
-
-                                                        {/* Grid Pattern Overlay - Dark Mode */}
-                                                        <div className="absolute inset-0 w-full h-full opacity-0 dark:opacity-100">
-                                                            <svg
-                                                                className="w-full h-full opacity-[0.65]"
-                                                                xmlns="http://www.w3.org/2000/svg"
-                                                                width="100%"
-                                                                height="100%"
-                                                            >
-                                                                <defs>
-                                                                    <pattern
-                                                                        id={`prompt-grid-dark-${index}`}
-                                                                        width="24"
-                                                                        height="24"
-                                                                        patternUnits="userSpaceOnUse"
-                                                                    >
-                                                                        <path
-                                                                            d="M 24 0 L 0 0 0 24"
-                                                                            fill="none"
-                                                                            stroke="rgba(255, 255, 255, 0.3)"
-                                                                            strokeWidth="0.5"
-                                                                        />
-                                                                    </pattern>
-                                                                    <linearGradient id={`prompt-fade-dark-${index}`} x1="0" y1="1" x2="0.4" y2="0.8">
-                                                                        <stop offset="0" stopColor="white" />
-                                                                        <stop offset="1" stopColor="white" stopOpacity="0" />
-                                                                    </linearGradient>
-                                                                    <mask id={`prompt-fade-mask-dark-${index}`}>
-                                                                        <rect width="100%" height="100%" fill={`url(#prompt-fade-dark-${index})`} />
-                                                                    </mask>
-                                                                </defs>
-                                                                <rect width="100%" height="100%" fill={`url(#prompt-grid-dark-${index})`} mask={`url(#prompt-fade-mask-dark-${index})`} />
-                                                            </svg>
-                                                        </div>
-
-                                                        <CardHeader className="p-4 relative z-20">
-                                                            <CardTitle className="text-sm md:text-base text-foreground transition-colors duration-300 flex items-center gap-2">
-                                                                <FileText className="h-4 w-4 text-muted-foreground" />
-                                                                {prompt.title}
-                                                            </CardTitle>
-                                                        </CardHeader>
-                                                        <CardContent className="p-4 pt-0 flex-grow relative z-20">
-                                                            <div className="relative h-full">
-                                                                <pre className="bg-muted/10 backdrop-blur-sm p-3 rounded-md text-[10px] md:text-xs h-[160px] overflow-auto font-mono transition-colors duration-300 [scrollbar-width:thin] [&::-webkit-scrollbar]:w-2 [&::-webkit-scrollbar-track]:bg-transparent [&::-webkit-scrollbar-thumb]:bg-muted-foreground/20 [&::-webkit-scrollbar-thumb:hover]:bg-muted-foreground/30">
-                                                                    <code className="block text-foreground/70 transition-colors duration-300">
-                                                                        {prompt.content}
-                                                                    </code>
-                                                                </pre>
-                                                                <div className="absolute inset-0 bg-gradient-to-b from-transparent via-transparent to-background/40 pointer-events-none transition-colors duration-300" />
-                                                            </div>
-                                                        </CardContent>
-                                                        <CardFooter className="p-4 pt-0 flex justify-between items-center mt-auto relative z-20 border-t border-border/50">
-                                                            <div className="text-[10px] md:text-xs text-muted-foreground transition-colors duration-300">
-                                                                {prompt.author}
-                                                            </div>
-                                                            <div className="flex items-center gap-2">
-                                                                <Badge variant="secondary" className="text-[10px] md:text-xs bg-muted/10 backdrop-blur-sm transition-colors duration-300">{prompt.tag}</Badge>
-                                                            </div>
-                                                        </CardFooter>
-
-                                                        {/* Shimmer effect */}
-                                                        {isHovered && (
-                                                            <div
-                                                                className="absolute inset-0 z-10 transition-opacity duration-300"
-                                                                style={{
-                                                                    background: `radial-gradient(600px circle at ${position.x}px ${position.y}px, rgba(255,255,255,0.1), transparent 40%)`
-                                                                }}
-                                                            />
-                                                        )}
-                                                    </Card>
-                                                </ShimmerButton>
-                                            </div>
-                                        </motion.div>
-                                    );
-                                })}
+                                        prompt={prompt}
+                                        index={index}
+                                        isExiting={isExiting}
+                                        onSelect={() => setSelectedPrompt(index)}
+                                    />
+                                ))}
                             </div>
                         </motion.div>
                     </main>

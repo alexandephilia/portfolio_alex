@@ -63,7 +63,7 @@ const getTimeBasedTheme = () => {
 
 const AnimatedNumber = ({ number }: { number: string }) => {
     return (
-        <div className="relative w-10 h-[1.2em] inline-flex items-center justify-center overflow-hidden">
+        <div className="relative w-10 h-[1.2em] inline-flex items-center justify-center overflow-visible">
             <AnimatePresence mode="popLayout">
                 <motion.div
                     key={number}
@@ -211,7 +211,7 @@ export const PomodoroCard = () => {
             <Card
                 onMouseEnter={() => setIsHovered(true)}
                 onMouseLeave={() => setIsHovered(false)}
-                className="relative overflow-hidden group hover:shadow-lg transition-all duration-500 dark:bg-black bg-white border-[1px] border-black/[0.15] dark:border-white/[0.08] hover:border-black/25 dark:hover:border-white/[0.15] ring-1 ring-black/[0.05] dark:ring-white/[0.05]"
+                className="relative overflow-hidden group hover:shadow-lg transition-all duration-500 dark:bg-black bg-white border-[1px] border-[#0071a9]/[0.15] dark:border-white/[0.08] hover:border-[#0071a9]/25 dark:hover:border-white/[0.15] ring-1 ring-[#0071a9]/[0.05] dark:ring-white/[0.05] shadow-sm hover:shadow-[0_0_15px_rgba(0,113,169,0.1)] dark:hover:shadow-[0_0_15px_rgba(255,255,255,0.1)]"
                 style={{
                     minHeight: '320px',
                     padding: '1.5rem',
@@ -267,14 +267,14 @@ export const PomodoroCard = () => {
 
                 <div className="flex items-center justify-center mb-6">
                     <span className="text-5xl sm:text-6xl font-mono font-bold flex items-center justify-center gap-1">
-                        {formatTime(timeLeft).split('').map((digit, index, array) => (
-                            <Fragment key={`${index}-${digit}`}>
+                        {formatTime(timeLeft).split('').map((digit, index) => (
+                            <React.Fragment key={`${index}-${digit}`}>
                                 {digit === ':' ? (
                                     <div className="w-6 flex justify-center">:</div>
                                 ) : (
                                     <AnimatedNumber number={digit} />
                                 )}
-                            </Fragment>
+                            </React.Fragment>
                         ))}
                     </span>
                 </div>
