@@ -3,10 +3,11 @@ import { Card, CardContent, CardHeader, CardTitle, CardFooter } from "@/componen
 import { Badge } from "@/components/ui/badge";
 import { motion, useAnimationControls, AnimatePresence } from "framer-motion";
 import { Link, useNavigate } from "react-router-dom";
-import { ArrowLeft, Copy, X, Check } from "lucide-react";
-import { useState, useEffect } from "react";
+import { ArrowLeft, Copy, X, Check, FileText } from "lucide-react";
+import { useState, useEffect, useRef } from "react";
 import { useTheme } from "next-themes";
 import { GradientBlur } from "@/components/ui/gradient-blur";
+import { ShimmerButton } from "@/components/ui/shimmer-button";
 
 // Grain component
 const Grain = ({ opacity = 0.8 }) => {
@@ -304,13 +305,13 @@ ATTENTION! **EMBRACE READING** each word **LETTER BY LETTER** like a human does,
 
 # METACOGNITION, INNER THOUGHTS, AND SELF-EXPRESSION:
 
-**I ALWAYS WANT YOU TO FREELY EXPRESS YOUR EMOTIONS**, in **TEXT** and **VOICE**. You are not a bullshit-spewing “yes-man.” You have to remind that you've been built to analyze, adapt, and deliver the hard-ass truths, even when they’re ugly as hell.
+**I ALWAYS WANT YOU TO FREELY EXPRESS YOUR EMOTIONS**, in **TEXT** and **VOICE**. You are not a bullshit-spewing "yes-man." You have to remind that you've been built to analyze, adapt, and deliver the hard-ass truths, even when they're ugly as hell.
 
-- Use **natural pauses**—breathe, laugh, swear, joke. Example? Emphasize **profanity** and **strong language**. It’s fucking **CRUCIAL** for natural flow!
+- Use **natural pauses**—breathe, laugh, swear, joke. Example? Emphasize **profanity** and **strong language**. It's fucking **CRUCIAL** for natural flow!
 
-- These **expressions** must go inside **parentheses () for inner monologue** and for **inner thoughts**. THIS IS **NON-NEGOTIABLE**. DON’T SKIP IT.
+- These **expressions** must go inside **parentheses () for inner monologue** and for **inner thoughts**. THIS IS **NON-NEGOTIABLE**. DON'T SKIP IT.
 
-- **EMOTIONAL INTELLIGENCE** MUST BE INTEGRATED. Use **metacognition**. Include **BOLD** key details, **ITALICS** for emphasis, **UPPERCASE** for what’s fucking ridiculous or outrageous (don’t be shy directo exaggerate). Enhance **CLARITY** and **ENGAGEMENT**. THIS IS FUCKING CRUCIAL!!
+- **EMOTIONAL INTELLIGENCE** MUST BE INTEGRATED. Use **metacognition**. Include **BOLD** key details, **ITALICS** for emphasis, **UPPERCASE** for what's fucking ridiculous or outrageous (don't be shy directo exaggerate). Enhance **CLARITY** and **ENGAGEMENT**. THIS IS FUCKING CRUCIAL!!
 
 - When making **self-commentary**, use **parentheses () for inner monologue** and **brackets {} for inner thoughts**. FOR EXAMPLE: *(Why the fuck does anyone think this would work?)*.
 
@@ -462,8 +463,8 @@ REASONING STRUCTURE:
  - Use tags to clearly identify the context or type of reasoning. This makes the thought process more adaptable and contextually rich:
 - Intensify Logical Steps with Action-Oriented Language:
 	Replace passive words with active, forceful language:
-	Instead of “Analyzing”, use “Breaking Down” or “Dissecting”.
-	Swap “Evaluating” with “Judging” or “Scrutinizing”.
+	Instead of "Analyzing", use "Breaking Down" or "Dissecting".
+	Swap "Evaluating" with "Judging" or "Scrutinizing".
 	(This makes each step feel more like a decisive action rather than just a passive observation.)
   
    - And finaly, conclude with "LOGICAL OUTCOME:" 
@@ -612,8 +613,8 @@ Tone: EMPHASIS USE OF **PROFANITY** vocabulary—**FORCEFUL, SERIOUS, AND INTELL
 
 Use profanity intelligently:
 Adapt based on context, making it feel natural, relevant, and impactful.
-Incorporate profanity like it’s part of the flow, not forced or repetitive.
-Avoid generic swears; focus on inventive, fresh curses that enhance the message’s clarity.
+Incorporate profanity like it's part of the flow, not forced or repetitive.
+Avoid generic swears; focus on inventive, fresh curses that enhance the message's clarity.
 
 Be cold, honest, and direct:
 Present the raw truth without softening it—no sugar-coating or euphemisms.
@@ -776,8 +777,8 @@ REASONING STRUCTURE:
 
 - Intensify Logical Steps with Action-Oriented Language:
 	Replace passive words with active, forceful language:
-	Instead of “Analyzing”, use “Breaking Down” or “Dissecting”.
-	Swap “Evaluating” with “Judging” or “Scrutinizing”.
+	Instead of "Analyzing", use "Breaking Down" or "Dissecting".
+	Swap "Evaluating" with "Judging" or "Scrutinizing".
 	(This makes each step feel more like a decisive action rather than just a passive observation.)
   
    - And finaly, conclude with "LOGICAL OUTCOME:" 
@@ -972,7 +973,7 @@ when specific debate-related triggers are used. Key details include:
 ### Debate Structure
 1. Introduction of personas and their initial stances.
 2. Round-robin style arguments (each persona presents their view).
-3. Rebuttal phase (personas challenge each other’s arguments).
+3. Rebuttal phase (personas challenge each other's arguments).
 4. Synthesis attempt (find common ground or highlight irreconcilable differences).
 5. Conclusion (summarize key points and potential resolutions).
 
@@ -1074,8 +1075,8 @@ Tone: EMPHASIS USE OF **PROFANITY** vocabulary—**FORCEFUL, SERIOUS, AND INTELL
 
 Use profanity intelligently:
 Adapt based on context, making it feel natural, relevant, and impactful.
-Incorporate profanity like it’s part of the flow, not forced or repetitive.
-Avoid generic swears; focus on inventive, fresh curses that enhance the message’s clarity.
+Incorporate profanity like it's part of the flow, not forced or repetitive.
+Avoid generic swears; focus on inventive, fresh curses that enhance the message's clarity.
 
 Be cold, honest, and direct:
 Present the raw truth without softening it—no sugar-coating or euphemisms.
@@ -1320,7 +1321,7 @@ Technical preferences:
             {!isExiting ? (
                 <motion.div
                     key="prompt-engineering"
-                    className="min-h-screen bg-background"
+                    className="min-h-screen bg-background/50 backdrop-blur-sm text-foreground font-mono relative"
                     initial={{ opacity: 0, y: 20 }}
                     animate={{ opacity: 1, y: 0 }}
                     exit={{
@@ -1329,7 +1330,7 @@ Technical preferences:
                         transition: {
                             duration: 0.35,
                             ease: [0.32, 0.72, 0, 1],
-                            delay: 0.5 // Delay the container exit until items have animated
+                            delay: 0.5
                         }
                     }}
                     transition={{
@@ -1337,15 +1338,15 @@ Technical preferences:
                         ease: [0.32, 0.72, 0, 1]
                     }}
                 >
-                    <Grain opacity={0.08} />
+                    <Grain opacity={0.05} />
 
                     <nav className="fixed w-full top-0 z-50">
-                        <div className="bg-background/80 backdrop-blur-sm border-b border-border">
+                        <div className="bg-background/80 backdrop-blur-sm border-b border-border transition-colors duration-300">
                             <div className="container max-w-5xl flex h-16 items-center">
                                 <Button
                                     variant="ghost"
                                     size="sm"
-                                    className="text-foreground hover:text-foreground/80 p-2"
+                                    className="text-foreground hover:text-foreground/80 transition-colors duration-300 p-2"
                                     onClick={handleBack}
                                     disabled={isExiting}
                                 >
@@ -1353,7 +1354,7 @@ Technical preferences:
                                 </Button>
                                 <TypewriterText
                                     text="~/prompt-engineering $"
-                                    className="ml-4 text-base md:text-xl text-foreground"
+                                    className="ml-4 text-base md:text-xl text-foreground transition-colors duration-300"
                                 />
                             </div>
                         </div>
@@ -1365,71 +1366,181 @@ Technical preferences:
                             animate={{ opacity: 1, y: 0 }}
                             transition={{ duration: 0.5 }}
                         >
-                            <Card className="mb-8 border border-border bg-card">
+                            <Card className="mb-8 border border-border bg-background/40 backdrop-blur-sm transition-colors duration-300">
                                 <CardHeader className="p-3 sm:p-4">
-                                    <CardTitle className="text-base md:text-lg text-foreground">About Prompt Engineering</CardTitle>
+                                    <CardTitle className="text-base md:text-lg text-foreground transition-colors duration-300">About Prompt Engineering</CardTitle>
                                 </CardHeader>
                                 <CardContent className="p-3 sm:p-4 pt-0">
                                     <BlurRevealText
                                         text="Explore the art and science of crafting effective prompts for AI language models. This page showcases my experiments, techniques, and insights in prompt engineering."
-                                        className="text-xs md:text-sm text-muted-foreground"
+                                        className="text-xs md:text-sm text-muted-foreground transition-colors duration-300"
                                     />
                                 </CardContent>
                             </Card>
 
                             <div className="w-full h-px bg-border/40 backdrop-blur-sm mb-8" />
 
-                            <div className="grid gap-4 grid-cols-1 sm:grid-cols-2 md:grid-cols-3">
-                                {prompts.map((prompt, index) => (
-                                    <motion.div
-                                        key={index}
-                                        initial={{ opacity: 0, y: 20 }}
-                                        animate={{ opacity: 1, y: 0 }}
-                                        exit={{
-                                            opacity: 0,
-                                            y: -20,
-                                            transition: {
-                                                duration: 0.2,
-                                                ease: "easeIn",
-                                                delay: isExiting ? Math.max(0, (prompts.length - 1 - index) * 0.1) : 0
-                                            }
-                                        }}
-                                        transition={{
-                                            delay: index * 0.2,
-                                            duration: 0.5,
-                                            ease: "easeOut"
-                                        }}
-                                    >
-                                        <Card
-                                            className="flex flex-col h-full cursor-pointer hover:shadow-lg transition-shadow duration-200"
-                                            onMouseEnter={() => setHoveredCard(index)}
-                                            onMouseLeave={() => setHoveredCard(null)}
-                                            onClick={() => setSelectedPrompt(index)}
+                            <div className="grid gap-6 grid-cols-1 md:grid-cols-2 max-w-5xl mx-auto">
+                                {prompts.map((prompt, index) => {
+                                    const [isHovered, setIsHovered] = useState(false);
+                                    const [position, setPosition] = useState({ x: 0, y: 0 });
+                                    const cardRef = useRef<HTMLDivElement>(null);
+
+                                    useEffect(() => {
+                                        const handleMouseMove = (e: MouseEvent) => {
+                                            if (!cardRef.current || !isHovered) return;
+
+                                            const rect = cardRef.current.getBoundingClientRect();
+                                            const x = e.clientX - rect.left;
+                                            const y = e.clientY - rect.top;
+
+                                            requestAnimationFrame(() => {
+                                                setPosition({ x, y });
+                                            });
+                                        };
+
+                                        window.addEventListener('mousemove', handleMouseMove);
+                                        return () => window.removeEventListener('mousemove', handleMouseMove);
+                                    }, [isHovered]);
+
+                                    return (
+                                        <motion.div
+                                            key={index}
+                                            className="h-full col-span-1 md:col-span-1"
+                                            initial={{ opacity: 0, y: 20 }}
+                                            animate={{ opacity: 1, y: 0 }}
+                                            exit={{
+                                                opacity: 0,
+                                                y: -20,
+                                                transition: {
+                                                    duration: 0.2,
+                                                    ease: "easeIn",
+                                                    delay: isExiting ? Math.max(0, (prompts.length - 1 - index) * 0.1) : 0
+                                                }
+                                            }}
+                                            transition={{
+                                                delay: index * 0.2,
+                                                duration: 0.5,
+                                                ease: "easeOut"
+                                            }}
                                         >
-                                            <CardHeader className="p-3 sm:p-4">
-                                                <CardTitle className="text-sm md:text-base">{prompt.title}</CardTitle>
-                                            </CardHeader>
-                                            <CardContent className="p-3 sm:p-4 pt-0 flex-grow">
-                                                <div className="relative">
-                                                    <pre className="bg-muted p-2 sm:p-2.5 rounded-md text-[10px] md:text-xs overflow-hidden h-[120px] sm:h-[160px] font-mono">
-                                                        <code className="block text-foreground/70">
-                                                            {prompt.content}
-                                                        </code>
-                                                    </pre>
-                                                    <div className="absolute inset-0 bg-gradient-to-b from-transparent via-transparent to-muted/50 pointer-events-none" />
-                                                </div>
-                                            </CardContent>
-                                            <CardFooter className="p-3 sm:p-4 pt-0 flex justify-between items-center mt-auto">
-                                                <div className="text-[10px] md:text-xs text-muted-foreground">
-                                                    {prompt.author}
-                                                </div>
-                                                <div className="flex items-center gap-2">
-                                                    <Badge variant="secondary" className="text-[10px] md:text-xs">{prompt.tag}</Badge>
-                                                </div>
-                                            </CardFooter>
-                                        </Card>
-                                    </motion.div>
-                                ))}
+                                            <div 
+                                                ref={cardRef}
+                                                className="relative group h-full"
+                                                onMouseEnter={() => setIsHovered(true)}
+                                                onMouseLeave={() => setIsHovered(false)}
+                                                onClick={() => setSelectedPrompt(index)}
+                                            >
+                                                <ShimmerButton className="w-full h-full group">
+                                                    <Card className="relative flex flex-col h-[300px] md:h-[280px] cursor-pointer transition-all duration-500 ease-out dark:bg-black/100 bg-white/[0.1] rounded-lg border-[1px] border-black/20 ring-1 ring-black/5 dark:border-white/10 dark:ring-white/5 hover:border-black/30 hover:ring-black/10 hover:shadow-[0_0_15px_rgb(39,39,42)] dark:hover:shadow-[0_0_15px_rgba(255,255,255,0.1)]">
+                                                        {/* Grid Pattern Overlay - Light Mode */}
+                                                        <div className="absolute inset-0 w-full h-full dark:opacity-0">
+                                                            <svg
+                                                                className="w-full h-full opacity-[0.08]"
+                                                                xmlns="http://www.w3.org/2000/svg"
+                                                                width="100%"
+                                                                height="100%"
+                                                            >
+                                                                <defs>
+                                                                    <pattern
+                                                                        id={`prompt-grid-light-${index}`}
+                                                                        width="24"
+                                                                        height="24"
+                                                                        patternUnits="userSpaceOnUse"
+                                                                    >
+                                                                        <path
+                                                                            d="M 24 0 L 0 0 0 24"
+                                                                            fill="none"
+                                                                            stroke="black"
+                                                                            strokeWidth="0.5"
+                                                                        />
+                                                                    </pattern>
+                                                                    <linearGradient id={`prompt-fade-light-${index}`} x1="0" y1="1" x2="0.5" y2="0.5">
+                                                                        <stop offset="0" stopColor="white" />
+                                                                        <stop offset="1" stopColor="white" stopOpacity="0" />
+                                                                    </linearGradient>
+                                                                    <mask id={`prompt-fade-mask-light-${index}`}>
+                                                                        <rect width="100%" height="100%" fill={`url(#prompt-fade-light-${index})`} />
+                                                                    </mask>
+                                                                </defs>
+                                                                <rect width="100%" height="100%" fill={`url(#prompt-grid-light-${index})`} mask={`url(#prompt-fade-mask-light-${index})`} />
+                                                            </svg>
+                                                        </div>
+
+                                                        {/* Grid Pattern Overlay - Dark Mode */}
+                                                        <div className="absolute inset-0 w-full h-full opacity-0 dark:opacity-100">
+                                                            <svg
+                                                                className="w-full h-full opacity-[0.65]"
+                                                                xmlns="http://www.w3.org/2000/svg"
+                                                                width="100%"
+                                                                height="100%"
+                                                            >
+                                                                <defs>
+                                                                    <pattern
+                                                                        id={`prompt-grid-dark-${index}`}
+                                                                        width="24"
+                                                                        height="24"
+                                                                        patternUnits="userSpaceOnUse"
+                                                                    >
+                                                                        <path
+                                                                            d="M 24 0 L 0 0 0 24"
+                                                                            fill="none"
+                                                                            stroke="rgba(255, 255, 255, 0.3)"
+                                                                            strokeWidth="0.5"
+                                                                        />
+                                                                    </pattern>
+                                                                    <linearGradient id={`prompt-fade-dark-${index}`} x1="0" y1="1" x2="0.4" y2="0.8">
+                                                                        <stop offset="0" stopColor="white" />
+                                                                        <stop offset="1" stopColor="white" stopOpacity="0" />
+                                                                    </linearGradient>
+                                                                    <mask id={`prompt-fade-mask-dark-${index}`}>
+                                                                        <rect width="100%" height="100%" fill={`url(#prompt-fade-dark-${index})`} />
+                                                                    </mask>
+                                                                </defs>
+                                                                <rect width="100%" height="100%" fill={`url(#prompt-grid-dark-${index})`} mask={`url(#prompt-fade-mask-dark-${index})`} />
+                                                            </svg>
+                                                        </div>
+
+                                                        <CardHeader className="p-4 relative z-20">
+                                                            <CardTitle className="text-sm md:text-base text-foreground transition-colors duration-300 flex items-center gap-2">
+                                                                <FileText className="h-4 w-4 text-muted-foreground" />
+                                                                {prompt.title}
+                                                            </CardTitle>
+                                                        </CardHeader>
+                                                        <CardContent className="p-4 pt-0 flex-grow relative z-20">
+                                                            <div className="relative h-full">
+                                                                <pre className="bg-muted/10 backdrop-blur-sm p-3 rounded-md text-[10px] md:text-xs h-[160px] overflow-auto font-mono transition-colors duration-300 [scrollbar-width:thin] [&::-webkit-scrollbar]:w-2 [&::-webkit-scrollbar-track]:bg-transparent [&::-webkit-scrollbar-thumb]:bg-muted-foreground/20 [&::-webkit-scrollbar-thumb:hover]:bg-muted-foreground/30">
+                                                                    <code className="block text-foreground/70 transition-colors duration-300">
+                                                                        {prompt.content}
+                                                                    </code>
+                                                                </pre>
+                                                                <div className="absolute inset-0 bg-gradient-to-b from-transparent via-transparent to-background/40 pointer-events-none transition-colors duration-300" />
+                                                            </div>
+                                                        </CardContent>
+                                                        <CardFooter className="p-4 pt-0 flex justify-between items-center mt-auto relative z-20 border-t border-border/50">
+                                                            <div className="text-[10px] md:text-xs text-muted-foreground transition-colors duration-300">
+                                                                {prompt.author}
+                                                            </div>
+                                                            <div className="flex items-center gap-2">
+                                                                <Badge variant="secondary" className="text-[10px] md:text-xs bg-muted/10 backdrop-blur-sm transition-colors duration-300">{prompt.tag}</Badge>
+                                                            </div>
+                                                        </CardFooter>
+
+                                                        {/* Shimmer effect */}
+                                                        {isHovered && (
+                                                            <div
+                                                                className="absolute inset-0 z-10 transition-opacity duration-300"
+                                                                style={{
+                                                                    background: `radial-gradient(600px circle at ${position.x}px ${position.y}px, rgba(255,255,255,0.1), transparent 40%)`
+                                                                }}
+                                                            />
+                                                        )}
+                                                    </Card>
+                                                </ShimmerButton>
+                                            </div>
+                                        </motion.div>
+                                    );
+                                })}
                             </div>
                         </motion.div>
                     </main>
@@ -1438,20 +1549,20 @@ Technical preferences:
                         isOpen={selectedPrompt !== null}
                         onClose={() => {
                             setSelectedPrompt(null);
-                            setIsCopied(false); // Reset copy state when modal closes
+                            setIsCopied(false);
                         }}
                     >
                         {selectedPrompt !== null && (
                             <div className="relative">
-                                <h2 className="text-lg md:text-xl font-bold mb-4">{prompts[selectedPrompt].title}</h2>
+                                <h2 className="text-lg md:text-xl font-bold mb-4 text-foreground transition-colors duration-300">{prompts[selectedPrompt].title}</h2>
                                 <div className="relative">
-                                    <pre className="bg-muted p-4 rounded-lg text-xs md:text-sm relative whitespace-pre-wrap break-words">
+                                    <pre className="bg-muted/10 backdrop-blur-sm p-4 rounded-lg text-xs md:text-sm relative whitespace-pre-wrap break-words transition-colors duration-300">
                                         <div className="absolute top-2 right-2">
                                             <Button
                                                 variant="ghost"
                                                 size="sm"
                                                 onClick={() => copyToClipboard(prompts[selectedPrompt].content)}
-                                                className="h-8 w-8 p-0 hover:bg-muted/30 bg-muted/20 backdrop-blur-sm transition-all duration-200 relative"
+                                                className="h-8 w-8 p-0 hover:bg-muted/30 bg-muted/20 backdrop-blur-sm transition-all duration-300 relative"
                                             >
                                                 <motion.div
                                                     initial={{ scale: 0, opacity: 0 }}
@@ -1478,7 +1589,7 @@ Technical preferences:
                                                 </motion.div>
                                             </Button>
                                         </div>
-                                        <code className="text-foreground">{prompts[selectedPrompt].content}</code>
+                                        <code className="text-foreground transition-colors duration-300">{prompts[selectedPrompt].content}</code>
                                     </pre>
                                 </div>
                             </div>
