@@ -12,7 +12,7 @@ export const GradientBlur: React.FC<GradientBlurProps> = ({ isFixed = true, clas
         <div
             className={`${positionClass} bottom-0 left-0 right-0 pointer-events-none ${className}`}
             style={{
-                height: isFixed ? '6vh' : '12vh',
+                height: isFixed ? '7vh' : '12vh',
                 transform: 'translateZ(0)',
                 willChange: 'transform',
                 isolation: 'isolate',

@@ -1,17 +1,24 @@
 export interface BlogPost {
   title: string;
-  author: string;
+  preview: string;
+  content: {
+    introduction: string;
+    sections: {
+      heading?: string;
+      content: Array<{
+        type: "paragraph" | "image";
+        text?: string;
+        src?: string;
+        alt?: string;
+        caption?: string;
+      }>;
+      quote?: string;
+      quoteAuthor?: string;
+    }[];
+  };
   date: string;
   readTime: string;
   category: string;
-  preview: string;
+  author: string;
   tags: string[];
-  content: {
-    introduction: string;
-    sections: Array<{
-      heading?: string;
-      paragraphs: string[];
-      quote?: string;
-    }>;
-  };
 } 

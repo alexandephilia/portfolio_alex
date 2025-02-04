@@ -1,6 +1,21 @@
+import { ForwardRefComponent, HTMLMotionProps } from 'framer-motion'
+
 declare module 'framer-motion' {
     import * as React from 'react'
     
+    interface Motion {
+        figure: MotionComponent<React.HTMLAttributes<HTMLElement>>
+    }
+
+    export const motion: Motion & {
+        h3: any
+        blockquote: any
+        span: any
+        p: any
+        section: MotionComponent<React.HTMLAttributes<HTMLElement>>
+        div: MotionComponent<React.HTMLAttributes<HTMLDivElement>>
+    }
+
     export type MotionProps = {
         initial?: any
         animate?: any
@@ -17,16 +32,6 @@ declare module 'framer-motion' {
     }
 
     export type MotionComponent<P = {}> = React.ForwardRefExoticComponent<P & MotionProps & React.RefAttributes<any>>
-
-    export const motion: {
-        h3: any
-        blockquote: any
-        span: any
-        p: any
-        section: MotionComponent<React.HTMLAttributes<HTMLElement>>
-        div: MotionComponent<React.HTMLAttributes<HTMLDivElement>>
-        // Add other HTML elements as needed
-    }
 
     export function useScroll(options?: {
         target?: React.RefObject<HTMLElement>
@@ -50,4 +55,8 @@ declare module 'framer-motion' {
         onExitComplete?: () => void
         children: React.ReactNode
     }>
+
+    export interface CustomDomComponents {
+        figure: ForwardRefComponent<HTMLDivElement, HTMLMotionProps<"figure">>
+    }
 } 

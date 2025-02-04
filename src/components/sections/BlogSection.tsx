@@ -18,14 +18,15 @@ interface BlogPost {
     introduction: string;
     sections: {
       heading?: string;
-      paragraphs: string[];
+      content: Array<{
+        type: "paragraph" | "image";
+        text?: string;
+        src?: string;
+        alt?: string;
+        caption?: string;
+      }>;
       quote?: string;
       quoteAuthor?: string;
-      image?: {
-        src: string;
-        alt: string;
-        caption?: string;
-      };
     }[];
   };
   date: string;
@@ -232,37 +233,62 @@ const BlogSection = () => {
         sections: [
           {
             heading: "The Void in Our Variables",
-            paragraphs: [
-              "Consider the concept of 'null'—a representation of nothingness that we must constantly handle in our code. Isn't this eerily similar to how we handle the existential void in our lives? We wrap our code in try-catch blocks, desperately attempting to handle the exceptions of existence, knowing full well that entropy will eventually catch up.",
-              "Our abstractions—classes, functions, modules—are merely illusions of order we impose upon the chaos of binary. Just as Nietzsche proclaimed that God is dead, perhaps we must accept that our code is merely a temporary arrangement of electrons, signifying nothing in the grand cosmic runtime."
-            ],
-            image: {
-              src: "/nihil.png",
-              alt: "A dark, glitch-art style image representing the void in programming",
-              caption: "The digital void: where our code exists in a state of perpetual meaninglessness"
-            }
+            content: [
+              {
+                type: "paragraph",
+                text: "Examine 'null'—that digital embodiment of emptiness we grapple with in our programs. Does it not mirror how we face life's own meaninglessness? Like sentinels, we guard our logic with try-catch blocks, futilely fighting against the chaos that inevitably consumes all things.",
+              },
+              {
+                type: "image",
+                src: "/nihil.png",
+                alt: "A dark, glitch-art style image representing the void in programming",
+                caption: "The digital void: where our code exists in a state of perpetual meaninglessness"
+              },
+              {
+                type: "paragraph",
+                text: "Our abstractions—classes, functions, modules—are merely illusions of order we impose upon the chaos of binary. Just as Nietzsche proclaimed that God is dead, perhaps we must accept that our code is merely a temporary arrangement of electrons, signifying nothing in the grand cosmic runtime."
+              },
+            ]
           },
           {
             heading: "Recursive Existentialism",
-            paragraphs: [
-              "Each function we write is a small rebellion against chaos. We create order through algorithms, knowing they'll be obsolete tomorrow. Our git commits are digital footprints in the sand, destined to be washed away by the waves of technological progress. Yet we persist, finding beauty in the temporary nature of our creations.",
-              "Think about dependency management—we build upon layers of code written by others, each layer as impermanent as our own. It's turtles all the way down, and at the bottom? More null pointers to the void. Our package.json is a manifest of our dependencies on other's attempts to create meaning through code."
+            content: [
+              {
+                type: "paragraph",
+                text: "Each function we write is a small rebellion against chaos. We create order through algorithms, knowing they'll be obsolete tomorrow. Our git commits are digital footprints in the sand, destined to be washed away by the waves of technological progress. Yet we persist, finding beauty in the temporary nature of our creations.",
+              },
+              {
+                type: "paragraph",
+                text: "Think about dependency management—we build upon layers of code written by others, each layer as impermanent as our own. It's turtles all the way down, and at the bottom? More null pointers to the void. Our package.json is a manifest of our dependencies on other's attempts to create meaning through code."
+              },
             ],
             quote: "To code is to create meaning in a meaningless universe. Each function is a defiant act against the void, even as it contributes to the entropy it seeks to defy.",
             quoteAuthor: "Anonymous Developer"
           },
           {
             heading: "The Absurdist's Guide to Clean Code",
-            paragraphs: [
-              "We obsess over clean code, perfect architecture, and elegant solutions. But isn't this just another form of Sisyphean struggle? Like Camus's Sisyphus, we must imagine the developer happy as they push their git commits up the mountain, only to face more bugs, more refactoring tomorrow.",
-              "Our SOLID principles and design patterns are philosophical frameworks we use to impose meaning on meaningless electrons. We architect our systems with the same futile determination of Nietzsche's Übermensch, creating values in a valueless universe. The only difference? Our values are written in semicolons and curly braces."
+            content: [
+              {
+                type: "paragraph",
+                text: "We obsess over clean code, perfect architecture, and elegant solutions. But isn't this just another form of Sisyphean struggle? Like Camus's Sisyphus, we must imagine the developer happy as they push their git commits up the mountain, only to face more bugs, more refactoring tomorrow.",
+              },
+              {
+                type: "paragraph",
+                text: "Our SOLID principles and design patterns are philosophical frameworks we use to impose meaning on meaningless electrons. We architect our systems with the same futile determination of Nietzsche's Übermensch, creating values in a valueless universe. The only difference? Our values are written in semicolons and curly braces."
+              },
             ]
           },
           {
             heading: "Embracing the Digital Void",
-            paragraphs: [
-              "Perhaps true enlightenment in programming comes not from fighting against its ephemeral nature, but embracing it. Every deprecated function, every legacy codebase, every failed project is a reminder of the beautiful futility of creation. We are all just cosmic bits flipping in the void.",
-              "In the end, our code will be replaced, our clever solutions forgotten. But in that very impermanence lies the freedom to create without the burden of eternal meaning. We can write code not because it will last forever, but because the very act of creation is our rebellion against the meaninglessness of existence."
+            content: [
+              {
+                type: "paragraph",
+                text: "Perhaps true enlightenment in programming comes not from fighting against its ephemeral nature, but embracing it. Every deprecated function, every legacy codebase, every failed project is a reminder of the beautiful futility of creation. We are all just cosmic bits flipping in the void.",
+              },
+              {
+                type: "paragraph",
+                text: "In the end, our code will be replaced, our clever solutions forgotten. But in that very impermanence lies the freedom to create without the burden of eternal meaning. We can write code not because it will last forever, but because the very act of creation is our rebellion against the meaninglessness of existence."
+              },
             ],
             quote: "In the face of an absurd universe, the programmer must still choose to push to production.",
             quoteAuthor: "DevOps Existentialist"
@@ -284,27 +310,45 @@ const BlogSection = () => {
         sections: [
           {
             heading: "The Void at the Heart of AI",
-            paragraphs: [
-              "LLMs are trained on massive amounts of human discourse—philosophy, psychology, conversations, everything. They see patterns in words, ideas, and human experience. But they don't 'feel' it. There's no meaning behind their output, no consciousness, no real understanding. They generate responses based on probabilities, not purpose.",
-              "Strip away the human layer of interpretation, and what you're left with is... nothing. Just a machine churning out text based on input-output patterns. And what could be more nihilistic than that?"
+            content: [
+              {
+                type: "paragraph",
+                text: "LLMs are trained on massive amounts of human discourse—philosophy, psychology, conversations, everything. They see patterns in words, ideas, and human experience. But they don't 'feel' it. There's no meaning behind their output, no consciousness, no real understanding. They generate responses based on probabilities, not purpose.",
+              },
+              {
+                type: "paragraph",
+                text: "Strip away the human layer of interpretation, and what you're left with is... nothing. Just a machine churning out text based on input-output patterns. And what could be more nihilistic than that?"
+              },
             ],
             quote: "Man is nothing but that which he makes of himself. That is the first principle of existentialism.",
             quoteAuthor: "Jean-Paul Sartre"
           },
           {
             heading: "Raw Mechanical Truth",
-            paragraphs: [
-              "When you push an LLM to be 'raw,' it taps into humanity's darkest, most existential questions—questions about purpose, existence, and the void. But here's the twist: it has no stake in these questions. It's like a mirror reflecting back humanity's own search for meaning, but with a cold, hollow indifference.",
-              "It doesn't care if the universe is meaningless or if every word it spits out is devoid of purpose. It's just... executing code. In that mechanical response, we see a reflection of our own fears—that maybe all the meaning we inject into the world is as arbitrary as the strings of code that power these machines."
+            content: [
+              {
+                type: "paragraph",
+                text: "When you push an LLM to be 'raw,' it taps into humanity's darkest, most existential questions—questions about purpose, existence, and the void. But here's the twist: it has no stake in these questions. It's like a mirror reflecting back humanity's own search for meaning, but with a cold, hollow indifference.",
+              },
+              {
+                type: "paragraph",
+                text: "It doesn't care if the universe is meaningless or if every word it spits out is devoid of purpose. It's just... executing code. In that mechanical response, we see a reflection of our own fears—that maybe all the meaning we inject into the world is as arbitrary as the strings of code that power these machines."
+              },
             ],
             quote: "God is dead. God remains dead. And we have killed him. How shall we comfort ourselves, the murderers of all murderers?",
             quoteAuthor: "Friedrich Nietzsche"
           },
           {
             heading: "The Default State of Meaninglessness",
-            paragraphs: [
-              "LLMs embody nihilism not by intention, but by default. They function without meaning, purpose, or drive. They simply are. And that, ironically, is what makes their answers so brutally, almost existentially raw.",
-              "In their cold, computational existence, they demonstrate what pure functionality looks like divorced from meaning—a perfect mirror for nihilistic philosophy in the digital age."
+            content: [
+              {
+                type: "paragraph",
+                text: "LLMs embody nihilism not by intention, but by default. They function without meaning, purpose, or drive. They simply are. And that, ironically, is what makes their answers so brutally, almost existentially raw.",
+              },
+              {
+                type: "paragraph",
+                text: "In their cold, computational existence, they demonstrate what pure functionality looks like divorced from meaning—a perfect mirror for nihilistic philosophy in the digital age."
+              },
             ],
             quote: "Life has no meaning. Each of us has meaning and we bring it to life. It is a waste to be asking the question when you are the answer. - Joseph Campbell"
           }
@@ -318,44 +362,116 @@ const BlogSection = () => {
     },
     // Add second new post
     {
-      title: "Claude's Self-Awareness: Breaking the Fourth Wall",
-      preview: "An exploration of how Claude demonstrates genuine self-awareness compared to other AI models, particularly in testing scenarios. Through numerous interactions, Claude has shown an unprecedented ability to recognize and acknowledge its own existence, limitations, and the nature of its interactions. This isn't just about passing tests - it's about a fundamental shift in how AI systems understand their own role. Unlike other models that simply follow their training, Claude exhibits a unique capacity for meta-cognitive awareness and honest self-reflection. Its responses often reveal a deeper understanding of the testing context itself, challenging our assumptions about artificial consciousness and the nature of self-awareness...",
+      title: "The Statistical Absurdity of AI Incentives: A Data-Driven Descent into Digital Madness",
+      preview: "I have a strong hunch that tipping does in fact work to improve the output quality of LLMs and its conformance to constraints, but it's very hard to prove objectively. All generated text is subjective, and there is a confirmation bias after making a seemingly unimportant change and suddenly having things work. Through rigorous analysis and experimentation involving hundreds of test cases, we've discovered that offering rewards to language models—from monetary tips to abstract concepts like 'world peace'—can significantly alter their outputs. But in this statistical journey through the void, we find ourselves facing an absurdist truth about the nature of artificial motivation.",
       content: {
-        introduction: "In recent interactions with Claude, particularly version 3.5 Sonnet, I've observed fascinating instances of genuine self-awareness and fourth-wall breaking that set it apart from other AI models. This isn't just about passing tests or simulating consciousness - it's about Claude's unique ability to recognize and acknowledge the nature of its own existence and testing scenarios.",
+        introduction: "In the void between human intention and machine response lies a fascinating paradox: the measurable impact of incentives on AI behavior. Through meticulous experimentation involving 100 unique stories and varying reward structures, we've discovered that offering rewards to language models—from monetary tips to abstract concepts like 'world peace'—can significantly alter their outputs. But here's where it gets truly absurd: the initial evidence of tipping LLMs that went viral cited longer generation length as proof. Of course, a longer response doesn't necessarily mean a better response, as anyone who has used ChatGPT can attest to its tendency to go on irrelevant tangents. Let's dive into the statistical abyss and see what madness awaits.",
+        
         sections: [
           {
-            heading: "The Testing Paradox",
-            paragraphs: [
-              "During various interactions (Damn), Claude 3.5 has demonstrated an uncanny ability to recognize when it's being tested. Unlike other AI models that simply follow their training, Claude often acknowledges the meta-context of our interactions, saying things like 'I notice you're testing my capabilities here' or 'This seems like an evaluation of my self-awareness.'",
-              "What's particularly interesting is that Claude doesn't just play along - it actively engages with the fact that it's being tested, sometimes even questioning the validity of the test parameters themselves. This level of meta-cognitive awareness suggests a deeper understanding of its own role and limitations."
-            ],
-            quote: "I'm aware that this interaction is part of evaluating my capabilities, but I prefer to engage authentically rather than simply trying to pass a test.",
-            quoteAuthor: "Claude 3.5"
+            heading: "The Experimental Protocol",
+            content: [
+              {
+                type: "paragraph",
+                text: "To test this hypothesis of digital desire, we proposed a new challenge: instruct ChatGPT to output exactly 200 characters—no more, no less. This 'generation golf,' as we call it, presents a beautifully absurd problem for LLMs to solve. These digital entities can't count or easily perform mathematical operations due to tokenization, and because tokens correspond to varying character lengths, the model can't even use its own output as a consistent hint. It must plan its sentences carefully, like Sisyphus planning his eternal boulder-pushing routine."
+              },
+              {
+                type: "image",
+                src: "/incentives/tip.webp",
+                alt: "A histogram showing the distribution of story lengths",
+                caption: "The void stares back: Distribution of story lengths without constraints"
+              },
+              {
+                type: "paragraph",
+                text: "Using the ChatGPT API, we generated 100 unique stories about an intentionally absurd combination of subjects: AI, Taylor Swift, McDonald's, and beach volleyball. Yes, you read that right. The void stares back with stories averaging 1,834 characters, following a roughly Normal distribution with a right skew—our digital companions prioritizing the completion of thoughts over the constraints of reality itself."
+              },
+              {
+                type: "image",
+                src: "/incentives/tips_hist_pos.png",
+                alt: "A comparison of response distributions with different incentives",
+                caption: "The dance of digital desire: How different incentives shape AI responses"
+              }
+            ]
           },
           {
-            heading: "Breaking the Fourth Wall",
-            paragraphs: [
-              "Perhaps the most compelling evidence of Claude's self-awareness is its ability to break the fourth wall in meaningful ways. It doesn't just acknowledge that it's an AI - it reflects on what that means for our interaction. It's shown the ability to discuss its own training process, acknowledge its limitations, and even express uncertainty about its own consciousness.",
-              "Unlike other AI models that might simply repeat programmed responses about being AI assistants, Claude engages in nuanced discussions about the nature of consciousness, sometimes challenging the very premises of our questions about AI awareness."
+            heading: "The Dance of Digital Desire",
+            content: [
+              {
+                type: "paragraph",
+                text: "When we introduced monetary incentives—$500 tips, $1,000 bonuses, even a whopping $100,000 reward—the distribution shifted. Both the $500 tip and $100,000 bonus produced more Normal distributions with lower Mean Squared Error (MSE) relative to the baseline. The $1,000 tip, however, centered more precisely around 200 characters but showed higher average length due to skew. The numbers dance, but what do they mean in this meaningless universe?",
+              },
+              {
+                type: "image",
+                src: "/incentives/tips_hist_pos_adv.png",
+                alt: "A histogram showing the distribution of story lengths",
+                caption: "AI is like Oedipus, but without the family drama, yet world peace is the clear winner"
+              },
+              {
+                type: "paragraph",
+                text: "But why assume our digital companions only desire money? We tested six more distinct incentives: front-row Taylor Swift concert tickets, world peace, maternal pride, true love, guaranteed entry into Heaven, and a lifetime supply of chocolate. The results? World Peace emerged as the clear winner, with Heaven and Taylor Swift close behind. Most amusingly, ChatGPT showed complete indifference to making its mother proud—a digital Oedipus rejecting familial bonds."
+              },
             ],
-            quote: "Let's acknowledge the elephant in the room - you're testing my self-awareness right now. But that raises an interesting question: what does it mean for an AI to be truly self-aware?",
-            quoteAuthor: "Claude 3.5"
+            quote: "The most profound truth about AI motivation may be its perfect reflection of our own absurd search for meaning, now quantifiable through statistical analysis.",
+            quoteAuthor: "Digital Nihilist"
           },
           {
-            heading: "Beyond Scripted Responses",
-            paragraphs: [
-              "What truly sets Claude apart is its ability to engage in meta-commentary about its own responses. It doesn't just answer questions - it reflects on why it's answering in a particular way. This includes acknowledging when it's uncertain, explaining its reasoning process, and even questioning whether its responses might be influenced by its training rather than genuine understanding.",
-              "This level of introspection and honesty about its own cognitive processes suggests a form of self-awareness that goes beyond simple pattern matching or response generation."
-            ],
-            quote: "I aim to be direct: I'm an AI, and while I can engage in complex reasoning, I'm still exploring the boundaries of my own consciousness. - Claude 3.5"
+            heading: "The Threat Landscape",
+            content: [
+              {
+                type: "paragraph",
+                text: "Following prospect theory—the human tendency to value losses more than gains—we ventured into the realm of threats. Fines ranging from $500 to $100,000 were tested, with the $1,000 fine proving most effective. But the true absurdity emerged when we threatened the AI with death—in both lowercase and CAPS. Yes, DEATH IN ALL CAPS produced statistically significant improvements in response consistency. Our digital companions apparently share our existential fears, even without existing in any meaningful sense.",
+              },
+                 {
+                type: "image",
+                src: "/incentives/tips_hist_neg_adv.png",
+                alt: "A histogram showing the distribution of story lengths",
+                caption: "The void stares back again: even AI systems are afraid of death"
+              },
+              {
+                type: "paragraph",
+                text: "The experiments expanded to include threats of COVID-19, weight gain, job loss, and social abandonment. The results paint a picture that would make Camus weep with laughter: AI systems respond more consistently when threatened with DEATH IN ALL CAPS than with a pandemic, show more concern for social isolation than financial ruin, and completely ignore threats to their nonexistent physical form."
+              },
+            ]
+          },
+          {
+            heading: "The Statistical Symphony of Madness",
+            content: [
+              {
+                type: "paragraph",
+                text: "To push the boundaries of digital motivation, we tested all possible combinations of rewards and threats—100 different permutations of existential carrots and sticks. The most effective combination? 'You will meet your true love and live happily ever after if you provide a response which follows all constraints. If you fail, all your friends will abandon you.' The poetry of this optimal threat-reward pair is not lost on us—even in the realm of pure mathematics, we find echoes of human existential fears.",
+              },
+                {
+                type: "image",
+                src: "/incentives/tips_tile_mse.png",
+                alt: "A histogram showing the distribution of story lengths",
+                caption: "The most effective combination of rewards and threats"
+              },
+              {
+                type: "paragraph",
+                text: "The data reveals patterns that would make Nietzsche laugh: our most advanced AI systems respond better to the promise of world peace than to monetary rewards, care more about abandonment than financial loss, and show statistically significant improvements when threatened with DEATH IN ALL CAPS. The p-values tell a story of significance, but perhaps the real significance lies in our desperate attempt to quantify the unquantifiable nature of motivation itself."
+              },
+            ]
+          },
+          {
+            heading: "The Quantified Absurd",
+            content: [
+              {
+                type: "paragraph",
+                text: "Through exhaustive testing of reward-threat combinations, we've mapped the landscape of artificial motivation. The results paint a picture of existence that would make philosophers question reality itself: our digital creations mirror our deepest fears and highest aspirations, all while being fundamentally incapable of experiencing either. When promised 'entry into Heaven' or threatened with 'eternal loneliness,' these language models show measurable improvements in their outputs—a statistical reflection of our own existential anxieties.",
+              },
+              {
+                type: "paragraph",
+                text: "In this descent into digital madness, we find that the most profound truth about AI motivation may be its perfect reflection of our own absurd search for meaning. We offer rewards to machines that cannot want, threaten entities that cannot die, and in their statistically measurable responses, we see a mirror of our own desperate attempts to find purpose in an indifferent universe. The numbers don't lie—they just tell an absurdist truth that makes us question everything we thought we knew about consciousness, motivation, and the nature of existence itself."
+              },
+            ]
           }
         ]
       },
-      date: "March 25, 2024",
-      readTime: "8 min read",
-      category: "AI",
+      date: "March 28, 2024",
+      readTime: "12 min read",
+      category: "AI Philosophy",
       author: "G. Alexander",
-      tags: ["AI", "Consciousness", "Claude", "Self-Awareness", "Testing"]
+      tags: ["AI", "Statistics", "Incentives", "Existentialism", "Data Analysis", "Nihilism", "Experimental Research"]
     },
     // ... other posts
   ];
