@@ -1,5 +1,5 @@
 import { motion, AnimatePresence } from "framer-motion";
-import { X, User, Calendar, Clock, Tag } from "lucide-react";
+import { X, User, Calendar, Clock, Tag, Quote } from "lucide-react";
 import { FocusScope } from '@react-aria/focus';
 import { useRef, useEffect } from "react";
 import { BlogPost } from "../types/blog";
@@ -183,7 +183,7 @@ export const BlogModal = ({ post, onClose }: BlogModalProps) => {
                   <motion.div
                     key={sectionIndex}
                     variants={blogContainerVariants}
-                    className="space-y-2 sm:space-y-3 mb-6"
+                    className="mb-6"
                   >
                     {section.heading && (
                       <motion.h3
@@ -198,40 +198,78 @@ export const BlogModal = ({ post, onClose }: BlogModalProps) => {
                       <motion.p
                         key={pIndex}
                         variants={blogItemVariants}
-                        className="text-[10px] md:text-xs leading-relaxed"
+                        className="text-[10px] md:text-xs leading-relaxed mb-3 sm:mb-4"
                       >
                         {addBlogInlineIcons(paragraph)}
                       </motion.p>
                     ))}
 
+                    {section.image && (
+                      <motion.figure
+                        variants={blogItemVariants}
+                        className="my-8 sm:my-12 max-w-[85%] mx-auto"
+                      >
+                        <div className="relative w-full aspect-[4/3] rounded-lg overflow-hidden 
+                          border border-border/50 
+                          shadow-[0_2px_4px_-2px_rgba(0,0,0,0.05)]
+                          dark:shadow-[0_2px_4px_-2px_rgba(0,0,0,0.2)]"
+                        >
+                          <img
+                            src={section.image.src}
+                            alt={section.image.alt}
+                            className="w-full h-full object-cover"
+                          />
+                        </div>
+                        {section.image.caption && (
+                          <figcaption className="mt-2 text-center text-[9px] md:text-[10px] text-muted-foreground italic">
+                            {section.image.caption}
+                          </figcaption>
+                        )}
+                      </motion.figure>
+                    )}
+
                     {section.quote && (
                       <motion.blockquote
                         variants={blogItemVariants}
-                        className="border-l-3 border-primary pl-4 sm:pl-6 my-12 sm:my-16 italic text-[10px] md:text-xs relative mx-8 sm:mx-12 pr-4 sm:pr-6 max-w-[85%]"
+                        className="border-l-3 border-primary/30 dark:border-primary/20 
+                          bg-primary/[0.03] dark:bg-primary/[0.02]
+                          pt-4 pb-8 px-6 sm:px-8 
+                          my-12 sm:my-16 
+                          text-[10px] md:text-xs 
+                          relative mx-8 sm:mx-12 
+                          rounded-lg
+                          shadow-[0_2px_4px_-2px_rgba(0,0,0,0.05)]
+                          dark:shadow-[0_2px_4px_-2px_rgba(0,0,0,0.2)]
+                          overflow-visible"
                       >
-                        <span
-                          className="absolute -left-1 -top-1 text-primary text-xl sm:text-2xl leading-none"
-                          style={{ fontFamily: '"Libre Bodoni", serif', fontStyle: 'italic' }}
-                        >
-                          "
-                        </span>
                         <p
-                          className="px-2"
-                          style={{ fontFamily: '"Libre Bodoni", serif', fontStyle: 'italic' }}
+                          className="italic"
+                          style={{ fontFamily: '"Libre Bodoni", serif' }}
                         >
                           {section.quote}
                         </p>
-                        <span
-                          className="absolute text-primary text-xl sm:text-2xl leading-none"
-                          style={{
-                            fontFamily: '"Libre Bodoni", serif',
-                            fontStyle: 'italic',
-                            right: '10px',
-                            bottom: '-8px'
-                          }}
-                        >
-                          "
-                        </span>
+                        
+                        {/* Author Attribution */}
+                        {section.quoteAuthor && (
+                          <div className="absolute -bottom-1 right-0
+                            bg-gradient-to-r from-background/0 via-background/60 to-background/60
+                            dark:from-background/0 dark:via-background/40 dark:to-background/40
+                            backdrop-blur-[2px]
+                            pl-8 pr-4 py-1.5
+                            text-[9px] md:text-[10px]
+                            font-medium
+                            text-muted-foreground/90
+                            border-t border-border/20
+                            rounded-tl-full
+                            group
+                            transition-all duration-300"
+                          >
+                            <div className="flex items-center gap-2">
+                              <Quote className="h-3 w-3 text-primary/40 group-hover:text-primary/60 transition-colors" />
+                              {section.quoteAuthor}
+                            </div>
+                          </div>
+                        )}
                       </motion.blockquote>
                     )}
                   </motion.div>
@@ -257,7 +295,7 @@ export const BlogModal = ({ post, onClose }: BlogModalProps) => {
 
               {/* Gradient Blur */}
               <div className="absolute left-0 right-0 bottom-0 pointer-events-none">
-                <GradientBlur isFixed={true} className="z-10" />
+                <GradientBlur isFixed={true} className="z-20" />
               </div>
             </motion.div>
           </motion.div>

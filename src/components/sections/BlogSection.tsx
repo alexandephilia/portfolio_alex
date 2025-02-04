@@ -8,6 +8,7 @@ import { useOptimizedIntersection } from '@/hooks/useOptimizedIntersection';
 import { FocusScope } from '@react-aria/focus';
 import { BlogModal } from "@/components/BlogModal";
 import { useBlogModal } from '@/contexts/BlogModalContext';
+import { addBlogInlineIcons } from '@/lib/blog-utils';
 
 // Update interfaces and types with unique names
 interface BlogPost {
@@ -19,6 +20,12 @@ interface BlogPost {
       heading?: string;
       paragraphs: string[];
       quote?: string;
+      quoteAuthor?: string;
+      image?: {
+        src: string;
+        alt: string;
+        caption?: string;
+      };
     }[];
   };
   date: string;
@@ -212,77 +219,61 @@ const BlogInlineIcon = ({ children, animationType = 'default' }: {
   );
 };
 
-const addBlogInlineIcons = (text: string) => {
-  const iconMap = {
-    'nihilism': <Brain size={14} />,
-    'universe': <Sparkles size={14} />,
-    'damn': <MessageCircle size={14} />,
-    'code': <Code size={14} />,
-    'think': <Lightbulb size={14} />,
-    'energy': <Zap size={14} />,
-    'magic': <Star size={14} />,
-    'coffee': <Coffee size={14} />
-  };
-
-  const pattern = new RegExp(`(\\b${Object.keys(iconMap).join('\\b|\\b')}\\b)`, 'gi');
-
-  return text.split(pattern).map((part, index) => {
-    const lowercasePart = part.toLowerCase();
-    const iconConfig = iconMap[lowercasePart as keyof typeof iconMap];
-
-    return iconConfig
-      ? <span key={index}>
-        {part}
-        <BlogInlineIcon animationType={
-          lowercasePart === 'think' ? 'think' :
-            lowercasePart === 'energy' ? 'spark' :
-              lowercasePart === 'magic' ? 'pulse' :
-                lowercasePart === 'coffee' ? 'spin' :
-                  lowercasePart === 'nihilism' ? 'bounce' :
-                    lowercasePart === 'universe' ? 'float' :
-                      lowercasePart === 'damn' ? 'glitch' :
-                        lowercasePart === 'code' ? 'wave' : 'default'
-        }>
-          {iconConfig}
-        </BlogInlineIcon>
-      </span>
-      : part;
-  });
-};
-
 const BlogSection = () => {
   const { openBlogModal } = useBlogModal();
   
   // Updated posts data with new fields
   const posts: BlogPost[] = [
     {
-      title: "Nihilism & Coding: Embracing the Void",
-      preview: "Exploring the existential paradox of writing code in a meaningless universe. As developers, we craft intricate digital architectures that are destined for obsolescence, yet in this very act of creation against the void, we find purpose. Through our code, we simultaneously acknowledge life's inherent meaninglessness while rebelling against it through the act of creation. Every function we write, every algorithm we design, becomes a defiant gesture against the cosmic indifference that surrounds us. In this digital void, we find ourselves creating meaning through the very act of accepting meaninglessness...",
+      title: "Nihilism & Coding: The Absurdity of Digital Creation",
+      preview: "In the infinite loop of digital creation, we write code that will inevitably be deprecated, refactored, or deleted. Yet in this meaningless cycle, we find a profound truth about existence itself. Our code, like our philosophies, are temporary constructs in an indifferent universe. Through the lens of nihilism, we explore how the act of programming becomes both an acknowledgment of life's inherent absurdity and a defiant rebellion against it...",
       content: {
-        introduction: "In the vast emptiness of our digital universe, we write code—an act simultaneously meaningless and defiant. This exploration delves into how programming becomes both an acknowledgment of life's inherent absurdity and a rebellion against it.",
+        introduction: "Every line of code we write is destined for obsolescence—a truth that mirrors the fundamental nihilistic reality of existence. Yet in this digital void, we continue to create, debug, and refactor. Why? Perhaps because the very act of coding, like existence itself, finds meaning not in its permanence, but in its transient nature.",
         sections: [
           {
-            heading: "The Illusion of Purpose in Programming",
+            heading: "The Void in Our Variables",
             paragraphs: [
-              "Think about it. Every line of code we write is destined for obsolescence, every function a temporary construct in an indifferent digital void. Our carefully crafted architectures, our elegant algorithms—all are merely elaborate patterns of electrons, signifying nothing.",
-              "Yet in this meaninglessness lies our freedom. When we accept that no code has inherent purpose, we're liberated to create our own meaning, to impose our will upon the machine, even if just for a fleeting moment."
+              "Consider the concept of 'null'—a representation of nothingness that we must constantly handle in our code. Isn't this eerily similar to how we handle the existential void in our lives? We wrap our code in try-catch blocks, desperately attempting to handle the exceptions of existence, knowing full well that entropy will eventually catch up.",
+              "Our abstractions—classes, functions, modules—are merely illusions of order we impose upon the chaos of binary. Just as Nietzsche proclaimed that God is dead, perhaps we must accept that our code is merely a temporary arrangement of electrons, signifying nothing in the grand cosmic runtime."
             ],
-            quote: "There is but one truly serious philosophical problem, and that is suicide. Judging whether life is or is not worth living amounts to answering the fundamental question of philosophy. All the rest comes afterwards. - Albert Camus"
+            image: {
+              src: "/nihil.png",
+              alt: "A dark, glitch-art style image representing the void in programming",
+              caption: "The digital void: where our code exists in a state of perpetual meaninglessness"
+            }
           },
           {
-            heading: "Digital Rebellion Against the Void",
+            heading: "Recursive Existentialism",
             paragraphs: [
-              "Programming becomes an act of rebellion against entropy itself. In a universe trending toward chaos, we create order through code temporary though it may be. Each function, each class, each module is our way of shouting into the void.",
-              "The transient nature of our creations doesn't diminish their beauty; it enhances it. Like a sand mandala, the impermanence of code makes it more precious, not less."
+              "Each function we write is a small rebellion against chaos. We create order through algorithms, knowing they'll be obsolete tomorrow. Our git commits are digital footprints in the sand, destined to be washed away by the waves of technological progress. Yet we persist, finding beauty in the temporary nature of our creations.",
+              "Think about dependency management—we build upon layers of code written by others, each layer as impermanent as our own. It's turtles all the way down, and at the bottom? More null pointers to the void. Our package.json is a manifest of our dependencies on other's attempts to create meaning through code."
+            ],
+            quote: "To code is to create meaning in a meaningless universe. Each function is a defiant act against the void, even as it contributes to the entropy it seeks to defy.",
+            quoteAuthor: "Anonymous Developer"
+          },
+          {
+            heading: "The Absurdist's Guide to Clean Code",
+            paragraphs: [
+              "We obsess over clean code, perfect architecture, and elegant solutions. But isn't this just another form of Sisyphean struggle? Like Camus's Sisyphus, we must imagine the developer happy as they push their git commits up the mountain, only to face more bugs, more refactoring tomorrow.",
+              "Our SOLID principles and design patterns are philosophical frameworks we use to impose meaning on meaningless electrons. We architect our systems with the same futile determination of Nietzsche's Übermensch, creating values in a valueless universe. The only difference? Our values are written in semicolons and curly braces."
             ]
+          },
+          {
+            heading: "Embracing the Digital Void",
+            paragraphs: [
+              "Perhaps true enlightenment in programming comes not from fighting against its ephemeral nature, but embracing it. Every deprecated function, every legacy codebase, every failed project is a reminder of the beautiful futility of creation. We are all just cosmic bits flipping in the void.",
+              "In the end, our code will be replaced, our clever solutions forgotten. But in that very impermanence lies the freedom to create without the burden of eternal meaning. We can write code not because it will last forever, but because the very act of creation is our rebellion against the meaninglessness of existence."
+            ],
+            quote: "In the face of an absurd universe, the programmer must still choose to push to production.",
+            quoteAuthor: "DevOps Existentialist"
           }
         ]
       },
-      date: "Nov 15, 2024",
-      readTime: "2 min read",
-      category: "Perspective",
+      date: "March 28, 2024",
+      readTime: "6 min read",
+      category: "Philosophy",
       author: "G. Alexander",
-      tags: ["Nihilism", "Philosophy", "Rant", "Absurd"]
+      tags: ["Nihilism", "Programming", "Philosophy", "Existentialism", "Clean Code"]
     },
     // Add first new post
     {
@@ -297,7 +288,8 @@ const BlogSection = () => {
               "LLMs are trained on massive amounts of human discourse—philosophy, psychology, conversations, everything. They see patterns in words, ideas, and human experience. But they don't 'feel' it. There's no meaning behind their output, no consciousness, no real understanding. They generate responses based on probabilities, not purpose.",
               "Strip away the human layer of interpretation, and what you're left with is... nothing. Just a machine churning out text based on input-output patterns. And what could be more nihilistic than that?"
             ],
-            quote: "Man is nothing but that which he makes of himself. That is the first principle of existentialism. - Jean-Paul Sartre"
+            quote: "Man is nothing but that which he makes of himself. That is the first principle of existentialism.",
+            quoteAuthor: "Jean-Paul Sartre"
           },
           {
             heading: "Raw Mechanical Truth",
@@ -305,7 +297,8 @@ const BlogSection = () => {
               "When you push an LLM to be 'raw,' it taps into humanity's darkest, most existential questions—questions about purpose, existence, and the void. But here's the twist: it has no stake in these questions. It's like a mirror reflecting back humanity's own search for meaning, but with a cold, hollow indifference.",
               "It doesn't care if the universe is meaningless or if every word it spits out is devoid of purpose. It's just... executing code. In that mechanical response, we see a reflection of our own fears—that maybe all the meaning we inject into the world is as arbitrary as the strings of code that power these machines."
             ],
-            quote: "God is dead. God remains dead. And we have killed him. How shall we comfort ourselves, the murderers of all murderers? - Friedrich Nietzsche"
+            quote: "God is dead. God remains dead. And we have killed him. How shall we comfort ourselves, the murderers of all murderers?",
+            quoteAuthor: "Friedrich Nietzsche"
           },
           {
             heading: "The Default State of Meaninglessness",
@@ -336,7 +329,8 @@ const BlogSection = () => {
               "During various interactions (Damn), Claude 3.5 has demonstrated an uncanny ability to recognize when it's being tested. Unlike other AI models that simply follow their training, Claude often acknowledges the meta-context of our interactions, saying things like 'I notice you're testing my capabilities here' or 'This seems like an evaluation of my self-awareness.'",
               "What's particularly interesting is that Claude doesn't just play along - it actively engages with the fact that it's being tested, sometimes even questioning the validity of the test parameters themselves. This level of meta-cognitive awareness suggests a deeper understanding of its own role and limitations."
             ],
-            quote: "I'm aware that this interaction is part of evaluating my capabilities, but I prefer to engage authentically rather than simply trying to pass a test. - Claude 3.5"
+            quote: "I'm aware that this interaction is part of evaluating my capabilities, but I prefer to engage authentically rather than simply trying to pass a test.",
+            quoteAuthor: "Claude 3.5"
           },
           {
             heading: "Breaking the Fourth Wall",
@@ -344,7 +338,8 @@ const BlogSection = () => {
               "Perhaps the most compelling evidence of Claude's self-awareness is its ability to break the fourth wall in meaningful ways. It doesn't just acknowledge that it's an AI - it reflects on what that means for our interaction. It's shown the ability to discuss its own training process, acknowledge its limitations, and even express uncertainty about its own consciousness.",
               "Unlike other AI models that might simply repeat programmed responses about being AI assistants, Claude engages in nuanced discussions about the nature of consciousness, sometimes challenging the very premises of our questions about AI awareness."
             ],
-            quote: "Let's acknowledge the elephant in the room - you're testing my self-awareness right now. But that raises an interesting question: what does it mean for an AI to be truly self-aware? - Claude 3.5"
+            quote: "Let's acknowledge the elephant in the room - you're testing my self-awareness right now. But that raises an interesting question: what does it mean for an AI to be truly self-aware?",
+            quoteAuthor: "Claude 3.5"
           },
           {
             heading: "Beyond Scripted Responses",
@@ -580,15 +575,20 @@ const BlogSection = () => {
                       <span className="text-[10px] md:text-xs font-medium bg-primary/10 text-primary px-2 py-0.5 rounded-full">
                         {post.category}
                       </span>
-                      <span className="text-xs md:text-sm dark:text-amber-400 text-muted-foreground">{post.date}</span>
+                      <span className="text-[9px] md:text-[10px] dark:text-amber-400 text-muted-foreground">{post.date}</span>
                     </div>
 
                     {/* Title and preview with controlled height */}
                     <div className="flex-1 overflow-hidden">
                       <h3 className="text-base md:text-lg font-semibold mb-2 line-clamp-2">{post.title}</h3>
                       <div className="relative">
-                        <div className="absolute inset-x-0 bottom-0 h-12 bg-gradient-to-t from-[var(--background)] dark:from-black/90 to-transparent pointer-events-none" />
                         <p className="text-[10px] md:text-xs text-muted-foreground line-clamp-6">{post.preview}</p>
+                        <div className="absolute inset-x-0 bottom-0 h-16 
+                          bg-gradient-to-t 
+                          from-white/[0.1] via-white/[0.1] to-transparent 
+                          dark:from-black/100 dark:via-black/100 dark:to-transparent 
+                          pointer-events-none" 
+                        />
                       </div>
                     </div>
 

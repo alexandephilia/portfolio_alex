@@ -1,17 +1,41 @@
 import React from 'react';
-import { Code, Link, Star, Zap } from 'lucide-react';
+import { Brain, Sparkles, MessageCircle, Code, Lightbulb, Zap, Star, Coffee } from 'lucide-react';
+import { BlogInlineIcon } from '@/components/BlogInlineIcon';
 
 const iconMap = {
-  '[code]': <Code className="inline h-3 w-3 mx-0.5 -mt-0.5" />,
-  '[link]': <Link className="inline h-3 w-3 mx-0.5 -mt-0.5" />,
-  '[star]': <Star className="inline h-3 w-3 mx-0.5 -mt-0.5" />,
-  '[zap]': <Zap className="inline h-3 w-3 mx-0.5 -mt-0.5" />
+  'nihilism': <Brain size={14} />,
+  'universe': <Sparkles size={14} />,
+  'damn': <MessageCircle size={14} />,
+  'code': <Code size={14} />,
+  'think': <Lightbulb size={14} />,
+  'energy': <Zap size={14} />,
+  'magic': <Star size={14} />,
+  'coffee': <Coffee size={14} />
 };
 
 export const addBlogInlineIcons = (text: string) => {
-  const parts = text.split(/(\[code\]|\[link\]|\[star\]|\[zap\])/g);
-  return parts.map((part, index) => {
-    const icon = iconMap[part as keyof typeof iconMap];
-    return icon ? React.cloneElement(icon, { key: index }) : part;
+  const pattern = new RegExp(`(\\b${Object.keys(iconMap).join('\\b|\\b')}\\b)`, 'gi');
+
+  return text.split(pattern).map((part, index) => {
+    const lowercasePart = part.toLowerCase();
+    const iconConfig = iconMap[lowercasePart as keyof typeof iconMap];
+
+    return iconConfig
+      ? <span key={index}>
+          {part}
+          <BlogInlineIcon animationType={
+            lowercasePart === 'think' ? 'think' :
+            lowercasePart === 'energy' ? 'spark' :
+            lowercasePart === 'magic' ? 'pulse' :
+            lowercasePart === 'coffee' ? 'spin' :
+            lowercasePart === 'nihilism' ? 'bounce' :
+            lowercasePart === 'universe' ? 'float' :
+            lowercasePart === 'damn' ? 'glitch' :
+            lowercasePart === 'code' ? 'wave' : 'default'
+          }>
+            {iconConfig}
+          </BlogInlineIcon>
+        </span>
+      : part;
   });
 }; 
