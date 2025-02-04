@@ -194,39 +194,36 @@ export const BlogModal = ({ post, onClose }: BlogModalProps) => {
                       </motion.h3>
                     )}
 
-                    {section.paragraphs.map((paragraph, pIndex) => (
-                      <motion.p
-                        key={pIndex}
-                        variants={blogItemVariants}
-                        className="text-[10px] md:text-xs leading-relaxed mb-3 sm:mb-4"
-                      >
-                        {addBlogInlineIcons(paragraph)}
-                      </motion.p>
-                    ))}
-
-                    {section.image && (
-                      <motion.figure
-                        variants={blogItemVariants}
-                        className="my-8 sm:my-12 max-w-[85%] mx-auto"
-                      >
-                        <div className="relative w-full aspect-[4/3] rounded-lg overflow-hidden 
-                          border border-border/50 
-                          shadow-[0_2px_4px_-2px_rgba(0,0,0,0.05)]
-                          dark:shadow-[0_2px_4px_-2px_rgba(0,0,0,0.2)]"
-                        >
-                          <img
-                            src={section.image.src}
-                            alt={section.image.alt}
-                            className="w-full h-full object-cover"
-                          />
-                        </div>
-                        {section.image.caption && (
-                          <figcaption className="mt-2 text-center text-[9px] md:text-[10px] text-muted-foreground italic">
-                            {section.image.caption}
-                          </figcaption>
+                    {section.content.map((item, index) => (
+                      <motion.div key={index} variants={blogItemVariants}>
+                        {item.type === "paragraph" && (
+                          <p className="text-[10px] md:text-xs leading-relaxed mb-3 sm:mb-4">
+                            {addBlogInlineIcons(item.text || "")}
+                          </p>
                         )}
-                      </motion.figure>
-                    )}
+                        {item.type === "image" && (
+                          <motion.figure className="my-8 sm:my-12 max-w-[85%] mx-auto">
+                            <div className="relative w-full aspect-[4/3] rounded-lg overflow-hidden 
+                              bg-gradient-to-b from-background/5 to-background/0
+                              shadow-[0_4px_12px_-2px_rgba(0,0,0,0.12),0_2px_6px_-1px_rgba(0,0,0,0.1)]
+                              dark:shadow-[0_4px_12px_-2px_rgba(0,0,0,0.4),0_2px_6px_-1px_rgba(0,0,0,0.3)]
+                              backdrop-blur-[1px]"
+                            >
+                              <img
+                                src={item.src}
+                                alt={item.alt}
+                                className="w-full h-full object-contain"
+                              />
+                            </div>
+                            {item.caption && (
+                              <figcaption className="mt-2 text-center text-[9px] md:text-[10px] text-muted-foreground italic">
+                                {item.caption}
+                              </figcaption>
+                            )}
+                          </motion.figure>
+                        )}
+                      </motion.div>
+                    ))}
 
                     {section.quote && (
                       <motion.blockquote
