@@ -1,7 +1,7 @@
 // Import necessary dependencies for animations, UI components, and icons
 import { motion, AnimatePresence } from "framer-motion";
 import { Button } from "@/components/ui/button";
-import { Home, User, Award, Terminal, Mail, Menu, X, Hash, Calculator, ArrowLeftRight, DollarSign, Send, Phone, Handshake, MessageCircle, MessagesSquare, UserRoundPlus, MailCheck, Option } from "lucide-react";
+import { Home, User, Award, Terminal, Mail, Menu, X, Hash, Calculator, ArrowLeftRight, DollarSign, Send, Phone, Handshake, MessageCircle, MessagesSquare, UserRoundPlus, MailCheck, Option, Linkedin } from "lucide-react";
 import { useState, useEffect } from "react";
 import { cn } from "@/lib/utils";
 import {
@@ -18,7 +18,7 @@ import {
   CommandItem,
   CommandList,
 } from "@/components/Command";
-import { SiMaildotru, SiThreads } from "react-icons/si";
+import { SiMaildotru, SiThreads, SiWhatsapp, SiGmail } from "react-icons/si";
 
 type UnitCategory = 'length' | 'weight' | 'temperature';
 
@@ -260,21 +260,21 @@ const FloatingMenu = () => {
     },
 
     {
-      icon: <UserRoundPlus className="h-5 w-5" />,
+      icon: <SiWhatsapp className="h-5 w-5" />,
       label: "WhatsApp",
       href: "https://wa.me/6285959300787",
       external: true
     },
     {
-      icon: <MailCheck className="h-5 w-5" />,
+      icon: <SiGmail className="h-5 w-5" />,
       label: "Email",
       href: "mailto:0xnihilist@gmail.com",
       external: true
     },
     {
-      icon: <Hash className="h-5 w-5" />,
-      label: "Twitter",
-      href: "https://x.com/0xnihilism",
+      icon: <Linkedin className="h-5 w-5" />,
+      label: "LinkedIn",
+      href: "https://www.linkedin.com/in/alexandephilia/",
       external: true
     },
     {
