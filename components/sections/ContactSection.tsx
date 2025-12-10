@@ -62,7 +62,7 @@ const ContactSection: React.FC = () => {
             <a
               key={i}
               href={link.href}
-              className="group relative w-12 h-12 flex items-center justify-center border-2 bg-transparent transition-all duration-300 hover:-translate-y-1 hover:shadow-[3px_3px_0px_0px_rgba(136,137,139)]"
+              className="group relative w-12 h-12 flex items-center justify-center border-2 bg-transparent transition-all duration-300 hover:-translate-y-1 hover:shadow-[3px_3px_0px_0px_rgba(181,88,57)]"
               style={{ 
                 borderColor: COLORS.secondary, 
                 color: COLORS.secondary,

@@ -74,7 +74,7 @@ const App = () => {
           ></div>
 
           <div className="absolute inset-0 flex items-end justify-center pointer-events-none z-0 pb-10 md:pb-[2vh]">
-             <div className="overflow-hidden">
+             <div className="overflow-visible">
                <motion.h1 
                  className="font-instrument text-[26vw] leading-none text-center tracking-tighter select-none"
                  style={{ color: COLORS.primary }}
