@@ -179,7 +179,7 @@ const App = () => {
             <div className="pointer-events-auto overflow-hidden rounded-full">
               <motion.button 
                 onClick={() => scrollToCard(0)}
-                className="w-10 h-10 md:w-12 md:h-12 rounded-full border-2 flex items-center justify-center transition-colors duration-300 overflow-hidden"
+                className="w-10 h-10 md:w-12  rounded-full border-2 flex items-center justify-center transition-colors duration-300 overflow-hidden"
                 initial={{ x: "-150%", rotate: -180 }}
                 animate={{ 
                     x: !isLoading ? "0%" : "-150%", 
@@ -259,7 +259,7 @@ const App = () => {
             <div className="pointer-events-auto overflow-hidden">
                <motion.a 
                 href="mailto:4lexander31@gmail.com"
-                className="w-10 h-10 md:w-12 md:h-12 rounded-full border-2 flex items-center justify-center cursor-pointer transition-colors duration-300"
+                className="w-10 h-10 md:w-12 rounded-full border-2 flex items-center justify-center cursor-pointer transition-colors duration-300"
                 initial={{ x: "150%", rotate: 180 }}
                 animate={{ 
                     x: !isLoading ? "0%" : "150%", 
