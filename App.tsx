@@ -73,7 +73,7 @@ const App = () => {
             }}
           ></div>
 
-          <div className="absolute inset-0 flex items-end justify-center pointer-events-none z-0 pb-24 md:pb-[2vh]">
+          <div className="absolute inset-0 flex items-end justify-center pointer-events-none z-0 pb-10 md:pb-[2vh]">
              <div className="overflow-hidden">
                <motion.h1 
                  className="font-instrument text-[26vw] leading-none text-center tracking-tighter select-none"
@@ -168,7 +168,7 @@ const App = () => {
             <div className="pointer-events-auto overflow-hidden rounded-full">
               <motion.button 
                 onClick={() => scrollToCard(0)}
-                className="w-10 h-10 md:w-12 md:h-12 rounded-full border-2 flex items-center justify-center transition-colors duration-300"
+                className="w-10 h-10 md:w-12 md:h-12 rounded-full border-2 flex items-center justify-center transition-colors duration-300 overflow-hidden"
                 initial={{ x: "-150%", rotate: -180 }}
                 animate={{ 
                     x: !isLoading ? "0%" : "-150%", 
@@ -189,8 +189,8 @@ const App = () => {
                 }}
               >
                 <motion.svg 
-                  width="20" 
-                  height="20" 
+                  width="16" 
+                  height="16" 
                   viewBox="0 0 24 24" 
                   fill="none" 
                   xmlns="http://www.w3.org/2000/svg" 
@@ -198,6 +198,7 @@ const App = () => {
                   strokeWidth="2" 
                   strokeLinecap="round" 
                   strokeLinejoin="round"
+                  className="flex-shrink-0"
                   animate={{ rotate: 360 }}
                   transition={{ duration: 10, repeat: Infinity, ease: "linear" }}
                 >
