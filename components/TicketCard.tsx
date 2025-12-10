@@ -62,11 +62,28 @@ const TicketCard: React.FC<CardProps> = ({
     [0.8, 1, 0.9, 0.8] 
   );
 
-  // Opacity
+  // Opacity - Kept minimal or removed per "modify instead of fade"
+  // If we remove fade entirely, we can just set it to 1, or maybe keep a very subtle entry?
+  // User said "modify instead of fade". I will make it 1 almost immediately but clamp ends.
+  // actually 120vh is off screen. So opacity 1 is fine.
   const opacity = useTransform(
     scrollProgress,
-    [index - 1, index - 0.5, index, index + 0.6, index + 1],
-    [0, 1, 1, 1, 0]
+    [index - 1, index, index + 1],
+    [1, 1, 1] 
+  );
+
+  // Blur Reveal
+  const filter = useTransform(
+    scrollProgress,
+    [index - 1, index, index + 1],
+    ['blur(5px)', 'blur(0px)', 'blur(5px)']
+  );
+
+  // Rotation (Z impact)
+  const rotate = useTransform(
+    scrollProgress,
+    [index - 1, index, index + 1],
+    [6, 0, -3] // 3 degrees enter, 0 center, -3 exit
   );
 
   // Pointer Events - allow interaction when card is reasonably visible
@@ -75,7 +92,7 @@ const TicketCard: React.FC<CardProps> = ({
     (val: number) => (Math.abs(val - index) < 0.5 ? 'auto' : 'none')
   );
 
-  const marqueeTexts = ["Front End Dev", "DevOps", "Full Stack Dev", "Agnostic Framework", "Experimenter", "Coffee Fueled Dev"];
+  const marqueeTexts = ["Front End", "DevOps", "Full Stack", "Agnostic Framework", "Experimenter", "Coffee Fueled", "Back End", "Rapid Prototyping"];
 
   // Reusable text block for infinite loop
   const MarqueeContent = () => (
@@ -97,8 +114,10 @@ const TicketCard: React.FC<CardProps> = ({
       style={{ 
         y,
         rotateX,
+        rotate, // Apply Z rotation
         scale,
         opacity,
+        filter, // Apply Blur
         pointerEvents,
         transformStyle: "preserve-3d",
         transformOrigin: "top center",

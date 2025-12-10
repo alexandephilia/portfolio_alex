@@ -144,7 +144,7 @@ const IdentitySection: React.FC = () => {
 
              <div className="absolute bottom-5 right-3">
                  <div className="px-1.5 py-0 rounded-sm border flex items-center" style={{ backgroundColor: COLORS.primary, borderColor: COLORS.secondary }}>
-                   <span className="font-mono text-[9px] font-bold tracking-widest leading-none pt-[2px] pb-[1px]" style={{ color: COLORS.secondary }}>Full Stack Dev</span>
+                   <span className="font-mono text-[9px] font-bold tracking-widest leading-none pt-[2px] pb-[1px]" style={{ color: COLORS.secondary }}>FULL STACK DEV</span>
                  </div>
             </div>
             

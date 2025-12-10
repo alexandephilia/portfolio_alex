@@ -1,4 +1,5 @@
 import React, { useRef, useEffect, useState } from 'react';
+import VariableProximityText from './components/ui/VariableProximityText';
 import { useScroll, useTransform, motion, useSpring, AnimatePresence } from 'framer-motion';
 import TicketCard from './components/TicketCard';
 import IdentitySection from './components/sections/IdentitySection';
@@ -73,29 +74,40 @@ const App = () => {
             }}
           ></div>
 
-          <div className="absolute inset-0 flex items-end justify-center pointer-events-none z-0 pb-10 md:pb-[2vh]">
-             <div className="overflow-visible">
-               <motion.h1 
-                 className="font-instrument text-[26vw] leading-none text-center tracking-tighter select-none"
-                 style={{ color: COLORS.primary }}
-                 initial={{ y: "100%", opacity: 0, filter: "blur(10px)" }}
-                 animate={{ 
-                   y: !isLoading ? "0%" : "100%",
-                   opacity: !isLoading ? 1 : 0,
-                   filter: !isLoading ? "blur(0px)" : "blur(10px)"
-                 }}
-                 transition={{ 
-                   type: "spring", 
-                   stiffness: 100, 
-                   damping: 20, 
-                   mass: 1,
-                   delay: 1.0 
-                 }}
-               >
-                 ALEXANDER
-               </motion.h1>
-             </div>
-          </div>
+             <div className="absolute inset-0 flex items-end justify-center pointer-events-none z-0 pb-10 md:pb-8">
+               <div className="overflow-visible pointer-events-auto"> {/* Pointer events auto needed for hover detection */}
+                 <motion.div
+                   initial={{ y: "100%", opacity: 0, filter: "blur(10px)" }}
+                   animate={{ 
+                     y: !isLoading ? "0%" : "100%",
+                     opacity: !isLoading ? 1 : 0,
+                     filter: !isLoading ? "blur(0px)" : "blur(10px)"
+                   }}
+                   transition={{ 
+                     type: "spring", 
+                     stiffness: 100, 
+                     damping: 20, 
+                     mass: 1,
+                     delay: 1.0 
+                   }}
+                 >
+                   <VariableProximityText
+                     label="ALEXANDER"
+                     className="font-instrument text-[25vw] leading-none text-center tracking-tighter select-none whitespace-nowrap"
+                     style={{ color: COLORS.primary }}
+                     fromFontVariationSettings="'wght' 400, 'opsz' 9"
+                     toFontVariationSettings="'wght' 800, 'opsz' 40"
+                     radius={300}
+                     falloff="gaussian"
+                     styleInterpolation={(intensity) => ({
+                        transform: `scale(${1 + intensity * 0.1}) skewX(${intensity * -15}deg)`,
+                        color: intensity > 0.8 ? COLORS.accent : COLORS.primary, // Optional: color shift on close proximity
+                        fontWeight: 400 + (intensity * 400) // Fallback for standard weight interpolation
+                     })}
+                   />
+                 </motion.div>
+               </div>
+            </div>
 
           <div className="absolute inset-0 w-full h-full flex items-center justify-center perspective-container z-10">
             <style>{`.perspective-container { perspective: 1200px; }`}</style>
