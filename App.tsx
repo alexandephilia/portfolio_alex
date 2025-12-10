@@ -1,7 +1,6 @@
 import React, { useRef, useEffect, useState } from 'react';
 import { useScroll, useTransform, motion, useSpring, AnimatePresence } from 'framer-motion';
 import TicketCard from './components/TicketCard';
-import InteractiveLanyard from './components/InteractiveLanyard';
 import IdentitySection from './components/sections/IdentitySection';
 import CapabilitiesSection from './components/sections/CapabilitiesSection';
 import ServicesSection from './components/sections/ServicesSection';
@@ -102,10 +101,44 @@ const App = () => {
             <style>{`.perspective-container { perspective: 1200px; }`}</style>
             
             {!isLoading && (
-              <InteractiveLanyard 
-                currentCardProgress={currentCardProgress}
-                totalCards={totalCards}
-              />
+              <motion.div
+                className="absolute inset-0 flex items-center justify-center pointer-events-none"
+                initial={{ y: "-100vh", rotate: 30, scale: 0.9 }}
+                animate={{ y: 0, rotate: 0, scale: 1 }}
+                style={{ transformOrigin: "50% -50vh" }}
+                transition={{ 
+                  y: { type: "spring", stiffness: 300, damping: 30, mass: 1, delay: 0.1 }, // Solid drop, no bounce
+                  scale: { type: "spring", stiffness: 300, damping: 30, mass: 1, delay: 0.1 }, // Sync scale with drop
+                  rotate: { type: "spring", stiffness: 15, damping: 2, mass: 3, delay: 0.1 } // Slow, heavy pendulum swing
+                }}
+              >
+                <div className="pointer-events-auto relative w-full h-full flex items-center justify-center">
+                   {/* We wrap TicketCard but we need to ensure it's still positioned correctly. 
+                       TicketCard has 'absolute' in its implementation. 
+                       The wrapper here creates a context. 
+                       Actually, TicketCard relies on being in the center? 
+                       Let's check TicketCard style. It uses 'absolute' and center via parent flex?
+                       The parent is 'flex items-center justify-center'. 
+                       So direct children are centered. 
+                       If I wrap it, I need the wrapper to handle that.
+                       The `motion.div` above is `absolute inset-0 flex items-center justify-center`. 
+                       So inside it, we are centered. 
+                   */}
+                  <TicketCard 
+                    index={0} 
+                    scrollProgress={currentCardProgress} 
+                    totalCards={totalCards} 
+                    header="IDENTIFICATION"
+                    subHeader="Certified 31.05.94"
+                    headerClassName="!text-[2.5rem] md:!text-[3.2rem]"
+                    className="!aspect-[2/3] !h-auto md:max-h-[500px] w-[80vw] md:!w-[340px]"
+                    contentClassName="pt-[80px]"
+                    isLanyard={true}
+                  >
+                     <IdentitySection />
+                  </TicketCard>
+                </div>
+              </motion.div>
             )}
 
             {/* Other cards don't need the drop, allowing normal rendering */}

@@ -69,10 +69,10 @@ const TicketCard: React.FC<CardProps> = ({
     [0, 1, 1, 1, 0]
   );
 
-  // Pointer Events
+  // Pointer Events - allow interaction when card is reasonably visible
   const pointerEvents = useTransform(
     scrollProgress,
-    (val: number) => (Math.abs(val - index) < 0.3 ? 'auto' : 'none')
+    (val: number) => (Math.abs(val - index) < 0.5 ? 'auto' : 'none')
   );
 
   const marqueeTexts = ["Front End Dev", "DevOps", "Full Stack Dev", "Agnostic Framework", "Experimenter", "Coffee Fueled Dev"];
