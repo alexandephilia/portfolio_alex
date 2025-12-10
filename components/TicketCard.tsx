@@ -83,7 +83,7 @@ const TicketCard: React.FC<CardProps> = ({
   const rotate = useTransform(
     scrollProgress,
     [index - 1, index, index + 1],
-    [6, 0, -3] // 3 degrees enter, 0 center, -3 exit
+    [6, 0, 0] // 3 degrees enter, 0 center, -3 exit
   );
 
   // Pointer Events - allow interaction when card is reasonably visible
