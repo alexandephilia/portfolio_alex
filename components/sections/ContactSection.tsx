@@ -18,17 +18,17 @@ const ContactSection: React.FC = () => {
         </div>
          
         {/* Dual Button Layout - Symmetrical Swiss Style */}
-        <div className="flex flex-row items-center justify-center gap-4 w-full">
+        <div className="flex flex-col md:flex-row items-center justify-center gap-3 md:gap-4 w-full">
            <a 
             href="mailto:4lexander31@gmail.com" 
-            className="group relative px-6 py-3 font-bold flex items-center justify-center gap-2 overflow-hidden transition-all duration-300 hover:-translate-y-1 rounded-r-2xl rounded-l-md"
+            className="group relative w-full md:w-auto px-6 py-3 font-bold flex items-center justify-center gap-2 overflow-hidden transition-all duration-300 hover:-translate-y-1 rounded-xl md:rounded-r-2xl md:rounded-l-md"
             style={{ 
               backgroundColor: COLORS.secondary, 
               color: COLORS.primary,
               border: `2px solid ${COLORS.secondary}`,
             }}
           >
-            <span className="relative z-10 text-sm md:text-base tracking-wide">CONTACT</span>
+            <span className="relative z-10 text-base tracking-wide">CONTACT</span>
             <ArrowUpRight className="relative z-10 w-4 h-4 transition-transform group-hover:rotate-45 group-hover:translate-x-1" />
             <div 
               className="absolute inset-0 translate-y-full group-hover:translate-y-0 transition-transform duration-300 ease-in-out"
@@ -37,17 +37,17 @@ const ContactSection: React.FC = () => {
           </a>
 
            <a 
-            href="/Resume.pdf" 
+            href="/resume.pdf" 
             target="_blank"
             rel="noopener noreferrer"
-            className="group relative px-6 py-3 font-bold flex items-center justify-center gap-2 overflow-hidden transition-all duration-300 hover:-translate-y-1 rounded-l-2xl rounded-r-md"
+            className="group relative w-full md:w-auto px-6 py-3 font-bold flex items-center justify-center gap-2 overflow-hidden transition-all duration-300 hover:-translate-y-1 rounded-xl md:rounded-l-2xl md:rounded-r-md"
             style={{ 
               backgroundColor: COLORS.secondary, 
               color: COLORS.primary,
               border: `2px solid ${COLORS.secondary}`,
             }}
           >
-            <span className="relative z-10 text-sm md:text-base tracking-wide">RESUME</span>
+            <span className="relative z-10 text-base tracking-wide">RESUME</span>
             <ArrowUpRight className="relative z-10 w-4 h-4 transition-transform group-hover:rotate-45 group-hover:translate-x-1" />
              <div 
               className="absolute inset-0 translate-y-full group-hover:translate-y-0 transition-transform duration-300 ease-in-out -z-0"

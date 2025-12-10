@@ -1,5 +1,5 @@
 import React, { useRef, useEffect, useState } from 'react';
-import { useScroll, useTransform, motion, useSpring } from 'framer-motion';
+import { useScroll, useTransform, motion, useSpring, AnimatePresence } from 'framer-motion';
 import TicketCard from './components/TicketCard';
 import IdentitySection from './components/sections/IdentitySection';
 import CapabilitiesSection from './components/sections/CapabilitiesSection';
@@ -8,11 +8,13 @@ import ContactSection from './components/sections/ContactSection';
 import { COLORS } from './constants';
 import { CardProps } from './types';
 import GrainEffect from './components/effects/GrainEffect';
+import Preloader from './components/ui/Preloader';
 
 const App = () => {
   const containerRef = useRef<HTMLDivElement>(null);
   const totalCards = 4; 
   const scrollHeightPerCard = 150; 
+  const [isLoading, setIsLoading] = useState(true);
 
   const { scrollYProgress } = useScroll({
     target: containerRef,
@@ -49,6 +51,10 @@ const App = () => {
       className="w-full relative"
       style={{ height: `${totalCards * scrollHeightPerCard}vh` }}
     >
+      <AnimatePresence mode="wait">
+        {isLoading && <Preloader onComplete={() => setIsLoading(false)} />}
+      </AnimatePresence>
+
       <GrainEffect />
       <div 
         className="fixed inset-0 z-0 p-3 md:p-5"
@@ -67,32 +73,76 @@ const App = () => {
             }}
           ></div>
 
-          <div className="absolute inset-0 flex items-end justify-center pointer-events-none z-0 pb-[5vh] md:pb-[2vh]">
-             <h1 
-               className="font-instrument text-[26vw] leading-none text-center tracking-tighter select-none"
-               style={{ color: COLORS.primary }}
-             >
-               ALEXANDER
-             </h1>
+          <div className="absolute inset-0 flex items-end justify-center pointer-events-none z-0 pb-24 md:pb-[2vh]">
+             <div className="overflow-hidden">
+               <motion.h1 
+                 className="font-instrument text-[26vw] leading-none text-center tracking-tighter select-none"
+                 style={{ color: COLORS.primary }}
+                 initial={{ y: "100%", opacity: 0, filter: "blur(10px)" }}
+                 animate={{ 
+                   y: !isLoading ? "0%" : "100%",
+                   opacity: !isLoading ? 1 : 0,
+                   filter: !isLoading ? "blur(0px)" : "blur(10px)"
+                 }}
+                 transition={{ 
+                   type: "spring", 
+                   stiffness: 100, 
+                   damping: 20, 
+                   mass: 1,
+                   delay: 1.0 
+                 }}
+               >
+                 ALEXANDER
+               </motion.h1>
+             </div>
           </div>
 
           <div className="absolute inset-0 w-full h-full flex items-center justify-center perspective-container z-10">
             <style>{`.perspective-container { perspective: 1200px; }`}</style>
             
-            <TicketCard 
-              index={0} 
-              scrollProgress={currentCardProgress} 
-              totalCards={totalCards} 
-              header="IDENTIFICATION"
-              subHeader="Certified 31.05.94"
-              headerClassName="!text-[2.5rem] md:!text-[3.2rem]"
-              className="!aspect-[2/3] !h-auto md:max-h-[500px] w-[80vw] md:!w-[340px]"
-              contentClassName="pt-[80px]"
-              isLanyard={true}
-            >
-               <IdentitySection />
-            </TicketCard>
+            {!isLoading && (
+              <motion.div
+                className="absolute inset-0 flex items-center justify-center pointer-events-none"
+                initial={{ y: "-120vh", rotate: -5 }}
+                animate={{ y: 0, rotate: 0 }}
+                transition={{ 
+                  type: "spring", 
+                  mass: 1.2, 
+                  stiffness: 60, 
+                  damping: 12,
+                  delay: 0.1 // Drop starts immediately after loader
+                }}
+              >
+                <div className="pointer-events-auto relative w-full h-full flex items-center justify-center">
+                   {/* We wrap TicketCard but we need to ensure it's still positioned correctly. 
+                       TicketCard has 'absolute' in its implementation. 
+                       The wrapper here creates a context. 
+                       Actually, TicketCard relies on being in the center? 
+                       Let's check TicketCard style. It uses 'absolute' and center via parent flex?
+                       The parent is 'flex items-center justify-center'. 
+                       So direct children are centered. 
+                       If I wrap it, I need the wrapper to handle that.
+                       The `motion.div` above is `absolute inset-0 flex items-center justify-center`. 
+                       So inside it, we are centered. 
+                   */}
+                  <TicketCard 
+                    index={0} 
+                    scrollProgress={currentCardProgress} 
+                    totalCards={totalCards} 
+                    header="IDENTIFICATION"
+                    subHeader="Certified 31.05.94"
+                    headerClassName="!text-[2.5rem] md:!text-[3.2rem]"
+                    className="!aspect-[2/3] !h-auto md:max-h-[500px] w-[80vw] md:!w-[340px]"
+                    contentClassName="pt-[80px]"
+                    isLanyard={true}
+                  >
+                     <IdentitySection />
+                  </TicketCard>
+                </div>
+              </motion.div>
+            )}
 
+            {/* Other cards don't need the drop, allowing normal rendering */}
             <TicketCard index={1} scrollProgress={currentCardProgress} totalCards={totalCards} header="CAPABILITIES">
                <CapabilitiesSection />
             </TicketCard>
@@ -115,11 +165,16 @@ const App = () => {
           {/* Navigation */}
           <nav className="absolute top-0 left-0 right-0 z-[100] px-6 py-6 md:px-8 md:py-8 flex justify-between items-center pointer-events-none">
             {/* Profile/Home Button */}
-            <div className="pointer-events-auto">
+            <div className="pointer-events-auto overflow-hidden">
               <motion.button 
                 onClick={() => scrollToCard(0)}
                 className="w-10 h-10 md:w-12 md:h-12 rounded-full border-2 flex items-center justify-center transition-colors duration-300"
-                initial="initial"
+                initial={{ x: "-150%", rotate: -180 }}
+                animate={{ 
+                    x: !isLoading ? "0%" : "-150%", 
+                    rotate: !isLoading ? 0 : -180 
+                }}
+                transition={{ type: "spring", stiffness: 100, damping: 20, delay: 1.8 }}
                 whileHover="hover"
                 style={{ 
                   backgroundColor: COLORS.primary, 
@@ -183,11 +238,16 @@ const App = () => {
             </div>
 
             {/* Mail Button */}
-            <div className="pointer-events-auto">
+            <div className="pointer-events-auto overflow-hidden">
                <motion.a 
                 href="mailto:4lexander31@gmail.com"
                 className="w-10 h-10 md:w-12 md:h-12 rounded-full border-2 flex items-center justify-center cursor-pointer transition-colors duration-300"
-                initial="initial"
+                initial={{ x: "150%", rotate: 180 }}
+                animate={{ 
+                    x: !isLoading ? "0%" : "150%", 
+                    rotate: !isLoading ? 0 : 180 
+                }}
+                transition={{ type: "spring", stiffness: 100, damping: 20, delay: 1.9 }}
                 whileHover="hover"
                 style={{ 
                   backgroundColor: COLORS.primary, 
@@ -235,7 +295,7 @@ const App = () => {
                          Since we change text color to white on hover, let's make paper white and lines Accent/Red? 
                          But variants set color to White. So paper is white. 
                          Let's use a mask or just not draw lines to keep it simple or use stroke lines over white fill.
-                      */}
+                       */}
                       <path d="M8 9h8 M8 12h5" stroke={COLORS.accent} strokeWidth="1.5" />
                   </motion.g>
                   
