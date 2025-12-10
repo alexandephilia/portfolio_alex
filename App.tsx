@@ -1,6 +1,7 @@
 import React, { useRef, useEffect, useState } from 'react';
 import { useScroll, useTransform, motion, useSpring, AnimatePresence } from 'framer-motion';
 import TicketCard from './components/TicketCard';
+import InteractiveLanyard from './components/InteractiveLanyard';
 import IdentitySection from './components/sections/IdentitySection';
 import CapabilitiesSection from './components/sections/CapabilitiesSection';
 import ServicesSection from './components/sections/ServicesSection';
@@ -101,45 +102,10 @@ const App = () => {
             <style>{`.perspective-container { perspective: 1200px; }`}</style>
             
             {!isLoading && (
-              <motion.div
-                className="absolute inset-0 flex items-center justify-center pointer-events-none"
-                initial={{ y: "-120vh", rotate: -5 }}
-                animate={{ y: 0, rotate: 0 }}
-                transition={{ 
-                  type: "spring", 
-                  mass: 1.2, 
-                  stiffness: 60, 
-                  damping: 12,
-                  delay: 0.1 // Drop starts immediately after loader
-                }}
-              >
-                <div className="pointer-events-auto relative w-full h-full flex items-center justify-center">
-                   {/* We wrap TicketCard but we need to ensure it's still positioned correctly. 
-                       TicketCard has 'absolute' in its implementation. 
-                       The wrapper here creates a context. 
-                       Actually, TicketCard relies on being in the center? 
-                       Let's check TicketCard style. It uses 'absolute' and center via parent flex?
-                       The parent is 'flex items-center justify-center'. 
-                       So direct children are centered. 
-                       If I wrap it, I need the wrapper to handle that.
-                       The `motion.div` above is `absolute inset-0 flex items-center justify-center`. 
-                       So inside it, we are centered. 
-                   */}
-                  <TicketCard 
-                    index={0} 
-                    scrollProgress={currentCardProgress} 
-                    totalCards={totalCards} 
-                    header="IDENTIFICATION"
-                    subHeader="Certified 31.05.94"
-                    headerClassName="!text-[2.5rem] md:!text-[3.2rem]"
-                    className="!aspect-[2/3] !h-auto md:max-h-[500px] w-[80vw] md:!w-[340px]"
-                    contentClassName="pt-[80px]"
-                    isLanyard={true}
-                  >
-                     <IdentitySection />
-                  </TicketCard>
-                </div>
-              </motion.div>
+              <InteractiveLanyard 
+                currentCardProgress={currentCardProgress}
+                totalCards={totalCards}
+              />
             )}
 
             {/* Other cards don't need the drop, allowing normal rendering */}
@@ -212,19 +178,25 @@ const App = () => {
 
             {/* Pagination */}
             <div className="pointer-events-auto absolute left-1/2 -translate-x-1/2">
-                <div 
-                  className="flex items-center gap-3 px-4 py-2 rounded-full border backdrop-blur-md transition-all duration-300"
+                <motion.div 
+                  className="flex items-center gap-3 px-4 py-2 rounded-full border backdrop-blur-md"
                   style={{ 
                     backgroundColor: "rgba(26, 35, 50, 0.85)", 
                     borderColor: COLORS.primary,
                   }}
+                  initial={{ y: 20, opacity: 0 }}
+                  animate={{ y: !isLoading ? 0 : 20, opacity: !isLoading ? 1 : 0 }}
+                  transition={{ type: "spring", stiffness: 200, damping: 20, delay: 1.5 }}
                 >
                     {Array.from({ length: totalCards }).map((_, i) => (
-                        <button
+                        <motion.button
                             key={i}
                             onClick={() => scrollToCard(i)}
                             className="relative group w-3 h-3 flex items-center justify-center outline-none"
                             aria-label={`Scroll to card ${i + 1}`}
+                            initial={{ scale: 0 }}
+                            animate={{ scale: !isLoading ? 1 : 0 }}
+                            transition={{ type: "spring", stiffness: 300, damping: 20, delay: 1.7 + i * 0.08 }}
                         >
                             <div 
                                 className={`w-2.5 h-2.5 rotate-45 border transition-all duration-300 ${activeNavIndex === i ? 'scale-110' : 'scale-90 opacity-60 hover:opacity-100 hover:scale-100'}`}
@@ -233,9 +205,9 @@ const App = () => {
                                     borderColor: COLORS.primary
                                 }}
                             />
-                        </button>
+                        </motion.button>
                     ))}
-                </div>
+                </motion.div>
             </div>
 
             {/* Mail Button */}
@@ -308,13 +280,22 @@ const App = () => {
             </div>
           </nav>
 
-          <div className="absolute bottom-6 left-6 md:bottom-8 md:left-8 z-0 pointer-events-none">
-             <p 
+          <div className="absolute bottom-6 left-6 md:bottom-8 md:left-8 z-0 pointer-events-none overflow-hidden">
+             <motion.p 
                className="font-mono text-[10px] md:text-xs uppercase tracking-widest opacity-60"
                style={{ color: COLORS.primary }}
+               initial={{ y: "100%", opacity: 0 }}
+               animate={{ y: !isLoading ? "0%" : "100%", opacity: !isLoading ? 1 : 0 }}
+               transition={{ 
+                 type: "spring",
+                 stiffness: 100,
+                 damping: 20,
+                 mass: 1,
+                 delay: 1.25 
+               }}
              >
                2025 © Crafted with a cup of coffee
-             </p>
+             </motion.p>
           </div>
 
         </div>

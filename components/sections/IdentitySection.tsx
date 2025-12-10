@@ -110,18 +110,15 @@ const IdentitySection: React.FC = () => {
             {/* Content Wrapper - Masked for text slide */}
             <div className="font-instrument text-base md:text-lg leading-none flex items-center gap-1 overflow-hidden relative">
               {/* Animated Word Wrapper */}
-              <div className="relative grid place-items-center">
-                 {/* Hidden spacer */}
-                 <span className="invisible opacity-0 col-start-1 row-start-1 select-none whitespace-nowrap" aria-hidden="true">{GREETINGS[greetingIndex]},</span>
-                 
+              <div className="relative grid place-items-center h-[1.3em]">
                  <AnimatePresence mode="popLayout" initial={false}>
                   <motion.span
                     key={greetingIndex}
                     initial={{ y: "100%", opacity: 0, filter: "blur(4px)" }}
-                    animate={{ y: "0%", opacity: 1, filter: "blur(0px)" }}
+                    animate={{ y: "-8%", opacity: 1, filter: "blur(0px)" }}
                     exit={{ y: "-100%", opacity: 0, filter: "blur(4px)" }}
                     transition={{ type: "spring", stiffness: 400, damping: 30 }}
-                    className="col-start-1 row-start-1 whitespace-nowrap absolute left-0 text-center w-full"
+                    className="col-start-1 row-start-1 whitespace-nowrap"
                   >
                     {GREETINGS[greetingIndex]},
                   </motion.span>
@@ -129,7 +126,7 @@ const IdentitySection: React.FC = () => {
               </div>
               
               {/* Static Word */}
-              <motion.span layout transition={{ type: "spring", stiffness: 420, damping: 30 }}>Alex here!</motion.span>
+              <span>Alex here!</span>
             </div>
           </motion.div>
         </motion.div>

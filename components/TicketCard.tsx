@@ -19,7 +19,8 @@ const TicketCard: React.FC<CardProps> = ({
   className = "",
   contentClassName = "",
   headerClassName = "",
-  subHeader
+  subHeader,
+  isLanyard
 }) => {
   const marqueeRef = useRef<HTMLDivElement>(null);
 
@@ -50,14 +51,14 @@ const TicketCard: React.FC<CardProps> = ({
   // Perspective Rotation (RotateX)
   const rotateX = useTransform(
     scrollProgress,
-    [index - 1, index, index + 0.5, index + 1],
+    [index - 1, index, index + 0.25, index + 1],
     [0, 0, 24, 24]
   );
 
   // Scale
   const scale = useTransform(
     scrollProgress,
-    [index - 1, index, index + 0.5, index + 1],
+    [index - 1, index, index + 0.25, index + 1],
     [0.8, 1, 0.9, 0.8] 
   );
 
@@ -104,8 +105,44 @@ const TicketCard: React.FC<CardProps> = ({
         zIndex: totalCards - index,
       }}
     >
+      {isLanyard && (
+        <div className="absolute bottom-[95%] left-0 right-0 flex justify-center pointer-events-none z-0 pb-1">
+          {/* Main Strap */}
+          <div 
+             className="w-[180px] md:w-[220px] relative flex justify-center"
+             style={{ height: 'calc(50vh + 20px)' }}
+          >
+             <div 
+               className="w-[90%] h-full relative rounded-b-xl overflow-hidden"
+               style={{ 
+                  backgroundColor: '#1a1a1a',
+                  boxShadow: 'inset 0 0 20px rgba(0,0,0,0.5)'
+               }}
+             >
+                {/* Fabric Texture Pattern */}
+                <div 
+                  className="absolute inset-0 opacity-30"
+                  style={{ 
+                    backgroundImage: `repeating-linear-gradient(45deg, transparent, transparent 2px, rgba(255,255,255,0.05) 2px, rgba(255,255,255,0.05) 4px)`
+                  }}
+                />
+                
+                {/* Stitching Details */}
+                <div className="absolute inset-y-0 left-2 w-0.5 border-l border-dashed border-white/20" />
+                <div className="absolute inset-y-0 right-2 w-0.5 border-r border-dashed border-white/20" />
+
+                {/* Clip Connector */}
+                <div className="absolute bottom-0 left-0 right-0 h-14 bg-[#2a2a2a] flex items-center justify-center shadow-lg">
+                    <div className="w-full h-2 bg-black/40 absolute top-2" />
+                    <div className="w-3/4 h-1 bg-white/10 rounded-full" />
+                </div>
+             </div>
+          </div>
+        </div>
+      )}
+
       <div 
-        className="w-full h-full rounded-[2rem] border-4 relative flex flex-col overflow-hidden shadow-2xl"
+        className="w-full h-full rounded-[2rem] border-4 relative flex flex-col overflow-hidden shadow-2xl bg-white"
         style={{ 
           backgroundColor: COLORS.primary, 
           borderColor: COLORS.secondary,
