@@ -91,7 +91,7 @@ const ContactSection: React.FC = () => {
          >
           <div className="flex justify-between text-[10px] md:text-xs font-instrument uppercase tracking-widest" style={{ color: '#161515ff' }}>
              <span>Made by Alexander</span>
-             <span>With Coffee © 2025</span>
+             <span>© 2025</span>
           </div>
         </div>
       </div>

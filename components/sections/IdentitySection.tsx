@@ -129,7 +129,7 @@ const IdentitySection: React.FC = () => {
               </div>
               
               {/* Static Word */}
-              <motion.span layout transition={{ type: "spring", stiffness: 400, damping: 30 }}>Alex here!</motion.span>
+              <motion.span layout transition={{ type: "spring", stiffness: 420, damping: 30 }}>Alex here!</motion.span>
             </div>
           </motion.div>
         </motion.div>

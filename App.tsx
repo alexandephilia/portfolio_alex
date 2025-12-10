@@ -165,7 +165,7 @@ const App = () => {
           {/* Navigation */}
           <nav className="absolute top-0 left-0 right-0 z-[100] px-6 py-6 md:px-8 md:py-8 flex justify-between items-center pointer-events-none">
             {/* Profile/Home Button */}
-            <div className="pointer-events-auto overflow-hidden">
+            <div className="pointer-events-auto overflow-hidden rounded-full">
               <motion.button 
                 onClick={() => scrollToCard(0)}
                 className="w-10 h-10 md:w-12 md:h-12 rounded-full border-2 flex items-center justify-center transition-colors duration-300"
@@ -312,7 +312,7 @@ const App = () => {
                className="font-mono text-[10px] md:text-xs uppercase tracking-widest opacity-60"
                style={{ color: COLORS.primary }}
              >
-               © 2025, Garry Alexander
+               2025 © Crafted with a cup of coffee
              </p>
           </div>
 
