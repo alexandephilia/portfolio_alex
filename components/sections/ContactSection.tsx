@@ -1,63 +1,78 @@
 import React from 'react';
-import { ArrowUpRight, Globe } from 'lucide-react';
+import { Mail, Download, Globe } from 'lucide-react';
 import { COLORS, SOCIAL_LINKS } from '../../constants';
 
 const ContactSection: React.FC = () => {
   return (
     <div className="flex flex-col h-full w-full">
       {/* Main Content Centered */}
-      <div className="flex-1 flex flex-col items-center justify-center p-6 gap-6 md:gap-8 w-full">
-        <div className="text-center w-full">
-          <h2 className="text-3xl md:text-3xl font-instrument mb-2 leading-none" style={{ color: COLORS.secondary }}>LET'S TALK</h2>
-          <p className="font-mono font-bold text-[10px] md:text-xs uppercase tracking-widest opacity-60" style={{ color: COLORS.secondary }}>
-            Based in Indonesia, working globally (remote is preferred) 
-            <span className="inline-flex align-middle ml-1.5 rounded-full border" style={{ borderColor: COLORS.primary }}>
+      <div className="flex-1 flex flex-col items-center justify-center py-6 gap-3 md:gap-3 w-full">
+        <div className="text-center w-full px-6">
+          <div className="flex items-center justify-center gap-2 mb-0 opacity-80" style={{ color: COLORS.secondary }}>
+             <p className="font-instrument text-2xl md:text-2xl mb-1">I'm available for</p>
+             <span className="inline-flex align-middle rounded-full border p-0.5" style={{ borderColor: COLORS.secondary }}>
               <Globe size={11} strokeWidth={2} />
-            </span>
+             </span>
+          </div>
+          <div className="flex flex-wrap justify-center gap-2 mb-2">
+            {['Full-time', 'Contract', 'Freelance'].map((tag) => (
+              <span 
+                key={tag} 
+                className="px-3 py-1 border rounded-full text-[10px] md:text-xs font-instrument italic tracking-widest uppercase cursor-default"
+                style={{ 
+                  backgroundColor: COLORS.secondary, 
+                  borderColor: COLORS.secondary, 
+                  color: '#e4e687' 
+                }}
+              >
+                {tag}
+              </span>
+            ))}
+          </div>
+          <p className=" font-bold text-[10px] md:text-xs uppercase tracking-widest opacity-60 max-w-[280px] mx-auto" style={{ color: COLORS.secondary }}>
+            Based in Indonesia, working globally (remote is preferred) 
           </p>
         </div>
          
-        {/* Dual Button Layout - Symmetrical Swiss Style */}
-        <div className="flex flex-col md:flex-row items-center justify-center gap-3 md:gap-4 w-full">
+        {/* Two Square Grid Buttons */}
+        <div 
+          className="grid grid-cols-2 w-full mx-auto border-t-2 border-b-2 mt-4 overflow-hidden"
+          style={{ borderColor: COLORS.secondary, aspectRatio: '3/1' }}
+        >
            <a 
             href="mailto:4lexander31@gmail.com" 
-            className="group relative w-full md:w-auto px-6 py-3 font-bold flex items-center justify-center gap-2 overflow-hidden transition-all duration-300 hover:-translate-y-1 rounded-xl md:rounded-r-2xl md:rounded-l-md"
-            style={{ 
-              backgroundColor: COLORS.secondary, 
-              color: COLORS.primary,
-              border: `2px solid ${COLORS.secondary}`,
-            }}
+            className="group relative flex flex-col items-center justify-center gap-2 overflow-hidden hover:text-[#e4e687]"
+            style={{ color: COLORS.secondary }}
           >
-            <span className="relative z-10 text-base tracking-wide">CONTACT</span>
-            <ArrowUpRight className="relative z-10 w-4 h-4 transition-transform group-hover:rotate-45 group-hover:translate-x-1" />
             <div 
               className="absolute inset-0 translate-y-full group-hover:translate-y-0 transition-transform duration-300 ease-in-out"
-              style={{ backgroundColor: COLORS.accent }}
+              style={{ backgroundColor: COLORS.secondary }}
             />
+            <Mail className="relative z-10 w-5 h-5 md:w-6 md:h-6 transition-colors duration-300 group-hover:text-[#e4e687]" />
+            <span className="relative z-10 text-[10px] md:text-xs font-bold tracking-widest uppercase mt-1 transition-colors duration-300 group-hover:text-[#e4e687]">CONTACT</span>
+            
+            {/* Divider */}
+            <div className="absolute right-0 top-0 bottom-0 w-[2px]" style={{ backgroundColor: COLORS.secondary }}></div>
           </a>
 
            <a 
             href="/resume.pdf" 
             target="_blank"
             rel="noopener noreferrer"
-            className="group relative w-full md:w-auto px-6 py-3 font-bold flex items-center justify-center gap-2 overflow-hidden transition-all duration-300 hover:-translate-y-1 rounded-xl md:rounded-l-2xl md:rounded-r-md"
-            style={{ 
-              backgroundColor: COLORS.secondary, 
-              color: COLORS.primary,
-              border: `2px solid ${COLORS.secondary}`,
-            }}
+            className="group relative flex flex-col items-center justify-center gap-2 overflow-hidden hover:text-[#e4e687]"
+            style={{ color: COLORS.secondary }}
           >
-            <span className="relative z-10 text-base tracking-wide">RESUME</span>
-            <ArrowUpRight className="relative z-10 w-4 h-4 transition-transform group-hover:rotate-45 group-hover:translate-x-1" />
              <div 
-              className="absolute inset-0 translate-y-full group-hover:translate-y-0 transition-transform duration-300 ease-in-out -z-0"
-              style={{ backgroundColor: COLORS.accent }}
+              className="absolute inset-0 translate-y-full group-hover:translate-y-0 transition-transform duration-300 ease-in-out"
+              style={{ backgroundColor: COLORS.secondary }}
             />
+            <Download className="relative z-10 w-5 h-5 md:w-6 md:h-6 transition-colors duration-300 group-hover:text-[#e4e687]" />
+            <span className="relative z-10 text-[10px] md:text-xs font-bold tracking-widest uppercase mt-1 transition-colors duration-300 group-hover:text-[#e4e687]">RESUME</span>
           </a>
         </div>
 
         {/* Social Links: Centered Flex Layout */}
-        <div className="flex items-center justify-center gap-4 w-full mt-2">
+        <div className="flex items-center justify-center gap-4 w-full mt-2 px-6">
           {SOCIAL_LINKS.map((link, i) => (
             <a
               key={i}
@@ -90,8 +105,8 @@ const ContactSection: React.FC = () => {
            style={{ borderColor: COLORS.secondary }}
          >
           <div className="flex justify-between text-[10px] md:text-xs font-instrument uppercase tracking-widest" style={{ color: '#161515ff' }}>
-             <span>Made by Alexander</span>
-             <span>© 2025</span>
+             <span>©Alexander</span>
+             <span>2025</span>
           </div>
         </div>
       </div>
