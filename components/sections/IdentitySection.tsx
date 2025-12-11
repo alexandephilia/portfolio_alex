@@ -57,31 +57,32 @@ const IdentitySection: React.FC = () => {
   };
 
   // Parallax Transforms
-  const imageX = useTransform(mouseX, (val) => val / 25); 
-  const imageY = useTransform(mouseY, (val) => val / 25);
+  // Parallax Transforms - Adjusted for greater depth separation
+  const imageX = useTransform(mouseX, (val) => val / 40); // Background: Moves slow
+  const imageY = useTransform(mouseY, (val) => val / 40);
 
-  const svgX = useTransform(mouseX, (val) => val / -30);
+  const svgX = useTransform(mouseX, (val) => val / -30); // Middle-ish (Inverted)
   const svgY = useTransform(mouseY, (val) => val / -30);
 
-  const bubbleX = useTransform(mouseX, (val) => val / 15);
-  const bubbleY = useTransform(mouseY, (val) => val / 15);
+  const bubbleX = useTransform(mouseX, (val) => val / 8); // Topmost: Moves fast
+  const bubbleY = useTransform(mouseY, (val) => val / 8);
 
-  const rotateX = useTransform(mouseY, (val) => val / -20);
-  const rotateY = useTransform(mouseX, (val) => val / 20);
+  const hudX = useTransform(mouseX, (val) => val / 12); // Foreground: Moves fast
+  const hudY = useTransform(mouseY, (val) => val / 12);
 
+  // Removed local rotateX/rotateY to avoid conflict with global App.tsx tilt
+  
   return (
     <div 
       className="flex flex-col items-center justify-center h-full w-full relative"
-      style={{ perspective: 1000 }} 
+      // style={{ perspective: 1000 }} // Perspective handled by parent in TicketCard/App
       onMouseMove={handleMouseMove}
       onMouseLeave={handleMouseLeave}
     >
-      {/* Tilt Container */}
+      {/* Tilt Container - Now just Parallax Container (Tilt is Global) */}
       <motion.div 
         className="relative w-[95%] max-w-[350px] aspect-square flex items-center justify-center"
         style={{ 
-          rotateX, 
-          rotateY, 
           transformStyle: "preserve-3d" 
         }}
       >
@@ -131,10 +132,9 @@ const IdentitySection: React.FC = () => {
           </motion.div>
         </motion.div>
 
-        {/* Layer 4: HUD/Data Overlay */}
         <motion.div 
            className="absolute inset-0 z-40 pointer-events-none"
-           style={{ translateZ: 20 }}
+           style={{ x: hudX, y: hudY, translateZ: 20 }}
         >
             <div className="absolute bottom-5 left-3">
                  <div className="px-1.5 py-0 rounded-sm border flex items-center" style={{ backgroundColor: COLORS.primary, borderColor: COLORS.secondary }}>

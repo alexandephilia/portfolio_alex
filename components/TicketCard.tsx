@@ -198,7 +198,10 @@ const TicketCard: React.FC<CardProps> = ({
         </div>
 
         {/* Content Body */}
-        <div className={`flex-1 relative overflow-hidden flex flex-col ${contentClassName}`}>
+        <div 
+          className={`flex-1 relative overflow-hidden flex flex-col ${contentClassName}`}
+          style={{ transformStyle: 'preserve-3d' }}
+        >
           {children}
         </div>
 
