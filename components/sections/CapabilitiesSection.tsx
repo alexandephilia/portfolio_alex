@@ -16,7 +16,7 @@ const CapabilitiesSection: React.FC = () => {
           className="text-lg md:text-xl font-instrument leading-[1.1] uppercase"
           style={{ color: COLORS.secondary }}
         >
-        I'm Garry Alexander. A full stack engineer who rejects dogma—I build to learn. By pushing agnostic frameworks to find solution—exact right tool for the job, discover what truly scales delivering system that survives the rapid of changes.</h3>
+        I'm Garry Alexander. A full stack engineer who rejects dogma ◦ I build to learn. By pushing agnostic frameworks ◦ I identify the precise tool each problem demands, creating systems that don't just work today ◦ adapt to tomorrow's market chaos.</h3>
       </div>
 
       {/* Grid Section - Fills remaining space */}

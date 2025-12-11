@@ -96,7 +96,7 @@ const App = () => {
                       progress={currentCardProgress}
                       className="font-instrument text-[25vw] leading-none text-center tracking-tighter select-none whitespace-nowrap"
                       style={{ color: COLORS.primary }}
-                      height="0.6em" // Reduced to tighten spacing (masking handles the fade)
+                      height="0.7em" // Reduced to tighten spacing (masking handles the fade)
                     />
                   </motion.div>
                </div>

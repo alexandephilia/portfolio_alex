@@ -20,44 +20,75 @@ const Preloader: React.FC<PreloaderProps> = ({ onComplete }) => {
   // Spiral Animation: 
   // 1. Rotation: multiple full spins (720deg)
   // 2. Scale: 0 -> 1 (small to big)
-  const rotation = useTransform(smoothProgress, [0, 100], [0, 720]); 
+  const rotation = useTransform(smoothProgress, [0, 100], [0, 1080]); 
   const scale = useTransform(smoothProgress, [0, 100], [0, 1]);
   
   useEffect(() => {
-    const duration = 2500; 
-    const intervalTime = 20;
-    const steps = duration / intervalTime;
-    let currentStep = 0;
+    // 1. Immediate start (20%)
+    progress.set(20);
+    setCount(20);
 
-    const interval = setInterval(() => {
-      currentStep++;
-      const rawProgress = Math.min(100, (currentStep / steps) * 100);
-      
-      setCount(Math.floor(rawProgress));
-      progress.set(rawProgress);
-
-      if (currentStep >= steps) {
-        clearInterval(interval);
-        setTimeout(onComplete, 600);
+    const checkReadyState = () => {
+      if (document.readyState === 'complete') {
+        completeLoading();
       }
-    }, intervalTime);
+    };
 
-    return () => clearInterval(interval);
+    // 2. Trickle Animation (Fake progress until load event)
+    // Speed based on connection estimate if available
+    // @ts-ignore - navigator.connection is experimental
+    const connectionSpeed = navigator.connection?.downlink || 10; 
+    const trickleSpeed = connectionSpeed > 5 ? 2 : 0.5; // Faster increment for better connections
+
+    const trickleInterval = setInterval(() => {
+      const current = progress.get();
+      if (current < 90) {
+        // Logarithmic-ish slowdown: faster at start, slower as it gets high
+        const increment = Math.max(0.1, (90 - current) / (50 / trickleSpeed)); 
+        const next = Math.min(90, current + increment);
+        progress.set(next);
+        setCount(Math.floor(next));
+      }
+    }, 20);
+
+    const completeLoading = () => {
+      clearInterval(trickleInterval);
+      progress.set(100);
+      setCount(100);
+      setTimeout(onComplete, 400); // Quick exit after load
+    };
+
+    window.addEventListener('load', completeLoading);
+    
+    // Fallback: If already loaded or takes too long, force complete
+    if (document.readyState === 'complete') {
+      completeLoading();
+    } else {
+        // Safety timeout (e.g. 5s max)
+        setTimeout(completeLoading, 5000);
+    }
+
+    return () => {
+      window.removeEventListener('load', completeLoading);
+      clearInterval(trickleInterval);
+    };
   }, [onComplete, progress]);
 
-  // Infinite text animation
+  // Infinite text animation - FASTER SPEED
   const textOffset1 = useMotionValue(0);
   const textOffset2 = useMotionValue(0);
   
   useEffect(() => {
     const animate = () => {
-      textOffset1.set(textOffset1.get() + 0.5);
-      textOffset2.set(textOffset2.get() - 0.3);
+      // Increased speeds: 0.5 -> 1.5, 0.3 -> 1.0
+      textOffset1.set(textOffset1.get() + 1.2);
+      textOffset2.set(textOffset2.get() - 0.8);
       if (textOffset1.get() >= 100) textOffset1.set(-100);
       if (textOffset2.get() <= -100) textOffset2.set(100);
     };
     
-    const interval = setInterval(animate, 50);
+    // Faster interval: 50ms -> 16ms (~60fps target)
+    const interval = setInterval(animate, 16);
     return () => clearInterval(interval);
   }, []); 
 

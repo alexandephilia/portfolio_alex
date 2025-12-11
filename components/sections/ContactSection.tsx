@@ -1,5 +1,6 @@
 import React from 'react';
 import { Mail, Download, Globe } from 'lucide-react';
+import { motion } from 'framer-motion';
 import { COLORS, SOCIAL_LINKS } from '../../constants';
 
 const ContactSection: React.FC = () => {
@@ -30,7 +31,7 @@ const ContactSection: React.FC = () => {
             ))}
           </div>
           <p className=" font-bold text-[9px] md:text-[10px] uppercase tracking-widest opacity-60 max-w-[280px] mx-auto" style={{ color: COLORS.secondary }}>
-            Based in Indonesia, willing to be working globally (remote is favorable) 
+            Based in Jakarta, Indonesia, I am available to work globally, remote working is preferred to maximize my efficiency and shipping.
           </p>
         </div>
          
@@ -39,16 +40,20 @@ const ContactSection: React.FC = () => {
           className="grid grid-cols-2 w-full mx-auto border-t-2 border-b-2 mt-4 overflow-hidden"
           style={{ borderColor: COLORS.secondary, aspectRatio: '3/1' }}
         >
-           <a 
+          <a 
             href="mailto:4lexander31@gmail.com" 
             className="group relative flex flex-col items-center justify-center gap-2 overflow-hidden hover:text-[#e4e687]"
             style={{ color: COLORS.secondary }}
           >
-            <div 
+            <motion.div 
               className="absolute inset-0 translate-y-full group-hover:translate-y-0 transition-transform duration-300 ease-in-out"
-              style={{ backgroundColor: COLORS.secondary }}
+              style={{ backgroundColor: COLORS.accent }}
+              initial={false}
+              whileHover="hover"
             />
-            <Mail className="relative z-10 w-5 h-5 md:w-6 md:h-6 transition-colors duration-300 group-hover:text-[#e4e687]" />
+            <div className="relative z-10">
+              <Mail className="w-5 h-5 md:w-6 md:h-6 transition-colors duration-300 group-hover:text-[#e4e687]" />
+            </div>
             <span className="relative z-10 text-[10px] md:text-xs font-bold tracking-widest uppercase mt-1 transition-colors duration-300 group-hover:text-[#e4e687]">CONTACT</span>
             
             {/* Divider */}
@@ -62,11 +67,15 @@ const ContactSection: React.FC = () => {
             className="group relative flex flex-col items-center justify-center gap-2 overflow-hidden hover:text-[#e4e687]"
             style={{ color: COLORS.secondary }}
           >
-             <div 
+             <motion.div 
               className="absolute inset-0 translate-y-full group-hover:translate-y-0 transition-transform duration-300 ease-in-out"
-              style={{ backgroundColor: COLORS.secondary }}
+              style={{ backgroundColor: COLORS.accent }}
+              initial={false}
+              whileHover="hover"
             />
-            <Download className="relative z-10 w-5 h-5 md:w-6 md:h-6 transition-colors duration-300 group-hover:text-[#e4e687]" />
+            <div className="relative z-10">
+              <Download className="w-5 h-5 md:w-6 md:h-6 transition-colors duration-300 group-hover:text-[#e4e687]" />
+            </div>
             <span className="relative z-10 text-[10px] md:text-xs font-bold tracking-widest uppercase mt-1 transition-colors duration-300 group-hover:text-[#e4e687]">RESUME</span>
           </a>
         </div>
@@ -74,26 +83,29 @@ const ContactSection: React.FC = () => {
         {/* Social Links: Centered Flex Layout */}
         <div className="flex items-center justify-center gap-4 w-full mt-2 px-6">
           {SOCIAL_LINKS.map((link, i) => (
-            <a
-              key={i}
-              href={link.href}
-              className="group relative w-12 h-12 flex items-center justify-center border-2 bg-transparent transition-all duration-300 hover:-translate-y-1 hover:shadow-[3px_3px_0px_0px_rgba(181,88,57)]"
-              style={{ 
-                borderColor: COLORS.secondary, 
-                color: COLORS.secondary,
-                borderRadius: '8px' 
-              }}
-              aria-label={link.label}
-            >
-              <div 
-                className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-300"
-                style={{ backgroundColor: COLORS.secondary }} 
-              />
-              <link.icon 
-                size={22} 
-                className="relative z-10 transition-colors duration-300 group-hover:text-[#e4e687]"
-              />
-            </a>
+            <motion.a
+                key={i}
+                href={link.href}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="group relative w-12 h-12 flex items-center justify-center border-2 bg-transparent transition-all duration-300 hover:-translate-y-1 hover:shadow-[3px_3px_0px_0px_rgba(181,88,57)]"
+                style={{ 
+                  borderColor: COLORS.secondary, 
+                  color: COLORS.secondary,
+                  borderRadius: '8px' 
+                }}
+                aria-label={link.label}
+                whileHover="hover"
+              >
+                <div 
+                  className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-300"
+                  style={{ backgroundColor: COLORS.secondary }} 
+                />
+                
+                <div className="relative z-10 transition-colors duration-300 group-hover:text-[#e4e687]">
+                  <link.icon size={22} />
+                </div>
+              </motion.a>
           ))}
         </div>
       </div>
@@ -101,10 +113,10 @@ const ContactSection: React.FC = () => {
       {/* Footer */}
       <div className="w-full px-6 pb-6 pt-2 shrink-0">
          <div 
-           className="w-full pt-4 border-t-2 opacity-70 border-dashed" 
+           className="w-full pt-4 border-t-2 opacity-70 border-dotted" 
            style={{ borderColor: COLORS.secondary }}
          >
-          <div className="flex justify-between text-[10px] md:text-xs font-instrument uppercase tracking-widest" style={{ color: '#161515ff' }}>
+          <div className="flex justify-between text-[10px] md:text-xs font-instrument uppercase tracking-widest" style={{ color: '#000000ff' }}>
              <span>©Alexander</span>
              <span>2025</span>
           </div>
