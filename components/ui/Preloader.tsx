@@ -1,5 +1,5 @@
 import React, { useEffect, useState, useRef } from 'react';
-import { motion, useSpring, useTransform, useMotionValue } from 'framer-motion';
+import { motion, useSpring, useTransform, useMotionValue, animate, useTime } from 'framer-motion';
 import { COLORS } from '../../constants';
 
 interface PreloaderProps {
@@ -17,16 +17,25 @@ const Preloader: React.FC<PreloaderProps> = ({ onComplete }) => {
     mass: 0.5 
   });
   
-  // Spiral Animation: 
   // 1. Rotation: multiple full spins (720deg)
   // 2. Scale: 0 -> 1 (small to big)
-  const rotation = useTransform(smoothProgress, [0, 100], [0, 1080]); 
-  const scale = useTransform(smoothProgress, [0, 100], [0, 1]);
+  const rotation = useTransform(smoothProgress, [0, 180], [0, 1080]); 
+  
+  const progressScale = useTransform(smoothProgress, [0, 100], [0, 1]);
+  const exitScale = useMotionValue(1);
+  const scale = useTransform(() => progressScale.get() * exitScale.get());
+  
+  // Fade out content as we scale up
+  const contentOpacity = useTransform(exitScale, [1, 5], [1, 0]);
   
   useEffect(() => {
     // 1. Immediate start (20%)
     progress.set(20);
     setCount(20);
+    
+    // Track start time to ensure minimum duration
+    const startTime = Date.now();
+    const MIN_DURATION = 2500; // Minimum 2.5s display time
 
     const checkReadyState = () => {
       if (document.readyState === 'complete') {
@@ -52,10 +61,28 @@ const Preloader: React.FC<PreloaderProps> = ({ onComplete }) => {
     }, 20);
 
     const completeLoading = () => {
-      clearInterval(trickleInterval);
-      progress.set(100);
-      setCount(100);
-      setTimeout(onComplete, 400); // Quick exit after load
+      const elapsed = Date.now() - startTime;
+      const remaining = Math.max(0, MIN_DURATION - elapsed);
+
+      setTimeout(() => {
+        clearInterval(trickleInterval);
+        progress.set(100);
+        setCount(100);
+        
+        // Brief pause at 100% before exploding (200ms)
+        setTimeout(() => {
+            // Trigger Exit Animation
+            // Animate scale to 250 significantly faster, and trigger onComplete after
+            animate(exitScale, 250, { 
+                duration: 0.8, 
+                ease: [0.76, 0, 0.24, 1],
+                onComplete: () => {
+                    onComplete();
+                }
+            });
+        }, 200);
+
+      }, remaining);
     };
 
     window.addEventListener('load', completeLoading);
@@ -74,31 +101,57 @@ const Preloader: React.FC<PreloaderProps> = ({ onComplete }) => {
     };
   }, [onComplete, progress]);
 
-  // Infinite text animation - FASTER SPEED
+  // Infinite text animation - MONOTONIC (No Reset)
+  // We repeat the text enough times to cover the movement for the short preloader duration
+  // Duration ~3s-5s. Speed ~100px/s? 
+  // We just animate standard motion values linearly.
+  
   const textOffset1 = useMotionValue(0);
   const textOffset2 = useMotionValue(0);
   
   useEffect(() => {
-    const animate = () => {
-      // Increased speeds: 0.5 -> 1.5, 0.3 -> 1.0
-      textOffset1.set(textOffset1.get() + 1.2);
-      textOffset2.set(textOffset2.get() - 0.8);
-      if (textOffset1.get() >= 100) textOffset1.set(-100);
-      if (textOffset2.get() <= -100) textOffset2.set(100);
+    // 1. Top Text: Moves Right (Increasing offset)
+    // Start at -20% to have content spread
+    textOffset1.set(-20); 
+    const a1 = animate(textOffset1, 200, { // Move to positive
+        duration: 20, // Slow constant speed over long time
+        ease: "linear",
+        repeat: Infinity,
+        repeatType: "loop" // Just in case, but we won't hit it in 3s
+    });
+
+    // 2. Bottom Text: Moves Left (Decreasing offset)
+    textOffset2.set(0);
+    const a2 = animate(textOffset2, -200, {
+        duration: 20,
+        ease: "linear",
+        repeat: Infinity,
+        repeatType: "loop"
+    });
+
+    return () => {
+        a1.stop();
+        a2.stop();
     };
-    
-    // Faster interval: 50ms -> 16ms (~60fps target)
-    const interval = setInterval(animate, 16);
-    return () => clearInterval(interval);
   }, []); 
+
+  // Text Content Constants - Repeated massively to avoid running out
+  const TOP_TEXT_BASE = " नमस्ते • Salam • こんにちは • Ciao • עברית • Halo • Здраво • Hello • Bonjour • ";
+  const TOP_TEXT = TOP_TEXT_BASE.repeat(20);
+
+  const BOTTOM_TEXT_BASE = " Hello • Aloha • Bonjour • 你好 • नमस्कार • العربية • Ciao • עברית • Halo • Здраво • Aloha • Olá • ";
+  const BOTTOM_TEXT = BOTTOM_TEXT_BASE.repeat(20);
+
+  const UNIQUE_TEXT_BASE = " ALEXANDER • JAKARTA BASED • WORLDWIDE WORK • ";
+  const UNIQUE_TEXT = UNIQUE_TEXT_BASE.repeat(30);
 
   return (
     <motion.div
       className="fixed inset-0 z-[10000] flex flex-col items-center justify-center overflow-hidden"
       style={{ backgroundColor: COLORS.secondary }}
       exit={{ 
-          y: "-100%", 
-          transition: { duration: 0.8, ease: [0.76, 0, 0.24, 1] } 
+          opacity: 0,
+          transition: { duration: 0.5, ease: "easeInOut" } 
       }}
     >
         {/* Central Content */}
@@ -132,7 +185,7 @@ const Preloader: React.FC<PreloaderProps> = ({ onComplete }) => {
         </div>
 
         {/* TOP Horizon Curve (Inverted) */}
-        <div className="absolute top-0 left-0 right-0 w-full h-[60vh] pointer-events-none">
+        <motion.div style={{ opacity: contentOpacity }} className="absolute top-0 left-0 right-0 w-full h-[60vh] pointer-events-none">
              <svg className="w-full h-full" viewBox="0 0 1000 400" preserveAspectRatio="xMidYMin slice">
                 {/* 
                     Inverted Path:
@@ -151,18 +204,18 @@ const Preloader: React.FC<PreloaderProps> = ({ onComplete }) => {
                     <motion.textPath 
                         href="#horizon-curve-top" 
                         startOffset={textOffset1}
-                        style={{ fill: COLORS.primary }}
                         side="right"
+                        style={{ fill: COLORS.primary }}
                     >
-                       नमस्ते • Salam • こんにちは • Ciao • עברית • Halo • Здраво • Hello • Bonjour • こんにちは • नमस्ते • Salam • Ciao • עברית • Halo • Здраво • Hello • Bonjour • こんにちは •
+                       {TOP_TEXT}
                     </motion.textPath>
                 </text>
              </svg>
-        </div>
+        </motion.div>
 
 
         {/* BOTTOM Horizon Curve (Original) */}
-        <div className="absolute bottom-0 left-0 right-0 w-full h-[60vh] pointer-events-none">
+        <motion.div style={{ opacity: contentOpacity }} className="absolute bottom-0 left-0 right-0 w-full h-[60vh] pointer-events-none">
              <svg className="w-full h-full" viewBox="0 0 1000 400" preserveAspectRatio="xMidYMax slice">
                 <path 
                     id="horizon-curve-bottom" 
@@ -177,14 +230,14 @@ const Preloader: React.FC<PreloaderProps> = ({ onComplete }) => {
                         startOffset={textOffset2}
                         style={{ fill: COLORS.primary }}
                     >
-                        Hello • Aloha • Bonjour • 你好 • नमस्कार • العربية • Ciao • עברית • Halo • Здраво • Aloha • Olá •
+                        {BOTTOM_TEXT}
                     </motion.textPath>
                 </text>
              </svg>
-        </div>
+        </motion.div>
 
         {/* EXTRA UNIQUE BOTTOM CURVE (Reverse & Smaller) */}
-        <div className="absolute -bottom-5 left-0 right-0 w-full h-[40vh] pointer-events-none opacity-60">
+        <motion.div style={{ opacity: contentOpacity }} className="absolute -bottom-5 left-0 right-0 w-full h-[40vh] pointer-events-none opacity-60">
              <svg className="w-full h-full" viewBox="0 0 1000 400" preserveAspectRatio="xMidYMax slice">
                 {/* 
                     Steeper/Different Curve
@@ -203,11 +256,11 @@ const Preloader: React.FC<PreloaderProps> = ({ onComplete }) => {
                         style={{ fill: COLORS.primary }}
                         spacing="auto"
                     >
-                        ALEXANDER • JAKARTA BASED • WORLDWIDE WORK • ALEXANDER • JAKARTA BASED • WORLDWIDE WORK • ALEXANDER • JAKARTA BASED • WORLDWIDE WORK •
+                        {UNIQUE_TEXT}
                     </motion.textPath>
                 </text>
              </svg>
-        </div>
+        </motion.div>
     </motion.div>
   );
 };

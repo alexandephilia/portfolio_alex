@@ -61,9 +61,18 @@ const App = () => {
         className="fixed inset-0 z-0 p-3 lg:p-5"
         style={{ backgroundColor: COLORS.primary }}
       >
-        <div 
+        <motion.div 
           className="w-full h-full relative overflow-hidden rounded-[2rem] lg:rounded-[3rem] shadow-2xl flex items-center justify-center"
           style={{ backgroundColor: COLORS.secondary }}
+          initial={{ clipPath: "inset(0 50% 0 50% round 2rem)" }}
+          animate={{ 
+            clipPath: !isLoading ? "inset(0 0% 0 0% round 2rem)" : "inset(0 50% 0 50% round 2rem)"
+          }}
+          transition={{
+            duration: 1.2,
+            ease: [0.76, 0, 0.24, 1], // Standard Swiss Ease
+            delay: 0.2
+          }}
         >
           
           <div 
@@ -88,7 +97,7 @@ const App = () => {
                       stiffness: 120, 
                       damping: 12, 
                       mass: 1,
-                      delay: 1.0 
+                      delay: 1.6 // DELAYED: After ticket drop
                     }}
                   >
                     <RollingText
@@ -112,9 +121,9 @@ const App = () => {
                 animate={{ y: 0, rotate: 0, scale: 1 }}
                 style={{ transformOrigin: "50% -50vh" }}
                 transition={{ 
-                  y: { type: "spring", stiffness: 300, damping: 30, mass: 1, delay: 0.1 }, // Solid drop, no bounce
-                  scale: { type: "spring", stiffness: 300, damping: 30, mass: 1, delay: 0.1 }, // Sync scale with drop
-                  rotate: { type: "spring", stiffness: 15, damping: 2, mass: 3, delay: 0.1 } // Slow, heavy pendulum swing
+                  y: { type: "spring", stiffness: 300, damping: 30, mass: 1, delay: 0.8 }, // DELAYED: After container reveal
+                  scale: { type: "spring", stiffness: 300, damping: 30, mass: 1, delay: 0.8 }, // Sync
+                  rotate: { type: "spring", stiffness: 15, damping: 2, mass: 3, delay: 0.8 } // Sync
                 }}
               >
                 <div className="pointer-events-auto relative w-full h-full flex items-center justify-center">
@@ -191,7 +200,7 @@ const App = () => {
                     x: !isLoading ? "0%" : "-150%", 
                     rotate: !isLoading ? 0 : -180 
                 }}
-                transition={{ type: "spring", stiffness: 100, damping: 20, delay: 1.8 }}
+                transition={{ type: "spring", stiffness: 100, damping: 20, delay: 2.0 }} // DELAYED
                 whileHover="hover"
                 style={{ 
                   backgroundColor: COLORS.primary, 
@@ -237,7 +246,7 @@ const App = () => {
                   }}
                   initial={{ y: 20, opacity: 0 }}
                   animate={{ y: !isLoading ? 0 : 20, opacity: !isLoading ? 1 : 0 }}
-                  transition={{ type: "spring", stiffness: 200, damping: 20, delay: 1.5 }}
+                  transition={{ type: "spring", stiffness: 200, damping: 20, delay: 2.2 }} // DELAYED
                 >
                     {Array.from({ length: totalCards }).map((_, i) => (
                         <motion.button
@@ -247,7 +256,7 @@ const App = () => {
                             aria-label={`Scroll to card ${i + 1}`}
                             initial={{ scale: 0 }}
                             animate={{ scale: !isLoading ? 1 : 0 }}
-                            transition={{ type: "spring", stiffness: 300, damping: 20, delay: 1.7 + i * 0.08 }}
+                            transition={{ type: "spring", stiffness: 300, damping: 20, delay: 2.3 + i * 0.08 }} // DELAYED
                         >
                             <div 
                                 className={`w-2.5 h-2.5 rotate-45 border transition-all duration-300 ${activeNavIndex === i ? 'scale-110' : 'scale-90 opacity-60 hover:opacity-100 hover:scale-100'}`}
@@ -271,7 +280,7 @@ const App = () => {
                     x: !isLoading ? "0%" : "150%", 
                     rotate: !isLoading ? 0 : 180 
                 }}
-                transition={{ type: "spring", stiffness: 100, damping: 20, delay: 1.9 }}
+                transition={{ type: "spring", stiffness: 100, damping: 20, delay: 2.1 }} // DELAYED
                 whileHover="hover"
                 style={{ 
                   backgroundColor: COLORS.primary, 
@@ -333,7 +342,7 @@ const App = () => {
 
           <div className="absolute bottom-6 left-6 lg:bottom-8 lg:left-8 z-0 pointer-events-none overflow-hidden">
              <motion.p 
-               className="font-mono text-[10px] lg:text-xs uppercase tracking-widest opacity-60"
+               className="font-instrument italic text-[10px] lg:text-xs uppercase tracking-widest opacity-60"
                style={{ color: COLORS.primary }}
                initial={{ y: "100%", opacity: 0 }}
                animate={{ y: !isLoading ? "0%" : "100%", opacity: !isLoading ? 1 : 0 }}
@@ -342,14 +351,14 @@ const App = () => {
                  stiffness: 100,
                  damping: 20,
                  mass: 1,
-                 delay: 1.25 
+                  delay: 2.4 // DELAYED 
                }}
              >
                2025 © Crafted with a cup of coffee
              </motion.p>
           </div>
 
-        </div>
+        </motion.div>
       </div>
     </div>
   );
