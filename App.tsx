@@ -1,5 +1,5 @@
 import React, { useRef, useEffect, useState } from 'react';
-import VariableProximityText from './components/ui/VariableProximityText';
+import RollingText from './components/ui/RollingText';
 import { useScroll, useTransform, motion, useSpring, AnimatePresence } from 'framer-motion';
 import TicketCard from './components/TicketCard';
 import IdentitySection from './components/sections/IdentitySection';
@@ -91,19 +91,12 @@ const App = () => {
                       delay: 1.0 
                     }}
                   >
-                    <VariableProximityText
-                      label="ALEXANDER"
+                    <RollingText
+                      words={["ALEXANDER", "ABOUT", "ETHOS", "CONTACT"]}
+                      progress={currentCardProgress}
                       className="font-instrument text-[25vw] leading-none text-center tracking-tighter select-none whitespace-nowrap"
                       style={{ color: COLORS.primary }}
-                      fromFontVariationSettings="'wght' 400, 'opsz' 9"
-                      toFontVariationSettings="'wght' 800, 'opsz' 40"
-                      radius={300}
-                      falloff="gaussian"
-                      styleInterpolation={(intensity) => ({
-                         transform: `scale(${1 + intensity * 0.1}) skewX(${intensity * -15}deg)`,
-                         color: intensity > 0.8 ? COLORS.accent : COLORS.primary, // Optional: color shift on close proximity
-                         fontWeight: 400 + (intensity * 400) // Fallback for standard weight interpolation
-                      })}
+                      height="0.6em" // Reduced to tighten spacing (masking handles the fade)
                     />
                   </motion.div>
                </div>
@@ -158,7 +151,7 @@ const App = () => {
               index={1} 
               scrollProgress={currentCardProgress} 
               totalCards={totalCards} 
-              header="CAPABILITIES"
+              header="ABOUT"
               tags={["Pragmatic Architecture", "Continuous Deployment", "LLM-Enhanced Debugging", "Test-Driven Development", "Fast Iteration Cycles", "AI Integration", "PRD Documentation", "CI/CD"]}
             >
                <CapabilitiesSection />
@@ -168,7 +161,7 @@ const App = () => {
               index={2} 
               scrollProgress={currentCardProgress} 
               totalCards={totalCards} 
-              header="SERVICES"
+              header="ETHOS"
               contentClassName="!pt-6 lg:!pt-0"
               tags={["Design-Dev Collaboration", "Third-Party Integrations", "Component Libraries", "Interface Prototyping", "Technical Documentation", "Codebase Modernization", "LLM-Powered Code Audits", "REST/GraphQL APIs", "Architecture Bottleneck Fixes"]}
             >
@@ -179,7 +172,7 @@ const App = () => {
               index={3} 
               scrollProgress={currentCardProgress} 
               totalCards={totalCards} 
-              header="CONNECTION"
+              header="CONTACT"
               tags={["Get in Touch", "Collaboration", "Freelance", "Remote Work", "Available for Hire", "Let's Build", "Global Reach"]}
             >
                <ContactSection />

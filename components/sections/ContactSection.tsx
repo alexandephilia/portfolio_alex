@@ -29,8 +29,8 @@ const ContactSection: React.FC = () => {
               </span>
             ))}
           </div>
-          <p className=" font-bold text-[10px] md:text-xs uppercase tracking-widest opacity-60 max-w-[280px] mx-auto" style={{ color: COLORS.secondary }}>
-            Based in Indonesia, working globally (remote is preferred) 
+          <p className=" font-bold text-[9px] md:text-[10px] uppercase tracking-widest opacity-60 max-w-[280px] mx-auto" style={{ color: COLORS.secondary }}>
+            Based in Indonesia, willing to be working globally (remote is favorable) 
           </p>
         </div>
          
