@@ -13,6 +13,7 @@ export interface CardProps {
   headerClassName?: string;
   subHeader?: string;
   isLanyard?: boolean;
+  tags?: string[];
 }
 
 export interface SectionProps {
