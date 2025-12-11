@@ -61,7 +61,7 @@ const TicketCard: React.FC<CardProps> = ({
   const scale = useTransform(
     scrollProgress,
     [index - 1, index, index + 0.25, index + 1],
-    [0.69, 1, 0.65, 0.55] 
+    [0.69, 1, 0.60, 0.55] 
   );
 
   // Opacity - Kept minimal or removed per "modify instead of fade"
