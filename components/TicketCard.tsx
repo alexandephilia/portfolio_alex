@@ -20,7 +20,8 @@ const TicketCard: React.FC<CardProps> = ({
   contentClassName = "",
   headerClassName = "",
   subHeader,
-  isLanyard
+  isLanyard,
+  tags
 }) => {
   const marqueeRef = useRef<HTMLDivElement>(null);
 
@@ -92,12 +93,13 @@ const TicketCard: React.FC<CardProps> = ({
     (val: number) => (Math.abs(val - index) < 0.5 ? 'auto' : 'none')
   );
 
-  const marqueeTexts = ["Front End", "DevOps", "Full Stack", "Agnostic Framework", "Experimenter", "Coffee Fueled", "Back End", "Rapid Prototyping"];
+  const defaultTags = ["Front End", "DevOps", "Full Stack", "Agnostic Framework", "Experimenter", "Coffee Fueled", "Back End", "Rapid Prototyping"];
+  const displayTags = tags || defaultTags;
 
   // Reusable text block for infinite loop
   const MarqueeContent = () => (
     <div className="flex gap-4 px-2 items-center">
-      {marqueeTexts.map((text, i) => (
+      {displayTags.map((text, i) => (
         <React.Fragment key={i}>
           <span className="font-bold text-xs tracking-[0.2em] uppercase whitespace-nowrap" style={{ color: COLORS.primary }}>
             {text}

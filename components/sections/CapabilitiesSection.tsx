@@ -26,8 +26,8 @@ const CapabilitiesSection: React.FC = () => {
            className="border-r-2 border-b-2 flex flex-col justify-center p-4 md:p-6"
            style={{ borderColor: COLORS.secondary }}
          >
-            <div className="text-4xl md:text-5xl font-instrument mb-1" style={{ color: COLORS.secondary }}>110+</div>
-            <div className="font-mono text-[10px] uppercase tracking-wider opacity-80" style={{ color: COLORS.secondary }}>Commited Codes</div>
+            <div className="text-4xl md:text-5xl font-instrument mb-1" style={{ color: COLORS.secondary }}>1500+</div>
+            <div className="font-mono text-[10px] uppercase tracking-wider opacity-80" style={{ color: COLORS.secondary }}>COMMITED CODES</div>
          </div>
          
          {/* Item 2: Top Right */}
@@ -36,7 +36,7 @@ const CapabilitiesSection: React.FC = () => {
            style={{ borderColor: COLORS.secondary }}
          >
             <div className="text-4xl md:text-5xl font-instrument mb-1" style={{ color: COLORS.secondary }}>8+</div>
-            <div className="font-mono text-[10px] uppercase tracking-wider opacity-80" style={{ color: COLORS.secondary }}>Years Experience</div>
+            <div className="font-mono text-[10px] uppercase tracking-wider opacity-80" style={{ color: COLORS.secondary }}>YEARS EXPERIENCE</div>
          </div>
 
          {/* Item 3: Bottom Left */}
@@ -45,7 +45,7 @@ const CapabilitiesSection: React.FC = () => {
            style={{ borderColor: COLORS.secondary }}
          >
             <div className="text-4xl md:text-5xl font-instrument mb-1" style={{ color: COLORS.secondary }}>71%</div>
-            <div className="font-mono text-[10px] uppercase tracking-wider opacity-80" style={{ color: COLORS.secondary }}>Tech Stacks Explored</div>
+            <div className="font-mono text-[10px] uppercase tracking-wider opacity-80" style={{ color: COLORS.secondary }}>TECH STACKS EXPLORED</div>
          </div>
 
          {/* Item 4: Bottom Right */}
@@ -53,7 +53,7 @@ const CapabilitiesSection: React.FC = () => {
            className="flex flex-col justify-center p-4 md:p-6"
          >
             <div className="text-4xl md:text-5xl font-instrument mb-1" style={{ color: COLORS.secondary }}>4+</div>
-            <div className="font-mono text-[10px] uppercase tracking-wider opacity-80" style={{ color: COLORS.secondary }}>Codebases Led</div>
+            <div className="font-mono text-[10px] uppercase tracking-wider opacity-80" style={{ color: COLORS.secondary }}>CODEBASES LED</div>
          </div>
       </div>
     </div>

@@ -21,8 +21,8 @@ const VariableProximityText: React.FC<VariableProximityTextProps> = ({
   fromFontVariationSettings = "'wght' 400, 'opsz' 9",
   toFontVariationSettings = "'wght' 800, 'opsz' 40",
   containerRef,
-  radius = 69,
-  falloff = 'linear',
+  radius = 30,
+  falloff = 'gaussian',
   className,
   style,
   onClick,
@@ -78,12 +78,13 @@ const VariableProximityText: React.FC<VariableProximityTextProps> = ({
       }
     };
 
-    window.addEventListener('mousemove', onMouseMove);
-    window.addEventListener('touchmove', onTouchMove);
+      // DISABLED TO AVOID TOO MUCH ANIMATIONS
+    // window.addEventListener('mousemove', onMouseMove);
+    // window.addEventListener('touchmove', onTouchMove);
 
     return () => {
-      window.removeEventListener('mousemove', onMouseMove);
-      window.removeEventListener('touchmove', onTouchMove);
+      // window.removeEventListener('mousemove', onMouseMove);
+      // window.removeEventListener('touchmove', onTouchMove);
     };
   }, [containerRef]);
 
@@ -127,10 +128,10 @@ const VariableProximityText: React.FC<VariableProximityTextProps> = ({
       animationFrameId = requestAnimationFrame(animate);
     };
 
-    animate();
+    // animate();
 
     return () => {
-      cancelAnimationFrame(animationFrameId);
+      // cancelAnimationFrame(animationFrameId);
     };
   }, [mousePosition, fromSettings, toSettings, radius, falloff, styleInterpolation]);
 

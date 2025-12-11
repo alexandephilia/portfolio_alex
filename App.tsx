@@ -154,7 +154,13 @@ const App = () => {
             )}
 
             {/* Other cards don't need the drop, allowing normal rendering */}
-            <TicketCard index={1} scrollProgress={currentCardProgress} totalCards={totalCards} header="CAPABILITIES">
+            <TicketCard 
+              index={1} 
+              scrollProgress={currentCardProgress} 
+              totalCards={totalCards} 
+              header="CAPABILITIES"
+              tags={["Pragmatic Architecture", "Continuous Deployment", "LLM-Enhanced Debugging", "Test-Driven Development", "Fast Iteration Cycles", "AI Integration", "PRD Documentation", "CI/CD"]}
+            >
                <CapabilitiesSection />
             </TicketCard>
 
@@ -164,11 +170,18 @@ const App = () => {
               totalCards={totalCards} 
               header="SERVICES"
               contentClassName="!pt-6 lg:!pt-0"
+              tags={["Design-Dev Collaboration", "Third-Party Integrations", "Component Libraries", "Interface Prototyping", "Technical Documentation", "Codebase Modernization", "LLM-Powered Code Audits", "REST/GraphQL APIs", "Architecture Bottleneck Fixes"]}
             >
                <ServicesSection />
             </TicketCard>
 
-            <TicketCard index={3} scrollProgress={currentCardProgress} totalCards={totalCards} header="CONNECTION">
+            <TicketCard 
+              index={3} 
+              scrollProgress={currentCardProgress} 
+              totalCards={totalCards} 
+              header="CONNECTION"
+              tags={["Get in Touch", "Collaboration", "Freelance", "Remote Work", "Available for Hire", "Let's Build", "Global Reach"]}
+            >
                <ContactSection />
             </TicketCard>
           </div>
