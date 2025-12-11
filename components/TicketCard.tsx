@@ -57,10 +57,11 @@ const TicketCard: React.FC<CardProps> = ({
   );
 
   // Scale
+  // Scale - Adjusted for deeper illusion per user request
   const scale = useTransform(
     scrollProgress,
     [index - 1, index, index + 0.25, index + 1],
-    [0.8, 1, 0.9, 0.8] 
+    [0.69, 1, 0.65, 0.55] 
   );
 
   // Opacity - Kept minimal or removed per "modify instead of fade"
