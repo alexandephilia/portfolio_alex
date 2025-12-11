@@ -136,15 +136,15 @@ const IdentitySection: React.FC = () => {
            className="absolute inset-0 z-40 pointer-events-none"
            style={{ x: hudX, y: hudY, translateZ: 20 }}
         >
-            <div className="absolute bottom-5 left-3">
+            <div className="absolute bottom-4 left-3">
                  <div className="px-1.5 py-0 rounded-sm border flex items-center" style={{ backgroundColor: COLORS.primary, borderColor: COLORS.secondary }}>
                    <span className="font-mono text-[9px] font-bold tracking-widest leading-none pt-[2px] pb-[1px]" style={{ color: COLORS.secondary }}>ALEXANDER</span>
                  </div>
             </div>
 
-             <div className="absolute bottom-5 right-3">
+             <div className="absolute bottom-4 right-3">
                  <div className="px-1.5 py-0 rounded-sm border flex items-center" style={{ backgroundColor: COLORS.primary, borderColor: COLORS.secondary }}>
-                   <span className="font-mono text-[9px] font-bold tracking-widest leading-none pt-[2px] pb-[1px]" style={{ color: COLORS.secondary }}>FULL STACK DEV</span>
+                   <span className="font-mono text-[9px] font-bold tracking-widest leading-none pt-[2px] pb-[2px]" style={{ color: COLORS.secondary }}>FULL STACK DEV</span>
                  </div>
             </div>
             
