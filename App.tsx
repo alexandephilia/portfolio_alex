@@ -173,7 +173,7 @@ const App = () => {
                 className="absolute inset-0 flex items-center justify-center pointer-events-none"
                 initial={{ y: "-100vh", rotate: 30, scale: 0.9 }}
                 animate={{ y: 0, rotate: 0, scale: 1 }}
-                style={{ transformOrigin: "50% -50vh" }}
+                style={{ transformOrigin: "50% -50vh", transformStyle: "preserve-3d" }}
                 transition={{ 
                   y: { type: "spring", stiffness: 300, damping: 30, mass: 1, delay: 0.8 }, // DELAYED: After container reveal
                   scale: { type: "spring", stiffness: 300, damping: 30, mass: 1, delay: 0.8 }, // Sync
