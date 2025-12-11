@@ -88,7 +88,7 @@ const IdentitySection: React.FC = () => {
         
         {/* Layer 3: Greeting Bubble (Topmost & Parallaxed) */}
         <motion.div 
-          className="absolute w-full flex justify-center z-50 pointer-events-none top-[-1em] md:top-[-1.5rem] right-[-1rem]"
+          className="absolute w-full flex justify-center z-50 pointer-events-none top-[-1em] lg:top-[-1.5rem] right-[-1rem]"
           style={{ x: bubbleX, y: bubbleY, translateZ: 60 }}
         >
           <motion.div 
@@ -108,7 +108,7 @@ const IdentitySection: React.FC = () => {
             ></div>
 
             {/* Content Wrapper - Masked for text slide */}
-            <div className="font-instrument text-base md:text-lg leading-none flex items-center gap-1 overflow-hidden relative">
+            <div className="font-instrument text-base lg:text-lg leading-none flex items-center gap-1 overflow-hidden relative">
               {/* Animated Word Wrapper */}
               <div className="relative grid place-items-center h-[1.3em]">
                  <AnimatePresence mode="popLayout" initial={false}>

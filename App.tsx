@@ -58,11 +58,11 @@ const App = () => {
 
       <GrainEffect />
       <div 
-        className="fixed inset-0 z-0 p-3 md:p-5"
+        className="fixed inset-0 z-0 p-3 lg:p-5"
         style={{ backgroundColor: COLORS.primary }}
       >
         <div 
-          className="w-full h-full relative overflow-hidden rounded-[2rem] md:rounded-[3rem] shadow-2xl flex items-center justify-center"
+          className="w-full h-full relative overflow-hidden rounded-[2rem] lg:rounded-[3rem] shadow-2xl flex items-center justify-center"
           style={{ backgroundColor: COLORS.secondary }}
         >
           
@@ -74,7 +74,7 @@ const App = () => {
             }}
           ></div>
 
-             <div className="absolute inset-0 flex items-end justify-center pointer-events-none z-0 pb-10 md:pb-8">
+             <div className="absolute inset-0 flex items-end justify-center pointer-events-none z-0 pb-10 lg:pb-8">
                <div className="overflow-visible pointer-events-auto"> {/* Pointer events auto needed for hover detection */}
                  <motion.div
                    initial={{ y: "100%", opacity: 0, filter: "blur(10px)" }}
@@ -142,8 +142,8 @@ const App = () => {
                     totalCards={totalCards} 
                     header="IDENTIFICATION"
                     subHeader="Certified 31.05.94"
-                    headerClassName="!text-[2.5rem] md:!text-[3.2rem]"
-                    className="!aspect-[2/3] !h-auto md:max-h-[500px] w-[80vw] md:!w-[340px]"
+                    headerClassName="!text-[2.5rem] lg:!text-[3.2rem]"
+                    className="!aspect-[2/3] !h-auto lg:max-h-[500px] w-[80vw] max-w-[340px] lg:!w-[340px]"
                     contentClassName="pt-[80px]"
                     isLanyard={true}
                   >
@@ -163,7 +163,7 @@ const App = () => {
               scrollProgress={currentCardProgress} 
               totalCards={totalCards} 
               header="SERVICES"
-              contentClassName="!pt-6 md:!pt-0"
+              contentClassName="!pt-6 lg:!pt-0"
             >
                <ServicesSection />
             </TicketCard>
@@ -174,12 +174,12 @@ const App = () => {
           </div>
 
           {/* Navigation */}
-          <nav className="absolute top-0 left-0 right-0 z-[100] px-6 py-6 md:px-8 md:py-8 flex justify-between items-center pointer-events-none">
+          <nav className="absolute top-0 left-0 right-0 z-[100] px-6 py-6 lg:px-8 lg:py-8 flex justify-between items-center pointer-events-none">
             {/* Profile/Home Button */}
             <div className="pointer-events-auto overflow-hidden rounded-full">
               <motion.button 
                 onClick={() => scrollToCard(0)}
-                className="w-10 h-10 md:w-12  rounded-full border-2 flex items-center justify-center transition-colors duration-300 overflow-hidden"
+                className="w-10 h-10 lg:w-12  rounded-full border-2 flex items-center justify-center transition-colors duration-300 overflow-hidden"
                 initial={{ x: "-150%", rotate: -180 }}
                 animate={{ 
                     x: !isLoading ? "0%" : "-150%", 
@@ -259,7 +259,7 @@ const App = () => {
             <div className="pointer-events-auto overflow-hidden">
                <motion.a 
                 href="mailto:4lexander31@gmail.com"
-                className="w-10 h-10 md:w-12 rounded-full border-2 flex items-center justify-center cursor-pointer transition-colors duration-300"
+                className="w-10 h-10 lg:w-12 rounded-full border-2 flex items-center justify-center cursor-pointer transition-colors duration-300"
                 initial={{ x: "150%", rotate: 180 }}
                 animate={{ 
                     x: !isLoading ? "0%" : "150%", 
@@ -325,9 +325,9 @@ const App = () => {
             </div>
           </nav>
 
-          <div className="absolute bottom-6 left-6 md:bottom-8 md:left-8 z-0 pointer-events-none overflow-hidden">
+          <div className="absolute bottom-6 left-6 lg:bottom-8 lg:left-8 z-0 pointer-events-none overflow-hidden">
              <motion.p 
-               className="font-mono text-[10px] md:text-xs uppercase tracking-widest opacity-60"
+               className="font-mono text-[10px] lg:text-xs uppercase tracking-widest opacity-60"
                style={{ color: COLORS.primary }}
                initial={{ y: "100%", opacity: 0 }}
                animate={{ y: !isLoading ? "0%" : "100%", opacity: !isLoading ? 1 : 0 }}

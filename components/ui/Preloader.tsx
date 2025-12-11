@@ -51,7 +51,7 @@ const Preloader: React.FC<PreloaderProps> = ({ onComplete }) => {
   return (
     <motion.div
       className="fixed inset-0 z-[10000] flex flex-col items-center justify-center overflow-hidden"
-      style={{ backgroundColor: COLORS.primary }}
+      style={{ backgroundColor: COLORS.secondary }}
       exit={{ 
           y: "-100%", 
           transition: { duration: 0.8, ease: [0.76, 0, 0.24, 1] } 
@@ -72,7 +72,7 @@ const Preloader: React.FC<PreloaderProps> = ({ onComplete }) => {
                     viewBox="0 0 24 24" 
                     fill="none" 
                     xmlns="http://www.w3.org/2000/svg" 
-                    stroke={COLORS.secondary}
+                    stroke={COLORS.primary}
                     strokeWidth="1.2" // Slightly thinner for elegance at large size
                     strokeLinecap="round" 
                     strokeLinejoin="round"
@@ -107,7 +107,7 @@ const Preloader: React.FC<PreloaderProps> = ({ onComplete }) => {
                     <motion.textPath 
                         href="#horizon-curve-top" 
                         startOffset={textOffset}
-                        style={{ fill: COLORS.secondary }}
+                        style={{ fill: COLORS.primary }}
                         side="right" // Ensure text is upright if needed, or left depending on path direction
                     >
                        العربية • Ciao • עברית • Halo • Здраво • Hello • Bonjour • こんにちは •
@@ -131,7 +131,7 @@ const Preloader: React.FC<PreloaderProps> = ({ onComplete }) => {
                     <motion.textPath 
                         href="#horizon-curve-bottom" 
                         startOffset={textOffset}
-                        style={{ fill: COLORS.secondary }}
+                        style={{ fill: COLORS.primary }}
                     >
                         Hello • Bonjour • こんにちは • العربية • Ciao • עברית • Halo • Здраво •
                     </motion.textPath>
@@ -156,7 +156,7 @@ const Preloader: React.FC<PreloaderProps> = ({ onComplete }) => {
                     <motion.textPath 
                         href="#horizon-curve-unique" 
                         startOffset={useTransform(smoothProgress, [0, 100], ["25%", "0%"])} // Reverse direction
-                        style={{ fill: COLORS.secondary }}
+                        style={{ fill: COLORS.primary }}
                         spacing="auto"
                     >
                         ALEXANDER 2025 • JAKARTA BASED • WORLDWIDE WORK • ALEXANDER 2025 • ALEXANDER 2025 • JAKARTA BASED • WORLDWIDE WORK •

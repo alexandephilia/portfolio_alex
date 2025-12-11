@@ -110,7 +110,7 @@ const TicketCard: React.FC<CardProps> = ({
 
   return (
     <motion.div
-      className={`absolute w-[85vw] md:w-[400px] max-h-[80vh] ${className}`}
+      className={`absolute w-[85vw] max-w-[400px] lg:w-[400px] max-h-[80vh] ${className}`}
       style={{ 
         y,
         rotateX,
@@ -128,7 +128,7 @@ const TicketCard: React.FC<CardProps> = ({
         <div className="absolute bottom-[95%] left-0 right-0 flex justify-center pointer-events-none z-0 pb-1">
           {/* Main Strap */}
           <div 
-             className="w-[180px] md:w-[220px] relative flex justify-center"
+             className="w-[180px] lg:w-[220px] relative flex justify-center"
              style={{ height: 'calc(50vh + 20px)' }}
           >
              <div 
@@ -183,7 +183,7 @@ const TicketCard: React.FC<CardProps> = ({
           style={{ borderColor: COLORS.secondary }}
         >
           <h2 
-            className={`text-5xl md:text-6xl font-instrument tracking-tight pt-2 leading-none ${headerClassName}`}
+            className={`text-5xl lg:text-6xl font-instrument tracking-tight pt-2 leading-none ${headerClassName}`}
             style={{ color: COLORS.secondary }}
           >
             {header}
