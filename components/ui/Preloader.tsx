@@ -103,14 +103,14 @@ const Preloader: React.FC<PreloaderProps> = ({ onComplete }) => {
                     stroke="transparent"
                 />
                 
-                <text className="font-instrument text-4xl uppercase tracking-tighter" fill={COLORS.secondary} style={{ fontSize: '70px', letterSpacing: '-0.02em' }}>
+                <text className="font-instrument text-4xl md:text-7xl uppercase tracking-tighter" fill={COLORS.secondary} style={{ letterSpacing: '-0.02em' }}>
                     <motion.textPath 
                         href="#horizon-curve-top" 
                         startOffset={textOffset}
                         style={{ fill: COLORS.secondary }}
                         side="right" // Ensure text is upright if needed, or left depending on path direction
                     >
-                        LOADING EXPERIENCE • LOADING EXPERIENCE • LOADING EXPERIENCE • LOADING EXPERIENCE •
+                       العربية • Ciao • עברית • Halo • Здраво • Hello • Bonjour • こんにちは •
                     </motion.textPath>
                 </text>
              </svg>
@@ -127,13 +127,13 @@ const Preloader: React.FC<PreloaderProps> = ({ onComplete }) => {
                     stroke="transparent"
                 />
                 
-                <text className="font-instrument text-4xl uppercase tracking-tighter" fill={COLORS.secondary} style={{ fontSize: '70px', letterSpacing: '-0.02em' }}>
+                <text className="font-instrument text-4xl md:text-7xl uppercase tracking-tighter" fill={COLORS.secondary} style={{ letterSpacing: '-0.02em' }}>
                     <motion.textPath 
                         href="#horizon-curve-bottom" 
                         startOffset={textOffset}
                         style={{ fill: COLORS.secondary }}
                     >
-                        LOADING EXPERIENCE • LOADING EXPERIENCE • LOADING EXPERIENCE • LOADING EXPERIENCE •
+                        Hello • Bonjour • こんにちは • العربية • Ciao • עברית • Halo • Здраво •
                     </motion.textPath>
                 </text>
              </svg>
