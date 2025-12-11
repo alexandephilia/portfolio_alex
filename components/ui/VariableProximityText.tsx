@@ -14,6 +14,8 @@ interface VariableProximityTextProps {
   onClick?: () => void;
   /** Optional function to interpolate standard CSS styles based on intensity (0 to 1) */
   styleInterpolation?: (intensity: number) => React.CSSProperties;
+  /** Optional framer motion variants for each character */
+  childVariants?: any;
 }
 
 const VariableProximityText: React.FC<VariableProximityTextProps> = ({
@@ -26,7 +28,8 @@ const VariableProximityText: React.FC<VariableProximityTextProps> = ({
   className,
   style,
   onClick,
-  styleInterpolation
+  styleInterpolation,
+  childVariants
 }) => {
   const letterRefs = useRef<(HTMLSpanElement | null)[]>([]);
   const [mousePosition, setMousePosition] = useState({ x: -1000, y: -1000 });
@@ -147,6 +150,7 @@ const VariableProximityText: React.FC<VariableProximityTextProps> = ({
         <motion.span
           key={i}
           ref={(el) => (letterRefs.current[i] = el)}
+          variants={childVariants}
           style={{ 
             display: 'inline-block',
             fontVariationSettings: fromFontVariationSettings,
