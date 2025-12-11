@@ -1,7 +1,83 @@
 import React from 'react';
-import { Mail, Download, Globe } from 'lucide-react';
-import { motion } from 'framer-motion';
+import { Globe } from 'lucide-react';
+import { motion, Variants } from 'framer-motion';
 import { COLORS, SOCIAL_LINKS } from '../../constants';
+
+// Animated Mail Icon Component matching App.tsx
+const AnimatedMailIcon = ({ className }: { className?: string }) => {
+  const paperVariants: Variants = {
+    initial: { y: 0, opacity: 0 },
+    hover: {
+      y: -8,
+      opacity: 1,
+      transition: { duration: 0.4, ease: "easeOut" }
+    }
+  };
+
+  return (
+    <motion.svg
+      xmlns="http://www.w3.org/2000/svg"
+      width="24"
+      height="24"
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke="currentColor"
+      strokeWidth="2"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+      className={className}
+      style={{ overflow: 'visible' }}
+    >
+      <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z" />
+      <path d="m22 6-10 7L2 6" />
+      
+      {/* Paper Sliding Out */}
+      <motion.g
+        variants={paperVariants}
+      >
+         <rect x="6" y="6" width="12" height="10" fill="currentColor" rx="1" stroke="none" />
+         <path d="M8 9h8 M8 12h5" stroke={COLORS.accent} strokeWidth="1.5" />
+      </motion.g>
+    </motion.svg>
+  );
+};
+
+// Animated Download Icon Component
+const AnimatedDownloadIcon = ({ className }: { className?: string }) => {
+  const arrowVariants: Variants = {
+    initial: { y: 0 },
+    hover: {
+      y: [0, 4, 0],
+      transition: {
+        duration: 0.6,
+        repeat: Infinity,
+        repeatType: "loop",
+        ease: "easeInOut"
+      }
+    }
+  };
+
+  return (
+    <motion.svg
+      xmlns="http://www.w3.org/2000/svg"
+      width="24"
+      height="24"
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke="currentColor"
+      strokeWidth="2"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+      className={className}
+    >
+      <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4" />
+      <motion.g variants={arrowVariants}>
+        <polyline points="7 10 12 15 17 10" />
+        <line x1="12" x2="12" y1="15" y2="3" />
+      </motion.g>
+    </motion.svg>
+  );
+};
 
 const ContactSection: React.FC = () => {
   return (
@@ -40,44 +116,44 @@ const ContactSection: React.FC = () => {
           className="grid grid-cols-2 w-full mx-auto border-t-2 border-b-2 mt-4 overflow-hidden"
           style={{ borderColor: COLORS.secondary, aspectRatio: '3/1' }}
         >
-          <a 
+          <motion.a 
             href="mailto:4lexander31@gmail.com" 
             className="group relative flex flex-col items-center justify-center gap-2 overflow-hidden hover:text-[#e4e687]"
             style={{ color: COLORS.secondary }}
+            initial="initial"
+            whileHover="hover"
           >
             <motion.div 
               className="absolute inset-0 translate-y-full group-hover:translate-y-0 transition-transform duration-300 ease-in-out"
               style={{ backgroundColor: COLORS.accent }}
-              initial={false}
-              whileHover="hover"
             />
             <div className="relative z-10">
-              <Mail className="w-5 h-5 md:w-6 md:h-6 transition-colors duration-300 group-hover:text-[#e4e687]" />
+              <AnimatedMailIcon className="w-5 h-5 md:w-6 md:h-6 transition-colors duration-300 group-hover:text-[#e4e687]" />
             </div>
             <span className="relative z-10 text-[10px] md:text-xs font-bold tracking-widest uppercase mt-1 transition-colors duration-300 group-hover:text-[#e4e687]">CONTACT</span>
             
             {/* Divider */}
             <div className="absolute right-0 top-0 bottom-0 w-[2px]" style={{ backgroundColor: COLORS.secondary }}></div>
-          </a>
+          </motion.a>
 
-           <a 
+           <motion.a 
             href="/resume.pdf" 
             target="_blank"
             rel="noopener noreferrer"
             className="group relative flex flex-col items-center justify-center gap-2 overflow-hidden hover:text-[#e4e687]"
             style={{ color: COLORS.secondary }}
+            initial="initial"
+            whileHover="hover"
           >
              <motion.div 
               className="absolute inset-0 translate-y-full group-hover:translate-y-0 transition-transform duration-300 ease-in-out"
               style={{ backgroundColor: COLORS.accent }}
-              initial={false}
-              whileHover="hover"
             />
             <div className="relative z-10">
-              <Download className="w-5 h-5 md:w-6 md:h-6 transition-colors duration-300 group-hover:text-[#e4e687]" />
+              <AnimatedDownloadIcon className="w-5 h-5 md:w-6 md:h-6 transition-colors duration-300 group-hover:text-[#e4e687]" />
             </div>
             <span className="relative z-10 text-[10px] md:text-xs font-bold tracking-widest uppercase mt-1 transition-colors duration-300 group-hover:text-[#e4e687]">RESUME</span>
-          </a>
+          </motion.a>
         </div>
 
         {/* Social Links: Centered Flex Layout */}
