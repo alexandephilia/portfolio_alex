@@ -9,10 +9,10 @@ const ContactSection: React.FC = () => {
       <div className="flex-1 flex flex-col items-center justify-center p-6 gap-6 md:gap-8 w-full">
         <div className="text-center w-full">
           <h2 className="text-3xl md:text-3xl font-instrument mb-2 leading-none" style={{ color: COLORS.secondary }}>LET'S TALK</h2>
-          <p className="font-mono font-bold text-xs md:text-xs uppercase tracking-widest opacity-60" style={{ color: COLORS.secondary }}>
+          <p className="font-mono font-bold text-[10px] md:text-xs uppercase tracking-widest opacity-60" style={{ color: COLORS.secondary }}>
             Based in Indonesia, working globally (remote is preferred) 
             <span className="inline-flex align-middle ml-1.5 rounded-full border" style={{ borderColor: COLORS.primary }}>
-              <Globe size={13} strokeWidth={2} />
+              <Globe size={11} strokeWidth={2} />
             </span>
           </p>
         </div>
