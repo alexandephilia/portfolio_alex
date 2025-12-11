@@ -114,9 +114,9 @@ const IdentitySection: React.FC = () => {
                  <AnimatePresence mode="popLayout" initial={false}>
                   <motion.span
                     key={greetingIndex}
-                    initial={{ y: "100%", opacity: 0, filter: "blur(4px)" }}
+                    initial={{ y: "100%", opacity: 0, filter: "blur(1px)" }}
                     animate={{ y: "-8%", opacity: 1, filter: "blur(0px)" }}
-                    exit={{ y: "-100%", opacity: 0, filter: "blur(4px)" }}
+                    exit={{ y: "-100%", opacity: 0, filter: "blur(1px)" }}
                     transition={{ type: "spring", stiffness: 400, damping: 30 }}
                     className="col-start-1 row-start-1 whitespace-nowrap"
                   >
