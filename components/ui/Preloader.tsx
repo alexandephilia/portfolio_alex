@@ -45,8 +45,21 @@ const Preloader: React.FC<PreloaderProps> = ({ onComplete }) => {
     return () => clearInterval(interval);
   }, [onComplete, progress]);
 
-  // Text Offset for loop effect
-  const textOffset = useTransform(smoothProgress, [0, 100], ["0%", "25%"]); 
+  // Infinite text animation
+  const textOffset1 = useMotionValue(0);
+  const textOffset2 = useMotionValue(0);
+  
+  useEffect(() => {
+    const animate = () => {
+      textOffset1.set(textOffset1.get() + 0.5);
+      textOffset2.set(textOffset2.get() - 0.3);
+      if (textOffset1.get() >= 100) textOffset1.set(-100);
+      if (textOffset2.get() <= -100) textOffset2.set(100);
+    };
+    
+    const interval = setInterval(animate, 50);
+    return () => clearInterval(interval);
+  }, []); 
 
   return (
     <motion.div
@@ -106,11 +119,11 @@ const Preloader: React.FC<PreloaderProps> = ({ onComplete }) => {
                 <text className="font-instrument text-4xl md:text-7xl uppercase tracking-tighter" fill={COLORS.secondary} style={{ letterSpacing: '-0.02em' }}>
                     <motion.textPath 
                         href="#horizon-curve-top" 
-                        startOffset={textOffset}
+                        startOffset={textOffset1}
                         style={{ fill: COLORS.primary }}
-                        side="right" // Ensure text is upright if needed, or left depending on path direction
+                        side="right"
                     >
-                       العربية • Ciao • עברית • Halo • Здраво • Hello • Bonjour • こんにちは •
+                       नमस्ते • Salam • العربية • Ciao • עברית • Halo • Здраво • Hello • Bonjour • こんにちは • नमस्ते • Salam • العربية • Ciao • עברית • Halo • Здраво • Hello • Bonjour • こんにちは •
                     </motion.textPath>
                 </text>
              </svg>
@@ -130,10 +143,10 @@ const Preloader: React.FC<PreloaderProps> = ({ onComplete }) => {
                 <text className="font-instrument text-4xl md:text-7xl uppercase tracking-tighter" fill={COLORS.secondary} style={{ letterSpacing: '-0.02em' }}>
                     <motion.textPath 
                         href="#horizon-curve-bottom" 
-                        startOffset={textOffset}
+                        startOffset={textOffset2}
                         style={{ fill: COLORS.primary }}
                     >
-                        Hello • Bonjour • こんにちは • العربية • Ciao • עברית • Halo • Здраво •
+                        Hello • Здраво • Aloha • Bonjour • Hello • Bonjour • العربية • Ciao • עברית • Halo • Здраво • Aloha • Olá •
                     </motion.textPath>
                 </text>
              </svg>
@@ -155,11 +168,11 @@ const Preloader: React.FC<PreloaderProps> = ({ onComplete }) => {
                 <text className="font-mono text-sm uppercase tracking-widest" fill={COLORS.secondary} style={{ fontSize: '14px' }}>
                     <motion.textPath 
                         href="#horizon-curve-unique" 
-                        startOffset={useTransform(smoothProgress, [0, 100], ["25%", "0%"])} // Reverse direction
+                        startOffset={textOffset1}
                         style={{ fill: COLORS.primary }}
                         spacing="auto"
                     >
-                        ALEXANDER 2025 • JAKARTA BASED • WORLDWIDE WORK • ALEXANDER 2025 • ALEXANDER 2025 • JAKARTA BASED • WORLDWIDE WORK •
+                        ALEXANDER 2025 • JAKARTA BASED • WORLDWIDE WORK • ALEXANDER 2025 • JAKARTA BASED • WORLDWIDE WORK • ALEXANDER 2025 • JAKARTA BASED • WORLDWIDE WORK •
                     </motion.textPath>
                 </text>
              </svg>
