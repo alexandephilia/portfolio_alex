@@ -170,8 +170,8 @@ const IdentitySection: React.FC = () => {
                 <text x="50" y="60" fill={COLORS.secondary} fontSize="8" fontWeight="bold" letterSpacing="1" textAnchor="middle">
                   VERIFIED
                 </text>
-                 <text x="50" y="72" fill={COLORS.secondary} fontSize="6" fontFamily="monospace" textAnchor="middle">
-                  2025
+                 <text x="50" y="72" fill={COLORS.secondary} fontSize="7" fontFamily="monospace" fontWeight="bold" textAnchor="middle">
+                  2017-2025
                 </text>
               </svg>
             </motion.div>
