@@ -154,7 +154,7 @@ const Preloader: React.FC<PreloaderProps> = ({ onComplete }) => {
                         style={{ fill: COLORS.primary }}
                         side="right"
                     >
-                       नमस्ते • Salam • العربية • Ciao • עברית • Halo • Здраво • Hello • Bonjour • こんにちは • नमस्ते • Salam • العربية • Ciao • עברית • Halo • Здраво • Hello • Bonjour • こんにちは •
+                       नमस्ते • Salam • こんにちは • Ciao • עברית • Halo • Здраво • Hello • Bonjour • こんにちは • नमस्ते • Salam • Ciao • עברית • Halo • Здраво • Hello • Bonjour • こんにちは •
                     </motion.textPath>
                 </text>
              </svg>
@@ -177,7 +177,7 @@ const Preloader: React.FC<PreloaderProps> = ({ onComplete }) => {
                         startOffset={textOffset2}
                         style={{ fill: COLORS.primary }}
                     >
-                        Hello • Здраво • Aloha • Bonjour • Hello • Bonjour • العربية • Ciao • עברית • Halo • Здраво • Aloha • Olá •
+                        Hello • Aloha • Bonjour • 你好 • नमस्कार • العربية • Ciao • עברית • Halo • Здраво • Aloha • Olá •
                     </motion.textPath>
                 </text>
              </svg>
@@ -203,7 +203,7 @@ const Preloader: React.FC<PreloaderProps> = ({ onComplete }) => {
                         style={{ fill: COLORS.primary }}
                         spacing="auto"
                     >
-                        ALEXANDER 2025 • JAKARTA BASED • WORLDWIDE WORK • ALEXANDER 2025 • JAKARTA BASED • WORLDWIDE WORK • ALEXANDER 2025 • JAKARTA BASED • WORLDWIDE WORK •
+                        ALEXANDER • JAKARTA BASED • WORLDWIDE WORK • ALEXANDER • JAKARTA BASED • WORLDWIDE WORK • ALEXANDER • JAKARTA BASED • WORLDWIDE WORK •
                     </motion.textPath>
                 </text>
              </svg>
