@@ -21,7 +21,7 @@ const GrainEffect: React.FC = () => {
       </style>
       <div 
         className="fixed inset-0 pointer-events-none z-[2147483647]"
-        style={{ mixBlendMode: 'multiply', opacity: 0.6 }}
+        style={{ mixBlendMode: 'multiply', opacity: 0.4 }}
       >
         <div 
           className="absolute -top-full -left-full w-[300%] h-[300%] will-change-transform"
