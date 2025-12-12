@@ -79,7 +79,7 @@ const TicketCard: React.FC<CardProps> = ({
     const filter = useTransform(
         scrollProgress,
         [index - 1, index, index + 1],
-        ['blur(5px)', 'blur(0px)', 'blur(5px)']
+        ['blur(10px)', 'blur(0px)', 'blur(16px)']
     );
 
     // Rotation (Z impact)
