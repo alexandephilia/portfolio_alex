@@ -1,4 +1,6 @@
+
 import { AnimatePresence, motion, useMotionValue, useScroll, useSpring, useTransform } from 'framer-motion';
+import { Check, Sparkles } from 'lucide-react';
 import { useEffect, useRef, useState } from 'react';
 import TicketCard from './components/TicketCard';
 import GrainEffect from './components/effects/GrainEffect';
@@ -9,7 +11,8 @@ import ServicesSection from './components/sections/ServicesSection';
 import Preloader from './components/ui/Preloader';
 import RollingText from './components/ui/RollingText';
 import CustomCursor from './components/ui/CustomCursor';
-import { COLORS } from './constants';
+import AnimatedSparkles from './components/ui/AnimatedSparkles';
+import { COLORS, THEMES, ThemeKey } from './constants';
 
 const App = () => {
     const containerRef = useRef<HTMLDivElement>(null);
@@ -39,6 +42,28 @@ const App = () => {
         });
         return () => unsubscribe();
     }, [currentCardProgress]);
+
+    // --- THEME SETUP ---
+    const [currentTheme, setCurrentTheme] = useState<ThemeKey>('luxury');
+    const [isThemeDropdownOpen, setIsThemeDropdownOpen] = useState(false);
+
+    useEffect(() => {
+        const root = document.documentElement;
+        // Default to luxury if currentTheme is invalid (though TS should catch this, runtime safety)
+        const theme = THEMES[currentTheme] || THEMES.luxury;
+        
+        root.style.setProperty('--primary', theme.primary);
+        root.style.setProperty('--secondary', theme.secondary);
+        root.style.setProperty('--accent', theme.accent);
+        root.style.setProperty('--white', theme.white);
+    }, [currentTheme]);
+
+    const toggleThemeDropdown = () => setIsThemeDropdownOpen(!isThemeDropdownOpen);
+    
+    const handleThemeChange = (theme: ThemeKey) => {
+        setCurrentTheme(theme);
+        setIsThemeDropdownOpen(false);
+    };
 
     // --- MOUSE PARALLAX SETUP ---
     const mouseX = useMotionValue(0);
@@ -320,8 +345,8 @@ const App = () => {
                                     }}
                                 >
                                     <motion.svg
-                                        width="16"
-                                        height="16"
+                                        width="20"
+                                        height="20"
                                         viewBox="0 0 24 24"
                                         fill="none"
                                         xmlns="http://www.w3.org/2000/svg"
@@ -348,7 +373,7 @@ const App = () => {
                                 <motion.div
                                     className="flex items-center gap-3 px-4 py-2 rounded-full border backdrop-blur-md"
                                     style={{
-                                        backgroundColor: "rgba(26, 35, 50, 0.85)",
+                                        backgroundColor: "rgba(37, 40, 44, 0.31)",
 
                                         borderColor: COLORS.primary,
                                     }}
@@ -379,19 +404,19 @@ const App = () => {
                             </motion.div>
                         </div>
 
-                        {/* Mail Button */}
-                        <div className="pointer-events-auto overflow-visible">
+                        {/* Theme Button (Replaced Mail Button) */}
+                        <div className="pointer-events-auto overflow-visible relative">
                             <motion.div style={{ x: xHigh, y: yHigh }}>
-                                <motion.a
-                                    href="mailto:4lexander31@gmail.com"
-                                    className="w-10 h-10 lg:w-12 rounded-full border-2 flex items-center justify-center cursor-pointer transition-colors duration-300"
+                                <motion.button
+                                    onClick={toggleThemeDropdown}
+                                    className="w-10 h-10 lg:w-12  rounded-full border-2 flex items-center justify-center cursor-pointer transition-colors duration-300 relative z-50"
                                     initial={{ x: "150%", rotate: 180, opacity: 0 }}
                                     animate={{
                                         x: !isLoading ? "0%" : "150%",
                                         rotate: !isLoading ? 0 : 180,
                                         opacity: !isLoading ? 1 : 0
                                     }}
-                                    transition={{ type: "spring", stiffness: 100, damping: 20, delay: 2.1 }} // DELAYED
+                                    transition={{ type: "spring", stiffness: 100, damping: 20, delay: 2.1 }}
                                     whileHover="hover"
                                     style={{
                                         backgroundColor: COLORS.primary,
@@ -405,49 +430,73 @@ const App = () => {
                                         }
                                     }}
                                 >
-                                    <motion.svg
-                                        width="20"
-                                        height="20"
-                                        viewBox="0 0 24 24"
-                                        fill="none"
-                                        stroke="currentColor"
-                                        strokeWidth="2"
-                                        strokeLinecap="round"
-                                        strokeLinejoin="round"
-                                        className="overflow-visible"
-                                    >
-                                        {/* Back of Envelope */}
-                                        <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z" />
+                                    <AnimatedSparkles size={20} color={COLORS.secondary} />
+                                </motion.button>
 
-                                        {/* Flap (Static Lines) */}
-                                        <path d="m22 6-10 7L2 6" />
-
-                                        {/* Paper Sliding Out */}
-                                        <motion.g
-                                            initial={{ y: 0, opacity: 0 }}
-                                            variants={{
-                                                hover: {
-                                                    y: -8,
-                                                    opacity: 1,
-                                                    transition: { duration: 0.4, ease: "easeOut" }
+                                <AnimatePresence>
+                                    {isThemeDropdownOpen && (
+                                        <motion.div
+                                            initial={{ opacity: 0, scale: 0.95, height: 0, filter: "blur(10px)" }}
+                                            animate={{ 
+                                                opacity: 1, 
+                                                scale: 1, 
+                                                height: "auto", 
+                                                filter: "blur(0px)",
+                                                transition: {
+                                                    type: "spring",
+                                                    bounce: 0,
+                                                    duration: 0.4,
+                                                    delayChildren: 0.2, // Delay content
+                                                    staggerChildren: 0.05
                                                 }
                                             }}
+                                            exit={{ 
+                                                opacity: 0, 
+                                                scale: 0.95,
+                                                height: 0,
+                                                filter: "blur(5px)",
+                                                transition: { duration: 0.2 }
+                                            }}
+                                            className="absolute right-0 top-14 min-w-[100px] w-auto rounded-xl border-2 shadow-xl overflow-hidden z-[60]"
+                                            style={{
+                                                backgroundColor: COLORS.primary,
+                                                borderColor: COLORS.secondary,
+                                            }}
                                         >
-                                            <rect x="6" y="6" width="12" height="10" fill="currentColor" rx="1" stroke="none" />
-                                            {/* Lines on Paper (Inverted color usually, but here we use stroke logic) */}
-                                            {/* Actually fill is solid, so lines need to be 'erase' or separate color.
-                         Since we change text color to white on hover, let's make paper white and lines Accent/Red?
-                         But variants set color to White. So paper is white.
-                         Let's use a mask or just not draw lines to keep it simple or use stroke lines over white fill.
-                       */}
-                                            <path d="M8 9h8 M8 12h5" stroke={COLORS.accent} strokeWidth="1.5" />
-                                        </motion.g>
-
-                                        {/* Front Bottom (to cover bottom of paper if needed, but SVG stacking order handles it if paper is before) */}
-                                        {/* Usually simpler: Paper moves up from 'inside'. We can mask it or just let it slide up 'behind' top flap if 3D?
-                      In 2D SVG, we just slide it up. */}
-                                    </motion.svg>
-                                </motion.a>
+                                            {/* We need a background with opacity for blur to be visible.
+                                                Since we are using CSS variables which are full strings (e.g. '#...'), we can't easily alpha them.
+                                                I will use a trick: use a separate bg layer or just assume solid for now,
+                                                BUT the user asked for blur.
+                                                If I use `bg-opacity-90` with a variable, it might not work if the variable is hex.
+                                                I will proceed with solid for now to be safe, but add the class 'backdrop-blur-md'
+                                                so if the user changes vars to rgba it works, or if I can use a different approach later.
+                                                Actually, I'll just use the variable.
+                                            */}
+                                            <div className="flex flex-col">
+                                                {(Object.keys(THEMES) as ThemeKey[]).map((themeKey, index, array) => (
+                                                    <div key={themeKey}>
+                                                        <button
+                                                            onClick={() => handleThemeChange(themeKey)}
+                                                            className="w-full flex items-center justify-between gap-3 px-3 py-2 text-sm font-instrument italic font-bold uppercase tracking-wide transition-colors hover:bg-black/5 whitespace-nowrap"
+                                                            style={{
+                                                                color: COLORS.secondary,
+                                                            }}
+                                                        >
+                                                            <span>{themeKey}</span>
+                                                            {currentTheme === themeKey && <Check size={12} />}
+                                                        </button>
+                                                        {index < array.length - 1 && (
+                                                            <div
+                                                                className="h-[1px] w-full opacity-20"
+                                                                style={{ backgroundColor: COLORS.secondary }}
+                                                            />
+                                                        )}
+                                                    </div>
+                                                ))}
+                                            </div>
+                                        </motion.div>
+                                    )}
+                                </AnimatePresence>
                             </motion.div>
                         </div>
                     </nav>

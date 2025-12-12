@@ -99,7 +99,7 @@ const ContactSection: React.FC = () => {
                                 style={{
                                     backgroundColor: COLORS.secondary,
                                     borderColor: COLORS.secondary,
-                                    color: '#e4e687'
+                                    color: COLORS.primary
                                 }}
                             >
                                 {tag}
@@ -118,7 +118,7 @@ const ContactSection: React.FC = () => {
                 >
                     <motion.a
                         href="mailto:4lexander31@gmail.com"
-                        className="group relative flex flex-col items-center justify-center gap-2 overflow-hidden hover:text-[#e4e687]"
+                        className="group relative flex flex-col items-center justify-center gap-2 overflow-hidden hover:text-[var(--primary)]"
                         style={{ color: COLORS.secondary }}
                         initial="initial"
                         whileHover="hover"
@@ -128,9 +128,9 @@ const ContactSection: React.FC = () => {
                             style={{ backgroundColor: COLORS.accent }}
                         />
                         <div className="relative z-10">
-                            <AnimatedMailIcon className="w-5 h-5 md:w-6 md:h-6 transition-colors duration-300 group-hover:text-[#e4e687]" />
+                            <AnimatedMailIcon className="w-5 h-5 md:w-6 md:h-6 transition-colors duration-300 group-hover:text-[var(--primary)]" />
                         </div>
-                        <span className="relative z-10 text-[10px] md:text-xs font-bold tracking-widest uppercase mt-1 transition-colors duration-300 group-hover:text-[#e4e687]">CONTACT</span>
+                        <span className="relative z-10 text-[10px] md:text-xs font-bold tracking-widest uppercase mt-1 transition-colors duration-300 group-hover:text-[var(--primary)]">CONTACT</span>
 
                         {/* Divider */}
                         <div className="absolute right-0 top-0 bottom-0 w-[2px]" style={{ backgroundColor: COLORS.secondary }}></div>
@@ -140,7 +140,7 @@ const ContactSection: React.FC = () => {
                         href="/resume.pdf"
                         target="_blank"
                         rel="noopener noreferrer"
-                        className="group relative flex flex-col items-center justify-center gap-2 overflow-hidden hover:text-[#e4e687]"
+                        className="group relative flex flex-col items-center justify-center gap-2 overflow-hidden hover:text-[var(--primary)]"
                         style={{ color: COLORS.secondary }}
                         initial="initial"
                         whileHover="hover"
@@ -150,9 +150,9 @@ const ContactSection: React.FC = () => {
                             style={{ backgroundColor: COLORS.accent }}
                         />
                         <div className="relative z-10">
-                            <AnimatedDownloadIcon className="w-5 h-5 md:w-6 md:h-6 transition-colors duration-300 group-hover:text-[#e4e687]" />
+                            <AnimatedDownloadIcon className="w-5 h-5 md:w-6 md:h-6 transition-colors duration-300 group-hover:text-[var(--primary)]" />
                         </div>
-                        <span className="relative z-10 text-[10px] md:text-xs font-bold tracking-widest uppercase mt-1 transition-colors duration-300 group-hover:text-[#e4e687]">RESUME</span>
+                        <span className="relative z-10 text-[10px] md:text-xs font-bold tracking-widest uppercase mt-1 transition-colors duration-300 group-hover:text-[var(--primary)]">RESUME</span>
                     </motion.a>
                 </div>
 
@@ -164,7 +164,7 @@ const ContactSection: React.FC = () => {
                             href={link.href}
                             target="_blank"
                             rel="noopener noreferrer"
-                            className="group relative w-12 h-12 flex items-center justify-center border-2 bg-transparent transition-all duration-300 hover:-translate-y-1 hover:shadow-[3px_3px_0px_0px_rgba(181,88,57)]"
+                            className="group relative w-12 h-12 flex items-center justify-center border-2 bg-transparent transition-all duration-300 hover:-translate-y-1 hover:shadow-[3px_3px_0px_0px_var(--accent)]"
                             style={{
                                 borderColor: COLORS.secondary,
                                 color: COLORS.secondary,
@@ -178,7 +178,7 @@ const ContactSection: React.FC = () => {
                                 style={{ backgroundColor: COLORS.secondary }}
                             />
 
-                            <div className="relative z-10 transition-colors duration-300 group-hover:text-[#e4e687]">
+                            <div className="relative z-10 transition-colors duration-300 group-hover:text-[var(--primary)]">
                                 <link.icon size={22} />
                             </div>
                         </motion.a>
@@ -192,8 +192,9 @@ const ContactSection: React.FC = () => {
                     className="w-full pt-4 border-t-2 opacity-70 border-dotted"
                     style={{ borderColor: COLORS.secondary }}
                 >
-                    <div className="flex justify-between text-[10px] md:text-xs font-instrument uppercase tracking-widest" style={{ color: '#000000ff' }}>
+                    <div className="flex justify-center gap-2 text-[10px] md:text-xs font-instrument uppercase tracking-widest" style={{ color: COLORS.secondary }}>
                         <span>©Alexander</span>
+                        <span>—</span>
                         <span>2025</span>
                     </div>
                 </div>

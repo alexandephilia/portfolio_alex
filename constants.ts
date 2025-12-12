@@ -1,10 +1,45 @@
 import { Github, Linkedin, Phone } from 'lucide-react';
 
+export const THEMES = {
+  luxury: {
+    primary: 'rgba(228, 230, 135, 1)',
+    secondary: '#1a2332',
+    accent: '#c6613f',
+    white: '#FFFFFF',
+  },
+  ocean: {
+    primary: '#37bdf2ff',
+    secondary: '#012596',
+    accent: '#012596',
+    white: '#37bdf2ff',
+  },
+  coffee: {
+    primary: '#e3dad2',
+    secondary: '#543b35',
+    accent: '#b07c5eff',
+    white: '#e3dad2',
+  },
+  corpo: {
+    primary: '#f3f0ec',
+    secondary: '#151414',
+    accent: '#151414',
+    white: '#FFFFFF',
+  },
+  synth: {
+    primary: '#7a659bff',
+    secondary: '#372452ff', 
+    accent: '#ff2a6d',
+    white: '#ffffff',
+  }
+} as const;
+
+export type ThemeKey = keyof typeof THEMES;
+
 export const COLORS = {
-  primary: 'rgba(228, 230, 135, 1)', // Updated Green
-  secondary: '#1a2332', // Navy
-  accent: '#c6613f', // Red
-  white: '#FFFFFF',
+  primary: 'var(--primary)',
+  secondary: 'var(--secondary)',
+  accent: 'var(--accent)',
+  white: 'var(--white)',
 };
 
 export const SOCIAL_LINKS = [
