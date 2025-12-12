@@ -16,7 +16,7 @@ export const THEMES = {
   coffee: {
     primary: '#e3dad2',
     secondary: '#543b35',
-    accent: '#b07c5eff',
+    accent: '#835b45ff',
     white: '#e3dad2',
   },
   corpo: {
