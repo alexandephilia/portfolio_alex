@@ -2,7 +2,7 @@ import { motion, useMotionValue, useSpring, useTransform } from 'framer-motion';
 import { useEffect, useState } from 'react';
 import { COLORS } from '../../constants';
 
-type CursorVariant = 'default' | 'filter' | 'text';
+type CursorVariant = 'default' | 'filter' | 'text' | 'nav-hover';
 
 const CustomCursor = () => {
     const [cursorVariant, setCursorVariant] = useState<CursorVariant>('default');
@@ -53,8 +53,18 @@ const CustomCursor = () => {
             const isFilter = target.getAttribute('data-cursor') === 'filter' ||
                              target.closest('[data-cursor="filter"]');
 
+            // Check contexts
+            const isNav = target.closest('nav');
+            const isCard = target.closest('[data-cursor-context="card"]');
+
             if (isLink) {
-                setCursorVariant('text');
+                if (isCard) {
+                    setCursorVariant('text');
+                } else if (isNav) {
+                    setCursorVariant('nav-hover');
+                } else {
+                    setCursorVariant('default');
+                }
             } else if (isFilter) {
                 setCursorVariant('filter');
             } else {
@@ -89,10 +99,10 @@ const CustomCursor = () => {
                     borderColor: COLORS.primary, // User requested accent border
                 }}
                 animate={{
-                    scale: cursorVariant === 'text' ? 0 : 1,
-                    opacity: cursorVariant === 'text' ? 0 : 1,
-                    backgroundColor: cursorVariant === 'filter' ? '#FFFFFF' : COLORS.accent,
-                    borderWidth: '1.5px', // slightly thicker to be visible
+                    scale: cursorVariant === 'text' ? 0 : cursorVariant === 'nav-hover' ? 3.5 : 1,
+                    opacity: cursorVariant === 'text' ? 0 : cursorVariant === 'nav-hover' ? 0.3 : 1, // Reduced opacity for see-through
+                    backgroundColor: cursorVariant === 'nav-hover' ? 'accent' : (cursorVariant === 'filter' ? 'accent' : COLORS.accent), // White for clear inversion
+                    borderWidth: cursorVariant === 'nav-hover' ? '1.5px' : '1.5px', // Remove border for clean spotlight
                 }}
                 transition={{ duration: 0.2 }}
             />
@@ -106,10 +116,12 @@ const CustomCursor = () => {
                     color: COLORS.primary, 
                 }}
                 animate={{
-                    // Show in Default AND Filter mode. Only hide in Text mode.
+                    // Show in Default AND Filter mode. 
+                    // Hide in Text mode.
+                    // Hide (or blend) in Nav Hover mode (since dot expands)
                     scale: cursorVariant === 'text' ? 0 : 1, 
                     // Maintain visibility. In filter mode, we keeps same opacity or maybe higher?
-                    opacity: cursorVariant === 'text' ? 0 : 0.5,
+                    opacity: (cursorVariant === 'text' || cursorVariant === 'nav-hover') ? 0 : 0.5,
                 }}
                 transition={{ duration: 0.3 }}
             />

@@ -138,6 +138,7 @@ const TicketCard: React.FC<CardProps> = ({
                 transformOrigin: "top center",
                 zIndex: totalCards - index,
             }}
+            data-cursor-context="card"
         >
             {isLanyard && (
                 <div className="absolute bottom-[95%] left-0 right-0 flex justify-center pointer-events-none z-0 pb-1">
