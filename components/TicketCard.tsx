@@ -196,7 +196,7 @@ const TicketCard: React.FC<CardProps> = ({
 
                 {/* Header Section */}
                 <div
-                    className="h-24 border-b-4 border-dotted flex flex-col items-center justify-center shrink-0 z-10 relative"
+                    className="h-[105px] border-b-4 border-dotted flex flex-col items-center justify-center shrink-0 z-10 relative"
                     style={{ borderColor: COLORS.secondary }}
                 >
                     <h2
