@@ -10,7 +10,7 @@ export const THEMES = {
   ocean: {
     primary: '#37bdf2ff',
     secondary: '#012596',
-    accent: '#012596',
+    accent: '#284cbfff',
     white: '#37bdf2ff',
   },
   coffee: {

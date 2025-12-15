@@ -43,8 +43,17 @@ const App = () => {
         return () => unsubscribe();
     }, [currentCardProgress]);
 
-    // --- THEME SETUP ---
-    const [currentTheme, setCurrentTheme] = useState<ThemeKey>('luxury');
+    // --- THEME SETUP (with localStorage persistence) ---
+    const [currentTheme, setCurrentTheme] = useState<ThemeKey>(() => {
+        // Initialize from localStorage, fallback to 'luxury'
+        if (typeof window !== 'undefined') {
+            const saved = localStorage.getItem('portfolio-theme');
+            if (saved && saved in THEMES) {
+                return saved as ThemeKey;
+            }
+        }
+        return 'luxury';
+    });
     const [isThemeDropdownOpen, setIsThemeDropdownOpen] = useState(false);
 
     useEffect(() => {
@@ -56,6 +65,9 @@ const App = () => {
         root.style.setProperty('--secondary', theme.secondary);
         root.style.setProperty('--accent', theme.accent);
         root.style.setProperty('--white', theme.white);
+
+        // Save to localStorage
+        localStorage.setItem('portfolio-theme', currentTheme);
     }, [currentTheme]);
 
     const toggleThemeDropdown = () => setIsThemeDropdownOpen(!isThemeDropdownOpen);
