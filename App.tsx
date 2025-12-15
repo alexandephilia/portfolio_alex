@@ -501,7 +501,7 @@ const App = () => {
                         </div>
                     </nav>
 
-                    <div className="absolute bottom-6 left-6 lg:bottom-8 lg:left-8 z-0 pointer-events-none overflow-visible">
+                    <div className="absolute bottom-6 w-full flex justify-center lg:bottom-8 z-0 pointer-events-none overflow-visible">
                         <motion.div
                             initial={{ y: "100%", opacity: 0 }}
                             animate={{ y: !isLoading ? "0%" : "100%", opacity: !isLoading ? 1 : 0 }}
