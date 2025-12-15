@@ -192,9 +192,8 @@ const ContactSection: React.FC = () => {
                     className="w-full pt-4 border-t-2 opacity-70 border-dotted"
                     style={{ borderColor: COLORS.secondary }}
                 >
-                    <div className="flex justify-center gap-2 text-[10px] md:text-xs font-instrument uppercase tracking-widest" style={{ color: COLORS.secondary }}>
+                    <div className="flex justify-between text-[10px] md:text-xs font-instrument uppercase tracking-widest" style={{ color: COLORS.secondary }}>
                         <span>©Alexander</span>
-                        <span>—</span>
                         <span>2025</span>
                     </div>
                 </div>
