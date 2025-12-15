@@ -54,7 +54,7 @@ const TicketCard: React.FC<CardProps> = ({
     const rotateX = useTransform(
         scrollProgress,
         [index - 1, index, index + 0.25, index + 1],
-        [0, 0, 24, 24]
+        [0, 0, 13, 13]
     );
 
     // Scale
@@ -79,14 +79,14 @@ const TicketCard: React.FC<CardProps> = ({
     const filter = useTransform(
         scrollProgress,
         [index - 1, index, index + 1],
-        ['blur(10px)', 'blur(0px)', 'blur(16px)']
+        ['blur(16px)', 'blur(0px)', 'blur(16px)']
     );
 
     // Rotation (Z impact)
     const rotate = useTransform(
         scrollProgress,
         [index - 1, index, index + 1],
-        [6, 0, 0] // 3 degrees enter, 0 center, -3 exit
+        [8, 0, 0] // 3 degrees enter, 0 center, -3 exit
     );
 
     // Pointer Events - allow interaction when card is reasonably visible
