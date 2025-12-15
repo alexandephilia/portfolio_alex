@@ -177,10 +177,11 @@ const TicketCard: React.FC<CardProps> = ({
             )}
 
             <div
-                className="w-full h-full rounded-[2rem] border-4 relative flex flex-col overflow-hidden shadow-2xl bg-white"
+                className="w-full h-full rounded-[2rem] border-4 relative flex flex-col shadow-2xl bg-white"
                 style={{
                     backgroundColor: COLORS.primary,
                     borderColor: COLORS.secondary,
+                    overflow: 'visible',
                 }}
             >
                 {/* Decorative Notches */}
@@ -213,7 +214,7 @@ const TicketCard: React.FC<CardProps> = ({
 
                 {/* Content Body - flat transform style stabilizes hover detection on interactive elements */}
                 <div
-                    className={`flex-1 relative overflow-hidden flex flex-col ${contentClassName}`}
+                    className={`flex-1 relative overflow-visible flex flex-col ${contentClassName}`}
                     style={{ transformStyle: 'flat' }}
                 >
                     {children}
@@ -221,7 +222,7 @@ const TicketCard: React.FC<CardProps> = ({
 
                 {/* Footer Marquee */}
                 <div
-                    className="h-10 flex items-center relative overflow-hidden shrink-0"
+                    className="h-10 flex items-center relative overflow-hidden shrink-0 rounded-b-[calc(2rem-6px)]"
                     style={{
                         backgroundColor: COLORS.accent
                     }}
