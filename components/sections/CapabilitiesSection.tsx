@@ -59,7 +59,7 @@ const statItems: StatItem[] = [
             'Architecture decisions',
             'Code review culture',
             'CI/CD pipelines',
-            'Project Migration'
+            'Project migration'
         ],
         borderClasses: '',
         isLeftColumn: false,
@@ -154,11 +154,11 @@ const FloatingMenu: React.FC<{
             arrowTopPercent = `${arrowY}px`;
 
             if (item.isLeftColumn) {
-                newStyle.left = relLeft - 192 - 12; 
+                newStyle.left = relLeft - 190 - 10; 
                 newArrowClass = '-right-1.5'; 
                 newRotation = 135; 
             } else {
-                newStyle.left = relLeft + width + 12;
+                newStyle.left = relLeft + width + 10;
                 newArrowClass = '-left-1.5';
                 newRotation = -45;
             }
@@ -210,8 +210,8 @@ const FloatingMenu: React.FC<{
                     }}
                     transition={{
                         // Use spring for movement (top/left)
-                        top: { type: "spring", stiffness: 300, damping: 28 },
-                        left: { type: "spring", stiffness: 300, damping: 28 },
+                        top: { type: "spring", stiffness: 260, damping: 25 }, // Slightly softer
+                        left: { type: "spring", stiffness: 260, damping: 25 },
                         // Standard easing for opacity/scale
                         default: { duration: 0.2 }
                     }}
@@ -233,7 +233,7 @@ const FloatingMenu: React.FC<{
                                 key={`header-${displayItem.label}`} // Use stable ID
                                 initial={{ opacity: 0, y: 5 }}
                                 animate={{ opacity: 1, y: 0 }}
-                                transition={{ duration: 0.2 }}
+                                transition={{ duration: 0.2, delay: 0.15 }} // Add delay to wait for glide
                             >
                                 <div 
                                     className="font-mono text-[9px] uppercase tracking-widest opacity-60 mb-1"
@@ -259,7 +259,7 @@ const FloatingMenu: React.FC<{
                                     animate={{ 
                                         opacity: 1, 
                                         x: 0,
-                                        transition: { delay: 0.05 + detailIndex * 0.05 }
+                                        transition: { delay: 0.2 + detailIndex * 0.05 } // Increased base delay for glide
                                     }}
                                     className="px-3 py-1 flex items-center gap-2 transition-colors duration-150 hover:bg-black/5"
                                 >
@@ -287,8 +287,8 @@ const FloatingMenu: React.FC<{
                         }}
                         transition={{ 
                             type: "spring", 
-                            stiffness: 300, 
-                            damping: 28 // Match menu damping
+                            stiffness: 260, 
+                            damping: 25 // Match menu damping
                         }}
                         style={{ 
                             backgroundColor: COLORS.primary,
