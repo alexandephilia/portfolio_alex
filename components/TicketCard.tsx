@@ -222,7 +222,7 @@ const TicketCard: React.FC<CardProps> = ({
 
                 {/* Footer Marquee */}
                 <div
-                    className={`h-10 flex items-center relative overflow-hidden shrink-0 rounded-b-[calc(2rem-6px)] ${index === 0 ? '-mt-[10px] -translate-y-[0px]' : ''}`}
+                    className={`h-10 flex items-center relative overflow-hidden shrink-0 rounded-b-[calc(2rem-6px)] ${index === 0 ? '-mt-[25px] -translate-y-[0px]' : ''}`}
                     style={{
                         backgroundColor: COLORS.accent
                     }}
