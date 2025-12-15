@@ -154,7 +154,7 @@ const FloatingMenu: React.FC<{
             arrowTopPercent = `${arrowY}px`;
 
             if (item.isLeftColumn) {
-                newStyle.left = relLeft - 180 - 12; 
+                newStyle.left = relLeft - 192 - 12; 
                 newArrowClass = '-right-1.5'; 
                 newRotation = 135; 
             } else {
