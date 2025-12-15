@@ -373,9 +373,7 @@ const CapabilitiesSection: React.FC = () => {
                     className="text-[9px] font-mono uppercase tracking-[0.2em] opacity-50 inline-flex items-center gap-2 py-2" 
                     style={{ color: COLORS.secondary }}
                 >
-                    <span className="w-1.5 h-1.5 rounded-full" style={{ backgroundColor: COLORS.accent }}></span>
                     Hover stats to explore
-                    <span className="w-1.5 h-1.5 rounded-full" style={{ backgroundColor: COLORS.accent }}></span>
                 </span>
             </div>
 
