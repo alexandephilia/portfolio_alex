@@ -93,11 +93,13 @@ const IdentitySection: React.FC<IdentitySectionProps> = ({ mouseX, mouseY }) => 
                 style={{
                     transformStyle: "preserve-3d"
                 }}
+                initial="idle"
+                whileHover="hover"
             >
 
                 {/* Layer 3: Greeting Bubble (Topmost & Parallaxed) */}
                 <motion.div
-                    className="absolute w-full flex justify-center z-50 pointer-events-none top-[-2.0em] lg:top-[-1.1rem] right-[-1rem]"
+                    className="absolute w-full flex justify-center z-50 pointer-events-none top-[-2.0em] lg:top-[-1.3rem] right-[-1rem]"
                     style={{ x: bubbleX, y: bubbleY, translateZ: 60 }}
                 >
                     <motion.div
@@ -196,11 +198,25 @@ const IdentitySection: React.FC<IdentitySectionProps> = ({ mouseX, mouseY }) => 
                     className="absolute inset-0 z-10"
                     style={{ x: imageX, y: imageY }}
                 >
-                    <img
-                        src="https://i.ibb.co/b5zFp839/image-removebg-preview.png"
+                    {/* Default Image - Stays visible to prevent background bleed-through */}
+                    <motion.img
+                        src="https://i.ibb.co/bgbRH7xS/image-removebg-preview.png"
                         alt="Garry Alexander"
-                        className="w-full h-full object-cover grayscale"
+                        className="absolute inset-0 w-full h-full object-cover grayscale"
                         draggable="false"
+                    />
+                    
+                    {/* Hover Image - Fades in on top */}
+                    <motion.img
+                        src="https://i.ibb.co/S4Lrr1FD/image-removebg-preview-1.png"
+                        alt="Garry Alexander Hover"
+                        className="absolute inset-0 w-full h-full object-cover grayscale"
+                        draggable="false"
+                        variants={{
+                            idle: { opacity: 0 },
+                            hover: { opacity: 1 }
+                        }}
+                        transition={{ duration: 0.4, ease: "easeInOut" }}
                     />
                 </motion.div>
 
