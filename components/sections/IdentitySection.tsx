@@ -89,7 +89,7 @@ const IdentitySection: React.FC<IdentitySectionProps> = ({ mouseX, mouseY }) => 
         >
             {/* Tilt Container - Now just Parallax Container (Tilt is Global) */}
             <motion.div
-                className="bottom-2 relative w-[95%] max-w-[350px] aspect-square flex items-center justify-center"
+                className="bottom-2 relative w-[99%] max-w-[350px] aspect-square flex items-center justify-center"
                 style={{
                     transformStyle: "preserve-3d"
                 }}
@@ -97,7 +97,7 @@ const IdentitySection: React.FC<IdentitySectionProps> = ({ mouseX, mouseY }) => 
 
                 {/* Layer 3: Greeting Bubble (Topmost & Parallaxed) */}
                 <motion.div
-                    className="absolute w-full flex justify-center z-50 pointer-events-none top-[-2.0em] lg:top-[-2.5rem] right-[-1rem]"
+                    className="absolute w-full flex justify-center z-50 pointer-events-none top-[-2.0em] lg:top-[-1.1rem] right-[-1rem]"
                     style={{ x: bubbleX, y: bubbleY, translateZ: 60 }}
                 >
                     <motion.div
@@ -197,7 +197,7 @@ const IdentitySection: React.FC<IdentitySectionProps> = ({ mouseX, mouseY }) => 
                     style={{ x: imageX, y: imageY }}
                 >
                     <img
-                        src="https://i.ibb.co.com/27z66gRL/Clean-Shot-2025-12-10-at-05-45-04-removebg-preview.png"
+                        src="https://i.ibb.co/b5zFp839/image-removebg-preview.png"
                         alt="Garry Alexander"
                         className="w-full h-full object-cover grayscale"
                         draggable="false"

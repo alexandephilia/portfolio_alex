@@ -241,7 +241,7 @@ const App = () => {
                                         subHeader="Certified 31.05.94"
                                         headerClassName="!text-[2.5rem] lg:!text-[3.2rem]"
                                         className="!aspect-[2/3] !h-auto lg:max-h-[500px] w-[80vw] max-w-[340px] lg:!w-[340px]"
-                                        contentClassName="pt-[80px]"
+                                        contentClassName="pt-[76px]"
                                         isLanyard={true}
                                         overlay={<IdentityOverlay mouseX={mouseXSpring} mouseY={mouseYSpring} />}
                                     >
