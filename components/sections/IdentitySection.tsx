@@ -160,6 +160,13 @@ const IdentitySection: React.FC<IdentitySectionProps> = ({ mouseX, mouseY }) => 
                         <svg width="100" height="100" viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
                             <circle cx="50" cy="50" r="46" stroke={COLORS.secondary} strokeWidth="3" strokeDasharray="4 2" />
                             <circle cx="50" cy="50" r="38" stroke={COLORS.secondary} strokeWidth="1" />
+                            <image
+                                href="https://i.ibb.co/j9CRpcx1/Clean-Shot-2025-12-17-at-10-50-51-removebg-preview.png"
+                                x="27"
+                                y="17"
+                                width="50"
+                                height="50"
+                            />
                             <path id="curve" d="M24,50 a26,26 0 1,1 52,0" fill="none" />
                             <text fill={COLORS.secondary} fontSize="10" fontWeight="bold" letterSpacing="2" textAnchor="middle">
                                 <textPath href="#curve" startOffset="50%">
