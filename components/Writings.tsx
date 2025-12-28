@@ -53,21 +53,10 @@ const NotionEditor: React.FC<NotionEditorProps> = ({ value, onChange, placeholde
     );
 
     const updateHintPosition = useCallback(() => {
-        if (!textareaRef.current) return;
-        const textarea = textareaRef.current;
-        const cursorPos = textarea.selectionStart;
-        const textBefore = value.slice(0, cursorPos);
-        const lastNewline = textBefore.lastIndexOf('\n');
-        const currentLineText = textBefore.slice(lastNewline + 1);
-        const isLineEmpty = currentLineText.trim().length === 0;
-
-        // Count lines before cursor
-        const linesBefore = textBefore.split('\n').length - 1;
-        const lineHeight = 27; // Approximate line height based on leading-[1.8] and text-[15px]
-
+        // Only show placeholder when textarea is completely empty
         setHintPosition({
-            top: linesBefore * lineHeight,
-            show: isLineEmpty && !showSlashMenu
+            top: 0,
+            show: value.length === 0 && !showSlashMenu
         });
     }, [value, showSlashMenu]);
 
