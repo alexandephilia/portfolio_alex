@@ -464,64 +464,72 @@ export const Writings: React.FC = () => {
                             className="fixed inset-0 bg-black/40 backdrop-blur-sm z-[200] flex items-start justify-center pt-[5vh] md:pt-[10vh] px-4 overflow-y-auto"
                             onClick={() => setShowAddForm(false)}
                         >
-                            <motion.form
+                            <motion.div
                                 initial={{ scale: 0.98, opacity: 0, y: 10 }}
                                 animate={{ scale: 1, opacity: 1, y: 0 }}
                                 exit={{ scale: 0.98, opacity: 0, y: 10 }}
                                 transition={{ type: 'spring', damping: 30, stiffness: 400 }}
                                 onClick={(e) => e.stopPropagation()}
-                                onSubmit={handleSubmit}
-                                className="bg-white rounded-2xl shadow-2xl w-full max-w-2xl mb-10"
+                                className="w-full max-w-2xl mb-10 rounded-[24px] p-[4px]"
+                                style={{
+                                    background: 'linear-gradient(180deg, #FFFFFF 0%, #F3F4F6 50%, #E5E7EB 100%)',
+                                    boxShadow: 'rgba(0, 0, 0, 0.13) 0px 8px 10px, rgba(0, 0, 0, 0.05) 0px 4px 4px'
+                                }}
                             >
-                                {/* Title Input */}
-                                <div className="px-8 pt-8">
-                                    <input
-                                        type="text"
-                                        placeholder="Untitled"
-                                        value={newTitle}
-                                        onChange={(e) => setNewTitle(e.target.value)}
-                                        className="w-full text-4xl font-bold text-gray-900 placeholder-gray-300 outline-none border-none bg-transparent"
-                                        autoFocus
-                                    />
-                                </div>
-
-                                {/* Content Editor */}
-                                <div className="px-8 py-6">
-                                    <NotionEditor
-                                        value={newContent}
-                                        onChange={setNewContent}
-                                        placeholder="Start writing, or press '/' for commands..."
-                                    />
-                                </div>
-
-                                {/* Footer with styled buttons */}
-                                <div className="flex items-center justify-between px-8 py-4 border-t border-gray-100 bg-gray-50/50 rounded-b-2xl">
-                                    <div className="text-xs text-gray-400">
-                                        Supports Markdown formatting
+                                <form
+                                    onSubmit={handleSubmit}
+                                    className="bg-white rounded-[20px] w-full overflow-hidden"
+                                >
+                                    {/* Title Input */}
+                                    <div className="px-8 pt-8">
+                                        <input
+                                            type="text"
+                                            placeholder="Untitled"
+                                            value={newTitle}
+                                            onChange={(e) => setNewTitle(e.target.value)}
+                                            className="w-full text-4xl font-bold text-gray-900 placeholder-gray-300 outline-none border-none bg-transparent"
+                                            autoFocus
+                                        />
                                     </div>
-                                    <div className="flex gap-3">
-                                        <button
-                                            type="button"
-                                            onClick={() => setShowAddForm(false)}
-                                            className="px-4 py-2 rounded-lg text-xs font-medium transition-all bg-gradient-to-b from-white to-gray-100 border border-gray-200 shadow-[0_2px_4px_rgba(0,0,0,0.05),0_1px_2px_rgba(0,0,0,0.04),inset_0_1px_0_rgba(255,255,255,0.8)] text-gray-600 hover:text-gray-900 hover:shadow-[0_3px_6px_rgba(0,0,0,0.08)] active:shadow-sm active:translate-y-[1px]"
-                                        >
-                                            Cancel
-                                        </button>
-                                        <button
-                                            type="submit"
-                                            disabled={isSubmitting || !newTitle.trim() || !newContent.trim()}
-                                            className="flex items-center gap-2 px-4 py-2 rounded-lg text-xs font-medium transition-all bg-gradient-to-b from-gray-800 to-gray-900 border border-gray-700 shadow-[0_2px_4px_rgba(0,0,0,0.2),0_1px_2px_rgba(0,0,0,0.1),inset_0_1px_0_rgba(255,255,255,0.1)] text-white hover:from-gray-700 hover:to-gray-800 hover:shadow-[0_3px_6px_rgba(0,0,0,0.25)] active:shadow-sm active:translate-y-[1px] disabled:opacity-50 disabled:cursor-not-allowed"
-                                        >
-                                            {isSubmitting ? (
-                                                <Loader2 size={14} className="animate-spin" />
-                                            ) : (
-                                                <Send size={14} />
-                                            )}
-                                            Publish
-                                        </button>
+
+                                    {/* Content Editor */}
+                                    <div className="px-8 py-6">
+                                        <NotionEditor
+                                            value={newContent}
+                                            onChange={setNewContent}
+                                            placeholder="Start writing, or press '/' for commands..."
+                                        />
                                     </div>
-                                </div>
-                            </motion.form>
+
+                                    {/* Footer with styled buttons */}
+                                    <div className="flex items-center justify-between px-8 py-4 border-t border-gray-100 bg-gray-50/50 rounded-b-2xl">
+                                        <div className="text-xs text-gray-400">
+                                            Supports Markdown formatting
+                                        </div>
+                                        <div className="flex gap-3">
+                                            <button
+                                                type="button"
+                                                onClick={() => setShowAddForm(false)}
+                                                className="px-4 py-2 rounded-lg text-xs font-medium transition-all bg-gradient-to-b from-white to-gray-100 border border-gray-200 shadow-[0_2px_4px_rgba(0,0,0,0.05),0_1px_2px_rgba(0,0,0,0.04),inset_0_1px_0_rgba(255,255,255,0.8)] text-gray-600 hover:text-gray-900 hover:shadow-[0_3px_6px_rgba(0,0,0,0.08)] active:shadow-sm active:translate-y-[1px]"
+                                            >
+                                                Cancel
+                                            </button>
+                                            <button
+                                                type="submit"
+                                                disabled={isSubmitting || !newTitle.trim() || !newContent.trim()}
+                                                className="flex items-center gap-2 px-4 py-2 rounded-lg text-xs font-medium transition-all bg-gradient-to-b from-gray-800 to-gray-900 border border-gray-700 shadow-[0_2px_4px_rgba(0,0,0,0.2),0_1px_2px_rgba(0,0,0,0.1),inset_0_1px_0_rgba(255,255,255,0.1)] text-white hover:from-gray-700 hover:to-gray-800 hover:shadow-[0_3px_6px_rgba(0,0,0,0.25)] active:shadow-sm active:translate-y-[1px] disabled:opacity-50 disabled:cursor-not-allowed"
+                                            >
+                                                {isSubmitting ? (
+                                                    <Loader2 size={14} className="animate-spin" />
+                                                ) : (
+                                                    <Send size={14} />
+                                                )}
+                                                Publish
+                                            </button>
+                                        </div>
+                                    </div>
+                                </form>
+                            </motion.div>
                         </motion.div>
                     )}
                 </AnimatePresence>
@@ -538,38 +546,46 @@ export const Writings: React.FC = () => {
                             className="fixed inset-0 bg-black/40 backdrop-blur-sm z-[200] flex items-start justify-center pt-[5vh] md:pt-[10vh] px-4 overflow-y-auto"
                             onClick={() => setSelectedWriting(null)}
                         >
-                            <motion.article
+                            <motion.div
                                 initial={{ scale: 0.98, opacity: 0, y: 10 }}
                                 animate={{ scale: 1, opacity: 1, y: 0 }}
                                 exit={{ scale: 0.98, opacity: 0, y: 10 }}
                                 transition={{ type: 'spring', damping: 30, stiffness: 400 }}
                                 onClick={(e) => e.stopPropagation()}
-                                className="bg-white rounded-2xl shadow-2xl w-full max-w-2xl mb-10 overflow-hidden"
+                                className="w-full max-w-2xl mb-10 rounded-[24px] p-[4px]"
+                                style={{
+                                    background: 'linear-gradient(180deg, #FFFFFF 0%, #F3F4F6 50%, #E5E7EB 100%)',
+                                    boxShadow: 'rgba(0, 0, 0, 0.13) 0px 8px 10px, rgba(0, 0, 0, 0.05) 0px 4px 4px'
+                                }}
                             >
-                                <div className="px-8 pt-8 pb-4 border-b border-gray-100">
-                                    <div className="flex items-start justify-between gap-4">
-                                        <div className="flex-1">
-                                            <h1 className="text-3xl md:text-4xl font-serif italic text-gray-900 leading-tight">
-                                                {selectedWriting.title}
-                                            </h1>
-                                            <div className="flex items-center gap-3 mt-4 text-sm text-gray-400">
-                                                <span>{formatDate(selectedWriting.createdAt)}</span>
-                                                <span>·</span>
-                                                <span>{getReadingTime(selectedWriting.content)}</span>
+                                <article
+                                    className="bg-white rounded-[20px] w-full overflow-hidden"
+                                >
+                                    <div className="px-8 pt-8 pb-4 border-b border-gray-100">
+                                        <div className="flex items-start justify-between gap-4">
+                                            <div className="flex-1">
+                                                <h1 className="text-3xl md:text-4xl font-serif italic text-gray-900 leading-tight">
+                                                    {selectedWriting.title}
+                                                </h1>
+                                                <div className="flex items-center gap-3 mt-4 text-sm text-gray-400">
+                                                    <span>{formatDate(selectedWriting.createdAt)}</span>
+                                                    <span>·</span>
+                                                    <span>{getReadingTime(selectedWriting.content)}</span>
+                                                </div>
                                             </div>
+                                            <button
+                                                onClick={() => setSelectedWriting(null)}
+                                                className="p-2 hover:bg-gray-100 rounded-full transition-colors flex-shrink-0"
+                                            >
+                                                <X size={20} className="text-gray-400" />
+                                            </button>
                                         </div>
-                                        <button
-                                            onClick={() => setSelectedWriting(null)}
-                                            className="p-2 hover:bg-gray-100 rounded-full transition-colors flex-shrink-0"
-                                        >
-                                            <X size={20} className="text-gray-400" />
-                                        </button>
                                     </div>
-                                </div>
-                                <div className="px-8 py-8">
-                                    <MarkdownContent content={selectedWriting.content} />
-                                </div>
-                            </motion.article>
+                                    <div className="px-8 py-8">
+                                        <MarkdownContent content={selectedWriting.content} />
+                                    </div>
+                                </article>
+                            </motion.div>
                         </motion.div>
                     )}
                 </AnimatePresence>
@@ -579,7 +595,7 @@ export const Writings: React.FC = () => {
             {writings.length === 0 ? (
                 <div className="text-center py-20">
                     <PenLine className="w-12 h-12 text-gray-200 mx-auto mb-4" />
-                    <p className="text-gray-400 text-sm font-serif italic">No writings yet</p>
+                    <p className="text-gray-400 text-sm">No writings yet</p>
                 </div>
             ) : (
                 <div className="space-y-6">
