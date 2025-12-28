@@ -155,9 +155,9 @@ export default function App() {
                                         animate="visible"
                                         exit="exit"
                                         variants={{
-                                            hidden: { 
-                                                opacity: 0, 
-                                                filter: 'blur(10px)', 
+                                            hidden: {
+                                                opacity: 0,
+                                                filter: 'blur(10px)',
                                                 y: 15,
                                                 scale: 0.98
                                             },
@@ -177,9 +177,9 @@ export default function App() {
                                                 opacity: 0,
                                                 filter: 'blur(8px)',
                                                 y: -10,
-                                                transition: { 
+                                                transition: {
                                                     duration: 0.2,
-                                                    ease: "easeIn" 
+                                                    ease: "easeIn"
                                                 }
                                             }
                                         }}

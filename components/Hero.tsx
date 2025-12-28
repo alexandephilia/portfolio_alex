@@ -1,7 +1,6 @@
 import { motion } from 'framer-motion';
 import React, { useEffect, useState } from 'react';
 import {
-    SiAmazonwebservices,
     SiDocker,
     SiReact,
     SiTailwindcss
@@ -63,10 +62,10 @@ const FramerMotionIcon: React.FC<{ size?: number }> = ({ size = 24 }) => (
 
 // Custom Cursor AI icon
 const CursorIcon: React.FC<{ size?: number }> = ({ size = 24 }) => (
-    <img 
-        src="https://images.seeklogo.com/logo-png/61/2/cursor-logo-png_seeklogo-611587.png" 
+    <img
+        src="https://images.seeklogo.com/logo-png/61/2/cursor-logo-png_seeklogo-611587.png"
         alt="Cursor AI"
-        width={size} 
+        width={size}
         height={size}
         style={{ width: size, height: size, objectFit: 'contain' }}
     />
@@ -248,12 +247,12 @@ export const Hero: React.FC = () => {
                 initial={{ opacity: 0, y: 10 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.8, ease: "easeOut" }}
-                className="flex flex-wrap gap-3 md:gap-4 mb-6"
+                className="flex flex-wrap gap-2 md:gap-3 mb-6"
             >
                 {['AI AUGMENTED', 'FULL STACK FRAMEWORK', '8+ EXPERIENCE'].map((tag, i) => (
                     <span
                         key={i}
-                        className="px-2.5 py-1 md:px-4 md:py-1.5 rounded-full bg-gradient-to-b from-gray-200 to-gray-200/20 border border-gray-300/60 shadow-[0_2px_4px_rgba(0,0,0,0.15),0_1px_2px_rgba(0,0,0,0.04),inset_0_1px_0_rgba(255,255,255,0.8)] text-[8px] md:text-xs font-bold tracking-wider text-gray-800 uppercase"
+                        className="px-2.5 py-1 md:px-3 md:py-1.5 rounded-full bg-gradient-to-b from-[#f8f9fc] via-[#f0f2f7] to-[#e8ebf2] border border-gray-300/70 shadow-[0_4px_8px_rgba(0,0,0,0.1),0_2px_4px_rgba(0,0,0,0.06),inset_0_1px_0_rgba(255,255,255,0.9)] text-[8px] md:text-[10px] font-bold tracking-wider text-gray-600 uppercase"
                     >
                         {tag}
                     </span>
@@ -264,10 +263,10 @@ export const Hero: React.FC = () => {
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.8, delay: 0.1, ease: "easeOut" }}
-                className="text-[1.2rem] md:text-[1.875rem] lg:text-[2.25rem] font-bold text-gray-900 leading-[1.35]"
-                style={{ maxWidth: isDesktop ? '35rem' : '305px' }}
+                className="text-[1.1rem] md:text-[1.875rem] lg:text-[2.25rem] font-bold text-gray-900 leading-[1.35]"
+                style={{ maxWidth: isDesktop ? '35rem' : '277px' }}
             >
-                I design and build across <span className="text-[rgb(81,108,180)]">Frontend</span> & <span className="text-[rgb(81,108,180)]">Backend Engineering</span>, embracing{' '}
+                I keep iterate and build across <span className="text-[rgb(81,108,180)]">Frontend</span> & <span className="text-[rgb(81,108,180)]">Backend Engineering</span>, embracing{' '}
                 <IconScatter icons={agnosticIcons} externalOpen={revealSequence.agnostic}>
                     agnostic framework
                 </IconScatter>
@@ -283,15 +282,15 @@ export const Hero: React.FC = () => {
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.8, delay: 0.2, ease: "easeOut" }}
                 style={antiFlickerStyle}
-                className="mt-10 max-w-[34rem]"
+                className="mt-5 max-w-[490px] md:max-w-[34rem]"
             >
                 <div className="flex flex-col gap-2">
-                    <span className="text-[10px] uppercase tracking-[0.2em] text-[rgb(81,108,180)] font-bold opacity-60">
+                    <span className="text-[9px] uppercase tracking-[0.2em] text-[rgb(81,108,180)] font-bold opacity-60">
                         Remote Integration Focus
                     </span>
 
-                    <p className="text-gray-500 text-[13px] md:text-[15.5px] leading-[1.5]">
-                        I am currently prioritizing {' '}
+                    <p className="text-gray-500 text-[10px] md:text-[14px] leading-[1.6]">
+                        Garry Alexander here. I am currently prioritizing {' '}
                         <RevealHighlight
                             text="Full-time & Contract"
                             baseClassName="text-gray-900 font-semibold tracking-tight"

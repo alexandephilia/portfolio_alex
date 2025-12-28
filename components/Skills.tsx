@@ -116,10 +116,10 @@ const Keycap: React.FC<{ label: string }> = ({ label }) => {
                 bg-gradient-to-b from-white via-gray-100 to-gray-200
                 border border-gray-300/60
                 rounded-[6px] md:rounded-[8px]
-                
+
                 /* Shadow & 3D Depth (Matches Social Buttons) */
                 shadow-[0_4px_0_#d1d5db,0_4px_8px_rgba(0,0,0,0.1),inset_0_1px_0_rgba(255,255,255,0.9)]
-                
+
                 /* Typography (Kept Mono for Keyboard feel) */
                 text-gray-600 font-mono text-[10px] md:text-[11px] font-bold uppercase tracking-wide
 
@@ -131,7 +131,7 @@ const Keycap: React.FC<{ label: string }> = ({ label }) => {
                 hover:translate-y-[2px]
 
                 /* Active / Pressed State - Full Depress */
-                active:shadow-[0_0px_0_#d1d5db,inset_0_2px_4px_rgba(0,0,0,0.1)] 
+                active:shadow-[0_0px_0_#d1d5db,inset_0_2px_4px_rgba(0,0,0,0.1)]
                 active:translate-y-[4px]
 
                 /* Focus */
