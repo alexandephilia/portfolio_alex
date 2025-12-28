@@ -6,9 +6,20 @@ import { Bookshelf } from './Bookshelf';
 
 export const BeyondWork: React.FC = () => {
     const [isPaused, setIsPaused] = useState(false);
+    const [activeIndex, setActiveIndex] = useState<number | null>(null);
 
     // Duplicate for seamless loop
     const images = [...BEYOND_WORK_IMAGES, ...BEYOND_WORK_IMAGES];
+
+    const handleTouchStart = (idx: number) => {
+        setIsPaused(true);
+        setActiveIndex(idx);
+    };
+
+    const handleTouchEnd = () => {
+        setIsPaused(false);
+        setActiveIndex(null);
+    };
 
     return (
         <section className="py-10 border-t border-dashed border-gray-200 bg-[#FAFAFA] overflow-hidden" style={antiFlickerStyle}>
@@ -38,10 +49,13 @@ export const BeyondWork: React.FC = () => {
                     {images.map((src, idx) => (
                         <div
                             key={idx}
-                            className="group relative w-[200px] h-[200px] md:w-[220px] md:h-[220px] shrink-0 rounded-[16px] p-[3px] backdrop-blur-[25px] transition-all duration-300 shadow-[0_8px_10px_rgba(0,0,0,0.13),0_4px_4px_rgba(0,0,0,0.05)] hover:shadow-xl hover:-translate-y-1"
+                            className={`group relative w-[200px] h-[200px] md:w-[220px] md:h-[220px] shrink-0 rounded-[16px] p-[3px] backdrop-blur-[25px] transition-all duration-300 shadow-[0_8px_10px_rgba(0,0,0,0.13),0_4px_4px_rgba(0,0,0,0.05)] hover:shadow-xl hover:-translate-y-1 ${activeIndex === idx ? 'shadow-xl -translate-y-1' : ''}`}
                             style={{
                                 background: `linear-gradient(180deg, #FFFFFF 0%, #F3F4F6 50%, #E5E7EB 100%)`,
                             }}
+                            onTouchStart={() => handleTouchStart(idx)}
+                            onTouchEnd={handleTouchEnd}
+                            onTouchCancel={handleTouchEnd}
                         >
                             {/* Inner Container - slight padding */}
                             <div className="w-full h-full bg-white rounded-[14px] p-1.5 border border-[rgba(0,0,0,0.05)] transition-all duration-300 group-hover:border-[rgba(0,0,0,0.08)] group-hover:shadow-[0_12px_24px_-8px_rgba(0,0,0,0.12)]">
@@ -52,7 +66,7 @@ export const BeyondWork: React.FC = () => {
                                         loading="lazy"
                                         draggable={false}
                                         onContextMenu={(e) => e.preventDefault()}
-                                        className="w-full h-full object-cover grayscale group-hover:grayscale-0 transition-all duration-700 ease-in-out transform group-hover:scale-105 select-none"
+                                        className={`w-full h-full object-cover transition-all duration-700 ease-in-out transform select-none grayscale group-hover:grayscale-0 group-hover:scale-105 ${activeIndex === idx ? 'grayscale-0 scale-105' : ''}`}
                                         style={{ WebkitTouchCallout: 'none', WebkitUserSelect: 'none' }}
                                     />
                                     {/* Inset shadow overlay */}
