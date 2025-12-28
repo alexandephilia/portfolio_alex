@@ -72,3 +72,12 @@ export interface Writing {
     createdAt: string;
     updatedAt: string;
 }
+
+export interface Book {
+    id: number;
+    title: string;
+    author: string;
+    coverUrl: string;
+    color: string;
+    spineText: string;
+}

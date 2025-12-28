@@ -153,26 +153,40 @@ const MacMiniSection: React.FC = () => {
             className="mt-24 flex flex-col gap-6 items-center w-full"
         >
             <div className="relative pb-6">
-                <h3 className="
-                    font-serif italic
-                    text-2xl md:text-5xl
-                    text-gray-900
-                    tracking-wide
-                    transform -rotate-2
-                    select-none
-                    relative z-10
-                ">
+                <motion.h3
+                    initial={{ opacity: 0, y: 10 }}
+                    whileInView={{ opacity: 1, y: 0 }}
+                    viewport={{ once: true }}
+                    transition={{ duration: 0.6, ease: "easeOut" }}
+                    className="
+                        font-serif italic
+                        text-2xl md:text-5xl
+                        text-gray-500
+                        tracking-wide
+                        transform -rotate-3
+                        select-none
+                        relative z-10
+                    "
+                >
                     My Daily Driver
-                </h3>
-                {/* Squiggle Lines SVG - Made more visible and prominent */}
+                </motion.h3>
+                {/* Squiggle Lines SVG - Animated and Tilted */}
                 <svg
-                    className="absolute w-[110%] h-6 -bottom-1 -left-[5%] text-[rgb(81,108,180)] z-0 pointer-events-none transform -rotate-1"
+                    className="absolute w-[110%] h-6 bottom-1 md:bottom-2 -left-[5%] text-[rgb(81,108,180)] z-0 pointer-events-none transform -rotate-3"
                     viewBox="0 0 200 15"
                     fill="none"
                     xmlns="http://www.w3.org/2000/svg"
                     preserveAspectRatio="none"
                 >
-                    <path
+                    <motion.path
+                        initial={{ pathLength: 0, opacity: 0 }}
+                        whileInView={{ pathLength: 1, opacity: 1 }}
+                        viewport={{ once: true }}
+                        transition={{ 
+                            duration: 1.5, 
+                            delay: 0.5, 
+                            ease: "easeInOut" 
+                        }}
                         d="M2 7.5C15 2 30 13 45 7.5C60 2 75 13 90 7.5C105 2 120 13 135 7.5C150 2 165 13 180 7.5C195 2 210 13 225 7.5"
                         stroke="currentColor"
                         strokeWidth="2"
@@ -182,18 +196,24 @@ const MacMiniSection: React.FC = () => {
                 </svg>
             </div>
 
-            <div className="
-                relative
-                w-full
-                p-0
-                rounded-2xl md:rounded-[24px]
-                /* Lighter gradient as requested */
-                bg-gradient-to-b from-white to-[#F5F5F7]
-                border border-gray-200
-                shadow-[inset_0_1px_0_rgba(255,255,255,1),0_2px_5px_rgba(0,0,0,0.03)]
-                overflow-hidden
-                group
-            ">
+            <motion.div
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ duration: 0.8, delay: 0.2, ease: "easeOut" }}
+                className="
+                    relative
+                    w-full
+                    p-0
+                    rounded-2xl md:rounded-[24px]
+                    /* Lighter gradient as requested */
+                    bg-gradient-to-b from-white to-[#F5F5F7]
+                    border border-gray-200
+                    shadow-[inset_0_1px_0_rgba(255,255,255,1),0_2px_5px_rgba(0,0,0,0.03)]
+                    overflow-hidden
+                    group
+                "
+            >
                 {/* Background Dot Pattern */}
                 <div className="absolute inset-0 opacity-[0.03]"
                     style={{
@@ -251,7 +271,7 @@ const MacMiniSection: React.FC = () => {
                         </div>
                     </div>
                 </div>
-            </div>
+            </motion.div>
         </motion.div>
     )
 }
