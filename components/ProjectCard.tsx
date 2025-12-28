@@ -229,14 +229,14 @@ export const ProjectCard: React.FC<ProjectCardProps> = ({ project }) => {
                                     >
                                         <div className="relative group/stamp max-w-full overflow-hidden">
                                             {/* Stamp Body */}
-                                            <div className="px-2 py-1 md:px-6 md:py-3 border-[2px] md:border-[4px] border-white/90 rounded-[2px] flex items-center justify-center">
-                                                <span className="text-[10px] sm:text-xs md:text-xl font-sans font-black text-white/90 uppercase tracking-[0.1em] md:tracking-[0.2em] whitespace-nowrap select-none">
+                                            <div className="px-2 py-1 md:px-6 md:py-3 border-2 md:border-4 border-white rounded-[2px] flex items-center justify-center stamp-texture">
+                                                <span className="text-[10px] sm:text-xs md:text-xl font-sans font-black text-white uppercase tracking-widest whitespace-nowrap select-none">
                                                     Under NDA
                                                 </span>
                                             </div>
                                             
-                                            {/* Ink bleed effect (subtle glow instead of shadow since it's white) */}
-                                            <div className="absolute inset-0 border-[2px] md:border-[4px] border-white/20 blur-[0.5px] -z-10" />
+                                            {/* Ink bleed effect (subtle glow) */}
+                                            <div className="absolute inset-0 border-2 md:border-4 border-white/20 blur-[0.5px] -z-10" />
                                         </div>
                                     </motion.div>
                                     
