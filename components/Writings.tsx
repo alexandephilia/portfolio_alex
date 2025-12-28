@@ -335,6 +335,21 @@ export const Writings: React.FC = () => {
         }
     }, [showAddForm]);
 
+    // Lock body scroll when any modal is open
+    useEffect(() => {
+        if (showAddForm || selectedWriting) {
+            document.body.style.overflow = 'hidden';
+            document.body.style.touchAction = 'none';
+        } else {
+            document.body.style.overflow = '';
+            document.body.style.touchAction = '';
+        }
+        return () => {
+            document.body.style.overflow = '';
+            document.body.style.touchAction = '';
+        };
+    }, [showAddForm, selectedWriting]);
+
     useEffect(() => {
         const params = new URLSearchParams(window.location.search);
         const key = params.get('key');
@@ -549,14 +564,14 @@ export const Writings: React.FC = () => {
                                     </div>
 
                                     {/* Footer with styled buttons */}
-                                    <div className="flex flex-col md:flex-row md:items-center justify-between gap-3 px-8 py-4 border-t border-gray-100 bg-gray-50/50 rounded-b-2xl">
-                                        <div className="text-xs text-gray-400 italic max-w-full md:max-w-[300px] line-clamp-2">
+                                    <div className="flex flex-col gap-3 px-8 py-4 border-t border-gray-100 bg-gray-50/50 rounded-b-2xl">
+                                        <div className="text-xs text-gray-400 italic leading-relaxed">
                                             {inspirationalQuote
                                                 ? `"${inspirationalQuote}"`
                                                 : "Loading inspiration..."
                                             }
                                         </div>
-                                        <div className="flex gap-3 flex-shrink-0">
+                                        <div className="flex gap-3 justify-end flex-shrink-0">
                                             <button
                                                 type="button"
                                                 onClick={() => setShowAddForm(false)}
