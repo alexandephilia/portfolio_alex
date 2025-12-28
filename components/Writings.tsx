@@ -132,13 +132,13 @@ const NotionEditor: React.FC<NotionEditorProps> = ({ value, onChange, placeholde
         const cursorPos = e.target.selectionStart;
         onChange(newValue);
 
-        // Check for slash command trigger
+        // Check for slash command trigger - works anywhere in text
         const textBefore = newValue.slice(0, cursorPos);
-        const lastNewline = textBefore.lastIndexOf('\n');
-        const currentLine = textBefore.slice(lastNewline + 1);
+        // Find the last slash that could be a command trigger (after space, newline, or at start)
+        const slashMatch = textBefore.match(/(?:^|[\s])\/([a-zA-Z0-9]*)$/);
 
-        if (currentLine.startsWith('/')) {
-            const filter = currentLine.slice(1);
+        if (slashMatch) {
+            const filter = slashMatch[1] || '';
             setSlashFilter(filter);
             setShowSlashMenu(true);
             setSelectedIndex(0);
@@ -156,10 +156,15 @@ const NotionEditor: React.FC<NotionEditorProps> = ({ value, onChange, placeholde
         const textBefore = value.slice(0, cursorPos);
         const textAfter = value.slice(cursorPos);
 
-        // Find the slash position
-        const lastNewline = textBefore.lastIndexOf('\n');
-        const lineStart = lastNewline + 1;
-        const beforeSlash = value.slice(0, lineStart);
+        // Find the slash position - could be after space or at line start
+        const slashMatch = textBefore.match(/(?:^|[\s])\/([a-zA-Z0-9]*)$/);
+        if (!slashMatch) return;
+
+        // Calculate where the slash starts (accounting for potential space before it)
+        const matchStart = textBefore.length - slashMatch[0].length;
+        const hasSpaceBefore = slashMatch[0].startsWith(' ') || slashMatch[0].startsWith('\n') || slashMatch[0].startsWith('\t');
+        const slashStart = hasSpaceBefore ? matchStart + 1 : matchStart;
+        const beforeSlash = value.slice(0, slashStart);
 
         let newText: string;
         let newCursorPos: number;
@@ -205,8 +210,8 @@ const NotionEditor: React.FC<NotionEditorProps> = ({ value, onChange, placeholde
                 onKeyDown={handleKeyDown}
                 onSelect={updateHintPosition}
                 onClick={updateHintPosition}
-                className="w-full min-h-[300px] outline-none text-[15px] leading-[1.8] text-gray-800 resize-none bg-transparent"
-                style={{ caretColor: '#111' }}
+                className="w-full min-h-[300px] outline-none text-[15px] md:text-[15px] text-[16px] leading-[1.8] text-gray-800 resize-none bg-transparent"
+                style={{ caretColor: '#111', fontSize: '16px' }}
             />
 
             {/* Slash command menu */}
@@ -590,6 +595,7 @@ export const Writings: React.FC = () => {
                                             value={newTitle}
                                             onChange={(e) => setNewTitle(e.target.value)}
                                             className="w-full text-4xl font-bold text-gray-900 placeholder-gray-300 outline-none border-none bg-transparent"
+                                            style={{ fontSize: '16px' }}
                                             autoFocus
                                         />
                                     </div>
@@ -732,9 +738,9 @@ export const Writings: React.FC = () => {
                                         <span>{getReadingTime(writing.content)}</span>
                                     </div>
                                     <div className="relative mt-3">
-                                        <p className="text-sm text-gray-500 leading-relaxed line-clamp-2">
-                                            {getPreview(writing.content)}
-                                        </p>
+                                        <div className="text-sm text-gray-500 leading-relaxed line-clamp-2 prose prose-sm prose-gray max-w-none">
+                                            <MarkdownContent content={writing.content.slice(0, 300)} />
+                                        </div>
                                         <div className="absolute bottom-0 left-0 right-0 h-6 bg-gradient-to-t from-[#FAFAFA] to-transparent" />
                                     </div>
                                     <span className="inline-block mt-3 text-xs font-medium text-gray-900 group-hover:underline">
