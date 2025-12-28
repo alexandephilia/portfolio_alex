@@ -1,6 +1,6 @@
 import { AnimatePresence, motion } from 'framer-motion';
-import { Loader2, PenLine, Plus, Send, Trash2, X } from 'lucide-react';
-import React, { useEffect, useRef, useState } from 'react';
+import { Bold, Code, Heading1, Heading2, Heading3, Italic, List, ListOrdered, Loader2, PenLine, Plus, Quote, Send, Trash2, X } from 'lucide-react';
+import React, { useCallback, useEffect, useRef, useState } from 'react';
 import ReactDOM from 'react-dom';
 import ReactMarkdown from 'react-markdown';
 import remarkGfm from 'remark-gfm';
@@ -11,88 +11,226 @@ const API_URL = '/api/writings';
 // Portal component for modals
 const Portal: React.FC<{ children: React.ReactNode }> = ({ children }) => {
     const [mounted, setMounted] = useState(false);
-
     useEffect(() => {
         setMounted(true);
         return () => setMounted(false);
     }, []);
-
     if (!mounted) return null;
     return ReactDOM.createPortal(children, document.body);
 };
 
+// Slash command menu items
+const SLASH_COMMANDS = [
+    { id: 'h1', label: 'Heading 1', icon: Heading1, prefix: '# ', description: 'Large section heading' },
+    { id: 'h2', label: 'Heading 2', icon: Heading2, prefix: '## ', description: 'Medium section heading' },
+    { id: 'h3', label: 'Heading 3', icon: Heading3, prefix: '### ', description: 'Small section heading' },
+    { id: 'bold', label: 'Bold', icon: Bold, prefix: '**', suffix: '**', description: 'Make text bold' },
+    { id: 'italic', label: 'Italic', icon: Italic, prefix: '*', suffix: '*', description: 'Make text italic' },
+    { id: 'quote', label: 'Quote', icon: Quote, prefix: '> ', description: 'Capture a quote' },
+    { id: 'bullet', label: 'Bullet List', icon: List, prefix: '- ', description: 'Create a bullet list' },
+    { id: 'numbered', label: 'Numbered List', icon: ListOrdered, prefix: '1. ', description: 'Create a numbered list' },
+    { id: 'code', label: 'Code', icon: Code, prefix: '`', suffix: '`', description: 'Inline code snippet' },
+];
+
 // Notion-like Editor Component
-const NotionEditor: React.FC<{
+interface NotionEditorProps {
     value: string;
     onChange: (value: string) => void;
     placeholder?: string;
-}> = ({ value, onChange, placeholder }) => {
-    const editorRef = useRef<HTMLDivElement>(null);
-    const [showPlaceholder, setShowPlaceholder] = useState(!value);
-    const [isAtLineStart, setIsAtLineStart] = useState(true);
+}
+
+const NotionEditor: React.FC<NotionEditorProps> = ({ value, onChange, placeholder }) => {
+    const textareaRef = useRef<HTMLTextAreaElement>(null);
+    const [showSlashMenu, setShowSlashMenu] = useState(false);
+    const [slashMenuPosition, setSlashMenuPosition] = useState({ top: 0, left: 0 });
+    const [slashFilter, setSlashFilter] = useState('');
+    const [selectedIndex, setSelectedIndex] = useState(0);
+    const [isAtNewLine, setIsAtNewLine] = useState(true);
+    const [cursorPosition, setCursorPosition] = useState(0);
+
+    const filteredCommands = SLASH_COMMANDS.filter(cmd =>
+        cmd.label.toLowerCase().includes(slashFilter.toLowerCase())
+    );
+
+    const updateNewLineStatus = useCallback(() => {
+        if (!textareaRef.current) return;
+        const textarea = textareaRef.current;
+        const cursorPos = textarea.selectionStart;
+        const textBefore = value.slice(0, cursorPos);
+        const lastNewline = textBefore.lastIndexOf('\n');
+        const currentLineText = textBefore.slice(lastNewline + 1);
+        setIsAtNewLine(currentLineText.trim().length === 0);
+        setCursorPosition(cursorPos);
+    }, [value]);
 
     useEffect(() => {
-        if (editorRef.current && !value) {
-            editorRef.current.innerHTML = '';
-        }
-    }, []);
+        updateNewLineStatus();
+    }, [value, updateNewLineStatus]);
 
-    const handleInput = () => {
-        if (editorRef.current) {
-            const text = editorRef.current.innerText;
-            onChange(text);
-            setShowPlaceholder(!text);
+    const getCaretCoordinates = () => {
+        if (!textareaRef.current) return { top: 0, left: 0 };
+        const textarea = textareaRef.current;
+        const rect = textarea.getBoundingClientRect();
 
-            // Check if cursor is at line start
-            const selection = window.getSelection();
-            if (selection && selection.rangeCount > 0) {
-                const range = selection.getRangeAt(0);
-                const textBeforeCursor = range.startContainer.textContent?.slice(0, range.startOffset) || '';
-                const lastNewline = textBeforeCursor.lastIndexOf('\n');
-                const lineStart = lastNewline === -1 ? 0 : lastNewline + 1;
-                const currentLineText = textBeforeCursor.slice(lineStart);
-                setIsAtLineStart(currentLineText.length === 0 || text.length === 0);
+        // Create a mirror div to calculate position
+        const mirror = document.createElement('div');
+        const style = window.getComputedStyle(textarea);
+        mirror.style.cssText = `
+            position: absolute; visibility: hidden; white-space: pre-wrap;
+            word-wrap: break-word; overflow-wrap: break-word;
+            width: ${style.width}; font: ${style.font};
+            padding: ${style.padding}; line-height: ${style.lineHeight};
+        `;
+
+        const textBefore = value.slice(0, textarea.selectionStart);
+        mirror.textContent = textBefore;
+        const span = document.createElement('span');
+        span.textContent = '|';
+        mirror.appendChild(span);
+        document.body.appendChild(mirror);
+
+        const spanRect = span.getBoundingClientRect();
+        const mirrorRect = mirror.getBoundingClientRect();
+        document.body.removeChild(mirror);
+
+        return {
+            top: rect.top + (spanRect.top - mirrorRect.top) + 24,
+            left: rect.left + (spanRect.left - mirrorRect.left)
+        };
+    };
+
+    const handleKeyDown = (e: React.KeyboardEvent<HTMLTextAreaElement>) => {
+        if (showSlashMenu) {
+            if (e.key === 'ArrowDown') {
+                e.preventDefault();
+                setSelectedIndex(prev => (prev + 1) % filteredCommands.length);
+            } else if (e.key === 'ArrowUp') {
+                e.preventDefault();
+                setSelectedIndex(prev => (prev - 1 + filteredCommands.length) % filteredCommands.length);
+            } else if (e.key === 'Enter') {
+                e.preventDefault();
+                if (filteredCommands[selectedIndex]) {
+                    insertCommand(filteredCommands[selectedIndex]);
+                }
+            } else if (e.key === 'Escape') {
+                setShowSlashMenu(false);
+                setSlashFilter('');
             }
         }
     };
 
-    const handleKeyDown = (e: React.KeyboardEvent) => {
-        if (e.key === 'Tab') {
-            e.preventDefault();
-            document.execCommand('insertText', false, '  ');
+    const handleChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
+        const newValue = e.target.value;
+        const cursorPos = e.target.selectionStart;
+        onChange(newValue);
+
+        // Check for slash command trigger
+        const textBefore = newValue.slice(0, cursorPos);
+        const lastNewline = textBefore.lastIndexOf('\n');
+        const currentLine = textBefore.slice(lastNewline + 1);
+
+        if (currentLine.startsWith('/')) {
+            const filter = currentLine.slice(1);
+            setSlashFilter(filter);
+            setShowSlashMenu(true);
+            setSelectedIndex(0);
+            setSlashMenuPosition(getCaretCoordinates());
+        } else {
+            setShowSlashMenu(false);
+            setSlashFilter('');
         }
     };
 
-    const handlePaste = (e: React.ClipboardEvent) => {
-        e.preventDefault();
-        const text = e.clipboardData.getData('text/plain');
-        document.execCommand('insertText', false, text);
+    const insertCommand = (command: typeof SLASH_COMMANDS[0]) => {
+        if (!textareaRef.current) return;
+        const textarea = textareaRef.current;
+        const cursorPos = textarea.selectionStart;
+        const textBefore = value.slice(0, cursorPos);
+        const textAfter = value.slice(cursorPos);
+
+        // Find the slash position
+        const lastNewline = textBefore.lastIndexOf('\n');
+        const lineStart = lastNewline + 1;
+        const beforeSlash = value.slice(0, lineStart);
+
+        let newText: string;
+        let newCursorPos: number;
+
+        if (command.suffix) {
+            // Wrap-style command (bold, italic, code)
+            newText = beforeSlash + command.prefix + command.suffix + textAfter;
+            newCursorPos = beforeSlash.length + command.prefix.length;
+        } else {
+            // Prefix-style command (headings, lists, quotes)
+            newText = beforeSlash + command.prefix + textAfter;
+            newCursorPos = beforeSlash.length + command.prefix.length;
+        }
+
+        onChange(newText);
+        setShowSlashMenu(false);
+        setSlashFilter('');
+
+        // Set cursor position after state update
+        setTimeout(() => {
+            textarea.focus();
+            textarea.setSelectionRange(newCursorPos, newCursorPos);
+        }, 0);
     };
 
     return (
-        <div className="relative min-h-[300px]">
-            <div
-                ref={editorRef}
-                contentEditable
-                onInput={handleInput}
+        <div className="relative">
+            <textarea
+                ref={textareaRef}
+                value={value}
+                onChange={handleChange}
                 onKeyDown={handleKeyDown}
-                onPaste={handlePaste}
-                onFocus={() => setShowPlaceholder(!value)}
-                onBlur={() => setShowPlaceholder(!value)}
-                className="w-full min-h-[300px] outline-none text-[15px] leading-[1.8] text-gray-800 whitespace-pre-wrap"
+                onSelect={updateNewLineStatus}
+                placeholder={placeholder}
+                className="w-full min-h-[300px] outline-none text-[15px] leading-[1.8] text-gray-800 resize-none bg-transparent placeholder-gray-300"
                 style={{ caretColor: '#111' }}
-                suppressContentEditableWarning
             />
-            {showPlaceholder && (
-                <div className="absolute top-0 left-0 pointer-events-none text-gray-300 text-[15px] flex items-center gap-2">
-                    <span>{placeholder || "Write something..."}</span>
+
+            {/* New line hint - shows when cursor is at empty line */}
+            {isAtNewLine && value.length > 0 && !showSlashMenu && (
+                <div
+                    className="absolute pointer-events-none text-gray-300 text-[13px] flex items-center gap-1"
+                    style={{
+                        top: `${Math.floor(cursorPosition / 50) * 27 + 4}px`,
+                        left: '0'
+                    }}
+                >
+                    <span className="opacity-0">|</span>
+                    <span className="bg-gray-100 px-1.5 py-0.5 rounded text-[11px] text-gray-400">
+                        Type <span className="font-mono">/</span> for commands
+                    </span>
                 </div>
             )}
-            {isAtLineStart && value && (
-                <div className="absolute bottom-4 left-0 pointer-events-none">
-                    <span className="text-[11px] text-gray-300 bg-gray-50 px-2 py-1 rounded-md">
-                        Type <span className="font-mono text-gray-400">/</span> for commands, <span className="font-mono text-gray-400">**bold**</span>, <span className="font-mono text-gray-400">*italic*</span>
-                    </span>
+
+            {/* Slash command menu */}
+            {showSlashMenu && filteredCommands.length > 0 && (
+                <div
+                    className="fixed bg-white rounded-xl shadow-2xl border border-gray-200 py-2 z-[300] min-w-[220px] max-h-[300px] overflow-y-auto"
+                    style={{ top: slashMenuPosition.top, left: slashMenuPosition.left }}
+                >
+                    <div className="px-3 py-1.5 text-[10px] font-bold text-gray-400 uppercase tracking-wider">
+                        Formatting
+                    </div>
+                    {filteredCommands.map((cmd, index) => (
+                        <button
+                            key={cmd.id}
+                            onClick={() => insertCommand(cmd)}
+                            className={`w-full px-3 py-2 flex items-center gap-3 text-left transition-colors ${index === selectedIndex ? 'bg-gray-100' : 'hover:bg-gray-50'
+                                }`}
+                        >
+                            <div className="w-8 h-8 rounded-lg bg-gray-100 flex items-center justify-center">
+                                <cmd.icon size={16} className="text-gray-600" />
+                            </div>
+                            <div>
+                                <div className="text-sm font-medium text-gray-900">{cmd.label}</div>
+                                <div className="text-xs text-gray-400">{cmd.description}</div>
+                            </div>
+                        </button>
+                    ))}
                 </div>
             )}
         </div>
@@ -269,7 +407,6 @@ export const Writings: React.FC = () => {
         return `${minutes} min read`;
     };
 
-    // Get plain text preview from markdown
     const getPreview = (content: string) => {
         return content
             .replace(/#{1,6}\s/g, '')
@@ -300,7 +437,7 @@ export const Writings: React.FC = () => {
                 {isAdmin && (
                     <button
                         onClick={() => setShowAddForm(true)}
-                        className="flex items-center gap-2 px-3 py-1.5 md:px-4 md:py-2 rounded-lg text-[10px] md:text-xs font-medium transition-all bg-gradient-to-b from-gray-800 to-gray-900 border border-gray-700 shadow-[0_2px_4px_rgba(0,0,0,0.2),0_1px_2px_rgba(0,0,0,0.1),inset_0_1px_0_rgba(255,255,255,0.1)] text-white hover:from-gray-700 hover:to-gray-800 hover:shadow-[0_3px_6px_rgba(0,0,0,0.25),0_1px_2px_rgba(0,0,0,0.15)] active:shadow-sm active:translate-y-[1px]"
+                        className="flex items-center gap-2 px-3 py-1.5 md:px-4 md:py-2 rounded-lg text-[10px] md:text-xs font-medium transition-all bg-gradient-to-b from-gray-800 to-gray-900 border border-gray-700 shadow-[0_2px_4px_rgba(0,0,0,0.2),0_1px_2px_rgba(0,0,0,0.1),inset_0_1px_0_rgba(255,255,255,0.1)] text-white hover:from-gray-700 hover:to-gray-800 hover:shadow-[0_3px_6px_rgba(0,0,0,0.25)] active:shadow-sm active:translate-y-[1px]"
                     >
                         <Plus size={14} />
                         New Writing
@@ -336,7 +473,7 @@ export const Writings: React.FC = () => {
                                 onSubmit={handleSubmit}
                                 className="bg-white rounded-2xl shadow-2xl w-full max-w-2xl mb-10"
                             >
-                                {/* Title Input - Notion Style */}
+                                {/* Title Input */}
                                 <div className="px-8 pt-8">
                                     <input
                                         type="text"
@@ -348,7 +485,7 @@ export const Writings: React.FC = () => {
                                     />
                                 </div>
 
-                                {/* Content Editor - Notion Style */}
+                                {/* Content Editor */}
                                 <div className="px-8 py-6">
                                     <NotionEditor
                                         value={newContent}
@@ -357,28 +494,28 @@ export const Writings: React.FC = () => {
                                     />
                                 </div>
 
-                                {/* Footer */}
+                                {/* Footer with styled buttons */}
                                 <div className="flex items-center justify-between px-8 py-4 border-t border-gray-100 bg-gray-50/50 rounded-b-2xl">
                                     <div className="text-xs text-gray-400">
-                                        Supports **bold**, *italic*, # headings, - lists, &gt; quotes
+                                        Supports Markdown formatting
                                     </div>
                                     <div className="flex gap-3">
                                         <button
                                             type="button"
                                             onClick={() => setShowAddForm(false)}
-                                            className="px-4 py-2 text-sm font-medium text-gray-600 hover:text-gray-900 transition-colors"
+                                            className="px-4 py-2 rounded-lg text-xs font-medium transition-all bg-gradient-to-b from-white to-gray-100 border border-gray-200 shadow-[0_2px_4px_rgba(0,0,0,0.05),0_1px_2px_rgba(0,0,0,0.04),inset_0_1px_0_rgba(255,255,255,0.8)] text-gray-600 hover:text-gray-900 hover:shadow-[0_3px_6px_rgba(0,0,0,0.08)] active:shadow-sm active:translate-y-[1px]"
                                         >
                                             Cancel
                                         </button>
                                         <button
                                             type="submit"
                                             disabled={isSubmitting || !newTitle.trim() || !newContent.trim()}
-                                            className="flex items-center gap-2 px-5 py-2 bg-gray-900 text-white rounded-lg text-sm font-medium hover:bg-gray-800 disabled:opacity-50 disabled:cursor-not-allowed transition-all"
+                                            className="flex items-center gap-2 px-4 py-2 rounded-lg text-xs font-medium transition-all bg-gradient-to-b from-gray-800 to-gray-900 border border-gray-700 shadow-[0_2px_4px_rgba(0,0,0,0.2),0_1px_2px_rgba(0,0,0,0.1),inset_0_1px_0_rgba(255,255,255,0.1)] text-white hover:from-gray-700 hover:to-gray-800 hover:shadow-[0_3px_6px_rgba(0,0,0,0.25)] active:shadow-sm active:translate-y-[1px] disabled:opacity-50 disabled:cursor-not-allowed"
                                         >
                                             {isSubmitting ? (
-                                                <Loader2 size={16} className="animate-spin" />
+                                                <Loader2 size={14} className="animate-spin" />
                                             ) : (
-                                                <Send size={16} />
+                                                <Send size={14} />
                                             )}
                                             Publish
                                         </button>
@@ -390,7 +527,7 @@ export const Writings: React.FC = () => {
                 </AnimatePresence>
             </Portal>
 
-            {/* Reading Modal with Markdown */}
+            {/* Reading Modal */}
             <Portal>
                 <AnimatePresence>
                     {selectedWriting && (
@@ -409,7 +546,6 @@ export const Writings: React.FC = () => {
                                 onClick={(e) => e.stopPropagation()}
                                 className="bg-white rounded-2xl shadow-2xl w-full max-w-2xl mb-10 overflow-hidden"
                             >
-                                {/* Header */}
                                 <div className="px-8 pt-8 pb-4 border-b border-gray-100">
                                     <div className="flex items-start justify-between gap-4">
                                         <div className="flex-1">
@@ -430,8 +566,6 @@ export const Writings: React.FC = () => {
                                         </button>
                                     </div>
                                 </div>
-
-                                {/* Content with Markdown */}
                                 <div className="px-8 py-8">
                                     <MarkdownContent content={selectedWriting.content} />
                                 </div>
