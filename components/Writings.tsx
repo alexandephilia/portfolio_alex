@@ -291,6 +291,33 @@ export const Writings: React.FC = () => {
     const [newContent, setNewContent] = useState('');
     const [isSubmitting, setIsSubmitting] = useState(false);
     const [selectedWriting, setSelectedWriting] = useState<Writing | null>(null);
+    const [inspirationalQuote, setInspirationalQuote] = useState<{ text: string; author: string } | null>(null);
+
+    // Fetch random quote when editor opens
+    useEffect(() => {
+        if (showAddForm && !inspirationalQuote) {
+            fetch('https://api.quotable.io/random?tags=inspirational|wisdom|famous-quotes&maxLength=80')
+                .then(res => res.json())
+                .then(data => {
+                    if (data.content && data.author) {
+                        setInspirationalQuote({ text: data.content, author: data.author });
+                    }
+                })
+                .catch(() => {
+                    // Fallback quotes if API fails
+                    const fallbacks = [
+                        { text: "Start writing, no matter what.", author: "Louis L'Amour" },
+                        { text: "The first draft is just you telling yourself the story.", author: "Terry Pratchett" },
+                        { text: "Write what should not be forgotten.", author: "Isabel Allende" },
+                    ];
+                    setInspirationalQuote(fallbacks[Math.floor(Math.random() * fallbacks.length)]);
+                });
+        }
+        // Reset quote when modal closes so we get a new one next time
+        if (!showAddForm) {
+            setInspirationalQuote(null);
+        }
+    }, [showAddForm]);
 
     useEffect(() => {
         const params = new URLSearchParams(window.location.search);
@@ -507,8 +534,11 @@ export const Writings: React.FC = () => {
 
                                     {/* Footer with styled buttons */}
                                     <div className="flex items-center justify-between px-8 py-4 border-t border-gray-100 bg-gray-50/50 rounded-b-2xl">
-                                        <div className="text-xs text-gray-400">
-                                            Supports Markdown formatting
+                                        <div className="text-xs text-gray-400 italic max-w-[200px] md:max-w-[300px] truncate">
+                                            {inspirationalQuote
+                                                ? `"${inspirationalQuote.text}" — ${inspirationalQuote.author}`
+                                                : "Loading inspiration..."
+                                            }
                                         </div>
                                         <div className="flex gap-3">
                                             <button
