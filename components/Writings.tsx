@@ -672,7 +672,7 @@ export const Writings: React.FC = () => {
                                     <div className="px-8 pt-8 pb-4 border-b border-gray-100">
                                         <div className="flex items-start justify-between gap-4">
                                             <div className="flex-1">
-                                                <h1 className="text-3xl md:text-4xl font-serif italic text-gray-900 leading-tight">
+                                                <h1 className="text-4xl md:text-5xl font-serif italic text-gray-900 leading-tight">
                                                     {selectedWriting.title}
                                                 </h1>
                                                 <div className="flex items-center gap-3 mt-4 text-sm text-gray-400">
@@ -718,7 +718,7 @@ export const Writings: React.FC = () => {
                         >
                             <div className="flex items-start justify-between gap-4">
                                 <div className="flex-1 min-w-0">
-                                    <h3 className="text-lg font-bold text-gray-900 group-hover:text-gray-600 transition-colors leading-snug">
+                                    <h3 className="text-2xl font-serif italic text-gray-900 group-hover:text-gray-600 transition-colors leading-snug">
                                         {writing.title}
                                     </h3>
                                     <div className="flex items-center gap-3 mt-2 text-xs text-gray-400">
@@ -732,8 +732,8 @@ export const Writings: React.FC = () => {
                                         </div>
                                         <div className="absolute bottom-0 left-0 right-0 h-6 bg-gradient-to-t from-[#FAFAFA] to-transparent" />
                                     </div>
-                                    <span className="inline-block mt-3 text-xs font-medium text-gray-900 group-hover:underline">
-                                        Read more →
+                                    <span className="inline-flex items-center gap-1 mt-3 px-3 py-1 text-xs font-medium text-gray-600 bg-gray-100 rounded-full group-hover:bg-gray-200 transition-colors">
+                                        Read more <span className="group-hover:translate-x-0.5 transition-transform">→</span>
                                     </span>
                                 </div>
                                 {isAdmin && (
