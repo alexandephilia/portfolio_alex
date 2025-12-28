@@ -337,21 +337,49 @@ export const Writings: React.FC = () => {
 
     // Robust scroll locking for modals
     useEffect(() => {
+        const preventScroll = (e: WheelEvent | TouchEvent) => {
+            const target = e.target as HTMLElement;
+            // Allow scrolling inside the modal content
+            const isInsideModal = target.closest('[data-modal-content]');
+            if (!isInsideModal) {
+                e.preventDefault();
+            }
+        };
+
+        const preventKeyScroll = (e: KeyboardEvent) => {
+            const scrollKeys = ['ArrowUp', 'ArrowDown', 'Space', 'PageUp', 'PageDown', 'Home', 'End'];
+            const target = e.target as HTMLElement;
+            const isInsideModal = target.closest('[data-modal-content]');
+            if (scrollKeys.includes(e.key) && !isInsideModal) {
+                e.preventDefault();
+            }
+        };
+
         if (showAddForm || selectedWriting) {
-            // Lock both html and body to be absolutely sure
             document.body.style.overflow = 'hidden';
             document.documentElement.style.overflow = 'hidden';
-            // Prevent shifting when scrollbar disappears
-            document.documentElement.style.scrollbarGutter = 'stable';
-        } else {
-            document.body.style.overflow = '';
-            document.documentElement.style.overflow = '';
-            document.documentElement.style.scrollbarGutter = '';
+            document.body.style.position = 'fixed';
+            document.body.style.width = '100%';
+            document.body.style.top = `-${window.scrollY}px`;
+
+            window.addEventListener('wheel', preventScroll, { passive: false });
+            window.addEventListener('touchmove', preventScroll, { passive: false });
+            window.addEventListener('keydown', preventKeyScroll);
         }
+
         return () => {
-            document.body.style.overflow = '';
-            document.documentElement.style.overflow = '';
-            document.documentElement.style.scrollbarGutter = '';
+            if (document.body.style.position === 'fixed') {
+                const scrollY = document.body.style.top;
+                document.body.style.overflow = '';
+                document.documentElement.style.overflow = '';
+                document.body.style.position = '';
+                document.body.style.width = '';
+                document.body.style.top = '';
+                window.scrollTo(0, parseInt(scrollY || '0') * -1);
+            }
+            window.removeEventListener('wheel', preventScroll);
+            window.removeEventListener('touchmove', preventScroll);
+            window.removeEventListener('keydown', preventKeyScroll);
         };
     }, [showAddForm, selectedWriting]);
 
@@ -528,9 +556,8 @@ export const Writings: React.FC = () => {
                             initial={{ opacity: 0 }}
                             animate={{ opacity: 1 }}
                             exit={{ opacity: 0 }}
-                            // overscroll-contain prevents background scroll chaining
-                            // onClick removed to avoid accidental closure during editing
-                            className="fixed inset-0 bg-black/40 backdrop-blur-sm z-[200] flex items-start justify-center pt-[5vh] md:pt-[10vh] px-4 overflow-y-auto overscroll-contain"
+                            className="fixed inset-0 bg-black/40 backdrop-blur-sm z-[200] flex items-start justify-center pt-[5vh] md:pt-[10vh] px-4 overflow-y-auto overscroll-contain touch-none"
+                            onTouchMove={(e) => e.stopPropagation()}
                         >
                             <motion.div
                                 initial={{ scale: 0.98, opacity: 0, y: 10 }}
@@ -546,6 +573,7 @@ export const Writings: React.FC = () => {
                             >
                                 <form
                                     onSubmit={handleSubmit}
+                                    data-modal-content
                                     className="bg-white rounded-[20px] w-full overflow-hidden"
                                 >
                                     {/* Title Input */}
@@ -614,9 +642,15 @@ export const Writings: React.FC = () => {
                             initial={{ opacity: 0 }}
                             animate={{ opacity: 1 }}
                             exit={{ opacity: 0 }}
-                            // overscroll-contain prevents background scroll chaining
-                            // onClick removed for consistency with edit modal
                             className="fixed inset-0 bg-black/40 backdrop-blur-sm z-[200] flex items-start justify-center pt-[5vh] md:pt-[10vh] px-4 overflow-y-auto overscroll-contain"
+                            onClick={() => setSelectedWriting(null)}
+                            onTouchMove={(e) => {
+                                // Allow scrolling within the modal content
+                                const target = e.target as HTMLElement;
+                                if (!target.closest('article')) {
+                                    e.stopPropagation();
+                                }
+                            }}
                         >
                             <motion.div
                                 initial={{ scale: 0.98, opacity: 0, y: 10 }}
@@ -631,6 +665,7 @@ export const Writings: React.FC = () => {
                                 }}
                             >
                                 <article
+                                    data-modal-content
                                     className="bg-white rounded-[20px] w-full overflow-hidden"
                                 >
                                     <div className="px-8 pt-8 pb-4 border-b border-gray-100">
