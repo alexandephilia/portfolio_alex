@@ -53,10 +53,21 @@ const NotionEditor: React.FC<NotionEditorProps> = ({ value, onChange, placeholde
     );
 
     const updateHintPosition = useCallback(() => {
-        // Only show placeholder when textarea is completely empty
+        if (!textareaRef.current) return;
+        const textarea = textareaRef.current;
+        const cursorPos = textarea.selectionStart;
+        const textBefore = value.slice(0, cursorPos);
+        const lastNewline = textBefore.lastIndexOf('\n');
+        const currentLineText = textBefore.slice(lastNewline + 1);
+        const isLineEmpty = currentLineText.trim().length === 0;
+
+        // Count lines before cursor
+        const linesBefore = textBefore.split('\n').length - 1;
+        const lineHeight = 27; // Approximate line height based on leading-[1.8] and text-[15px]
+
         setHintPosition({
-            top: 0,
-            show: value.length === 0 && !showSlashMenu
+            top: linesBefore * lineHeight,
+            show: isLineEmpty && !showSlashMenu
         });
     }, [value, showSlashMenu]);
 
@@ -301,8 +312,9 @@ export const Writings: React.FC = () => {
 
     // Fetch random quote when editor opens
     useEffect(() => {
-        if (showAddForm && !inspirationalQuote) {
-            // Use ZenQuotes API via a proxy to avoid CORS
+        if (showAddForm) {
+            // Always fetch a new quote when modal opens
+            setInspirationalQuote(null);
             fetch('https://api.allorigins.win/raw?url=https://zenquotes.io/api/random')
                 .then(res => res.json())
                 .then(data => {
@@ -322,10 +334,6 @@ export const Writings: React.FC = () => {
                     ];
                     setInspirationalQuote(fallbacks[Math.floor(Math.random() * fallbacks.length)]);
                 });
-        }
-        // Reset quote when modal closes so we get a new one next time
-        if (!showAddForm) {
-            setInspirationalQuote(null);
         }
     }, [showAddForm]);
 
@@ -583,8 +591,7 @@ export const Writings: React.FC = () => {
                                             placeholder="Untitled"
                                             value={newTitle}
                                             onChange={(e) => setNewTitle(e.target.value)}
-                                            className="w-full text-4xl font-bold text-gray-900 placeholder-gray-300 outline-none border-none bg-transparent"
-                                            style={{ fontSize: '16px' }}
+                                            className="w-full text-3xl md:text-4xl font-bold text-gray-900 placeholder-gray-300 outline-none border-none bg-transparent"
                                             autoFocus
                                         />
                                     </div>
