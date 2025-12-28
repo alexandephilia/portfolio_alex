@@ -59,7 +59,10 @@ const NotionEditor: React.FC<NotionEditorProps> = ({ value, onChange, placeholde
         const textBefore = value.slice(0, cursorPos);
         const lastNewline = textBefore.lastIndexOf('\n');
         const currentLineText = textBefore.slice(lastNewline + 1);
-        const isLineEmpty = currentLineText.trim().length === 0;
+        const isLineEmpty = currentLineText.length === 0;
+
+        // Check if current line has slash indicator (command trigger)
+        const hasSlashIndicator = /^\s*\/\s*$/.test(currentLineText);
 
         // Count lines before cursor
         const linesBefore = textBefore.split('\n').length - 1;
@@ -67,7 +70,7 @@ const NotionEditor: React.FC<NotionEditorProps> = ({ value, onChange, placeholde
 
         setHintPosition({
             top: linesBefore * lineHeight,
-            show: isLineEmpty && !showSlashMenu
+            show: isLineEmpty && !showSlashMenu && !hasSlashIndicator
         });
     }, [value, showSlashMenu]);
 
