@@ -58,8 +58,15 @@ const NotionEditor: React.FC<NotionEditorProps> = ({ value, onChange, placeholde
         const cursorPos = textarea.selectionStart;
         const textBefore = value.slice(0, cursorPos);
         const lastNewline = textBefore.lastIndexOf('\n');
-        const currentLineText = textBefore.slice(lastNewline + 1);
-        const isLineEmpty = currentLineText.trim().length === 0;
+
+        // Get the ENTIRE current line content (not just text before cursor)
+        const lineStart = lastNewline + 1;
+        const nextNewline = value.indexOf('\n', lineStart);
+        const lineEnd = nextNewline === -1 ? value.length : nextNewline;
+        const entireLineContent = value.slice(lineStart, lineEnd);
+
+        // Only show placeholder if the entire line is empty (Notion-like behavior)
+        const isLineEmpty = entireLineContent.trim().length === 0;
 
         // Count lines before cursor
         const linesBefore = textBefore.split('\n').length - 1;
@@ -725,7 +732,7 @@ export const Writings: React.FC = () => {
                         >
                             <div className="flex items-start justify-between gap-4">
                                 <div className="flex-1 min-w-0">
-                                    <h3 className="text-2xl font-serif italic text-gray-900 group-hover:text-gray-600 transition-colors leading-snug">
+                                    <h3 className="text-3xl md:text-4xl font-serif italic text-gray-900 group-hover:text-gray-600 transition-colors leading-snug">
                                         {writing.title}
                                     </h3>
                                     <div className="flex items-center gap-3 mt-2 text-xs text-gray-400">
