@@ -337,6 +337,8 @@ export const Writings: React.FC = () => {
 
     // Robust scroll locking for modals
     useEffect(() => {
+        const scrollY = window.scrollY;
+
         const preventScroll = (e: WheelEvent | TouchEvent) => {
             const target = e.target as HTMLElement;
             // Allow scrolling inside the modal content
@@ -349,8 +351,10 @@ export const Writings: React.FC = () => {
         const preventKeyScroll = (e: KeyboardEvent) => {
             const scrollKeys = ['ArrowUp', 'ArrowDown', 'Space', 'PageUp', 'PageDown', 'Home', 'End'];
             const target = e.target as HTMLElement;
+            const isInput = target.tagName === 'INPUT' || target.tagName === 'TEXTAREA';
             const isInsideModal = target.closest('[data-modal-content]');
-            if (scrollKeys.includes(e.key) && !isInsideModal) {
+            // Allow arrow keys in inputs/textareas
+            if (scrollKeys.includes(e.key) && !isInsideModal && !isInput) {
                 e.preventDefault();
             }
         };
@@ -360,27 +364,29 @@ export const Writings: React.FC = () => {
             document.documentElement.style.overflow = 'hidden';
             document.body.style.position = 'fixed';
             document.body.style.width = '100%';
-            document.body.style.top = `-${window.scrollY}px`;
+            document.body.style.top = `-${scrollY}px`;
+            document.body.style.left = '0';
+            document.body.style.right = '0';
 
             window.addEventListener('wheel', preventScroll, { passive: false });
             window.addEventListener('touchmove', preventScroll, { passive: false });
             window.addEventListener('keydown', preventKeyScroll);
-        }
 
-        return () => {
-            if (document.body.style.position === 'fixed') {
-                const scrollY = document.body.style.top;
+            return () => {
                 document.body.style.overflow = '';
                 document.documentElement.style.overflow = '';
                 document.body.style.position = '';
                 document.body.style.width = '';
                 document.body.style.top = '';
-                window.scrollTo(0, parseInt(scrollY || '0') * -1);
-            }
-            window.removeEventListener('wheel', preventScroll);
-            window.removeEventListener('touchmove', preventScroll);
-            window.removeEventListener('keydown', preventKeyScroll);
-        };
+                document.body.style.left = '';
+                document.body.style.right = '';
+                window.scrollTo(0, scrollY);
+
+                window.removeEventListener('wheel', preventScroll);
+                window.removeEventListener('touchmove', preventScroll);
+                window.removeEventListener('keydown', preventKeyScroll);
+            };
+        }
     }, [showAddForm, selectedWriting]);
 
     useEffect(() => {
