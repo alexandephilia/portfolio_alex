@@ -335,18 +335,23 @@ export const Writings: React.FC = () => {
         }
     }, [showAddForm]);
 
-    // Lock body scroll when any modal is open
+    // Robust scroll locking for modals
     useEffect(() => {
         if (showAddForm || selectedWriting) {
+            // Lock both html and body to be absolutely sure
             document.body.style.overflow = 'hidden';
-            document.body.style.touchAction = 'none';
+            document.documentElement.style.overflow = 'hidden';
+            // Prevent shifting when scrollbar disappears
+            document.documentElement.style.scrollbarGutter = 'stable';
         } else {
             document.body.style.overflow = '';
-            document.body.style.touchAction = '';
+            document.documentElement.style.overflow = '';
+            document.documentElement.style.scrollbarGutter = '';
         }
         return () => {
             document.body.style.overflow = '';
-            document.body.style.touchAction = '';
+            document.documentElement.style.overflow = '';
+            document.documentElement.style.scrollbarGutter = '';
         };
     }, [showAddForm, selectedWriting]);
 
@@ -523,8 +528,9 @@ export const Writings: React.FC = () => {
                             initial={{ opacity: 0 }}
                             animate={{ opacity: 1 }}
                             exit={{ opacity: 0 }}
-                            className="fixed inset-0 bg-black/40 backdrop-blur-sm z-[200] flex items-start justify-center pt-[5vh] md:pt-[10vh] px-4 overflow-y-auto"
-                            onClick={() => setShowAddForm(false)}
+                            // overscroll-contain prevents background scroll chaining
+                            // onClick removed to avoid accidental closure during editing
+                            className="fixed inset-0 bg-black/40 backdrop-blur-sm z-[200] flex items-start justify-center pt-[5vh] md:pt-[10vh] px-4 overflow-y-auto overscroll-contain"
                         >
                             <motion.div
                                 initial={{ scale: 0.98, opacity: 0, y: 10 }}
@@ -608,8 +614,9 @@ export const Writings: React.FC = () => {
                             initial={{ opacity: 0 }}
                             animate={{ opacity: 1 }}
                             exit={{ opacity: 0 }}
-                            className="fixed inset-0 bg-black/40 backdrop-blur-sm z-[200] flex items-start justify-center pt-[5vh] md:pt-[10vh] px-4 overflow-y-auto"
-                            onClick={() => setSelectedWriting(null)}
+                            // overscroll-contain prevents background scroll chaining
+                            // onClick removed for consistency with edit modal
+                            className="fixed inset-0 bg-black/40 backdrop-blur-sm z-[200] flex items-start justify-center pt-[5vh] md:pt-[10vh] px-4 overflow-y-auto overscroll-contain"
                         >
                             <motion.div
                                 initial={{ scale: 0.98, opacity: 0, y: 10 }}
