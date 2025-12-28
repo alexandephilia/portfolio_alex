@@ -1,6 +1,6 @@
 import { Bot, Cpu, Globe, Smartphone, Terminal } from 'lucide-react';
 import { FaLinkedinIn, FaWhatsapp, FaXTwitter } from 'react-icons/fa6';
-import { ContactItem, EducationItem, ExperienceItem, Project, SkillCategory, SocialLink, TestimonialItem } from './types';
+import { ContactItem, EducationItem, ExperienceItem, Project, SkillCategory, SocialLink, Song, TestimonialItem } from './types';
 
 export const SOCIAL_LINKS: SocialLink[] = [
     {
@@ -260,4 +260,28 @@ export const TOOL_STACK_URLS = [
     "https://cdn.simpleicons.org/openai/74AA9C",
     "https://cdn.simpleicons.org/webflow/146EF5",
     "https://cdn.simpleicons.org/adobexd/470137",
+];
+
+export const SONGS: Song[] = [
+    {
+        id: "1",
+        title: "Hideaway",
+        artist: "Cigarettes After Sex",
+        url: "/songs/Hideaway - Cigarettes After Sex.mp3",
+        coverUrl: "/songs/cas.jpg"
+    },
+    {
+        id: "2",
+        title: "Holding You, Holding Me",
+        artist: "Cigarettes After Sex",
+        url: "/songs/Holding You, Holding Me - Cigarettes After Sex.mp3",
+        coverUrl: "/songs/cas.jpg"
+    },
+    {
+        id: "3",
+        title: "Heavenly",
+        artist: "Cigarettes After Sex",
+        url: "/songs/Heavenly - Cigarettes After Sex.mp3",
+        coverUrl: "/songs/cas1.jpg"
+    }
 ];

@@ -74,3 +74,11 @@ export interface Book {
     color: string;
     spineText?: string;
 }
+
+export interface Song {
+    id: string;
+    title: string;
+    artist: string;
+    url: string;
+    coverUrl: string;
+}

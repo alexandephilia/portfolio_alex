@@ -12,6 +12,7 @@ import { ProjectCard } from './components/ProjectCard';
 import { Skills } from './components/Skills';
 import { Tabs } from './components/Tabs';
 import { Testimonials } from './components/Testimonials';
+import { MusicDock } from './components/MusicDock';
 import { PROJECTS } from './constants';
 
 export default function App() {
@@ -231,6 +232,9 @@ export default function App() {
                     </motion.div>
                 </motion.div>
             </div>
+            
+            {/* Minimalist Music Dock */}
+            <MusicDock />
         </div>
     );
 }
