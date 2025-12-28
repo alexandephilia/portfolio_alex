@@ -3,58 +3,70 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Garry Alexander | Portfolio</title>
-    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <title>Garry Alexander | Product Engineer</title>
     <script src="https://cdn.tailwindcss.com"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display&family=Instrument+Serif:ital@0;1&family=Inter:wght@400;600;700;900&display=swap" rel="stylesheet">
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Nunito:wght@300;400;500;600;700;800&family=Instrument+Serif:ital@0;1&display=swap"
+      rel="stylesheet"
+    />
+    <script>
+      tailwind.config = {
+        theme: {
+          extend: {
+            fontFamily: {
+              sans: ["Nunito", "sans-serif"],
+              serif: ['"Instrument Serif"', "serif"],
+            },
+          },
+        },
+      };
+    </script>
     <style>
       body {
-        margin: 0;
-        background-color: rgb(238, 241, 100); /* Match the frame color */
-        cursor: none; /* Fallback */
+        font-family: "Nunito", sans-serif;
+        background-color: #fafafa;
+        color: #1e1b4b;
       }
-      /* Force hide cursor on everything */
-      *, *::before, *::after {
-        cursor: none !important;
+      /* Hide scrollbar for clean look */
+      ::-webkit-scrollbar {
+        width: 8px;
       }
-      .font-instrument {
-        font-family: 'Instrument Serif', serif;
+      ::-webkit-scrollbar-track {
+        background: #f1f1f1;
       }
-      /* Custom utility for the ticket notches using CSS Mask */
-      .ticket-mask {
-        -webkit-mask: 
-          radial-gradient(circle at 0 0, transparent 0, transparent 0) 0 0, 
-          radial-gradient(circle at 100% 0, transparent 0, transparent 0) 100% 0, 
-          radial-gradient(circle at 0 100%, transparent 0, transparent 0) 0 100%, 
-          radial-gradient(circle at 100% 100%, transparent 0, transparent 0) 100% 100%; 
+      ::-webkit-scrollbar-thumb {
+        background: #d1d5db;
+        border-radius: 4px;
       }
-      
-      .scrollbar-hide::-webkit-scrollbar {
-          display: none;
+      ::-webkit-scrollbar-thumb:hover {
+        background: #9ca3af;
       }
-      .scrollbar-hide {
-          -ms-overflow-style: none;
-          scrollbar-width: none;
+      /* Hide scrollbar utility class */
+      .no-scrollbar::-webkit-scrollbar {
+        display: none;
+      }
+      .no-scrollbar {
+        -ms-overflow-style: none;
+        scrollbar-width: none;
       }
     </style>
-  <script type="importmap">
-{
-  "imports": {
-    "react/": "https://aistudiocdn.com/react@^19.2.1/",
-    "react": "https://aistudiocdn.com/react@^19.2.1",
-    "react-dom/": "https://aistudiocdn.com/react-dom@^19.2.1/",
-    "lucide-react": "https://aistudiocdn.com/lucide-react@^0.556.0",
-    "framer-motion": "https://aistudiocdn.com/framer-motion@^12.23.25"
-  }
-}
-</script>
-<link rel="stylesheet" href="/index.css">
-</head>
+    <script type="importmap">
+      {
+        "imports": {
+          "lucide-react": "https://esm.sh/lucide-react@^0.562.0",
+          "react/": "https://esm.sh/react@^19.2.3/",
+          "react": "https://esm.sh/react@^19.2.3",
+          "react-dom/": "https://esm.sh/react-dom@^19.2.3/",
+          "framer-motion": "https://esm.sh/framer-motion@^12.23.26"
+        }
+      }
+    </script>
+    <link rel="stylesheet" href="/index.css" />
+  </head>
   <body>
     <div id="root"></div>
-  <script type="module" src="/index.tsx"></script>
-</body>
+    <script type="module" src="/index.tsx"></script>
+  </body>
 </html>
