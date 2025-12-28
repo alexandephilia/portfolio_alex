@@ -41,31 +41,39 @@ interface NotionEditorProps {
 
 const NotionEditor: React.FC<NotionEditorProps> = ({ value, onChange, placeholder }) => {
     const textareaRef = useRef<HTMLTextAreaElement>(null);
+    const overlayRef = useRef<HTMLDivElement>(null);
     const [showSlashMenu, setShowSlashMenu] = useState(false);
     const [slashMenuPosition, setSlashMenuPosition] = useState({ top: 0, left: 0 });
     const [slashFilter, setSlashFilter] = useState('');
     const [selectedIndex, setSelectedIndex] = useState(0);
-    const [isAtNewLine, setIsAtNewLine] = useState(true);
-    const [cursorPosition, setCursorPosition] = useState(0);
+    const [hintPosition, setHintPosition] = useState<{ top: number; show: boolean }>({ top: 0, show: true });
 
     const filteredCommands = SLASH_COMMANDS.filter(cmd =>
         cmd.label.toLowerCase().includes(slashFilter.toLowerCase())
     );
 
-    const updateNewLineStatus = useCallback(() => {
+    const updateHintPosition = useCallback(() => {
         if (!textareaRef.current) return;
         const textarea = textareaRef.current;
         const cursorPos = textarea.selectionStart;
         const textBefore = value.slice(0, cursorPos);
         const lastNewline = textBefore.lastIndexOf('\n');
         const currentLineText = textBefore.slice(lastNewline + 1);
-        setIsAtNewLine(currentLineText.trim().length === 0);
-        setCursorPosition(cursorPos);
-    }, [value]);
+        const isLineEmpty = currentLineText.trim().length === 0;
+
+        // Count lines before cursor
+        const linesBefore = textBefore.split('\n').length - 1;
+        const lineHeight = 27; // Approximate line height based on leading-[1.8] and text-[15px]
+
+        setHintPosition({
+            top: linesBefore * lineHeight,
+            show: isLineEmpty && !showSlashMenu
+        });
+    }, [value, showSlashMenu]);
 
     useEffect(() => {
-        updateNewLineStatus();
-    }, [value, updateNewLineStatus]);
+        updateHintPosition();
+    }, [value, updateHintPosition, showSlashMenu]);
 
     const getCaretCoordinates = () => {
         if (!textareaRef.current) return { top: 0, left: 0 };
@@ -179,32 +187,27 @@ const NotionEditor: React.FC<NotionEditorProps> = ({ value, onChange, placeholde
 
     return (
         <div className="relative">
+            {/* Placeholder hint that follows cursor to empty lines */}
+            {hintPosition.show && (
+                <div
+                    ref={overlayRef}
+                    className="absolute pointer-events-none text-gray-300 text-[15px] leading-[1.8]"
+                    style={{ top: hintPosition.top }}
+                >
+                    {placeholder}
+                </div>
+            )}
+
             <textarea
                 ref={textareaRef}
                 value={value}
                 onChange={handleChange}
                 onKeyDown={handleKeyDown}
-                onSelect={updateNewLineStatus}
-                placeholder={placeholder}
-                className="w-full min-h-[300px] outline-none text-[15px] leading-[1.8] text-gray-800 resize-none bg-transparent placeholder-gray-300"
+                onSelect={updateHintPosition}
+                onClick={updateHintPosition}
+                className="w-full min-h-[300px] outline-none text-[15px] leading-[1.8] text-gray-800 resize-none bg-transparent"
                 style={{ caretColor: '#111' }}
             />
-
-            {/* New line hint - shows when cursor is at empty line */}
-            {isAtNewLine && value.length > 0 && !showSlashMenu && (
-                <div
-                    className="absolute pointer-events-none text-gray-300 text-[13px] flex items-center gap-1"
-                    style={{
-                        top: `${Math.floor(cursorPosition / 50) * 27 + 4}px`,
-                        left: '0'
-                    }}
-                >
-                    <span className="opacity-0">|</span>
-                    <span className="bg-gray-100 px-1.5 py-0.5 rounded text-[11px] text-gray-400">
-                        Type <span className="font-mono">/</span> for commands
-                    </span>
-                </div>
-            )}
 
             {/* Slash command menu */}
             {showSlashMenu && filteredCommands.length > 0 && (
@@ -318,7 +321,8 @@ export const Writings: React.FC = () => {
             const data = await res.json();
             setWritings(data);
         } catch (err) {
-            setError('Failed to load writings');
+            // Silently fail for non-admin users - just show empty state
+            setWritings([]);
         } finally {
             setIsLoading(false);
         }
