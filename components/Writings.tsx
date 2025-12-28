@@ -1,7 +1,9 @@
 import { AnimatePresence, motion } from 'framer-motion';
 import { Loader2, PenLine, Plus, Send, Trash2, X } from 'lucide-react';
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import ReactDOM from 'react-dom';
+import ReactMarkdown from 'react-markdown';
+import remarkGfm from 'remark-gfm';
 import { Writing } from '../types';
 
 const API_URL = '/api/writings';
@@ -19,6 +21,124 @@ const Portal: React.FC<{ children: React.ReactNode }> = ({ children }) => {
     return ReactDOM.createPortal(children, document.body);
 };
 
+// Notion-like Editor Component
+const NotionEditor: React.FC<{
+    value: string;
+    onChange: (value: string) => void;
+    placeholder?: string;
+}> = ({ value, onChange, placeholder }) => {
+    const editorRef = useRef<HTMLDivElement>(null);
+    const [showPlaceholder, setShowPlaceholder] = useState(!value);
+    const [isAtLineStart, setIsAtLineStart] = useState(true);
+
+    useEffect(() => {
+        if (editorRef.current && !value) {
+            editorRef.current.innerHTML = '';
+        }
+    }, []);
+
+    const handleInput = () => {
+        if (editorRef.current) {
+            const text = editorRef.current.innerText;
+            onChange(text);
+            setShowPlaceholder(!text);
+
+            // Check if cursor is at line start
+            const selection = window.getSelection();
+            if (selection && selection.rangeCount > 0) {
+                const range = selection.getRangeAt(0);
+                const textBeforeCursor = range.startContainer.textContent?.slice(0, range.startOffset) || '';
+                const lastNewline = textBeforeCursor.lastIndexOf('\n');
+                const lineStart = lastNewline === -1 ? 0 : lastNewline + 1;
+                const currentLineText = textBeforeCursor.slice(lineStart);
+                setIsAtLineStart(currentLineText.length === 0 || text.length === 0);
+            }
+        }
+    };
+
+    const handleKeyDown = (e: React.KeyboardEvent) => {
+        if (e.key === 'Tab') {
+            e.preventDefault();
+            document.execCommand('insertText', false, '  ');
+        }
+    };
+
+    const handlePaste = (e: React.ClipboardEvent) => {
+        e.preventDefault();
+        const text = e.clipboardData.getData('text/plain');
+        document.execCommand('insertText', false, text);
+    };
+
+    return (
+        <div className="relative min-h-[300px]">
+            <div
+                ref={editorRef}
+                contentEditable
+                onInput={handleInput}
+                onKeyDown={handleKeyDown}
+                onPaste={handlePaste}
+                onFocus={() => setShowPlaceholder(!value)}
+                onBlur={() => setShowPlaceholder(!value)}
+                className="w-full min-h-[300px] outline-none text-[15px] leading-[1.8] text-gray-800 whitespace-pre-wrap"
+                style={{ caretColor: '#111' }}
+                suppressContentEditableWarning
+            />
+            {showPlaceholder && (
+                <div className="absolute top-0 left-0 pointer-events-none text-gray-300 text-[15px] flex items-center gap-2">
+                    <span>{placeholder || "Write something..."}</span>
+                </div>
+            )}
+            {isAtLineStart && value && (
+                <div className="absolute bottom-4 left-0 pointer-events-none">
+                    <span className="text-[11px] text-gray-300 bg-gray-50 px-2 py-1 rounded-md">
+                        Type <span className="font-mono text-gray-400">/</span> for commands, <span className="font-mono text-gray-400">**bold**</span>, <span className="font-mono text-gray-400">*italic*</span>
+                    </span>
+                </div>
+            )}
+        </div>
+    );
+};
+
+// Markdown renderer with custom styles
+const MarkdownContent: React.FC<{ content: string }> = ({ content }) => {
+    return (
+        <ReactMarkdown
+            remarkPlugins={[remarkGfm]}
+            components={{
+                h1: ({ children }) => <h1 className="text-2xl font-bold text-gray-900 mt-6 mb-3 first:mt-0">{children}</h1>,
+                h2: ({ children }) => <h2 className="text-xl font-bold text-gray-900 mt-5 mb-2">{children}</h2>,
+                h3: ({ children }) => <h3 className="text-lg font-semibold text-gray-900 mt-4 mb-2">{children}</h3>,
+                p: ({ children }) => <p className="text-gray-700 leading-[1.8] mb-4 last:mb-0">{children}</p>,
+                ul: ({ children }) => <ul className="list-disc list-inside mb-4 space-y-1 text-gray-700">{children}</ul>,
+                ol: ({ children }) => <ol className="list-decimal list-inside mb-4 space-y-1 text-gray-700">{children}</ol>,
+                li: ({ children }) => <li className="leading-relaxed">{children}</li>,
+                blockquote: ({ children }) => (
+                    <blockquote className="border-l-4 border-gray-200 pl-4 my-4 italic text-gray-600">{children}</blockquote>
+                ),
+                code: ({ className, children }) => {
+                    const isInline = !className;
+                    if (isInline) {
+                        return <code className="bg-gray-100 text-gray-800 px-1.5 py-0.5 rounded text-sm font-mono">{children}</code>;
+                    }
+                    return (
+                        <pre className="bg-gray-900 text-gray-100 p-4 rounded-xl overflow-x-auto mb-4">
+                            <code className="text-sm font-mono">{children}</code>
+                        </pre>
+                    );
+                },
+                a: ({ href, children }) => (
+                    <a href={href} className="text-blue-600 hover:underline" target="_blank" rel="noopener noreferrer">{children}</a>
+                ),
+                strong: ({ children }) => <strong className="font-semibold text-gray-900">{children}</strong>,
+                em: ({ children }) => <em className="italic">{children}</em>,
+                hr: () => <hr className="my-6 border-gray-200" />,
+            }}
+        >
+            {content}
+        </ReactMarkdown>
+    );
+};
+
 export const Writings: React.FC = () => {
     const [writings, setWritings] = useState<Writing[]>([]);
     const [isLoading, setIsLoading] = useState(true);
@@ -31,7 +151,6 @@ export const Writings: React.FC = () => {
     const [isSubmitting, setIsSubmitting] = useState(false);
     const [selectedWriting, setSelectedWriting] = useState<Writing | null>(null);
 
-    // Check for admin key in URL on mount or sessionStorage
     useEffect(() => {
         const params = new URLSearchParams(window.location.search);
         const key = params.get('key');
@@ -119,6 +238,7 @@ export const Writings: React.FC = () => {
 
             if (!res.ok) throw new Error('Failed to delete');
             setWritings(prev => prev.filter(w => w.id !== id));
+            if (selectedWriting?.id === id) setSelectedWriting(null);
         } catch (err) {
             setError('Failed to delete writing');
         }
@@ -149,6 +269,18 @@ export const Writings: React.FC = () => {
         return `${minutes} min read`;
     };
 
+    // Get plain text preview from markdown
+    const getPreview = (content: string) => {
+        return content
+            .replace(/#{1,6}\s/g, '')
+            .replace(/\*\*([^*]+)\*\*/g, '$1')
+            .replace(/\*([^*]+)\*/g, '$1')
+            .replace(/`([^`]+)`/g, '$1')
+            .replace(/\[([^\]]+)\]\([^)]+\)/g, '$1')
+            .replace(/>\s/g, '')
+            .slice(0, 200);
+    };
+
     if (isLoading) {
         return (
             <div className="p-6 md:p-10 flex items-center justify-center min-h-[300px]">
@@ -168,10 +300,10 @@ export const Writings: React.FC = () => {
                 {isAdmin && (
                     <button
                         onClick={() => setShowAddForm(true)}
-                        className="flex items-center gap-2 px-4 py-2 bg-gray-900 text-white rounded-full text-sm font-medium hover:bg-gray-800 transition-all shadow-lg"
+                        className="flex items-center gap-2 px-3 py-1.5 md:px-4 md:py-2 rounded-lg text-[10px] md:text-xs font-medium transition-all bg-gradient-to-b from-gray-800 to-gray-900 border border-gray-700 shadow-[0_2px_4px_rgba(0,0,0,0.2),0_1px_2px_rgba(0,0,0,0.1),inset_0_1px_0_rgba(255,255,255,0.1)] text-white hover:from-gray-700 hover:to-gray-800 hover:shadow-[0_3px_6px_rgba(0,0,0,0.25),0_1px_2px_rgba(0,0,0,0.15)] active:shadow-sm active:translate-y-[1px]"
                     >
-                        <Plus size={16} />
-                        New
+                        <Plus size={14} />
+                        New Writing
                     </button>
                 )}
             </div>
@@ -184,7 +316,7 @@ export const Writings: React.FC = () => {
                 </div>
             )}
 
-            {/* Add Form Modal */}
+            {/* Add Form Modal - Notion Style */}
             <Portal>
                 <AnimatePresence>
                     {showAddForm && (
@@ -192,65 +324,65 @@ export const Writings: React.FC = () => {
                             initial={{ opacity: 0 }}
                             animate={{ opacity: 1 }}
                             exit={{ opacity: 0 }}
-                            className="fixed inset-0 bg-black/60 backdrop-blur-sm z-[200] flex items-center justify-center p-4"
+                            className="fixed inset-0 bg-black/40 backdrop-blur-sm z-[200] flex items-start justify-center pt-[5vh] md:pt-[10vh] px-4 overflow-y-auto"
                             onClick={() => setShowAddForm(false)}
                         >
                             <motion.form
-                                initial={{ scale: 0.95, opacity: 0, y: 20 }}
+                                initial={{ scale: 0.98, opacity: 0, y: 10 }}
                                 animate={{ scale: 1, opacity: 1, y: 0 }}
-                                exit={{ scale: 0.95, opacity: 0, y: 20 }}
-                                transition={{ type: 'spring', damping: 25, stiffness: 300 }}
+                                exit={{ scale: 0.98, opacity: 0, y: 10 }}
+                                transition={{ type: 'spring', damping: 30, stiffness: 400 }}
                                 onClick={(e) => e.stopPropagation()}
                                 onSubmit={handleSubmit}
-                                className="bg-white rounded-3xl shadow-2xl w-full max-w-lg overflow-hidden"
+                                className="bg-white rounded-2xl shadow-2xl w-full max-w-2xl mb-10"
                             >
-                                <div className="flex items-center justify-between p-5 border-b border-gray-100">
-                                    <h3 className="font-serif italic text-xl text-gray-900">New Writing</h3>
-                                    <button
-                                        type="button"
-                                        onClick={() => setShowAddForm(false)}
-                                        className="p-2 hover:bg-gray-100 rounded-full transition-colors"
-                                    >
-                                        <X size={20} className="text-gray-400" />
-                                    </button>
-                                </div>
-                                <div className="p-5 space-y-4">
+                                {/* Title Input - Notion Style */}
+                                <div className="px-8 pt-8">
                                     <input
                                         type="text"
-                                        placeholder="Title"
+                                        placeholder="Untitled"
                                         value={newTitle}
                                         onChange={(e) => setNewTitle(e.target.value)}
-                                        className="w-full px-4 py-3 bg-gray-50 border border-gray-200 rounded-2xl text-sm focus:outline-none focus:ring-2 focus:ring-gray-900/10 focus:border-gray-300 font-serif text-lg"
+                                        className="w-full text-4xl font-bold text-gray-900 placeholder-gray-300 outline-none border-none bg-transparent"
                                         autoFocus
                                     />
-                                    <textarea
-                                        placeholder="Write your thoughts..."
+                                </div>
+
+                                {/* Content Editor - Notion Style */}
+                                <div className="px-8 py-6">
+                                    <NotionEditor
                                         value={newContent}
-                                        onChange={(e) => setNewContent(e.target.value)}
-                                        rows={10}
-                                        className="w-full px-4 py-3 bg-gray-50 border border-gray-200 rounded-2xl text-sm focus:outline-none focus:ring-2 focus:ring-gray-900/10 focus:border-gray-300 resize-none leading-relaxed"
+                                        onChange={setNewContent}
+                                        placeholder="Start writing, or press '/' for commands..."
                                     />
                                 </div>
-                                <div className="flex justify-end gap-3 p-5 border-t border-gray-100 bg-gray-50/50">
-                                    <button
-                                        type="button"
-                                        onClick={() => setShowAddForm(false)}
-                                        className="px-5 py-2.5 text-sm font-medium text-gray-600 hover:text-gray-900 transition-colors"
-                                    >
-                                        Cancel
-                                    </button>
-                                    <button
-                                        type="submit"
-                                        disabled={isSubmitting || !newTitle.trim() || !newContent.trim()}
-                                        className="flex items-center gap-2 px-5 py-2.5 bg-gray-900 text-white rounded-full text-sm font-medium hover:bg-gray-800 disabled:opacity-50 disabled:cursor-not-allowed transition-all"
-                                    >
-                                        {isSubmitting ? (
-                                            <Loader2 size={16} className="animate-spin" />
-                                        ) : (
-                                            <Send size={16} />
-                                        )}
-                                        Publish
-                                    </button>
+
+                                {/* Footer */}
+                                <div className="flex items-center justify-between px-8 py-4 border-t border-gray-100 bg-gray-50/50 rounded-b-2xl">
+                                    <div className="text-xs text-gray-400">
+                                        Supports **bold**, *italic*, # headings, - lists, &gt; quotes
+                                    </div>
+                                    <div className="flex gap-3">
+                                        <button
+                                            type="button"
+                                            onClick={() => setShowAddForm(false)}
+                                            className="px-4 py-2 text-sm font-medium text-gray-600 hover:text-gray-900 transition-colors"
+                                        >
+                                            Cancel
+                                        </button>
+                                        <button
+                                            type="submit"
+                                            disabled={isSubmitting || !newTitle.trim() || !newContent.trim()}
+                                            className="flex items-center gap-2 px-5 py-2 bg-gray-900 text-white rounded-lg text-sm font-medium hover:bg-gray-800 disabled:opacity-50 disabled:cursor-not-allowed transition-all"
+                                        >
+                                            {isSubmitting ? (
+                                                <Loader2 size={16} className="animate-spin" />
+                                            ) : (
+                                                <Send size={16} />
+                                            )}
+                                            Publish
+                                        </button>
+                                    </div>
                                 </div>
                             </motion.form>
                         </motion.div>
@@ -258,7 +390,7 @@ export const Writings: React.FC = () => {
                 </AnimatePresence>
             </Portal>
 
-            {/* Reading Modal */}
+            {/* Reading Modal with Markdown */}
             <Portal>
                 <AnimatePresence>
                     {selectedWriting && (
@@ -266,41 +398,42 @@ export const Writings: React.FC = () => {
                             initial={{ opacity: 0 }}
                             animate={{ opacity: 1 }}
                             exit={{ opacity: 0 }}
-                            className="fixed inset-0 bg-black/60 backdrop-blur-sm z-[200] flex items-center justify-center p-4"
+                            className="fixed inset-0 bg-black/40 backdrop-blur-sm z-[200] flex items-start justify-center pt-[5vh] md:pt-[10vh] px-4 overflow-y-auto"
                             onClick={() => setSelectedWriting(null)}
                         >
                             <motion.article
-                                initial={{ scale: 0.95, opacity: 0, y: 20 }}
+                                initial={{ scale: 0.98, opacity: 0, y: 10 }}
                                 animate={{ scale: 1, opacity: 1, y: 0 }}
-                                exit={{ scale: 0.95, opacity: 0, y: 20 }}
-                                transition={{ type: 'spring', damping: 25, stiffness: 300 }}
+                                exit={{ scale: 0.98, opacity: 0, y: 10 }}
+                                transition={{ type: 'spring', damping: 30, stiffness: 400 }}
                                 onClick={(e) => e.stopPropagation()}
-                                className="bg-white rounded-3xl shadow-2xl w-full max-w-2xl max-h-[85vh] overflow-hidden flex flex-col"
+                                className="bg-white rounded-2xl shadow-2xl w-full max-w-2xl mb-10 overflow-hidden"
                             >
-                                <div className="flex items-start justify-between p-6 border-b border-gray-100">
-                                    <div className="flex-1 pr-4">
-                                        <h2 className="font-serif italic text-2xl md:text-3xl text-gray-900 leading-tight">
-                                            {selectedWriting.title}
-                                        </h2>
-                                        <div className="flex items-center gap-3 mt-3 text-xs text-gray-400">
-                                            <span>{formatDate(selectedWriting.createdAt)}</span>
-                                            <span>·</span>
-                                            <span>{getReadingTime(selectedWriting.content)}</span>
+                                {/* Header */}
+                                <div className="px-8 pt-8 pb-4 border-b border-gray-100">
+                                    <div className="flex items-start justify-between gap-4">
+                                        <div className="flex-1">
+                                            <h1 className="text-3xl md:text-4xl font-serif italic text-gray-900 leading-tight">
+                                                {selectedWriting.title}
+                                            </h1>
+                                            <div className="flex items-center gap-3 mt-4 text-sm text-gray-400">
+                                                <span>{formatDate(selectedWriting.createdAt)}</span>
+                                                <span>·</span>
+                                                <span>{getReadingTime(selectedWriting.content)}</span>
+                                            </div>
                                         </div>
+                                        <button
+                                            onClick={() => setSelectedWriting(null)}
+                                            className="p-2 hover:bg-gray-100 rounded-full transition-colors flex-shrink-0"
+                                        >
+                                            <X size={20} className="text-gray-400" />
+                                        </button>
                                     </div>
-                                    <button
-                                        onClick={() => setSelectedWriting(null)}
-                                        className="p-2 hover:bg-gray-100 rounded-full transition-colors flex-shrink-0"
-                                    >
-                                        <X size={20} className="text-gray-400" />
-                                    </button>
                                 </div>
-                                <div className="p-6 overflow-y-auto flex-1">
-                                    <div className="prose prose-gray max-w-none">
-                                        <p className="text-gray-700 leading-[1.8] whitespace-pre-wrap text-[15px]">
-                                            {selectedWriting.content}
-                                        </p>
-                                    </div>
+
+                                {/* Content with Markdown */}
+                                <div className="px-8 py-8">
+                                    <MarkdownContent content={selectedWriting.content} />
                                 </div>
                             </motion.article>
                         </motion.div>
@@ -327,7 +460,7 @@ export const Writings: React.FC = () => {
                         >
                             <div className="flex items-start justify-between gap-4">
                                 <div className="flex-1 min-w-0">
-                                    <h3 className="font-serif italic text-xl text-gray-900 group-hover:text-gray-600 transition-colors leading-snug">
+                                    <h3 className="text-lg font-bold text-gray-900 group-hover:text-gray-600 transition-colors leading-snug">
                                         {writing.title}
                                     </h3>
                                     <div className="flex items-center gap-3 mt-2 text-xs text-gray-400">
@@ -337,7 +470,7 @@ export const Writings: React.FC = () => {
                                     </div>
                                     <div className="relative mt-3">
                                         <p className="text-sm text-gray-500 leading-relaxed line-clamp-2">
-                                            {writing.content}
+                                            {getPreview(writing.content)}
                                         </p>
                                         <div className="absolute bottom-0 left-0 right-0 h-6 bg-gradient-to-t from-[#FAFAFA] to-transparent" />
                                     </div>
@@ -348,7 +481,7 @@ export const Writings: React.FC = () => {
                                 {isAdmin && (
                                     <button
                                         onClick={(e) => handleDelete(writing.id, e)}
-                                        className="p-2 text-gray-300 hover:text-red-500 hover:bg-red-50 rounded-lg opacity-0 group-hover:opacity-100 transition-all flex-shrink-0"
+                                        className="p-2 text-gray-300 hover:text-red-500 hover:bg-red-50 rounded-lg md:opacity-0 md:group-hover:opacity-100 transition-all flex-shrink-0"
                                     >
                                         <Trash2 size={16} />
                                     </button>
