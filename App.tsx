@@ -18,7 +18,13 @@ import { PROJECTS } from './constants';
 
 export default function App() {
     const [activeTab, setActiveTab] = useState('Personal');
-    const [hasVisited, setHasVisited] = useState(false);
+    // Check sessionStorage synchronously to avoid flash
+    const [hasVisited] = useState(() => {
+        if (typeof window !== 'undefined') {
+            return sessionStorage.getItem('hasVisited') === 'true';
+        }
+        return true; // Default to no animations on SSR
+    });
 
     useEffect(() => {
         // Check for admin key in URL and store it
@@ -36,11 +42,8 @@ export default function App() {
         }
         window.scrollTo(0, 0);
 
-        const visited = sessionStorage.getItem('hasVisited');
-        if (!visited) {
-            sessionStorage.setItem('hasVisited', 'true');
-            setHasVisited(true);
-        }
+        // Mark as visited for next time
+        sessionStorage.setItem('hasVisited', 'true');
     }, []);
 
     // Prevent right-click context menu globally
