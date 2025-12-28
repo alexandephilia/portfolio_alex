@@ -1,35 +1,33 @@
 import { LucideIcon } from 'lucide-react';
-import React from 'react';
+import { IconType } from 'react-icons';
+
+export interface SocialLink {
+    icon: IconType | LucideIcon;
+    href: string;
+    label: string;
+    buttonStyle: string;
+    iconSize?: number;
+}
 
 export interface Project {
     id: string;
-    category: 'Works' | 'Writings' | 'Personal';
+    category: string;
     title: string;
     description: string;
     icon: LucideIcon;
-    iconColor: string; // Tailwind class for bg color
+    iconColor: string;
     imageUrl: string;
-    status: 'Live' | 'Coming Soon' | 'In Development';
-    linkUrl?: string;
-    company?: string;
-    client?: string;
-    date?: string;
+    status: string;
+    linkUrl: string;
     isRedacted?: boolean;
-}
-
-export interface SocialLink {
-    icon: LucideIcon | React.ComponentType<{ size?: number; className?: string }>;
-    href: string;
-    label: string;
-    buttonStyle: string; // Tailwind classes for the button appearance
-    iconSize?: number; // Optional custom icon size
-    iconGradient?: string; // Tailwind gradient classes for icon (e.g., "from-blue-500 to-blue-700")
+    company?: string;
+    date?: string;
 }
 
 export interface ExperienceItem {
     id: string;
     company: string;
-    role?: string;
+    role: string;
     description: string;
     period: string;
 }
@@ -39,6 +37,11 @@ export interface EducationItem {
     degree: string;
     institution: string;
     period: string;
+}
+
+export interface SkillCategory {
+    title: string;
+    skills: string[];
 }
 
 export interface TestimonialItem {
@@ -54,31 +57,18 @@ export interface ContactItem {
     href: string;
 }
 
-export type SkillTheme = 'indigo' | 'purple' | 'emerald' | 'amber' | 'rose' | 'teal' | 'violet' | 'slate' | 'cyan';
-
-export interface Skill {
-    name: string;
-    theme: SkillTheme;
-}
-
-export interface SkillCategory {
-    title: string;
-    skills: string[];
-}
-
-export interface Book {
-    id: number;
-    title: string;
-    author: string;
-    coverUrl: string;
-    color: string;
-    spineText?: string;
-}
-
 export interface Song {
     id: string;
     title: string;
     artist: string;
     url: string;
     coverUrl: string;
+}
+
+export interface Writing {
+    id: string;
+    title: string;
+    content: string;
+    createdAt: string;
+    updatedAt: string;
 }

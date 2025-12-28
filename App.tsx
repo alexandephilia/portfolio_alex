@@ -8,11 +8,12 @@ import { Experience } from './components/Experience';
 import { Footer } from './components/Footer';
 import { Header } from './components/Header';
 import { Hero } from './components/Hero';
+import { MusicDock } from './components/MusicDock';
 import { ProjectCard } from './components/ProjectCard';
 import { Skills } from './components/Skills';
 import { Tabs } from './components/Tabs';
 import { Testimonials } from './components/Testimonials';
-import { MusicDock } from './components/MusicDock';
+import { Writings } from './components/Writings';
 import { PROJECTS } from './constants';
 
 export default function App() {
@@ -20,6 +21,15 @@ export default function App() {
     const [hasVisited, setHasVisited] = useState(false);
 
     useEffect(() => {
+        // Check for admin key in URL and store it
+        const params = new URLSearchParams(window.location.search);
+        const key = params.get('key');
+        if (key) {
+            sessionStorage.setItem('adminKey', key);
+            // Clean URL without reload
+            window.history.replaceState({}, '', window.location.pathname);
+        }
+
         // Force scroll to top on refresh
         if ('scrollRestoration' in window.history) {
             window.history.scrollRestoration = 'manual';
@@ -148,7 +158,7 @@ export default function App() {
                         </motion.div>
 
                         <motion.div variants={isFirstLoad ? itemVariants : {}}>
-                            <section className="p-6 md:p-10 border-b border-dashed border-gray-200">
+                            <section className="border-b border-dashed border-gray-200">
                                 <AnimatePresence mode="wait">
                                     <motion.div
                                         key={activeTab}
@@ -184,23 +194,28 @@ export default function App() {
                                                 }
                                             }
                                         }}
-                                        className="flex flex-col gap-6"
                                         style={{ willChange: 'opacity, filter, transform' }}
                                     >
-                                        {displayProjects.length > 0 ? (
-                                            displayProjects.map((project) => (
-                                                <ProjectCard key={project.id} project={project} />
-                                            ))
+                                        {activeTab === 'Writings' ? (
+                                            <Writings />
                                         ) : (
-                                            <motion.div
-                                                variants={{
-                                                    hidden: { opacity: 0, y: 10 },
-                                                    visible: { opacity: 1, y: 0 }
-                                                }}
-                                                className="py-20 text-center text-gray-400 bg-white rounded-[32px] border border-gray-100"
-                                            >
-                                                <p>No projects found in this category yet.</p>
-                                            </motion.div>
+                                            <div className="flex flex-col gap-6 p-6 md:p-10">
+                                                {displayProjects.length > 0 ? (
+                                                    displayProjects.map((project) => (
+                                                        <ProjectCard key={project.id} project={project} />
+                                                    ))
+                                                ) : (
+                                                    <motion.div
+                                                        variants={{
+                                                            hidden: { opacity: 0, y: 10 },
+                                                            visible: { opacity: 1, y: 0 }
+                                                        }}
+                                                        className="py-20 text-center text-gray-400 bg-white rounded-[32px] border border-gray-100"
+                                                    >
+                                                        <p>No projects found in this category yet.</p>
+                                                    </motion.div>
+                                                )}
+                                            </div>
                                         )}
                                     </motion.div>
                                 </AnimatePresence>
@@ -232,7 +247,7 @@ export default function App() {
                     </motion.div>
                 </motion.div>
             </div>
-            
+
             {/* Minimalist Music Dock */}
             <MusicDock />
         </div>
