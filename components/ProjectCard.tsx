@@ -210,29 +210,38 @@ export const ProjectCard: React.FC<ProjectCardProps> = ({ project }) => {
                     <div className="w-[35%] md:w-[45%] shrink-0 h-auto p-1 bg-gray-50 flex flex-col justify-center border-l border-gray-100">
                         <div className="w-full h-full md:min-h-full rounded-[16px] overflow-hidden relative shadow-[inset_0_2px_6px_rgba(0,0,0,0.12),inset_0_-1px_2px_rgba(255,255,255,0.6)] bg-gray-100 border border-black/5 flex items-center justify-center">
                             {project.isRedacted ? (
-                                <div className="absolute inset-0 flex items-center justify-center overflow-hidden rounded-[16px]">
+                                <div className="absolute inset-0 flex items-center justify-center overflow-hidden rounded-[16px] p-2">
                                     <div className="absolute inset-0 scale-110">
-                                        <LazyImage src={project.imageUrl} alt={project.title} blur={14} />
-                                        <div className="absolute inset-0 bg-white/20" />
+                                        <LazyImage src={project.imageUrl} alt={project.title} blur={10} />
+                                        <div className="absolute inset-0 bg-black/10 backdrop-blur-[2px]" />
                                     </div>
-                                    <div className="absolute inset-0 opacity-[0.05] bg-[radial-gradient(#000_1px,transparent_1px)] [background-size:16px_16px]" />
+                                    
                                     <motion.div
-                                        initial={{ rotate: -12, scale: 0.9, opacity: 0 }}
-                                        animate={{ rotate: -12, scale: 1, opacity: 1 }}
-                                        className="relative z-10"
+                                        initial={{ rotate: -12, scale: 1.8, opacity: 0 }}
+                                        animate={{ rotate: -15, scale: 1, opacity: 0.8 }}
+                                        transition={{ 
+                                            type: "spring",
+                                            stiffness: 260,
+                                            damping: 20,
+                                            delay: 0.1
+                                        }}
+                                        className="relative z-10 w-full flex justify-center"
                                     >
-                                        <div
-                                            className="px-3 py-1.5 md:px-6 md:py-3 border-[1.5px] md:border-[2px] border-black/50 rounded-sm bg-white/73 shadow-[0_10px_30px_rgba(0,0,0,0.2)]"
-                                            style={{
-                                                backgroundImage: `repeating-linear-gradient(45deg, transparent, transparent 10px, rgba(0,0,0,0.05) 10px, rgba(0,0,0,0.05) 20px)`,
-                                                backgroundColor: 'rgb(255 255 255 / 73%)'
-                                            }}
-                                        >
-                                            <span className="text-[9.1px] md:text-base font-sans font-black text-black uppercase tracking-[0.15em] md:tracking-[0.3em] whitespace-nowrap">
-                                                REDACTED UNDER NDA
-                                            </span>
+                                        <div className="relative group/stamp max-w-full overflow-hidden">
+                                            {/* Stamp Body */}
+                                            <div className="px-2 py-1 md:px-6 md:py-3 border-[2px] md:border-[4px] border-white/90 rounded-[2px] flex items-center justify-center">
+                                                <span className="text-[10px] sm:text-xs md:text-xl font-sans font-black text-white/90 uppercase tracking-[0.1em] md:tracking-[0.2em] whitespace-nowrap select-none">
+                                                    Under NDA
+                                                </span>
+                                            </div>
+                                            
+                                            {/* Ink bleed effect (subtle glow instead of shadow since it's white) */}
+                                            <div className="absolute inset-0 border-[2px] md:border-[4px] border-white/20 blur-[0.5px] -z-10" />
                                         </div>
                                     </motion.div>
+                                    
+                                    {/* Gritty overlay */}
+                                    <div className="absolute inset-0 opacity-[0.05] pointer-events-none mix-blend-overlay bg-[url('https://www.transparenttextures.com/patterns/asfalt-dark.png')]" />
                                 </div>
                             ) : (
                                 <>

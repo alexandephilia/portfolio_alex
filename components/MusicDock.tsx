@@ -126,8 +126,9 @@ export const MusicDock: React.FC = () => {
                             }}
                             transition={{
                                 type: 'spring',
-                                damping: 25,
-                                stiffness: 300,
+                                damping: 15,
+                                stiffness: 150,
+                                mass: 1,
                             }}
                             style={{ willChange: 'width' }}
                             className="
