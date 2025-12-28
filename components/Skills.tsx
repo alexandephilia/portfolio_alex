@@ -12,7 +12,7 @@ export const Skills: React.FC = () => {
                 initial="hidden"
                 whileInView="visible"
                 viewport={viewportSettings}
-                className="text-sm font-bold text-[rgb(81,108,180)] tracking-wider uppercase mb-8"
+                className="text-[10px] md:text-sm font-bold text-[rgb(81,108,180)] tracking-wider uppercase mb-8"
             >
                 Skills
             </motion.h2>
@@ -48,7 +48,7 @@ const KeyboardGroup: React.FC<{ category: SkillCategory; index: number }> = ({ c
             rounded-[6px]
             bg-transparent
             border border-dashed border-gray-300
-            text-[10px] md:text-xs font-bold font-mono text-gray-500 uppercase tracking-widest
+            text-[8px] md:text-xs font-bold font-mono text-gray-500 uppercase tracking-widest
             select-none
           ">
                     {category.title}
@@ -84,7 +84,7 @@ const KeyboardGroup: React.FC<{ category: SkillCategory; index: number }> = ({ c
                 </div>
 
                 {/* Keys Container */}
-                <div className="flex flex-wrap gap-2 md:gap-3 relative z-10 px-1 py-1">
+                <div className="flex flex-wrap gap-1.5 md:gap-3 relative z-10 px-1 py-1">
                     {category.skills.map((skill: string, idx: number) => (
                         <Keycap key={idx} label={skill} />
                     ))}
@@ -107,7 +107,7 @@ const Keycap: React.FC<{ label: string }> = ({ label }) => {
             className="
                 group relative
                 /* Responsive Layout */
-                h-9 md:h-10 px-3 md:px-5
+                h-7 md:h-10 px-2 md:px-5
                 min-w-[max-content]
                 flex-grow
                 flex items-center justify-center
@@ -121,7 +121,7 @@ const Keycap: React.FC<{ label: string }> = ({ label }) => {
                 shadow-[0_4px_0_#d1d5db,0_4px_8px_rgba(0,0,0,0.1),inset_0_1px_0_rgba(255,255,255,0.9)]
 
                 /* Typography (Kept Mono for Keyboard feel) */
-                text-gray-600 font-mono text-[10px] md:text-[11px] font-bold uppercase tracking-wide
+                text-gray-600 font-mono text-[8px] md:text-[11px] font-bold uppercase tracking-wide
 
                 /* Transitions */
                 transition-all duration-100 ease-out
@@ -155,7 +155,7 @@ const MacMiniSection: React.FC = () => {
             <div className="relative pb-6">
                 <h3 className="
                     font-serif italic
-                    text-3xl md:text-5xl
+                    text-2xl md:text-5xl
                     text-gray-900
                     tracking-wide
                     transform -rotate-2
@@ -223,21 +223,21 @@ const MacMiniSection: React.FC = () => {
                     </div>
 
                     {/* Content Section */}
-                    <div className="w-full md:w-7/12 p-8 pt-4 md:pt-8 md:pl-0 text-center md:text-left flex flex-col justify-center">
+                    <div className="w-full md:w-7/12 p-6 pt-2 md:pt-8 md:pl-0 text-center md:text-left flex flex-col justify-center">
                         <div className="flex flex-col gap-4">
                             <div>
                                 <div className="flex items-center justify-center md:justify-start gap-3 mb-2">
-                                    <h4 className="text-2xl md:text-3xl font-bold text-gray-900 tracking-tight">Mac mini</h4>
+                                    <h4 className="text-xl md:text-3xl font-bold text-gray-900 tracking-tight">Mac mini</h4>
                                     <span className="px-2 bg-gradient-to-br from-slate-800 via-slate-600 to-slate-900py-0.5 rounded text-[10px] font-bold bg-black text-white border border-black uppercase tracking-wide">
                                         M4
                                     </span>
                                 </div>
-                                <p className="text-xs md:text-sm font-bold text-gray-400 uppercase tracking-widest">
+                                <p className="text-[10px] md:text-sm font-bold text-gray-400 uppercase tracking-widest">
                                     It's my personal station!
                                 </p>
                             </div>
 
-                            <p className="text-sm text-gray-600 font-medium leading-relaxed max-w-sm mx-auto md:mx-0">
+                            <p className="text-[11px] md:text-sm text-gray-600 font-medium leading-relaxed max-w-sm mx-auto md:mx-0">
                                 Compact yet incredibly powerful. This little machine handles my entire development stack from Backend to heavy frontend builds silently and efficiently. I also use multi-screen setup which allow me to do rapid prototyping and testing.
                             </p>
 
@@ -261,7 +261,7 @@ const SpecBadge: React.FC<{ children: React.ReactNode }> = ({ children }) => (
         px-2.5 py-1
         rounded-[6px]
         bg-white/60 border border-gray-200/50
-        text-[10px] font-bold text-gray-500 uppercase tracking-wide
+        text-[8px] md:text-[10px] font-bold text-gray-500 uppercase tracking-wide
         shadow-sm backdrop-blur-sm
     ">
         {children}

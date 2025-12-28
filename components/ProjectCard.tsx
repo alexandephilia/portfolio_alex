@@ -130,7 +130,7 @@ export const ProjectCard: React.FC<ProjectCardProps> = ({ project }) => {
 
                         {/* Icon as background overlay shifted slightly right */}
                         <div className="absolute -bottom-8 -left-4 md:-bottom-6 md:-left-10 text-gray-100/80 pointer-events-none z-0 rotate-[-12deg]">
-                            <Icon size={140} mdSize={160} strokeWidth={1} className="md:w-[160px] md:h-[160px]" />
+                            <Icon size={140} strokeWidth={1} className="md:w-[160px] md:h-[160px]" />
                         </div>
 
                         <div className="flex flex-col gap-1 md:gap-2 relative z-10">
@@ -167,12 +167,12 @@ export const ProjectCard: React.FC<ProjectCardProps> = ({ project }) => {
                             {project.category === 'Works' ? (
                                 <div className="flex flex-col gap-0.5">
                                     {project.company && (
-                                        <div className="text-xs font-bold text-[rgb(81,108,180)] uppercase tracking-tight">
+                                        <div className="text-[10px] md:text-xs font-bold text-[rgb(81,108,180)] uppercase tracking-tight">
                                             {project.company}
                                         </div>
                                     )}
                                     {project.date && (
-                                        <div className="text-[10px] font-semibold text-gray-400 font-mono uppercase">
+                                        <div className="text-[8px] md:text-[10px] font-semibold text-gray-400 font-mono uppercase">
                                             {project.date}
                                         </div>
                                     )}
@@ -222,13 +222,13 @@ export const ProjectCard: React.FC<ProjectCardProps> = ({ project }) => {
                                         className="relative z-10"
                                     >
                                         <div
-                                            className="px-6 py-3 border-[2px] border-black/50 rounded-sm bg-white/73 shadow-[0_10px_30px_rgba(0,0,0,0.2)]"
+                                            className="px-3 py-1.5 md:px-6 md:py-3 border-[1.5px] md:border-[2px] border-black/50 rounded-sm bg-white/73 shadow-[0_10px_30px_rgba(0,0,0,0.2)]"
                                             style={{
                                                 backgroundImage: `repeating-linear-gradient(45deg, transparent, transparent 10px, rgba(0,0,0,0.05) 10px, rgba(0,0,0,0.05) 20px)`,
                                                 backgroundColor: 'rgb(255 255 255 / 73%)'
                                             }}
                                         >
-                                            <span className="text-[17px] md:text-base font-sans font-black text-black uppercase tracking-[0.3em] whitespace-nowrap">
+                                            <span className="text-[9.1px] md:text-base font-sans font-black text-black uppercase tracking-[0.15em] md:tracking-[0.3em] whitespace-nowrap">
                                                 REDACTED UNDER NDA
                                             </span>
                                         </div>

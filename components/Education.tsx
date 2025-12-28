@@ -11,7 +11,7 @@ export const Education: React.FC = () => {
                 whileInView="visible"
                 viewport={viewportSettings}
                 variants={sectionHeaderVariants}
-                className="text-sm font-bold text-[rgb(81,108,180)] tracking-wider uppercase mb-8"
+                className="text-[10px] md:text-sm font-bold text-[rgb(81,108,180)] tracking-wider uppercase mb-8"
             >
                 Education
             </motion.h2>
@@ -29,8 +29,8 @@ export const Education: React.FC = () => {
                         variants={staggerItemVariants}
                         className="flex flex-col gap-0.5 md:gap-1"
                     >
-                        <h3 className="text-[15px] md:text-base font-semibold text-gray-900">{edu.degree}</h3>
-                        <p className="text-gray-400 text-[10px] md:text-xs uppercase tracking-wider">
+                        <h3 className="text-[11px] md:text-base font-semibold text-gray-900">{edu.degree}</h3>
+                        <p className="text-gray-400 text-[8px] md:text-xs uppercase tracking-wider">
                             {edu.institution}
                         </p>
                     </motion.div>

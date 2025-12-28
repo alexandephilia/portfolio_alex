@@ -1,0 +1,59 @@
+@import "tailwindcss";
+
+/* Custom theme tokens for Tailwind v4 */
+@theme {
+    --font-sans: "Nunito", sans-serif;
+    --font-serif: "Instrument Serif", serif;
+    --font-mono: "TX-02 Berkeley Mono", "JetBrains Mono", monospace;
+}
+
+/* Berkeley Mono font-face - must be outside @layer */
+@font-face {
+    font-family: 'TX-02 Berkeley Mono';
+    src: local('TX-02 Berkeley Mono'), local('BerkeleyMono'), local('Berkeley Mono');
+    font-weight: 400 700;
+    font-display: swap;
+}
+
+/* Base styles */
+@layer base {
+    html {
+        font-family: "Nunito", sans-serif;
+    }
+    
+    body {
+        font-family: "Nunito", sans-serif;
+        background-color: #fafafa;
+        color: #1e1b4b;
+    }
+
+    /* Scrollbar styling */
+    ::-webkit-scrollbar {
+        width: 8px;
+    }
+
+    ::-webkit-scrollbar-track {
+        background: #f1f1f1;
+    }
+
+    ::-webkit-scrollbar-thumb {
+        background: #d1d5db;
+        border-radius: 4px;
+    }
+
+    ::-webkit-scrollbar-thumb:hover {
+        background: #9ca3af;
+    }
+}
+
+/* Utilities */
+@layer utilities {
+    .no-scrollbar::-webkit-scrollbar {
+        display: none;
+    }
+
+    .no-scrollbar {
+        -ms-overflow-style: none;
+        scrollbar-width: none;
+    }
+}

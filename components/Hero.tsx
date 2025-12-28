@@ -107,6 +107,11 @@ const IconScatter: React.FC<IconScatterProps> = ({ children, icons, externalOpen
     // Determine final open state
     const isOpen = isHovered || externalOpen;
 
+    // Responsive sizes
+    const containerSize = isDesktop ? 'w-10 h-10' : 'w-7 h-7';
+    const iconSize = isDesktop ? 20 : 14;
+    const marginOffset = isDesktop ? '-20px' : '-14px';
+
     // Get starting position based on position name
     const getStartPosition = (position: string) => {
         switch (position) {
@@ -122,6 +127,12 @@ const IconScatter: React.FC<IconScatterProps> = ({ children, icons, externalOpen
         }
     };
 
+    // Scale down positions for mobile
+    const getScaledPosition = (to: { x: number; y: number }) => {
+        if (isDesktop) return to;
+        return { x: to.x * 0.6, y: to.y * 0.6 };
+    };
+
     return (
         <span
             className="relative inline-block cursor-pointer"
@@ -132,6 +143,7 @@ const IconScatter: React.FC<IconScatterProps> = ({ children, icons, externalOpen
             {/* Scattered icons */}
             {icons.map((item, idx) => {
                 const startPos = getStartPosition(item.position);
+                const scaledTo = getScaledPosition(item.to);
                 return (
                     <motion.span
                         key={idx}
@@ -139,37 +151,39 @@ const IconScatter: React.FC<IconScatterProps> = ({ children, icons, externalOpen
                         style={{
                             left: startPos.left,
                             top: startPos.top,
-                            zIndex: 10, // Keep z-index high so it doesn't clip on exit
-                            marginLeft: '-18px',
-                            marginTop: '-18px',
+                            zIndex: 10,
+                            marginLeft: marginOffset,
+                            marginTop: marginOffset,
                         }}
                         initial={false}
                         animate={{
-                            x: isOpen ? item.to.x : 0,
-                            y: isOpen ? item.to.y : 0,
+                            x: isOpen ? scaledTo.x : 0,
+                            y: isOpen ? scaledTo.y : 0,
                             opacity: isOpen ? 1 : 0,
-                            scale: isOpen ? 1 : 0.6, // Slight scale for cleaner retreat
+                            scale: isOpen ? 1 : 0.6,
                         }}
                         transition={{
                             type: 'spring',
-                            stiffness: isOpen ? 350 : 280, // Slightly softer on retreat
+                            stiffness: isOpen ? 350 : 280,
                             damping: isOpen ? 22 : 28,
                             mass: 1,
-                            delay: isOpen ? idx * 0.04 : (icons.length - idx) * 0.02, // Reverse stagger on exit
+                            delay: isOpen ? idx * 0.04 : (icons.length - idx) * 0.02,
                         }}
                     >
                         <span
-                            className="flex items-center justify-center w-10 h-10 rounded-full"
+                            className={`flex items-center justify-center ${containerSize} rounded-full`}
                             style={{
                                 background: 'linear-gradient(180deg, #ffffff 0%, #d4d4d4 100%)',
-                                boxShadow: '0 3px 10px rgba(0,0,0,0.15), 0 1px 3px rgba(0,0,0,0.1), inset 0 1px 0 rgba(255,255,255,0.9)',
+                                boxShadow: isDesktop
+                                    ? '0 3px 10px rgba(0,0,0,0.15), 0 1px 3px rgba(0,0,0,0.1), inset 0 1px 0 rgba(255,255,255,0.9)'
+                                    : '0 2px 6px rgba(0,0,0,0.12), 0 1px 2px rgba(0,0,0,0.08), inset 0 1px 0 rgba(255,255,255,0.9)',
                                 padding: '2px',
                             }}
                         >
                             {item.isCustom ? (
-                                <item.Icon size={24} />
+                                <item.Icon size={iconSize} />
                             ) : (
-                                <item.Icon size={24} color={item.color} />
+                                <item.Icon size={iconSize} color={item.color} />
                             )}
                         </span>
                     </motion.span>
@@ -282,7 +296,7 @@ export const Hero: React.FC = () => {
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.8, delay: 0.2, ease: "easeOut" }}
                 style={antiFlickerStyle}
-                className="mt-5 max-w-[490px] md:max-w-[34rem]"
+                className="mt-5 max-w-[320px] md:max-w-[34rem]"
             >
                 <div className="flex flex-col gap-2">
                     <span className="text-[9px] uppercase tracking-[0.2em] text-[rgb(81,108,180)] font-bold opacity-60">

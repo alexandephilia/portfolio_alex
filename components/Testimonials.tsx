@@ -1,6 +1,7 @@
 import { motion } from 'framer-motion';
 import React, { useState } from 'react';
 import { TESTIMONIALS } from '../constants';
+import { Quote } from 'lucide-react';
 import { antiFlickerStyle, sectionHeaderVariants, staggerContainerVariants, staggerItemVariants, viewportSettings } from './animations';
 
 export const Testimonials: React.FC = () => {
@@ -14,7 +15,7 @@ export const Testimonials: React.FC = () => {
                 whileInView="visible"
                 viewport={viewportSettings}
                 variants={sectionHeaderVariants}
-                className="text-sm font-bold text-[rgb(81,108,180)] tracking-wider uppercase mb-8"
+                className="text-[10px] md:text-sm font-bold text-[rgb(81,108,180)] tracking-wider uppercase mb-8"
             >
                 Testimonials
             </motion.h2>
@@ -25,7 +26,7 @@ export const Testimonials: React.FC = () => {
                 whileInView="visible"
                 viewport={viewportSettings}
                 variants={staggerContainerVariants}
-                className="flex flex-col md:flex-row gap-4 h-[600px] md:h-[420px]"
+                className="flex flex-col md:flex-row gap-4 h-[400px] md:h-[420px]"
             >
                 {TESTIMONIALS.map((testimonial) => {
                     const isExpanded = expandedId === testimonial.id;
@@ -58,23 +59,30 @@ export const Testimonials: React.FC = () => {
                         >
                             <div className="w-full h-full bg-white rounded-[28px] overflow-hidden relative border border-transparent transition-all duration-500 flex flex-col">
 
-                                <div className="relative md:absolute md:inset-0 w-full md:w-[380px] p-4 md:p-8 flex flex-col justify-between gap-4 md:gap-0 h-full">
+                                <div className="relative md:absolute md:inset-0 w-full md:w-[380px] p-3 md:p-8 flex flex-col justify-between gap-2 md:gap-0 h-full">
 
                                     <div className="flex-1 relative">
+                                        {/* Quote Overlay */}
+                                        <Quote 
+                                            size={40} 
+                                            className={`absolute -bottom-2 -right-2 md:right-8 text-[rgb(81,108,180)]/10 rotate-180 transition-opacity duration-500 ${isExpanded ? 'opacity-100' : 'opacity-0'}`} 
+                                        />
+                                        
                                         <p className={`
-                        text-[15px] md:text-lg font-medium leading-relaxed text-gray-700 transition-all duration-500
+                        text-[11px] md:text-lg font-medium leading-relaxed text-gray-700 transition-all duration-500
+                        max-w-[240px] md:max-w-[280px] text-left
                         ${isExpanded ? 'opacity-100' : 'opacity-70 blur-[0.5px] group-hover:opacity-90 group-hover:blur-0'}
                       `}>
-                                            "{testimonial.text}"
+                                            {testimonial.text}
                                         </p>
                                     </div>
 
                                     <div className="relative z-20 flex flex-col gap-1 pt-4 md:pt-6 mt-1 md:mt-2 border-t border-gray-50 bg-white">
                                         <div className="flex flex-col min-w-0">
-                                            <span className={`font-bold truncate transition-colors duration-300 text-[13px] md:text-base ${isExpanded ? 'text-gray-900' : 'text-gray-400'}`}>
+                                            <span className={`font-bold truncate transition-colors duration-300 text-[11px] md:text-base ${isExpanded ? 'text-gray-900' : 'text-gray-400'}`}>
                                                 {testimonial.name}
                                             </span>
-                                            <span className={`truncate transition-colors duration-300 text-[11px] md:text-sm ${isExpanded ? 'text-[rgb(81,108,180)]' : 'text-gray-300'}`}>
+                                            <span className={`truncate transition-colors duration-300 text-[9px] md:text-sm ${isExpanded ? 'text-[rgb(81,108,180)]' : 'text-gray-300'}`}>
                                                 {testimonial.role}
                                             </span>
                                         </div>
