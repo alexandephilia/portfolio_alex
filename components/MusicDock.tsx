@@ -1,5 +1,5 @@
-import { AnimatePresence, motion, useDragControls } from 'framer-motion';
-import { Pause, Play, Repeat, Repeat1, SkipBack, SkipForward } from 'lucide-react';
+import { AnimatePresence, motion, PanInfo } from 'framer-motion';
+import { GripVertical, Pause, Play, Repeat, Repeat1, SkipBack, SkipForward } from 'lucide-react';
 import React, { useEffect, useRef, useState } from 'react';
 import { SONGS } from '../constants';
 
@@ -9,25 +9,43 @@ const MAX_TITLE_CHARS = 12;
 export const MusicDock: React.FC = () => {
     const [isPlaying, setIsPlaying] = useState(false);
     const [isVisible, setIsVisible] = useState(false);
-    const [isMinimized, setIsMinimized] = useState(false);
+    const [isMinimized, setIsMinimized] = useState(true); // Start minimized
+    const [hasExpanded, setHasExpanded] = useState(false); // Track initial expansion
     const [currentSongIndex, setCurrentSongIndex] = useState(0);
     const [isRepeatOne, setIsRepeatOne] = useState(false);
-    const [showOverlay, setShowOverlay] = useState(false);
     const [dragPosition, setDragPosition] = useState({ x: 0, y: 0 });
-    const [isDragging, setIsDragging] = useState(false);
+    const [expandedWidth, setExpandedWidth] = useState(380);
 
     const audioRef = useRef<HTMLAudioElement | null>(null);
     const constraintsRef = useRef<HTMLDivElement | null>(null);
-    const dragControls = useDragControls();
 
     const currentSong = SONGS[currentSongIndex];
+
+    // Calculate expanded width based on viewport
+    useEffect(() => {
+        const updateWidth = () => {
+            const maxWidth = Math.min(380, window.innerWidth - 48);
+            setExpandedWidth(maxWidth);
+        };
+        updateWidth();
+        window.addEventListener('resize', updateWidth);
+        return () => window.removeEventListener('resize', updateWidth);
+    }, []);
 
     // Simple reliable check: scroll if title exceeds character threshold
     const shouldScroll = currentSong.title.length > MAX_TITLE_CHARS;
 
     useEffect(() => {
-        const timer = setTimeout(() => setIsVisible(true), 1500);
-        return () => clearTimeout(timer);
+        const visibilityTimer = setTimeout(() => setIsVisible(true), 1500);
+        // Expand after becoming visible
+        const expandTimer = setTimeout(() => {
+            setIsMinimized(false);
+            setHasExpanded(true);
+        }, 2000); // 500ms after visibility
+        return () => {
+            clearTimeout(visibilityTimer);
+            clearTimeout(expandTimer);
+        };
     }, []);
 
     const togglePlay = () => {
@@ -88,24 +106,23 @@ export const MusicDock: React.FC = () => {
                             opacity: { duration: 0.3 }
                         }}
                         drag={isMinimized}
-                        dragControls={dragControls}
                         dragConstraints={constraintsRef}
-                        dragElastic={0.1}
+                        dragElastic={0.05}
                         dragMomentum={false}
-                        onDragStart={() => setIsDragging(true)}
-                        onDragEnd={(_, info) => {
-                            setIsDragging(false);
+                        dragTransition={{ bounceStiffness: 300, bounceDamping: 20 }}
+                        onDragEnd={(_: MouseEvent | TouchEvent | PointerEvent, info: PanInfo) => {
                             setDragPosition(prev => ({
                                 x: prev.x + info.offset.x,
                                 y: prev.y + info.offset.y
                             }));
                         }}
-                        whileDrag={{ scale: 1.05 }}
-                        className={`fixed bottom-6 left-1/2 -translate-x-1/2 z-[100] ${isMinimized ? 'cursor-grab active:cursor-grabbing' : ''}`}
+                        whileDrag={{ scale: 1.02 }}
+                        className={`fixed bottom-6 left-1/2 -translate-x-1/2 z-[100] touch-none ${isMinimized ? 'cursor-grab active:cursor-grabbing' : ''}`}
                     >
                         <motion.div
+                            initial={{ width: 64 }}
                             animate={{
-                                width: isMinimized ? 64 : 380,
+                                width: isMinimized ? 64 : expandedWidth,
                             }}
                             transition={{
                                 type: 'spring',
@@ -130,47 +147,28 @@ export const MusicDock: React.FC = () => {
                                     onEnded={handleEnded}
                                 />
 
-                                {/* Album Art with Play/Pause Overlay */}
-                                <div
-                                    className="relative flex-shrink-0 cursor-pointer group"
-                                    onClick={togglePlay}
-                                    onTouchStart={() => isMinimized && setShowOverlay(true)}
-                                    onTouchEnd={() => {
-                                        if (isMinimized && showOverlay) {
-                                            togglePlay();
-                                            setTimeout(() => setShowOverlay(false), 200);
-                                        }
-                                    }}
-                                    onMouseEnter={() => isMinimized && setShowOverlay(true)}
-                                    onMouseLeave={() => setShowOverlay(false)}
-                                >
+                                {/* Album Art - draggable area when minimized */}
+                                <div className="relative flex-shrink-0">
                                     <div
                                         className={`
-                                        w-14 h-14
-                                        bg-gray-900
-                                        flex items-center justify-center
-                                        shadow-lg
-                                        overflow-hidden
-                                        border-[3px] border-white/20
-                                        ring-1 ring-black/10
-                                        rounded-[14px]
-                                        transition-transform duration-300
-                                        ${isPlaying && !isMinimized ? 'scale-[1.02]' : 'scale-100'}
-                                    `}
+                                            w-14 h-14
+                                            bg-gray-900
+                                            flex items-center justify-center
+                                            shadow-lg
+                                            overflow-hidden
+                                            border-[3px] border-white/20
+                                            ring-1 ring-black/10
+                                            rounded-[14px]
+                                            transition-transform duration-300
+                                            ${isPlaying && !isMinimized ? 'scale-[1.02]' : 'scale-100'}
+                                        `}
                                     >
                                         <img
                                             src={currentSong.coverUrl}
-                                            className={`w-full h-full object-cover opacity-80 grayscale brightness-110 transition-transform duration-1000 ${isPlaying ? 'scale-110' : 'scale-100'}`}
+                                            className={`w-full h-full object-cover opacity-80 grayscale brightness-110 transition-transform duration-1000 pointer-events-none select-none ${isPlaying ? 'scale-110' : 'scale-100'}`}
                                             alt={currentSong.title}
+                                            draggable={false}
                                         />
-
-                                        {/* Play/Pause Overlay - always visible on hover, or on touch for minimized */}
-                                        <div className={`absolute inset-0 flex items-center justify-center bg-black/30 backdrop-blur-[1px] transition-opacity duration-200 ${isMinimized
-                                            ? (showOverlay ? 'opacity-100' : 'opacity-0')
-                                            : 'opacity-0 group-hover:opacity-100'
-                                            }`}>
-                                            {isPlaying ? <Pause size={18} fill="white" className="text-white" /> : <Play size={18} fill="white" className="text-white ml-0.5" />}
-                                        </div>
 
                                         <div className="absolute inset-0 bg-gradient-to-tr from-white/20 via-transparent to-transparent opacity-60 pointer-events-none" />
 
@@ -195,6 +193,31 @@ export const MusicDock: React.FC = () => {
                                             )}
                                         </AnimatePresence>
                                     </div>
+
+                                    {/* Play/Pause button - only when minimized, positioned to not block drag */}
+                                    {isMinimized && (
+                                        <button
+                                            onClick={(e) => {
+                                                e.stopPropagation();
+                                                togglePlay();
+                                            }}
+                                            onPointerDown={(e) => e.stopPropagation()}
+                                            className="absolute inset-0 flex items-center justify-center bg-black/20 hover:bg-black/40 active:bg-black/50 backdrop-blur-[1px] transition-colors duration-150 rounded-[14px]"
+                                        >
+                                            {isPlaying ? (
+                                                <Pause size={20} fill="white" className="text-white drop-shadow-md" />
+                                            ) : (
+                                                <Play size={20} fill="white" className="text-white ml-0.5 drop-shadow-md" />
+                                            )}
+                                        </button>
+                                    )}
+
+                                    {/* Drag indicator when minimized */}
+                                    {isMinimized && (
+                                        <div className="absolute -left-1 top-1/2 -translate-y-1/2 opacity-30">
+                                            <GripVertical size={10} className="text-gray-600" />
+                                        </div>
+                                    )}
                                 </div>
 
                                 {/* Expanded Content */}
@@ -290,7 +313,7 @@ export const MusicDock: React.FC = () => {
                                 }
                                 setIsMinimized(!isMinimized);
                             }}
-                            className="absolute -top-1.5 -right-1.5 z-50 w-5 h-5 rounded-full bg-white/80 backdrop-blur-sm border border-white/50 shadow-md flex items-center justify-center text-gray-400 hover:text-gray-900 hover:scale-110 active:scale-95 transition-all"
+                            className="absolute -top-1 -right-1 z-50 w-5 h-5 rounded-full bg-white/80 backdrop-blur-sm border border-white/50 shadow-md flex items-center justify-center text-gray-400 hover:text-gray-900 hover:scale-110 active:scale-95 transition-all"
                         >
                             <span className="text-[10px] font-bold">{isMinimized ? '+' : '−'}</span>
                         </button>
