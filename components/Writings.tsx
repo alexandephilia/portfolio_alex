@@ -541,7 +541,7 @@ export const Writings: React.FC = () => {
             {/* Header */}
             <div className="flex items-center justify-between mb-8">
                 <div>
-                    <h2 className="text-2xl font-serif italic text-gray-900">Writings</h2>
+                    <h2 className="text-2xl font-serif text-gray-900">Writings</h2>
                     <p className="text-xs text-gray-400 mt-1">Thoughts, ideas, and reflections</p>
                 </div>
                 {isAdmin && (
