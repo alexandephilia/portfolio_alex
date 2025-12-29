@@ -120,7 +120,7 @@ export const DownloadButton: React.FC<DownloadButtonProps> = ({ href, fileName =
                         >
                             <Download size={12} className="text-gray-500 group-hover:text-gray-900 transition-colors" />
                             <span className="text-gray-600 group-hover:text-gray-900 font-semibold tracking-tight">
-                                Download CV
+                                Download Resume
                             </span>
                         </motion.div>
                     )}
@@ -131,11 +131,11 @@ export const DownloadButton: React.FC<DownloadButtonProps> = ({ href, fileName =
                             animate={{ opacity: 1, y: 0, filter: 'blur(0px)' }}
                             exit={{ opacity: 0, y: -15, filter: 'blur(8px)' }}
                             transition={{ duration: 0.4 }}
-                            className="flex items-center gap-1.5 px-2 whitespace-nowrap"
+                            className="flex items-center gap-1.5 px-3 whitespace-nowrap"
                         >
                             <Loader2 size={11} className="text-[rgb(74,108,196)] animate-spin" />
                             <span className="text-[8px] font-mono font-black text-[rgb(74,108,196)] uppercase tracking-[0.2em] pl-0.5">
-                                Streaming_CV
+                                Streaming
                             </span>
                         </motion.div>
                     )}
