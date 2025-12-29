@@ -2,7 +2,7 @@ import { motion } from 'framer-motion';
 import { ArrowRight, ChevronDown } from 'lucide-react';
 import React, { useState } from 'react';
 import { Project } from '../types';
-import { staggerItemVariants } from './animations';
+import { staggerContainerVariants, staggerItemVariants } from './animations';
 
 interface ProjectCardProps {
     project: Project;
@@ -133,12 +133,18 @@ export const ProjectCard: React.FC<ProjectCardProps> = ({ project }) => {
                             <Icon size={140} strokeWidth={1} className="md:w-[160px] md:h-[160px]" />
                         </div>
 
-                        <div className="flex flex-col gap-1 md:gap-2 relative z-10">
-                            <h3 className="text-base md:text-xl font-bold text-gray-900 leading-tight">
+                        <motion.div 
+                            variants={staggerContainerVariants}
+                            initial="hidden"
+                            whileInView="visible"
+                            viewport={{ once: true, amount: 0.2 }}
+                            className="flex flex-col gap-1 md:gap-2 relative z-10"
+                        >
+                            <motion.h3 variants={staggerItemVariants} className="text-base md:text-xl font-bold text-gray-900 leading-tight">
                                 {project.title}
-                            </h3>
+                            </motion.h3>
                             {/* Description with expandable on mobile */}
-                            <div className="relative">
+                            <motion.div variants={staggerItemVariants} className="relative">
                                 <p className={`text-gray-500 leading-relaxed text-[11px] md:text-sm md:line-clamp-none ${isExpanded ? '' : 'line-clamp-2'}`}>
                                     {project.description}
                                 </p>
@@ -146,9 +152,10 @@ export const ProjectCard: React.FC<ProjectCardProps> = ({ project }) => {
                                 {!isExpanded && (
                                     <div className="absolute bottom-0 left-0 right-0 h-4 bg-gradient-to-t from-white to-transparent pointer-events-none md:hidden" />
                                 )}
-                            </div>
+                            </motion.div>
                             {/* Read more toggle - mobile only */}
-                            <button
+                            <motion.button
+                                variants={staggerItemVariants}
                                 onClick={(e) => {
                                     e.stopPropagation();
                                     setIsExpanded(!isExpanded);
@@ -160,10 +167,13 @@ export const ProjectCard: React.FC<ProjectCardProps> = ({ project }) => {
                                     size={12}
                                     className={`transition-transform duration-200 ${isExpanded ? 'rotate-180' : ''}`}
                                 />
-                            </button>
-                        </div>
+                            </motion.button>
+                        </motion.div>
 
-                        <div className="mt-1 pt-1 relative z-20">
+                        <motion.div 
+                            variants={staggerItemVariants}
+                            className="mt-1 pt-1 relative z-20"
+                        >
                             {project.category === 'Works' ? (
                                 <div className="flex flex-col gap-0.5">
                                     {project.company && (
@@ -191,7 +201,7 @@ export const ProjectCard: React.FC<ProjectCardProps> = ({ project }) => {
                                             href={project.linkUrl}
                                             target="_blank"
                                             rel="noopener noreferrer"
-                                            className="flex items-center gap-1.5 px-3 py-1 rounded-md text-[10px] md:text-xs font-bold transition-all bg-gradient-to-b from-white to-gray-100 border border-gray-200 shadow-[0_2px_4px_rgba(0,0,0,0.05),0_1px_2px_rgba(0,0,0,0.04),inset_0_1px_0_rgba(255,255,255,0.8)] text-gray-700 hover:text-gray-900 hover:shadow-[0_3px_6px_rgba(0,0,0,0.08),0_1px_2px_rgba(0,0,0,0.06)] active:shadow-sm active:translate-y-[1px] group/btn"
+                                            className="flex items-center gap-1.5 px-3 py-1 rounded-md text-[10px] md:text-xs font-bold transition-all bg-linear-to-b from-white to-gray-100 border border-gray-200 shadow-[0_2px_4px_rgba(0,0,0,0.05),0_1px_2px_rgba(0,0,0,0.04),inset_0_1px_0_rgba(255,255,255,0.8)] text-gray-700 hover:text-gray-900 hover:shadow-[0_3px_6px_rgba(0,0,0,0.08),0_1px_2px_rgba(0,0,0,0.06)] active:shadow-sm active:translate-y-px group/btn"
                                         >
                                             View Case Study
                                             <ArrowRight size={12} className="text-gray-400 group-hover/btn:translate-x-1 transition-transform group-hover/btn:text-blue-500" />
@@ -203,7 +213,7 @@ export const ProjectCard: React.FC<ProjectCardProps> = ({ project }) => {
                                     )}
                                 </>
                             )}
-                        </div>
+                        </motion.div>
                     </div>
 
                     {/* Right Image Area - Width adjusted for mobile side-by-side */}

@@ -1,4 +1,6 @@
+import { motion } from 'framer-motion';
 import React from 'react';
+import { staggerContainerVariants, staggerItemVariants, antiFlickerStyle, viewportSettings } from './animations';
 
 interface TabsProps {
     activeTab: string;
@@ -10,12 +12,20 @@ const TABS = ['Works', 'Personal', 'Writings'];
 export const Tabs: React.FC<TabsProps> = ({ activeTab, setActiveTab }) => {
     return (
         <div className="p-6 md:p-10 border-b border-dashed border-gray-200 bg-[#FAFAFA]">
-            <div className="flex gap-4 md:gap-6 overflow-x-auto no-scrollbar items-center p-2 -ml-2">
+            <motion.div 
+                initial="hidden"
+                whileInView="visible"
+                viewport={viewportSettings}
+                variants={staggerContainerVariants}
+                style={antiFlickerStyle}
+                className="flex gap-4 md:gap-6 overflow-x-auto no-scrollbar items-center p-2 -ml-2"
+            >
                 {TABS.map((tab) => {
                     const isActive = activeTab === tab;
                     return (
-                        <button
+                        <motion.button
                             key={tab}
+                            variants={staggerItemVariants}
                             onClick={() => setActiveTab(tab)}
                             className={`
                 relative px-3 py-1.5 md:px-5 md:py-2.5 rounded-xl text-xs md:text-sm font-bold transition-all duration-300 whitespace-nowrap border
@@ -25,10 +35,10 @@ export const Tabs: React.FC<TabsProps> = ({ activeTab, setActiveTab }) => {
               `}
                         >
                             {tab}
-                        </button>
+                        </motion.button>
                     );
                 })}
-            </div>
+            </motion.div>
         </div>
     );
 };

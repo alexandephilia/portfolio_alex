@@ -1,7 +1,7 @@
 import { AnimatePresence, motion } from 'framer-motion';
 import React, { useState } from 'react';
 import { STACK_INSIGHTS } from '../constants';
-import { antiFlickerStyle, sectionHeaderVariants, viewportSettings } from './animations';
+import { antiFlickerStyle, floatingStaggerItemVariants, sectionHeaderVariants, staggerContainerVariants, staggerItemVariants, viewportSettings } from './animations';
 
 export const StackInsights: React.FC = () => {
     const [currentIndex, setCurrentIndex] = useState(0);
@@ -24,7 +24,13 @@ export const StackInsights: React.FC = () => {
                 The 3 AM Stack
             </motion.h2>
 
-            <div className="relative h-[280px] md:h-[300px] flex items-end justify-center perspective-1000 pt-6">
+            <motion.div 
+                initial="hidden"
+                whileInView="visible"
+                viewport={viewportSettings}
+                variants={staggerContainerVariants}
+                className="relative h-[280px] md:h-[300px] flex items-end justify-center perspective-1000 pt-6"
+            >
                 <AnimatePresence>
                     {STACK_INSIGHTS.map((insight, index) => {
                         // Advanced physics: Calculate position relative to whichever one is focused.
@@ -42,48 +48,45 @@ export const StackInsights: React.FC = () => {
                         return (
                             <motion.div
                                 key={insight.id}
-                                drag="y"
-                                dragConstraints={{ top: -55, bottom: 0 }} 
-                                dragElastic={0.05} 
-                                onDragStart={() => bringToFront(index)} // Immediate fronting when you start pulling it
-                                onDragEnd={(_, info) => {
-                                    // Only cycle if it was already the top card and pulled high
-                                    if (isTop && info.offset.y < -45) {
-                                        setCurrentIndex((prev) => (prev + 1) % STACK_INSIGHTS.length);
-                                    }
-                                }}
-                                initial={{ 
-                                    opacity: 0, 
-                                    y: 100,
-                                }}
-                                animate={{ 
-                                    opacity: 1,
-                                    y: position * -12, 
-                                    x: position * (index % 2 === 0 ? 8 : -8), 
-                                    rotateZ: position * (index % 2 === 0 ? 0.4 : -0.4), 
-                                    scale: 1 - position * 0.015,
-                                    zIndex: STACK_INSIGHTS.length - position,
-                                    cursor: isTop ? 'grab' : 'pointer'
-                                }}
-                                whileDrag={{ 
-                                    cursor: 'grabbing', 
-                                    rotateZ: 0,
-                                    zIndex: 50 // Bring to absolute front during interaction
-                                }}
-                                transition={{
-                                    type: 'spring',
-                                    stiffness: 300,
-                                    damping: 45 
-                                }}
+                                variants={floatingStaggerItemVariants}
                                 style={{ 
                                     position: 'absolute',
                                     bottom: '-130px', 
                                     width: '100%',
                                     maxWidth: '520px',
-                                    touchAction: 'none' // Crucial for mobile dragging
+                                    touchAction: 'none',
+                                    // Dynamically set zIndex via style to avoid animation conflict/override issues if put in animate
+                                    zIndex: STACK_INSIGHTS.length - position,
                                 }}
                                 className="group"
                             >
+                                <motion.div
+                                    drag="y"
+                                    dragConstraints={{ top: -55, bottom: 0 }} 
+                                    dragElastic={0.05} 
+                                    onDragStart={() => bringToFront(index)}
+                                    onDragEnd={(_, info) => {
+                                        if (isTop && info.offset.y < -45) {
+                                            setCurrentIndex((prev) => (prev + 1) % STACK_INSIGHTS.length);
+                                        }
+                                    }}
+                                    animate={{ 
+                                        y: position * -12, 
+                                        x: position * (index % 2 === 0 ? 8 : -8), 
+                                        rotateZ: position * (index % 2 === 0 ? 0.4 : -0.4), 
+                                        scale: 1 - position * 0.015,
+                                        cursor: isTop ? 'grab' : 'pointer',
+                                    }}
+                                    whileDrag={{ 
+                                        cursor: 'grabbing', 
+                                        rotateZ: 0,
+                                    }}
+                                    transition={{
+                                        type: 'spring',
+                                        stiffness: 300,
+                                        damping: 45 
+                                    }}
+                                >
                                 {/* Folder Tab - Restored rounded/gradient style */}
                                 <div 
                                     className={`
@@ -179,11 +182,12 @@ export const StackInsights: React.FC = () => {
                                         </div>
                                     </div>
                                 </div>
+                                </motion.div>
                             </motion.div>
                         );
                     })}
                 </AnimatePresence>
-            </div>
+            </motion.div>
         </section>
     );
 };

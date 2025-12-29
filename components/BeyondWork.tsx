@@ -1,7 +1,7 @@
 import { motion } from 'framer-motion';
 import React, { useState } from 'react';
 import { BEYOND_WORK_IMAGES } from '../constants';
-import { antiFlickerStyle, sectionHeaderVariants, viewportSettings } from './animations';
+import { antiFlickerStyle, sectionHeaderVariants, staggerContainerVariants, staggerItemVariants, viewportSettings } from './animations';
 import { Bookshelf } from './Bookshelf';
 
 export const BeyondWork: React.FC = () => {
@@ -35,7 +35,11 @@ export const BeyondWork: React.FC = () => {
                 </motion.h2>
             </div>
 
-            <div
+            <motion.div
+                initial="hidden"
+                whileInView="visible"
+                viewport={viewportSettings}
+                variants={staggerContainerVariants}
                 className="relative w-full"
                 onMouseEnter={() => setIsPaused(true)}
                 onMouseLeave={() => setIsPaused(false)}
@@ -47,8 +51,9 @@ export const BeyondWork: React.FC = () => {
                     }}
                 >
                     {images.map((src, idx) => (
-                        <div
+                        <motion.div
                             key={idx}
+                            variants={staggerItemVariants}
                             className={`group relative w-[200px] h-[200px] md:w-[220px] md:h-[220px] shrink-0 rounded-[16px] p-[3px] transition-all duration-300 shadow-[0_8px_10px_rgba(0,0,0,0.13),0_4px_4px_rgba(0,0,0,0.05)] hover:shadow-xl hover:-translate-y-1 ${activeIndex === idx ? 'shadow-xl -translate-y-1' : ''}`}
                             style={{
                                 background: `linear-gradient(180deg, #FFFFFF 0%, #F3F4F6 50%, #E5E7EB 100%)`,
@@ -75,7 +80,7 @@ export const BeyondWork: React.FC = () => {
                                     <div className="absolute inset-0 rounded-[10px] pointer-events-none shadow-[inset_0_2px_8px_rgba(0,0,0,0.15),inset_0_-1px_2px_rgba(0,0,0,0.05)]" />
                                 </div>
                             </div>
-                        </div>
+                        </motion.div>
                     ))}
                 </div>
 
@@ -90,7 +95,7 @@ export const BeyondWork: React.FC = () => {
                     100% { transform: translateX(-50%); }
                 }
             `}</style>
-            </div>
+            </motion.div>
 
             {/* Interactive Bookshelf */}
             <div className="mt-8 px-6 md:px-10">

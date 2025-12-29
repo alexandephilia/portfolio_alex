@@ -2,7 +2,7 @@ import { motion } from 'framer-motion';
 import React from 'react';
 import { SKILL_CATEGORIES } from '../constants';
 import { SkillCategory } from '../types';
-import { antiFlickerStyle, sectionHeaderVariants, staggerContainerVariants, staggerItemVariants, viewportSettings } from './animations';
+import { antiFlickerStyle, popRevealVariants, sectionHeaderVariants, staggerContainerVariants, staggerItemVariants, viewportSettings } from './animations';
 
 export const Skills: React.FC = () => {
     return (
@@ -84,11 +84,14 @@ const KeyboardGroup: React.FC<{ category: SkillCategory; index: number }> = ({ c
                 </div>
 
                 {/* Keys Container */}
-                <div className="flex flex-wrap gap-1.5 md:gap-3 relative z-10 px-1 py-1">
+                <motion.div 
+                    variants={staggerContainerVariants}
+                    className="flex flex-wrap gap-1.5 md:gap-3 relative z-10 px-1 py-1"
+                >
                     {category.skills.map((skill: string, idx: number) => (
                         <Keycap key={idx} label={skill} />
                     ))}
-                </div>
+                </motion.div>
             </div>
         </motion.div>
     )
@@ -111,6 +114,7 @@ const Keycap: React.FC<{ label: string }> = ({ label }) => {
 
     return (
         <motion.button
+            variants={staggerItemVariants}
             onClick={playClick}
             className="
                 group relative
@@ -233,7 +237,8 @@ const MacMiniSection: React.FC = () => {
                 <div className="flex flex-col md:flex-row items-center relative z-10">
                     {/* Image Section */}
                     <div className="w-full md:w-5/12 p-8 pb-0 md:pb-8 flex items-center justify-center">
-                        <div
+                        <motion.div
+                            variants={popRevealVariants}
                             className="relative w-[180px] md:w-[220px] aspect-square flex items-center justify-center"
                         >
                             {/* Floating Shadow */}
@@ -247,7 +252,7 @@ const MacMiniSection: React.FC = () => {
                                 className="w-full h-full object-contain relative z-10 drop-shadow-[0_10px_20px_rgba(0,0,0,0.15)] select-none"
                                 style={{ WebkitTouchCallout: 'none', WebkitUserSelect: 'none' }}
                             />
-                        </div>
+                        </motion.div>
                     </div>
 
                     {/* Content Section */}
@@ -269,13 +274,19 @@ const MacMiniSection: React.FC = () => {
                                 Compact yet incredibly powerful. This little machine handles my entire development stack from Backend to heavy frontend builds silently and efficiently. I also use multi-screen setup which allow me to do rapid prototyping and testing.
                             </p>
 
-                            <div className="flex flex-wrap gap-2 justify-center md:justify-start mt-2">
+                            <motion.div 
+                                variants={staggerContainerVariants}
+                                initial="hidden"
+                                whileInView="visible"
+                                viewport={viewportSettings}
+                                className="flex flex-wrap gap-2 justify-center md:justify-start mt-2"
+                            >
                                 <SpecBadge>Apple Silicon</SpecBadge>
                                 <SpecBadge>16GB Unified</SpecBadge>
                                 <SpecBadge>512GB SSD</SpecBadge>
                                 <SpecBadge>Remote Access</SpecBadge>
                                 <SpecBadge>mac OS Tahoe</SpecBadge>
-                            </div>
+                            </motion.div>
                         </div>
                     </div>
                 </div>
@@ -285,7 +296,9 @@ const MacMiniSection: React.FC = () => {
 }
 
 const SpecBadge: React.FC<{ children: React.ReactNode }> = ({ children }) => (
-    <span className="
+    <motion.span 
+        variants={staggerItemVariants}
+        className="
         px-2.5 py-1
         rounded-[6px]
         bg-white/60 border border-gray-200/50
@@ -293,5 +306,5 @@ const SpecBadge: React.FC<{ children: React.ReactNode }> = ({ children }) => (
         shadow-sm backdrop-blur-sm
     ">
         {children}
-    </span>
+    </motion.span>
 )

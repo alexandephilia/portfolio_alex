@@ -1,11 +1,19 @@
+import { motion } from 'framer-motion';
 import React from 'react';
 import { SOCIAL_LINKS } from '../constants';
+import { sectionHeaderVariants, staggerContainerVariants, staggerItemVariants, antiFlickerStyle } from './animations';
 
 export const Header: React.FC = () => {
     return (
-        <header className="flex justify-between items-center p-6 md:p-10 border-b border-dashed border-gray-200 bg-[#FAFAFA]">
-            <div className="flex flex-col gap-2">
-                {/* Branding Logo */}
+        <motion.header 
+            initial="hidden"
+            animate="visible"
+            variants={staggerContainerVariants}
+            style={antiFlickerStyle}
+            className="flex justify-between items-center p-6 md:p-10 border-b border-dashed border-gray-200 bg-[#FAFAFA]"
+        >
+            <motion.div variants={staggerItemVariants} className="flex flex-col gap-2">
+                {/* Branding Logo - Using 14px blur via staggerItemVariants */}
                 <img
                     src="/name.png"
                     alt="alex.exit(0)"
@@ -13,7 +21,7 @@ export const Header: React.FC = () => {
                 />
 
                 {/* Availability Pill - Below the name */}
-                <div className="flex items-center">
+                <motion.div variants={staggerItemVariants} className="flex items-center">
                     <div className="
                         inline-flex items-center gap-1.5
                         px-2 py-1 md:px-2.5 md:py-1
@@ -30,12 +38,16 @@ export const Header: React.FC = () => {
                             Available to Work
                         </span>
                     </div>
-                </div>
-            </div>
-            <div className="flex gap-2 md:gap-3">
+                </motion.div>
+            </motion.div>
+            <motion.div 
+                variants={staggerContainerVariants}
+                className="flex gap-2 md:gap-3"
+            >
                 {SOCIAL_LINKS.map((link, i) => (
-                    <a
+                    <motion.a
                         key={i}
+                        variants={staggerItemVariants}
                         href={link.href}
                         target="_blank"
                         rel="noopener noreferrer"
@@ -49,9 +61,9 @@ export const Header: React.FC = () => {
                         `}
                     >
                         <link.icon className="w-3.5 h-3.5 md:w-[18px] md:h-[18px]" />
-                    </a>
+                    </motion.a>
                 ))}
-            </div>
-        </header>
+            </motion.div>
+        </motion.header>
     );
 };

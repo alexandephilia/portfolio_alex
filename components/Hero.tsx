@@ -286,9 +286,9 @@ export const Hero: React.FC = () => {
     return (
         <div className="p-6 md:p-10 border-b border-dashed border-gray-200 bg-[#FAFAFA]">
             <motion.div
-                initial={{ opacity: 0, y: 10 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.8, ease: "easeOut" }}
+                initial={{ opacity: 0, filter: 'blur(14px)', y: 10 }}
+                animate={{ opacity: 1, filter: 'blur(0px)', y: 0 }}
+                transition={{ duration: 1.0, ease: "easeOut" }}
                 className="flex flex-wrap gap-2 md:gap-3 mb-6"
             >
                 {['AI AUGMENTED', 'FULL STACK FRAMEWORK', '8+ EXPERIENCE'].map((tag, i) => (
@@ -302,9 +302,9 @@ export const Hero: React.FC = () => {
             </motion.div>
 
             <motion.h1
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.8, delay: 0.1, ease: "easeOut" }}
+                initial={{ opacity: 0, filter: 'blur(14px)', y: 20 }}
+                animate={{ opacity: 1, filter: 'blur(0px)', y: 0 }}
+                transition={{ duration: 1.0, delay: 0.1, ease: "easeOut" }}
                 className="text-[1.1rem] md:text-[1.875rem] lg:text-[2.25rem] font-bold text-gray-900 leading-[1.35]"
                 style={{ maxWidth: isDesktop ? '35rem' : '277px' }}
             >
@@ -320,9 +320,9 @@ export const Hero: React.FC = () => {
             </motion.h1>
 
             <motion.div
-                initial={{ opacity: 0, y: 10 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.8, delay: 0.2, ease: "easeOut" }}
+                initial={{ opacity: 0, filter: 'blur(14px)', y: 10 }}
+                animate={{ opacity: 1, filter: 'blur(0px)', y: 0 }}
+                transition={{ duration: 1.0, delay: 0.2, ease: "easeOut" }}
                 style={antiFlickerStyle}
                 className="mt-5 max-w-[320px] md:max-w-[34rem]"
             >

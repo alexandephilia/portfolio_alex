@@ -5,6 +5,8 @@ import ReactDOM from 'react-dom';
 import ReactMarkdown from 'react-markdown';
 import remarkGfm from 'remark-gfm';
 import { Writing } from '../types';
+import { antiFlickerStyle, sectionHeaderVariants, staggerContainerVariants, staggerItemVariants, viewportSettings } from './animations';
+import { div } from 'framer-motion/client';
 
 const API_URL = '/api/writings';
 
@@ -540,23 +542,30 @@ export const Writings: React.FC = () => {
     }
 
     return (
-        <div className="p-6 md:p-10">
+        <div className="p-6 md:p-10" style={antiFlickerStyle}>
             {/* Header */}
-            <div className="flex items-center justify-between mb-8">
-                <div>
-                    <h2 className="text-2xl font-serif text-gray-900">Writings</h2>
-                    <p className="text-xs text-gray-400 mt-1">Thoughts, ideas, and reflections</p>
+            <motion.div 
+                initial="hidden"
+                whileInView="visible"
+                viewport={viewportSettings}
+                variants={staggerContainerVariants}
+                className="flex items-center justify-between mb-8"
+            >
+                <div className="flex flex-col">
+                    <motion.h2 variants={staggerItemVariants} className="text-2xl font-serif text-gray-900 italic">Writings</motion.h2>
+                    <motion.p variants={staggerItemVariants} className="text-xs text-gray-400 mt-1">Thoughts, ideas, and reflections</motion.p>
                 </div>
                 {isAdmin && (
-                    <button
+                    <motion.button
+                        variants={staggerItemVariants}
                         onClick={() => setShowAddForm(true)}
                         className="flex items-center gap-2 px-3 py-1.5 md:px-4 md:py-2 rounded-lg text-[10px] md:text-xs font-medium transition-all bg-gradient-to-b from-gray-800 to-gray-900 border border-gray-700 shadow-[0_2px_4px_rgba(0,0,0,0.2),0_1px_2px_rgba(0,0,0,0.1),inset_0_1px_0_rgba(255,255,255,0.1)] text-white hover:from-gray-700 hover:to-gray-800 hover:shadow-[0_3px_6px_rgba(0,0,0,0.25)] active:shadow-sm active:translate-y-[1px]"
                     >
                         <Plus size={14} />
                         New Writing
-                    </button>
+                    </motion.button>
                 )}
-            </div>
+            </motion.div>
 
             {/* Error */}
             {error && (
@@ -723,13 +732,17 @@ export const Writings: React.FC = () => {
                     <p className="text-gray-400 text-sm">No writings yet</p>
                 </div>
             ) : (
-                <div className="space-y-6">
+                <motion.div 
+                    initial="hidden"
+                    whileInView="visible"
+                    viewport={viewportSettings}
+                    variants={staggerContainerVariants}
+                    className="space-y-6"
+                >
                     {writings.map((writing, index) => (
                         <motion.article
                             key={writing.id}
-                            initial={{ opacity: 0, y: 20 }}
-                            animate={{ opacity: 1, y: 0 }}
-                            transition={{ delay: index * 0.05 }}
+                            variants={staggerItemVariants}
                             onClick={() => setSelectedWriting(writing)}
                             className="group cursor-pointer"
                         >
@@ -767,7 +780,7 @@ export const Writings: React.FC = () => {
                             )}
                         </motion.article>
                     ))}
-                </div>
+                </motion.div>
             )}
         </div>
     );

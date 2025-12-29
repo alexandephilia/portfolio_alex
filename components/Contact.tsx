@@ -1,7 +1,7 @@
 import { motion } from 'framer-motion';
 import React from 'react';
 import { CONTACT_INFO } from '../constants';
-import { antiFlickerStyle, blurOnlyVariants, staggerContainerVariants, viewportSettings } from './animations';
+import { antiFlickerStyle, blurOnlyVariants, staggerContainerVariants, staggerItemVariants, viewportSettings } from './animations';
 
 const containerVariants = staggerContainerVariants;
 
@@ -22,7 +22,7 @@ export const Contact: React.FC = () => {
                 initial="hidden"
                 whileInView="visible"
                 viewport={viewportSettings}
-                variants={containerVariants}
+                variants={staggerContainerVariants}
                 className="flex flex-col gap-4 md:gap-6 w-full"
             >
                 {CONTACT_INFO.map((item, index) => (
@@ -31,7 +31,7 @@ export const Contact: React.FC = () => {
                         href={item.href}
                         target="_blank"
                         rel="noopener noreferrer"
-                        variants={blurOnlyVariants}
+                        variants={staggerItemVariants}
                         className="group flex flex-row items-center justify-between py-1 transition-opacity"
                     >
                         <span className="text-sm md:text-base font-medium text-gray-900 group-hover:text-blue-900 transition-colors">

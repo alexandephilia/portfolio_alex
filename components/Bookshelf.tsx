@@ -1,6 +1,7 @@
 import { motion } from 'framer-motion';
 import React, { useEffect, useState } from 'react';
 import { Book } from '../types';
+import { floatingTopStaggerItemVariants, staggerContainerVariants, viewportSettings } from './animations';
 
 // Hook to detect touch device
 const useIsTouchDevice = () => {
@@ -267,33 +268,47 @@ export const Bookshelf: React.FC = () => {
 
             {/* Top Shelf (3 Books) */}
             <div className="flex flex-col items-center">
-                <div className="flex flex-wrap justify-center gap-2 md:gap-20 perspective-[1000px] px-2 md:px-4 mb-4">
+                <motion.div 
+                    initial="hidden"
+                    whileInView="visible"
+                    viewport={viewportSettings}
+                    variants={staggerContainerVariants}
+                    className="flex flex-wrap justify-center gap-2 md:gap-20 perspective-[1000px] px-2 md:px-4 mb-4"
+                >
                     {topShelfBooks.map((book) => (
-                        <BookCard
-                            key={book.id}
-                            book={book}
-                            isActive={activeBookId === book.id}
-                            onActivate={setActiveBookId}
-                            isTouchDevice={isTouchDevice}
-                        />
+                        <motion.div key={book.id} variants={floatingTopStaggerItemVariants}>
+                            <BookCard
+                                book={book}
+                                isActive={activeBookId === book.id}
+                                onActivate={setActiveBookId}
+                                isTouchDevice={isTouchDevice}
+                            />
+                        </motion.div>
                     ))}
-                </div>
+                </motion.div>
                 <ShelfBase />
             </div>
 
             {/* Bottom Shelf (3 Books) */}
             <div className="flex flex-col items-center">
-                <div className="flex flex-wrap justify-center gap-2 md:gap-20 perspective-[1000px] px-2 md:px-4 mb-4">
+                <motion.div 
+                    initial="hidden"
+                    whileInView="visible"
+                    viewport={viewportSettings}
+                    variants={staggerContainerVariants}
+                    className="flex flex-wrap justify-center gap-2 md:gap-20 perspective-[1000px] px-2 md:px-4 mb-4"
+                >
                     {bottomShelfBooks.map((book) => (
-                        <BookCard
-                            key={book.id}
-                            book={book}
-                            isActive={activeBookId === book.id}
-                            onActivate={setActiveBookId}
-                            isTouchDevice={isTouchDevice}
-                        />
+                        <motion.div key={book.id} variants={floatingTopStaggerItemVariants}>
+                            <BookCard
+                                book={book}
+                                isActive={activeBookId === book.id}
+                                onActivate={setActiveBookId}
+                                isTouchDevice={isTouchDevice}
+                            />
+                        </motion.div>
                     ))}
-                </div>
+                </motion.div>
                 <ShelfBase />
             </div>
 

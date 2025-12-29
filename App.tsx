@@ -57,12 +57,12 @@ export default function App() {
 
     // Global Animation Variants
     const sectionVariants = {
-        hidden: { opacity: 0, filter: 'blur(4px)', y: 20 },
+        hidden: { opacity: 0, filter: 'blur(14px)', y: 20 },
         visible: {
             opacity: 1,
             filter: 'blur(0px)',
             y: 0,
-            transition: { duration: 0.8, ease: [0.25, 0.1, 0.25, 1] }
+            transition: { duration: 1.0, ease: [0.25, 0.1, 0.25, 1] }
         }
     };
 
@@ -87,7 +87,7 @@ export default function App() {
     const itemVariants = {
         hidden: {
             opacity: 0,
-            filter: 'blur(4px)',
+            filter: 'blur(14px)',
             y: 20,
             scale: 0.98
         },
@@ -171,7 +171,7 @@ export default function App() {
                                         variants={{
                                             hidden: {
                                                 opacity: 0,
-                                                filter: 'blur(4px)',
+                                                filter: 'blur(14px)',
                                                 y: 15,
                                                 scale: 0.98
                                             },
@@ -181,18 +181,18 @@ export default function App() {
                                                 y: 0,
                                                 scale: 1,
                                                 transition: {
-                                                    staggerChildren: 0.08,
-                                                    delayChildren: 0.05,
-                                                    duration: 0.4,
+                                                    staggerChildren: 0.15,
+                                                    delayChildren: 0.1,
+                                                    duration: 0.6,
                                                     ease: [0.16, 1, 0.3, 1]
                                                 }
                                             },
                                             exit: {
                                                 opacity: 0,
-                                                filter: 'blur(3px)',
+                                                filter: 'blur(8px)',
                                                 y: -10,
                                                 transition: {
-                                                    duration: 0.2,
+                                                    duration: 0.3,
                                                     ease: "easeIn"
                                                 }
                                             }
