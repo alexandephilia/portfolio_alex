@@ -36,24 +36,22 @@ export const MusicDock: React.FC = () => {
     const shouldScroll = currentSong.title.length > MAX_TITLE_CHARS;
 
     useEffect(() => {
-        const visibilityTimer = setTimeout(() => setIsVisible(true), 1500);
+        const visibilityTimer = setTimeout(() => setIsVisible(true), 800);
         // Expand after becoming visible
         const expandTimer = setTimeout(() => {
             setIsMinimized(false);
             setHasExpanded(true);
-        }, 2000); // 500ms after visibility
+        }, 1200);
 
         // Auto-play attempt on mount (aggressive zero-volume start)
         const autoPlayTimer = setTimeout(() => {
             if (audioRef.current && isPlaying) {
                 audioRef.current.volume = 0;
-                audioRef.current.muted = false; // Some browsers prefer unmuted at zero volume for autoplay
+                audioRef.current.muted = false;
                 audioRef.current.load();
-                audioRef.current.play().catch(() => {
-                    // console.log("Silent autoplay blocked, waiting for interaction");
-                });
+                audioRef.current.play().catch(() => {});
             }
-        }, 800);
+        }, 500);
 
         // Global interaction listener to "override" browser permission
         const handleFirstInteraction = () => {
@@ -131,6 +129,15 @@ export const MusicDock: React.FC = () => {
 
     return (
         <>
+            {/* Audio Engine - Always present in DOM but decoupled from visibility logic */}
+            <audio
+                ref={audioRef}
+                src={currentSong.url}
+                onEnded={handleEnded}
+                preload="auto"
+                style={{ display: 'none' }}
+            />
+
             {/* Drag constraints - full viewport */}
             <div ref={constraintsRef} className="fixed inset-0 pointer-events-none z-[99]" />
 
@@ -190,13 +197,6 @@ export const MusicDock: React.FC = () => {
                         "
                         >
                             <div className="flex items-center p-1">
-                                <audio
-                                    ref={audioRef}
-                                    src={currentSong.url}
-                                    onEnded={handleEnded}
-                                    preload="auto"
-                                />
-
                                 {/* Album Art - draggable area when minimized */}
                                 <div className="relative flex-shrink-0">
                                     <div
