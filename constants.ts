@@ -76,8 +76,8 @@ export const PROJECTS: Project[] = [
         icon: Cpu,
         iconColor: "bg-purple-600",
         imageUrl: "/Work_5.jpg",
-        status: "In Development",
-        linkUrl: "#"
+        status: "Live",
+        linkUrl: "https://zetaai-pink.vercel.app/"
     },
     {
         id: "4",
