@@ -311,7 +311,7 @@ export const ProjectCard: React.FC<ProjectCardProps> = ({ project }) => {
 
                     {/* Right Image Area - Width adjusted for mobile side-by-side */}
                     <div className="w-[35%] md:w-[45%] shrink-0 h-auto p-1 bg-gray-50 flex flex-col justify-center border-l border-gray-100">
-                        <div className="w-full h-full md:min-h-full rounded-[16px] overflow-hidden relative shadow-[inset_0_2px_6px_rgba(0,0,0,0.12),inset_0_-1px_2px_rgba(255,255,255,0.6)] bg-gray-100 border border-black/5 flex items-center justify-center">
+                        <div className="w-full h-full md:min-h-full rounded-[16px] overflow-hidden relative shadow-[inset_0_4px_12px_rgba(0,0,0,0.18),inset_0_1px_3px_rgba(0,0,0,0.1),inset_0_-2px_4px_rgba(255,255,255,0.7)] bg-gray-100 border border-black/5 flex items-center justify-center">
                             {project.isRedacted ? (
                                 <div className="absolute inset-0 flex items-center justify-center overflow-hidden rounded-[16px] p-2">
                                     <div className="absolute inset-0 scale-110">
