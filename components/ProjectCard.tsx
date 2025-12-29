@@ -221,11 +221,6 @@ export const ProjectCard: React.FC<ProjectCardProps> = ({ project }) => {
                     {/* Left Content (Text) */}
                     <div className="flex-1 p-3 md:p-6 flex flex-col items-start gap-1.5 md:gap-3 justify-center relative z-10 overflow-hidden">
 
-                        {/* Icon as background overlay shifted slightly right */}
-                        <div className="absolute -bottom-8 -left-4 md:-bottom-6 md:-left-10 text-gray-100/80 pointer-events-none z-0 rotate-[-12deg]">
-                            <Icon size={140} strokeWidth={1} className="md:w-[160px] md:h-[160px]" />
-                        </div>
-
                         <div className="flex flex-col gap-1 md:gap-2 relative z-10">
                             <motion.div variants={staggerItemVariants} className="flex items-start justify-between gap-4 w-full relative z-10">
                                 <h3 className="text-base md:text-xl font-bold text-gray-900 leading-tight flex-1">
