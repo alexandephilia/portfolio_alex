@@ -8,6 +8,7 @@ export const sectionHeaderVariants: Variants = {
         opacity: 0,
         filter: 'blur(14px)',
         y: 8,
+        willChange: "transform, opacity, filter",
     },
     visible: {
         opacity: 1,
@@ -42,6 +43,7 @@ export const staggerItemVariants: Variants = {
         opacity: 0,
         filter: 'blur(14px)',
         y: 6,
+        willChange: "transform, opacity, filter",
     },
     visible: {
         opacity: 1,
@@ -61,6 +63,7 @@ export const floatingStaggerItemVariants: Variants = {
         opacity: 0,
         filter: 'blur(14px)',
         y: 60,
+        willChange: "transform, opacity, filter",
     },
     visible: {
         opacity: 1,
@@ -80,6 +83,7 @@ export const floatingTopStaggerItemVariants: Variants = {
         opacity: 0,
         filter: 'blur(14px)',
         y: -60,
+        willChange: "transform, opacity, filter",
     },
     visible: {
         opacity: 1,
@@ -106,6 +110,9 @@ export const antiFlickerStyle: React.CSSProperties = {
     transform: 'translateZ(0)', // Force GPU layer
     backfaceVisibility: 'hidden',
     WebkitBackfaceVisibility: 'hidden',
+    perspective: '1000px',
+    WebkitPerspective: '1000px',
+    willChange: 'transform, opacity, filter',
 };
 
 // Pop reveal for images (Daily Driver)
@@ -114,6 +121,7 @@ export const popRevealVariants: Variants = {
         opacity: 0,
         scale: 0.5,
         filter: 'blur(14px)',
+        willChange: "transform, opacity, filter",
     },
     visible: {
         opacity: 1,
@@ -134,6 +142,7 @@ export const blurOnlyVariants: Variants = {
     hidden: {
         opacity: 0,
         filter: 'blur(14px)',
+        willChange: "transform, opacity, filter",
     },
     visible: {
         opacity: 1,
