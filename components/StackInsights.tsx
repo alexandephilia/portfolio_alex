@@ -43,12 +43,12 @@ export const StackInsights: React.FC = () => {
                             <motion.div
                                 key={insight.id}
                                 drag="y"
-                                dragConstraints={{ top: -45, bottom: 0 }} 
+                                dragConstraints={{ top: -55, bottom: 0 }} 
                                 dragElastic={0.05} 
                                 onDragStart={() => bringToFront(index)} // Immediate fronting when you start pulling it
                                 onDragEnd={(_, info) => {
                                     // Only cycle if it was already the top card and pulled high
-                                    if (isTop && info.offset.y < -35) {
+                                    if (isTop && info.offset.y < -45) {
                                         setCurrentIndex((prev) => (prev + 1) % STACK_INSIGHTS.length);
                                     }
                                 }}
@@ -84,7 +84,7 @@ export const StackInsights: React.FC = () => {
                                 }}
                                 className="group"
                             >
-                                {/* Folder Tab Component - Precision Offsets & Compact Dimensions */}
+                                {/* Folder Tab - Restored rounded/gradient style */}
                                 <div 
                                     className={`
                                         absolute -top-5 h-6 rounded-t-[10px] 
@@ -95,7 +95,6 @@ export const StackInsights: React.FC = () => {
                                         pointer-events-auto
                                     `}
                                     style={{
-                                        // Simple responsive logic for left: use a slightly different spread for mobile
                                         left: typeof window !== 'undefined' && window.innerWidth > 768 
                                             ? `${desktopOffsets[index % 3]}%` 
                                             : `${mobileOffsets[index % 3]}%`,
@@ -108,13 +107,13 @@ export const StackInsights: React.FC = () => {
                                 >
                                     <span className={`
                                         text-[7px] md:text-[9px] font-mono uppercase tracking-widest whitespace-nowrap
-                                        ${isTop ? 'font-black text-gray-600' : 'font-bold text-gray-400'}
+                                        ${isTop ? 'font-black text-gray-700' : 'font-bold text-gray-400'}
                                     `}>
                                         {insight.category}
                                     </span>
                                 </div>
 
-                                {/* Folder Body - Only interactive if top */}
+                                {/* Folder Body - Restored white gradient */}
                                 <div className={`
                                     rounded-t-[24px] rounded-b-none p-[3px] 
                                     shadow-[0_4px_12px_rgba(0,0,0,0.12)]
@@ -129,23 +128,49 @@ export const StackInsights: React.FC = () => {
                                             minHeight: '320px' 
                                         }}
                                     >
-                                        <div className="p-7 md:p-9 flex flex-col gap-4 relative">
-                                            <div className="flex flex-col gap-1">
+                                        <div className="p-7 md:p-9 flex flex-col gap-4 relative overflow-hidden h-full">
+                                            {/* Brand Overlays - Archival Watermarks */}
+                                            {insight.id === "1" && (
+                                                <img 
+                                                    src="https://upload.wikimedia.org/wikipedia/commons/thumb/b/b0/Claude_AI_symbol.svg/1200px-Claude_AI_symbol.svg.png"
+                                                    alt="Claude Symbol"
+                                                    className="absolute -top-4 -right-4 w-32 h-32 opacity-[0.1] grayscale object-contain pointer-events-none select-none"
+                                                    style={{ transform: 'rotate(15deg)' }}
+                                                />
+                                            )}
+                                            {insight.id === "2" && (
+                                                <img 
+                                                    src="https://www.freepnglogos.com/uploads/apple-logo-png/apple-logo-png-index-content-uploads-10.png"
+                                                    alt="Apple Logo"
+                                                    className="absolute -top-3 -right-[-2px] w-auto h-32 opacity-[0.1] object-contain pointer-events-none select-none"
+                                                    style={{ transform: 'rotate(10deg)' }}
+                                                />
+                                            )}
+                                            {insight.id === "3" && (
+                                                <img 
+                                                    src="https://assets.streamlinehq.com/image/private/w_300,h_300,ar_1/f_auto/v1/icons/vector-icons/brand-framer-motion-pk1mas1m7u9hi06fqzq77f.png/brand-framer-motion-nuunolaqtcs7zlblwkjs.png?_a=DATAg1AAZAA0"
+                                                    alt="Framer Motion Logo"
+                                                    className="absolute -top-4 -right-4 w-32 h-32 opacity-[0.1] object-contain pointer-events-none select-none"
+                                                    style={{ transform: 'rotate(12deg)' }}
+                                                />
+                                            )}
+                                            
+                                            <div className="flex flex-col gap-1 relative z-10">
                                                 <h3 className="text-xl md:text-2xl font-bold text-gray-900 tracking-tight">
                                                     {insight.title}
                                                 </h3>
                                             </div>
 
-                                            <div className="flex-1">
-                                                <p className="font-mono text-[11px] md:text-[13px] text-gray-700 leading-relaxed tracking-tight font-medium">
+                                            <div className="flex-1 relative z-10">
+                                                <p className="font-mono text-[11px] md:text-[13px] text-gray-700 leading-snug tracking-tighter font-medium">
                                                     {insight.text}
                                                 </p>
                                             </div>
 
-                                            <div className="flex items-center gap-2 mt-4 opacity-50 group-hover:opacity-100 transition-opacity">
+                                            <div className="flex items-center gap-2 mt-4 opacity-50 group-hover:opacity-100 transition-opacity relative z-10">
                                                 <div className="h-0 flex-1 border-t border-dashed border-gray-300" />
-                                                <span className="text-[8px] font-bold text-gray-500 uppercase tracking-[0.2em] font-mono">
-                                                    Pull Up
+                                                <span className="text-[8px] font-bold text-gray-500 uppercase tracking-[0.25em] font-mono">
+                                                    Archive // PULL
                                                 </span>
                                             </div>
                                         </div>
