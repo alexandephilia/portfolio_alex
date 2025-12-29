@@ -23,14 +23,13 @@
 
 ## `> whoami`
 
-```yaml
-name: Garry Alexander
-role: Full Stack Engineer
-focus: Remote Integration • Async-First • Distributed Teams
-experience: 8+ years of agile huddle leadership
-availability: Full-time & Contract
-location: Remote 🌍
-```
+### Garry Alexander
+
+**Full Stack Engineer**
+
+I am a technical steward defined by the pursuit of organizational velocity and architectural precision. My expertise is anchored at the intersection of **Remote Integration**, **Async-First** workflows, and the leadership of **Distributed Teams**.
+
+With over **8 years** of tenure—tempered by years of leading agile huddles and refining engineering excellence—I bring a seasoned, adaptive approach to complex builds. I am currently prioritizing **Full-time & Contract** engagements, operating globally from a **Remote 🌍** base.
 
 <br/>
 
@@ -73,15 +72,15 @@ My process is built for **distributed team velocity**, leveraging years of agile
 
 ## `> echo $CORE_PILLARS`
 
-### 🤖 The Augmented Architect
+### The Augmented Architect
 
-Engineering is no longer a solitary endeavor confined to the limitations of human syntax. I leverage a **framework-agnostic approach** supercharged by **AI tooling**, treating LLMs not as crutches, but as high-velocity accelerators. This is about precision—using the machine to transcend the machine, ensuring every line of code is as intentional as it is efficient.
+Engineering is no longer a solitary endeavor confined to the limitations of human syntax. I leverage a **framework-agnostic approach** supercharged by **AI tooling**, treating LLMs not as crutches, but as high-velocity accelerators. This is about precision, using the machine to transcend the machine, ensuring every line of code is as intentional as it is efficient.
 
-### ⚡ The End-to-End Reality
+### The End-to-End Reality
 
-"Full Stack" isn't a buzzword; it's a commitment to the entire lifecycle of a product. From the visceral micro-interactions of the **UI** to the cold, logical architecture of **backend deployment**, I own the pipeline. I build systems that don't just function—they endure, bridged by a deep understanding of how every layer of the stack breathes in unison.
+"Full Stack" isn't a buzzword; it's a commitment to the entire lifecycle of a product. From the visceral micro-interactions of the **UI** to the cold, logical architecture of **backend deployment**, I own the pipeline. I build systems that don't just function.. they endure, bridged by a deep understanding of how every layer of the stack breathes in unison.
 
-### 🌐 Async-First Sovereignty
+### Async-First Sovereignty
 
 In the world of distributed teams, presence is measured by output and clarity, not by the hours recorded on a clock. I operate with an **Async-First** mindset, optimized for **remote velocity**. This means documentation that eliminates ambiguity, communication that respects focus, and a relentless drive to maintain momentum across every time zone.
 
