@@ -265,7 +265,7 @@ const MacMiniSection: React.FC = () => {
                                 </p>
                             </div>
 
-                            <p className="text-[11px] md:text-sm text-gray-600 font-medium leading-relaxed max-w-sm mx-auto md:mx-0 text-left">
+                            <p className="text-[11px] md:text-sm text-gray-600 font-medium leading-relaxed max-w-sm mx-auto md:mx-0 text-center md:text-left">
                                 Compact yet incredibly powerful. This little machine handles my entire development stack from Backend to heavy frontend builds silently and efficiently. I also use multi-screen setup which allow me to do rapid prototyping and testing.
                             </p>
 
