@@ -145,7 +145,7 @@ export const safeStaggerItemVariants: Variants = {
 };
 
 // Pop reveal for images (Daily Driver)
-// Pop reveal for images (Daily Driver)
+// Note: No baked-in delay so the parent container can fully control timing.
 export const popRevealVariants: Variants = {
     hidden: {
         opacity: 0,
@@ -163,11 +163,61 @@ export const popRevealVariants: Variants = {
             type: "spring",
             stiffness: 120,
             damping: 25,
-            mass: 1.2, // Adds 'weight' for smoothness
-            delay: 0.2, // Make it start a bit earlier to feel responsive within the section
-            filter: { duration: 0.8, delay: 0.2 },
+            mass: 1.2,
+            filter: { duration: 0.8 },
         }
     }
+};
+
+export const dailyDriverCardVariants: Variants = {
+    hidden: {
+        opacity: 0,
+        y: 18,
+        filter: 'blur(10px)',
+        willChange: 'transform, opacity, filter',
+        z: 0,
+    },
+    visible: {
+        opacity: 1,
+        y: 0,
+        filter: 'blur(0px)',
+        z: 0,
+        transition: {
+            duration: 0.75,
+            ease: [0.22, 1, 0.36, 1],
+            when: 'beforeChildren',
+            staggerChildren: 0.08,
+            delayChildren: 0.12,
+            filter: { duration: 0.6, delay: 0.05 },
+        },
+    },
+};
+
+export const dailyDriverContentVariants: Variants = {
+    hidden: {
+        opacity: 0,
+    },
+    visible: {
+        opacity: 1,
+        transition: {
+            when: 'beforeChildren',
+            staggerChildren: 0.09,
+            delayChildren: 0.05,
+        },
+    },
+};
+
+export const dailyDriverPillsVariants: Variants = {
+    hidden: {
+        opacity: 0,
+    },
+    visible: {
+        opacity: 1,
+        transition: {
+            staggerChildren: 0.11,
+            delayChildren: 0.12,
+        },
+    },
 };
 
 // Blur-only variant (no scale/transform) for simpler animations
