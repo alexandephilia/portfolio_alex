@@ -2,25 +2,32 @@ import React from 'react';
 
 /**
  * BottomBlur Component
- * 
+ *
  * Implements a high-fidelity progressive blur at the bottom of the viewport.
  * This creates a premium "glass fog" effect as content scrolls out of view,
  * improving legibility and depth without overlapping clickable UI elements.
  */
 export const BottomBlur: React.FC = () => {
     return (
-        <div 
-            className="fixed bottom-0 left-0 right-0 h-32 z-40 pointer-events-none select-none overflow-hidden"
-            style={{ 
+        <div
+            className="fixed left-0 right-0 h-32 z-40 pointer-events-none select-none overflow-hidden"
+            style={{
+                // Use inset for reliable edge positioning on iOS Safari
+                bottom: 0,
+                // Fallback + modern viewport units for Safari compatibility
+                height: '8rem',
                 // Ensuring no layout shift on iOS Safari
                 WebkitBackfaceVisibility: 'hidden',
-                transform: 'translate3d(0, 0, 0)'
+                transform: 'translate3d(0, 0, 0)',
+                // Prevent any margin/padding issues
+                margin: 0,
+                padding: 0,
             }}
         >
             <div className="relative w-full h-full bg-none">
-                {/* 
-                  Layered Progressive Blur: 
-                  Each div provides a specific blur radius with a staggered mask 
+                {/*
+                  Layered Progressive Blur:
+                  Each div provides a specific blur radius with a staggered mask
                   to create a smooth, physically-accurate transition.
                 */}
                 <div style={{

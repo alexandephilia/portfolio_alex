@@ -76,9 +76,30 @@ export const Footer: React.FC = () => {
                     className="text-center mb-4 md:mb-8 relative mt-10 md:mt-10"
                 >
                     <div className="relative inline-block px-4">
-                        <span className="font-serif italic text-4xl md:text-6xl lg:text-7xl text-[rgb(74,108,196)] leading-none">
+                        <span className="font-serif italic text-5xl md:text-6xl lg:text-7xl text-[rgb(74,108,196)] leading-none">
                             You've made it so far...
                         </span>
+                        
+                        {/* Attribution Pill - Left Aligned */}
+                        <div className="flex justify-start mt-0 mb-1 ml-1 opacity-70">
+                            <span className="
+                                px-1.5 md:px-2.5 py-0.5 rounded-[4px] md:rounded-[6px] 
+                                bg-[#FAFAFA]/90 backdrop-blur-sm 
+                                border border-dashed border-gray-300
+                                shadow-sm
+                                text-[8px] md:text-[10px] font-medium text-gray-500 tracking-wide
+                                flex items-center gap-1 md:gap-1 select-none
+                            ">
+                                <span className="text-gray-500">Designed in</span>
+                                <img 
+                                    src="https://img.icons8.com/external-tal-revivo-light-tal-revivo/1200/external-framer-the-only-tool-you-need-to-create-interactive-designs-for-any-platform-logo-light-tal-revivo.jpg" 
+                                    alt="Framer" 
+                                    className="w-2.5 h-2.5 md:w-2.5 md:h-2.5 object-contain"
+                                />
+                                <span className="w-px h-2 md:h-2.5 bg-gray-300 mx-0.1" />
+                                <span className="text-gray-500">Code in React</span>
+                            </span>
+                        </div>
 
                         {/* Super text catchy element - Flat, Keyboard-feel, Stripped Border
                     Using a wrapper for positioning and entrance animation.

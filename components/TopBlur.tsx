@@ -2,22 +2,30 @@ import React from 'react';
 
 /**
  * TopBlur Component
- * 
+ *
  * Implements a high-fidelity progressive blur at the top of the viewport.
  * This creates a premium "glass ceiling" effect as content scrolls in from the top.
  * Mirrors the logic of BottomBlur but with inverted gradient masks.
  */
 export const TopBlur: React.FC = () => {
     return (
-        <div 
-            className="fixed top-0 left-0 right-0 h-32 z-40 pointer-events-none select-none overflow-hidden"
-            style={{ 
+        <div
+            className="fixed left-0 right-0 h-32 z-40 pointer-events-none select-none overflow-hidden"
+            style={{
+                // Use inset for reliable edge positioning on iOS Safari
+                top: 0,
+                // Fallback + modern viewport units for Safari compatibility
+                height: '8rem',
+                // Ensuring no layout shift on iOS Safari
                 WebkitBackfaceVisibility: 'hidden',
-                transform: 'translate3d(0, 0, 0)'
+                transform: 'translate3d(0, 0, 0)',
+                // Prevent any margin/padding issues
+                margin: 0,
+                padding: 0,
             }}
         >
             <div className="relative w-full h-full bg-none">
-                {/* 
+                {/*
                   Layered Progressive Blur (Inverted):
                   Gradients run 'to top' so the strongest blur is at the top edge.
                 */}
