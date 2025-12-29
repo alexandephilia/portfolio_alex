@@ -46,7 +46,7 @@ My process is built for **distributed team velocity**, leveraging years of agile
 
 <div align="center">
 
-### ⚡ Frontend
+### Frontend
 
 ![React](https://img.shields.io/badge/React-20232A?style=for-the-badge&logo=react&logoColor=61DAFB)
 ![Next.js](https://img.shields.io/badge/Next.js-000000?style=for-the-badge&logo=nextdotjs&logoColor=white)
@@ -55,13 +55,13 @@ My process is built for **distributed team velocity**, leveraging years of agile
 ![Tailwind CSS](https://img.shields.io/badge/Tailwind_CSS-06B6D4?style=for-the-badge&logo=tailwind-css&logoColor=white)
 ![Framer Motion](https://img.shields.io/badge/Framer_Motion-0055FF?style=for-the-badge&logo=framer&logoColor=white)
 
-### 🔧 Backend & DevOps
+### Backend & DevOps
 
 ![Node.js](https://img.shields.io/badge/Node.js-339933?style=for-the-badge&logo=nodedotjs&logoColor=white)
 ![Bun](https://img.shields.io/badge/Bun-000000?style=for-the-badge&logo=bun&logoColor=white)
 ![Docker](https://img.shields.io/badge/Docker-2496ED?style=for-the-badge&logo=docker&logoColor=white)
 
-### �️ Tools & Workflow
+### Tools & Workflow
 
 ![Cursor](https://img.shields.io/badge/Cursor_AI-000000?style=for-the-badge&logo=cursor&logoColor=white)
 ![Git](https://img.shields.io/badge/Git-F05032?style=for-the-badge&logo=git&logoColor=white)
@@ -73,11 +73,17 @@ My process is built for **distributed team velocity**, leveraging years of agile
 
 ## `> echo $CORE_PILLARS`
 
-| Pillar              | Description                                   |
-| ------------------- | --------------------------------------------- |
-| 🤖 **AI Augmented** | Framework-agnostic approach with AI tooling   |
-| ⚡ **Full Stack**   | End-to-end engineering from UI to deployment  |
-| 🌐 **Async-First**  | Built for distributed teams & remote velocity |
+### 🤖 The Augmented Architect
+
+Engineering is no longer a solitary endeavor confined to the limitations of human syntax. I leverage a **framework-agnostic approach** supercharged by **AI tooling**, treating LLMs not as crutches, but as high-velocity accelerators. This is about precision—using the machine to transcend the machine, ensuring every line of code is as intentional as it is efficient.
+
+### ⚡ The End-to-End Reality
+
+"Full Stack" isn't a buzzword; it's a commitment to the entire lifecycle of a product. From the visceral micro-interactions of the **UI** to the cold, logical architecture of **backend deployment**, I own the pipeline. I build systems that don't just function—they endure, bridged by a deep understanding of how every layer of the stack breathes in unison.
+
+### 🌐 Async-First Sovereignty
+
+In the world of distributed teams, presence is measured by output and clarity, not by the hours recorded on a clock. I operate with an **Async-First** mindset, optimized for **remote velocity**. This means documentation that eliminates ambiguity, communication that respects focus, and a relentless drive to maintain momentum across every time zone.
 
 <br/>
 
@@ -87,9 +93,9 @@ My process is built for **distributed team velocity**, leveraging years of agile
 
 ### 📬 Let's Connect
 
-[![LinkedIn](https://img.shields.io/badge/LinkedIn-0A66C2?style=for-the-badge&logo=linkedin&logoColor=white)](https://linkedin.com/in/yourprofile)
-[![GitHub](https://img.shields.io/badge/GitHub-181717?style=for-the-badge&logo=github&logoColor=white)](https://github.com/yourprofile)
-[![Email](https://img.shields.io/badge/Email-EA4335?style=for-the-badge&logo=gmail&logoColor=white)](mailto:your@email.com)
+[![LinkedIn](https://img.shields.io/badge/LinkedIn-0A66C2?style=for-the-badge&logo=linkedin&logoColor=white)](https://www.linkedin.com/in/alexandephilia/)
+[![GitHub](https://img.shields.io/badge/GitHub-181717?style=for-the-badge&logo=github&logoColor=white)](https://github.com/alexandephilia)
+[![Email](https://img.shields.io/badge/Email-EA4335?style=for-the-badge&logo=gmail&logoColor=white)](mailto:4lexander31@gmail.com)
 
 <br/>
 
