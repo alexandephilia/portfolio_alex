@@ -15,9 +15,9 @@ import {
 
 export const Skills: React.FC = () => {
     return (
-        <motion.section 
+        <motion.section
             variants={staggerContainerVariants}
-            className="p-6 md:p-10 border-b border-dashed border-gray-200 bg-[#FAFAFA]" 
+            className="p-6 md:p-10 border-b border-dashed border-gray-200 bg-[#FAFAFA]"
             style={antiFlickerStyle}
         >
             <motion.h2
@@ -259,7 +259,7 @@ const MacMiniSection: React.FC = () => {
                         <div className="absolute inset-x-4 bottom-6 h-6 bg-black/20 blur-xl rounded-[100%] transform scale-x-75 group-hover:scale-x-90 group-hover:bg-black/25 transition-transform duration-500" />
 
                         <img
-                            src="https://www.datalogicsindia.com/Apple/mac_mini/mac_mini_M4/assets/Hero.png"
+                            src="/mac_mini.png"
                             alt="Mac Mini M4"
                             draggable={false}
                             onContextMenu={(e) => e.preventDefault()}

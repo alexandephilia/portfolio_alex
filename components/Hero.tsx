@@ -60,10 +60,10 @@ const FramerMotionIcon: React.FC<{ size?: number }> = ({ size = 24 }) => (
     </svg>
 );
 
-// Custom Cursor AI icon
+// Custom Cursor AI icon - using local image
 const CursorIcon: React.FC<{ size?: number }> = ({ size = 24 }) => (
     <img
-        src="https://images.seeklogo.com/logo-png/61/2/cursor-logo-png_seeklogo-611587.png"
+        src="/cursor.png"
         alt="Cursor AI"
         width={size}
         height={size}

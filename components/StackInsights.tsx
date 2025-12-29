@@ -1,7 +1,7 @@
 import { AnimatePresence, motion } from 'framer-motion';
 import React, { useState } from 'react';
 import { STACK_INSIGHTS } from '../constants';
-import { antiFlickerStyle, floatingStaggerItemVariants, sectionHeaderVariants, staggerContainerVariants, viewportSettings } from './animations';
+import { antiFlickerStyle, floatingStaggerItemVariants, sectionHeaderVariants, staggerContainerVariants } from './animations';
 
 export const StackInsights: React.FC = () => {
     const [currentIndex, setCurrentIndex] = useState(0);
@@ -126,31 +126,28 @@ export const StackInsights: React.FC = () => {
                                             }}
                                         >
                                             <div className="p-7 md:p-9 flex flex-col gap-4 relative overflow-hidden h-full">
-                                                {/* Brand Overlays - Archival Watermarks */}
+                                                {/* Brand Overlays - using local images */}
                                                 {insight.id === "1" && (
                                                     <img
-                                                        src="https://upload.wikimedia.org/wikipedia/commons/thumb/b/b0/Claude_AI_symbol.svg/1200px-Claude_AI_symbol.svg.png"
-                                                        alt="Claude Symbol"
-                                                        decoding="async"
+                                                        src="/claude.png"
+                                                        alt="Claude"
                                                         className="absolute -top-4 -right-4 w-32 h-32 opacity-[0.1] grayscale object-contain pointer-events-none select-none"
                                                         style={{ transform: 'rotate(15deg)' }}
                                                     />
                                                 )}
                                                 {insight.id === "2" && (
                                                     <img
-                                                        src="https://framerusercontent.com/images/lfSBU4EhKcMg3iGg98L2F1ESfA.jpg"
+                                                        src="/cursor.png"
                                                         alt="Cursor AI"
-                                                        decoding="async"
-                                                        className="absolute -top-3 -right-4 w-auto h-32 opacity-[0.1] object-contain pointer-events-none select-none rounded-xl shadow-2xl"
+                                                        className="absolute -top-3 -right-4 w-32 h-32 opacity-[0.1] object-contain pointer-events-none select-none"
                                                         style={{ transform: 'rotate(10deg)' }}
                                                     />
                                                 )}
                                                 {insight.id === "3" && (
                                                     <img
-                                                        src="https://assets.streamlinehq.com/image/private/w_300,h_300,ar_1/f_auto/v1/icons/vector-icons/brand-framer-motion-pk1mas1m7u9hi06fqzq77f.png/brand-framer-motion-nuunolaqtcs7zlblwkjs.png?_a=DATAg1AAZAA0"
-                                                        alt="Framer Motion Logo"
-                                                        decoding="async"
-                                                        className="absolute -top-4 -right-4 w-32 h-32 opacity-[0.1] object-contain pointer-events-none select-none"
+                                                        src="/apple.png"
+                                                        alt="Apple"
+                                                        className="absolute -top-4 -right-5 w-32 h-32 opacity-[0.1] object-contain pointer-events-none select-none"
                                                         style={{ transform: 'rotate(12deg)' }}
                                                     />
                                                 )}

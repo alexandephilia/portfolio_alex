@@ -91,11 +91,9 @@ export const Footer: React.FC = () => {
                                 flex items-center gap-1 md:gap-1 select-none
                             ">
                                 <span className="text-gray-500">Designed in</span>
-                                <img
-                                    src="https://img.icons8.com/external-tal-revivo-light-tal-revivo/1200/external-framer-the-only-tool-you-need-to-create-interactive-designs-for-any-platform-logo-light-tal-revivo.jpg"
-                                    alt="Framer"
-                                    className="w-2.5 h-2.5 md:w-2.5 md:h-2.5 object-contain"
-                                />
+                                <svg className="w-2.5 h-2.5 md:w-2.5 md:h-2.5" viewBox="0 0 24 24" fill="currentColor">
+                                    <path d="M4 0h16v8h-8zM4 8h8l8 8H4zM4 16h8v8z" />
+                                </svg>
                                 <span className="w-px h-2 md:h-2.5 bg-gray-300 mx-0.1" />
                                 <span className="text-gray-500">Code in React</span>
                             </span>
