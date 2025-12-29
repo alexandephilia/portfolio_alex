@@ -1,5 +1,5 @@
 import { motion } from 'framer-motion';
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import {
     SiDocker,
     SiReact,
@@ -102,15 +102,43 @@ interface IconScatterProps {
 
 const IconScatter: React.FC<IconScatterProps> = ({ children, icons, externalOpen = false }) => {
     const [isHovered, setIsHovered] = useState(false);
+    const [isTouched, setIsTouched] = useState(false);
     const isDesktop = useIsDesktop();
+    const touchTimeoutRef = useRef<NodeJS.Timeout | null>(null);
 
     // Determine final open state
-    const isOpen = isHovered || externalOpen;
+    const isOpen = isHovered || isTouched || externalOpen;
 
     // Responsive sizes
     const containerSize = isDesktop ? 'w-10 h-10' : 'w-7 h-7';
     const iconSize = isDesktop ? 20 : 14;
     const marginOffset = isDesktop ? '-20px' : '-14px';
+
+    // Clean up timeout on unmount
+    useEffect(() => {
+        return () => {
+            if (touchTimeoutRef.current) {
+                clearTimeout(touchTimeoutRef.current);
+            }
+        };
+    }, []);
+
+    // Handle touch - show icons for a duration then auto-hide
+    const handleTouch = () => {
+        if (isDesktop) return;
+
+        // Clear any existing timeout
+        if (touchTimeoutRef.current) {
+            clearTimeout(touchTimeoutRef.current);
+        }
+
+        setIsTouched(true);
+
+        // Auto-hide after 1.5 seconds
+        touchTimeoutRef.current = setTimeout(() => {
+            setIsTouched(false);
+        }, 1500);
+    };
 
     // Get starting position based on position name
     const getStartPosition = (position: string) => {
@@ -138,7 +166,7 @@ const IconScatter: React.FC<IconScatterProps> = ({ children, icons, externalOpen
             className="relative inline-block cursor-pointer"
             onMouseEnter={() => setIsHovered(true)}
             onMouseLeave={() => setIsHovered(false)}
-            onClick={() => !isDesktop && setIsHovered(!isHovered)}
+            onTouchStart={handleTouch}
         >
             {/* Scattered icons */}
             {icons.map((item, idx) => {

@@ -103,7 +103,7 @@ if (clickSound) {
 const Keycap: React.FC<{ label: string }> = ({ label }) => {
     const playClick = () => {
         if (!clickSound) return;
-        
+
         // Reset and play for snappy feedback
         clickSound.currentTime = 0;
         clickSound.play().catch(err => console.error("Audio playback failed:", err));
@@ -190,10 +190,10 @@ const MacMiniSection: React.FC = () => {
                         initial={{ pathLength: 0, opacity: 0 }}
                         whileInView={{ pathLength: 1, opacity: 1 }}
                         viewport={{ once: true }}
-                        transition={{ 
-                            duration: 1.5, 
-                            delay: 0.5, 
-                            ease: "easeInOut" 
+                        transition={{
+                            duration: 1.5,
+                            delay: 0.5,
+                            ease: "easeInOut"
                         }}
                         d="M2 7.5C15 2 30 13 45 7.5C60 2 75 13 90 7.5C105 2 120 13 135 7.5C150 2 165 13 180 7.5"
                         stroke="currentColor"
@@ -265,7 +265,7 @@ const MacMiniSection: React.FC = () => {
                                 </p>
                             </div>
 
-                            <p className="text-[11px] md:text-sm text-gray-600 font-medium leading-relaxed max-w-sm mx-auto md:mx-0">
+                            <p className="text-[11px] md:text-sm text-gray-600 font-medium leading-relaxed max-w-sm mx-auto md:mx-0 text-left">
                                 Compact yet incredibly powerful. This little machine handles my entire development stack from Backend to heavy frontend builds silently and efficiently. I also use multi-screen setup which allow me to do rapid prototyping and testing.
                             </p>
 
@@ -274,7 +274,7 @@ const MacMiniSection: React.FC = () => {
                                 <SpecBadge>16GB Unified</SpecBadge>
                                 <SpecBadge>512GB SSD</SpecBadge>
                                 <SpecBadge>Remote Access</SpecBadge>
-                                <SpecBadge>macOS Tahoe</SpecBadge>
+                                <SpecBadge>mac OS Tahoe</SpecBadge>
                             </div>
                         </div>
                     </div>

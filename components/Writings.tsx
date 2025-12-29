@@ -65,16 +65,9 @@ const NotionEditor: React.FC<NotionEditorProps> = ({ value, onChange, placeholde
         const lineEnd = nextNewline === -1 ? value.length : nextNewline;
         const entireLineContent = value.slice(lineStart, lineEnd);
 
-        // Markdown prefixes that should still show a placeholder if no other text is present
-        const markdownPrefixes = ['# ', '## ', '### ', '> ', '- ', '1. ', '`', '* ', '**'];
-        const hasMarkdownPrefix = markdownPrefixes.some(prefix => entireLineContent.startsWith(prefix));
-        
-        // If line has prefix, check if there's content AFTER the prefix
-        let isLineContentEmpty = entireLineContent.trim().length === 0;
-        if (hasMarkdownPrefix) {
-            const activePrefix = markdownPrefixes.find(prefix => entireLineContent.startsWith(prefix)) || '';
-            isLineContentEmpty = entireLineContent.slice(activePrefix.length).trim().length === 0;
-        }
+        // Placeholder should only show on truly empty lines
+        const isLineContentEmpty = entireLineContent.trim().length === 0;
+        const isUsingSlash = entireLineContent.trim().startsWith('/');
 
         // Count lines before cursor for vertical positioning
         const linesBefore = textBefore.split('\n').length - 1;
@@ -82,7 +75,7 @@ const NotionEditor: React.FC<NotionEditorProps> = ({ value, onChange, placeholde
 
         setHintPosition({
             top: linesBefore * lineHeight,
-            show: isLineContentEmpty && !showSlashMenu
+            show: isLineContentEmpty && !showSlashMenu && !isUsingSlash
         });
     }, [value, showSlashMenu]);
 
