@@ -22,6 +22,7 @@ export interface Project {
     isRedacted?: boolean;
     company?: string;
     date?: string;
+    stack?: string[];
 }
 
 export interface ExperienceItem {

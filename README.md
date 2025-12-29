@@ -29,7 +29,7 @@
 
 I am a technical steward defined by the pursuit of organizational velocity and architectural precision. My expertise is anchored at the intersection of **Remote Integration**, **Async-First** workflows, and the leadership of **Distributed Teams**.
 
-With over **8 years** of tenure—tempered by years of leading agile huddles and refining engineering excellence—I bring a seasoned, adaptive approach to complex builds. I am currently prioritizing **Full-time & Contract** engagements, operating globally from a **Remote 🌍** base.
+With over **8 years** of tenure tempered by years of leading agile huddles and refining engineering excellence, I bring a seasoned, adaptive approach to complex builds. I am currently prioritizing **Full-time & Contract** engagements, operating globally from a **Remote 🌍** base.
 
 <br/>
 
