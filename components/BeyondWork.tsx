@@ -26,7 +26,7 @@ export const BeyondWork: React.FC = () => {
             <div className="px-6 md:px-10 mb-8">
                 <motion.h2
                     variants={sectionHeaderVariants}
-                    className="text-sm font-bold text-[rgb(81,108,180)] tracking-wider uppercase"
+                    className="text-sm font-bold text-[rgb(74,108,196)] tracking-wider uppercase"
                 >
                     Beyond Work
                 </motion.h2>

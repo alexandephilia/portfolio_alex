@@ -70,7 +70,6 @@ const LazyImage: React.FC<{ src: string; alt: string; blur?: number }> = ({ src,
                 initial={{ opacity: 0 }}
                 animate={{ opacity: isLoaded ? 1 : 0 }}
                 transition={{ duration: 0.3 }}
-                whileHover={!blur ? { scale: 1.05 } : {}}
                 className="w-full h-full object-cover object-top md:object-center select-none rounded-[16px]"
                 style={{
                     WebkitTouchCallout: 'none',
@@ -128,7 +127,7 @@ export const ProjectCard: React.FC<ProjectCardProps> = ({ project }) => {
                             <div className="absolute bottom-0 right-0 w-4 h-4 opacity-10" style={{ backgroundImage: 'repeating-linear-gradient(45deg, #000, #000 1px, transparent 1px, transparent 5px)' }} />
 
                             {/* Stack Insight Label - Fixed Left */}
-                            <div className="text-[9px] font-mono font-bold text-[rgb(81,108,180)] uppercase tracking-[0.2em] opacity-60 border-r border-gray-200 pr-6 h-4 flex items-center flex-shrink-0 relative z-10">
+                            <div className="text-[9px] font-mono font-bold text-[rgb(74,108,196)] uppercase tracking-[0.2em] opacity-60 border-r border-gray-200 pr-6 h-4 flex items-center flex-shrink-0 relative z-10">
                                 Stack Insight
                             </div>
 
@@ -136,7 +135,7 @@ export const ProjectCard: React.FC<ProjectCardProps> = ({ project }) => {
                             <div className="flex-1 min-w-0 flex flex-row items-center justify-center gap-4 px-4 relative z-10 overflow-x-auto no-scrollbar">
                                 {project.stack.map((item, i) => (
                                     <span key={i} className="text-[10px] font-mono font-medium text-gray-500 whitespace-nowrap flex items-center gap-1.5 transition-colors duration-300 hover:text-gray-900">
-                                        <span className="w-1 h-1 rounded-full bg-[rgb(81,108,180)]/30" />
+                                        <span className="w-1 h-1 rounded-full bg-[rgb(74,108,196)]/30" />
                                         {item}
                                     </span>
                                 ))}
@@ -168,13 +167,13 @@ export const ProjectCard: React.FC<ProjectCardProps> = ({ project }) => {
                     >
                         <div className="w-full py-2 px-3 rounded-b-[16px] bg-[#FAFAFA] border-x border-b border-gray-200 shadow-[0_12px_32px_rgba(0,0,0,0.06)]">
                             {/* Stack Insight Label */}
-                            <div className="text-[8px] font-mono font-bold text-[rgb(81,108,180)] uppercase tracking-[0.15em] opacity-60 mb-1.5 text-center">
+                            <div className="text-[8px] font-mono font-bold text-[rgb(74,108,196)] uppercase tracking-[0.15em] opacity-60 mb-1.5 text-center">
                                 Stack Insight
                             </div>
                             <div className="flex flex-wrap items-center justify-center gap-x-2.5 gap-y-1">
                                 {project.stack.map((item, i) => (
                                     <span key={i} className="text-[8px] font-mono font-medium text-gray-500 whitespace-nowrap flex items-center gap-1">
-                                        <span className="w-1 h-1 rounded-full bg-[rgb(81,108,180)]/30" />
+                                        <span className="w-1 h-1 rounded-full bg-[rgb(74,108,196)]/30" />
                                         {item}
                                     </span>
                                 ))}
@@ -241,7 +240,7 @@ export const ProjectCard: React.FC<ProjectCardProps> = ({ project }) => {
                                     e.stopPropagation();
                                     setIsExpanded(!isExpanded);
                                 }}
-                                className="flex items-center gap-0.5 text-[10px] text-[rgb(81,108,180)] font-medium mt-0.5 md:hidden"
+                                className="flex items-center gap-0.5 text-[10px] text-[rgb(74,108,196)] font-medium mt-0.5 md:hidden"
                             >
                                 {isExpanded ? 'Show less' : 'Read more'}
                                 <ChevronDown
@@ -258,7 +257,7 @@ export const ProjectCard: React.FC<ProjectCardProps> = ({ project }) => {
                             {project.category === 'Works' ? (
                                 <div className="flex flex-col gap-0.5">
                                     {project.company && (
-                                        <div className="text-[10px] md:text-xs font-bold text-[rgb(81,108,180)] uppercase tracking-tight">
+                                        <div className="text-[10px] md:text-xs font-bold text-[rgb(74,108,196)] uppercase tracking-tight">
                                             {project.company}
                                         </div>
                                     )}

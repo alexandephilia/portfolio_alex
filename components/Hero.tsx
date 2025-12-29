@@ -219,7 +219,7 @@ const IconScatter: React.FC<IconScatterProps> = ({ children, icons, externalOpen
             })}
 
             {/* Text - blue color */}
-            <span className="font-serif italic font-normal text-[rgb(81,108,180)] relative z-0" style={{ fontSize: 'inherit' }}>
+            <span className="font-serif italic font-normal text-[rgb(74,108,196)] relative z-0" style={{ fontSize: 'inherit' }}>
                 {children}
             </span>
         </span>
@@ -305,10 +305,10 @@ export const Hero: React.FC = () => {
                 initial={{ opacity: 0, filter: 'blur(14px)', y: 20 }}
                 animate={{ opacity: 1, filter: 'blur(0px)', y: 0 }}
                 transition={{ duration: 1.0, delay: 0.1, ease: "easeOut" }}
-                className="text-[1.1rem] md:text-[1.875rem] lg:text-[2.25rem] font-bold text-gray-900 leading-[1.35]"
+                className="text-[1.1rem] md:text-[1.875rem] lg:text-[2.25rem] font-bold text-gray-900 leading-[1]"
                 style={{ maxWidth: isDesktop ? '35rem' : '277px' }}
             >
-                I keep iterate and build across <span className="text-[rgb(81,108,180)]">Frontend</span> & <span className="text-[rgb(81,108,180)]">Backend Engineering</span>, embracing{' '}
+                I keep iterate and build across <span className="text-[rgb(74,108,196)]">Frontend</span> & <span className="text-[rgb(74,108,196)]">Backend Engineering</span>, embracing{' '}
                 <IconScatter icons={agnosticIcons} externalOpen={revealSequence.agnostic}>
                     agnostic framework
                 </IconScatter>
@@ -327,7 +327,7 @@ export const Hero: React.FC = () => {
                 className="mt-5 max-w-[320px] md:max-w-[34rem]"
             >
                 <div className="flex flex-col gap-2">
-                    <span className="text-[9px] uppercase tracking-[0.2em] text-[rgb(81,108,180)] font-bold opacity-60">
+                    <span className="text-[9px] uppercase tracking-[0.2em] text-[rgb(74,108,196)] font-bold opacity-60">
                         Remote Integration Focus
                     </span>
 

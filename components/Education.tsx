@@ -10,7 +10,7 @@ export const Education: React.FC = () => {
                 variants={staggerContainerVariants}
                 className="mb-8"
             >
-                <motion.h2 variants={staggerItemVariants} className="text-[10px] md:text-sm font-bold text-[rgb(81,108,180)] tracking-wider uppercase">Education</motion.h2>
+                <motion.h2 variants={staggerItemVariants} className="text-[10px] md:text-sm font-bold text-[rgb(74,108,196)] tracking-wider uppercase">Education</motion.h2>
             </motion.div>
 
             <motion.div

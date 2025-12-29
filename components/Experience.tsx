@@ -12,7 +12,7 @@ export const Experience: React.FC = () => {
                 variants={staggerContainerVariants} // Staggered reveal for BOTH header items
                 className="flex justify-between items-end mb-8"
             >
-                <motion.h2 variants={staggerItemVariants} className="text-[10px] md:text-sm font-bold text-[rgb(81,108,180)] tracking-wider uppercase">Experience</motion.h2>
+                <motion.h2 variants={staggerItemVariants} className="text-[10px] md:text-sm font-bold text-[rgb(74,108,196)] tracking-wider uppercase">Experience</motion.h2>
                 <DownloadButton href="/resume.pdf" fileName="Garry_Alexander_Resume.pdf" />
             </motion.div>
 
@@ -34,7 +34,7 @@ export const Experience: React.FC = () => {
                                         href="https://realta.co.id/site/"
                                         target="_blank"
                                         rel="noopener noreferrer"
-                                        className="inline-flex items-baseline ml-1 text-gray-400 hover:text-[rgb(81,108,180)] transition-colors"
+                                        className="inline-flex items-baseline ml-1 text-gray-400 hover:text-[rgb(74,108,196)] transition-colors"
                                     >
                                         <ExternalLink size={10} className="self-center translate-y-[-2px]" />
                                     </a>
@@ -44,7 +44,7 @@ export const Experience: React.FC = () => {
                                         href="https://www.tokiomarine.com/id/id.html"
                                         target="_blank"
                                         rel="noopener noreferrer"
-                                        className="inline-flex items-baseline ml-1 text-gray-400 hover:text-[rgb(81,108,180)] transition-colors"
+                                        className="inline-flex items-baseline ml-1 text-gray-400 hover:text-[rgb(74,108,196)] transition-colors"
                                     >
                                         <ExternalLink size={10} className="self-center translate-y-[-2px]" />
                                     </a>

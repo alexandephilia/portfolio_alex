@@ -15,7 +15,7 @@ export const Testimonials: React.FC = () => {
                 whileInView="visible"
                 viewport={viewportSettings}
                 variants={sectionHeaderVariants}
-                className="text-[10px] md:text-sm font-bold text-[rgb(81,108,180)] tracking-wider uppercase mb-8"
+                className="text-[10px] md:text-sm font-bold text-[rgb(74,108,196)] tracking-wider uppercase mb-8"
             >
                 Testimonials
             </motion.h2>
@@ -65,7 +65,7 @@ export const Testimonials: React.FC = () => {
                                         {/* Quote Overlay */}
                                         <Quote 
                                             size={40} 
-                                            className={`absolute -bottom-2 -right-2 md:right-8 text-[rgb(81,108,180)]/10 rotate-180 transition-opacity duration-500 ${isExpanded ? 'opacity-100' : 'opacity-0'}`} 
+                                            className={`absolute -bottom-2 -right-2 md:right-8 text-[rgb(74,108,196)]/10 rotate-180 transition-opacity duration-500 ${isExpanded ? 'opacity-100' : 'opacity-0'}`} 
                                         />
                                         
                                         <p className={`
@@ -82,7 +82,7 @@ export const Testimonials: React.FC = () => {
                                             <span className={`font-bold truncate transition-colors duration-300 text-[11px] md:text-base ${isExpanded ? 'text-gray-900' : 'text-gray-400'}`}>
                                                 {testimonial.name}
                                             </span>
-                                            <span className={`truncate transition-colors duration-300 text-[9px] md:text-sm ${isExpanded ? 'text-[rgb(81,108,180)]' : 'text-gray-300'}`}>
+                                            <span className={`truncate transition-colors duration-300 text-[9px] md:text-sm ${isExpanded ? 'text-[rgb(74,108,196)]' : 'text-gray-300'}`}>
                                                 {testimonial.role}
                                             </span>
                                         </div>

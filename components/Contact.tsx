@@ -10,7 +10,7 @@ export const Contact: React.FC = () => {
         <section className="p-6 md:p-10 bg-[#FAFAFA]" style={antiFlickerStyle}>
             <motion.h2
                 variants={blurOnlyVariants}
-                className="text-sm font-bold text-[rgb(81,108,180)] tracking-wider uppercase mb-8"
+                className="text-sm font-bold text-[rgb(74,108,196)] tracking-wider uppercase mb-8"
             >
                 Contact
             </motion.h2>

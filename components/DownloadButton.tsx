@@ -57,9 +57,9 @@ export const DownloadButton: React.FC<DownloadButtonProps> = ({ href, fileName =
                 mass: 1.2
             }}
             className="group relative h-8 md:h-9 rounded-lg text-[9px] md:text-xs font-medium active:translate-y-px disabled:cursor-default flex items-center justify-center
-                       bg-linear-to-b from-white to-gray-100 border border-gray-200 
-                       shadow-[0_5px_10px_rgba(0,0,0,0.12),0_2px_4px_rgba(0,0,0,0.08),inset_0_1px_0_rgba(255,255,255,1)]
-                       hover:shadow-[0_5px_10px_rgba(0,0,0,0.12),0_2px_4px_rgba(0,0,0,0.08),inset_0_1px_0_rgba(255,255,255,1)]"
+                       bg-linear-to-b from-[#f8f9fc] via-[#f0f2f7] to-[#e8ebf2] border border-gray-300/70 
+                       shadow-[0_4px_8px_rgba(0,0,0,0.1),0_2px_4px_rgba(0,0,0,0.06),inset_0_1px_0_rgba(255,255,255,0.9)]
+                       hover:shadow-[0_6px_12px_rgba(0,0,0,0.12),0_3px_6px_rgba(0,0,0,0.08),inset_0_1px_0_rgba(255,255,255,1)]"
         >
             {/* Clipping Vessel - Safely house liquid and progress while letting text bleed out */}
             <div className="absolute inset-0 overflow-hidden rounded-[inherit] pointer-events-none">
@@ -69,7 +69,7 @@ export const DownloadButton: React.FC<DownloadButtonProps> = ({ href, fileName =
                             initial={{ opacity: 0 }}
                             animate={{ opacity: 1 }}
                             exit={{ opacity: 0 }}
-                            className="absolute inset-0 bg-linear-to-b from-blue-50/50 to-blue-100/30 z-0"
+                            className="absolute inset-0 bg-linear-to-b from-[rgba(74,108,196,0.08)] to-[rgba(74,108,196,0.15)] z-0"
                         />
                     )}
                     {state === 'success' && (
@@ -84,9 +84,9 @@ export const DownloadButton: React.FC<DownloadButtonProps> = ({ href, fileName =
 
                 {/* Glowing Conduit Progress Bar (v3.0 Design) */}
                 {state === 'draining' && (
-                    <div className="absolute bottom-0 left-0 right-0 h-[3px] bg-blue-100/50 backdrop-blur-sm overflow-hidden z-20">
+                    <div className="absolute bottom-0 left-0 right-0 h-[3px] bg-[rgba(74,108,196,0.1)] backdrop-blur-sm overflow-hidden z-20">
                         <motion.div
-                            className="absolute inset-y-0 left-0 bg-linear-to-r from-blue-500 via-blue-600 to-blue-700 shadow-[0_0_10px_rgba(37,99,235,0.4)]"
+                            className="absolute inset-y-0 left-0 bg-[rgb(74,108,196)] shadow-[0_0_10px_rgba(74,108,196,0.4)]"
                             initial={{ width: 0 }}
                             animate={{ width: '100%' }}
                             transition={{ duration: 1.8, ease: [0.16, 1, 0.3, 1] }}
@@ -95,7 +95,7 @@ export const DownloadButton: React.FC<DownloadButtonProps> = ({ href, fileName =
                             <motion.div 
                                 animate={{ opacity: [0.4, 0.8, 0.4], scaleX: [1, 2, 1] }}
                                 transition={{ duration: 0.8, repeat: Infinity }}
-                                className="absolute right-0 top-0 bottom-0 w-8 bg-blue-300/40 blur-[4px]" 
+                                className="absolute right-0 top-0 bottom-0 w-8 bg-[rgba(74,108,196,0.2)] blur-[4px]" 
                             />
                         </motion.div>
                     </div>
@@ -133,8 +133,8 @@ export const DownloadButton: React.FC<DownloadButtonProps> = ({ href, fileName =
                             transition={{ duration: 0.4 }}
                             className="flex items-center gap-1.5 px-2 whitespace-nowrap"
                         >
-                            <Loader2 size={11} className="text-blue-600 animate-spin" />
-                            <span className="text-[8px] font-mono font-black text-blue-700 uppercase tracking-[0.2em] pl-0.5">
+                            <Loader2 size={11} className="text-[rgb(74,108,196)] animate-spin" />
+                            <span className="text-[8px] font-mono font-black text-[rgb(74,108,196)] uppercase tracking-[0.2em] pl-0.5">
                                 Streaming_CV
                             </span>
                         </motion.div>

@@ -76,7 +76,7 @@ export const Footer: React.FC = () => {
                     className="text-center mb-4 md:mb-8 relative mt-10 md:mt-10"
                 >
                     <div className="relative inline-block px-4">
-                        <span className="font-serif italic text-4xl md:text-6xl lg:text-7xl text-[rgb(81,108,180)] leading-none">
+                        <span className="font-serif italic text-4xl md:text-6xl lg:text-7xl text-[rgb(74,108,196)] leading-none">
                             You've made it so far...
                         </span>
 
@@ -155,7 +155,7 @@ export const Footer: React.FC = () => {
                                                 ease: [0.22, 1, 0.36, 1],
                                             }}
                                             style={{ transformPerspective: 600, transformOrigin: "center top" }}
-                                            className="px-4 md:px-6 py-2 md:py-2.5 text-[9px] md:text-xs font-mono font-bold uppercase tracking-widest flex items-center justify-center whitespace-nowrap text-[rgb(81,108,180)] absolute"
+                                            className="px-4 md:px-6 py-2 md:py-2.5 text-[9px] md:text-xs font-mono font-bold uppercase tracking-widest flex items-center justify-center whitespace-nowrap text-[rgb(74,108,196)] absolute"
                                         >
                                             Can we talk?
                                         </motion.span>
@@ -242,7 +242,7 @@ export const Footer: React.FC = () => {
                     viewBox="0 0 120 100"
                     fill="none"
                     xmlns="http://www.w3.org/2000/svg"
-                    className="absolute left-1/2 ml-[40px] md:ml-[120px] top-1/2 -translate-y-[69px] hidden md:block text-[rgb(81,108,180)]/60 pointer-events-none"
+                    className="absolute left-1/2 ml-[40px] md:ml-[120px] top-1/2 -translate-y-[69px] hidden md:block text-[rgb(74,108,196)]/60 pointer-events-none"
                     initial="hidden"
                     whileInView="visible"
                     viewport={{ once: true, margin: "-50px" }}
@@ -269,7 +269,7 @@ export const Footer: React.FC = () => {
                         d="M20,80 L10,90 L25,95"
                         stroke="currentColor"
                         strokeWidth="2"
-                        className="absolute left-1/2 ml-[40px] md:ml-[120px] top-1/2 -translate-y-[8.5px] -translate-x-[2px] hidden md:block text-[rgb(81,108,180)]/60 pointer-events-none"
+                        className="absolute left-1/2 ml-[40px] md:ml-[120px] top-1/2 -translate-y-[8.5px] -translate-x-[2px] hidden md:block text-[rgb(74,108,196)]/60 pointer-events-none"
                         strokeLinecap="round"
                         strokeLinejoin="round"
                         fill="none"
@@ -294,7 +294,7 @@ export const Footer: React.FC = () => {
                     viewBox="0 0 80 60"
                     fill="none"
                     xmlns="http://www.w3.org/2000/svg"
-                    className="absolute left-1/2 ml-[85px] top-1/2 -translate-y-[45px] block md:hidden text-[rgb(81,108,180)]/60 pointer-events-none"
+                    className="absolute left-1/2 ml-[85px] top-1/2 -translate-y-[45px] block md:hidden text-[rgb(74,108,196)]/60 pointer-events-none"
                     initial="hidden"
                     whileInView="visible"
                     viewport={{ once: true, margin: "-20px" }}
@@ -322,7 +322,7 @@ export const Footer: React.FC = () => {
                         stroke="currentColor"
                         strokeWidth="2"
                         strokeLinecap="round"
-                        className="absolute left-1/2 ml-[85px] top-1/2 -translate-y-[4.2px] -translate-x-[4.0px] block md:hidden text-[rgb(81,108,180)]/60 pointer-events-none"
+                        className="absolute left-1/2 ml-[85px] top-1/2 -translate-y-[4.2px] -translate-x-[4.0px] block md:hidden text-[rgb(74,108,196)]/60 pointer-events-none"
                         strokeLinejoin="round"
                         fill="none"
                         variants={{

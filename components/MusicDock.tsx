@@ -347,11 +347,11 @@ export const MusicDock: React.FC = () => {
                                                                 key={i}
                                                                 animate={isPlaying ? { height: [2, 10, 4, 8, 2] } : { height: 1.5 }}
                                                                 transition={{ repeat: Infinity, duration: 0.6 + (i * 0.1) }}
-                                                                className={`w-0.5 rounded-full ${isPlaying ? 'bg-[rgb(81,108,180)]/60' : 'bg-gray-300'}`}
+                                                                className={`w-0.5 rounded-full ${isPlaying ? 'bg-[rgb(74,108,196)]/60' : 'bg-gray-300'}`}
                                                             />
                                                         ))}
                                                     </div>
-                                                    <button onClick={toggleRepeat} className={`p-1 ${isRepeatOne ? 'text-[rgb(81,108,180)]' : 'text-gray-300'}`}>
+                                                    <button onClick={toggleRepeat} className={`p-1 ${isRepeatOne ? 'text-[rgb(74,108,196)]' : 'text-gray-300'}`}>
                                                         {isRepeatOne ? <Repeat1 size={12} /> : <Repeat size={12} />}
                                                     </button>
                                                 </div>

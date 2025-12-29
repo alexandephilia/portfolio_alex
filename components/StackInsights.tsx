@@ -16,7 +16,7 @@ export const StackInsights: React.FC = () => {
         <section className="p-6 md:p-10 bg-[#FAFAFA] border-b border-dashed border-gray-200 overflow-hidden relative" style={antiFlickerStyle}>
             <motion.h2
                 variants={sectionHeaderVariants}
-                className="text-[10px] md:text-sm font-bold text-[rgb(81,108,180)] tracking-wider uppercase mb-4"
+                className="text-[10px] md:text-sm font-bold text-[rgb(74,108,196)] tracking-wider uppercase mb-4"
             >
                 The 3 AM Stack
             </motion.h2>

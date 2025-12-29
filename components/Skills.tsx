@@ -22,7 +22,7 @@ export const Skills: React.FC = () => {
         >
             <motion.h2
                 variants={sectionHeaderVariants}
-                className="text-[10px] md:text-sm font-bold text-[rgb(81,108,180)] tracking-wider uppercase mb-8"
+                className="text-[10px] md:text-sm font-bold text-[rgb(74,108,196)] tracking-wider uppercase mb-8"
             >
                 Skills
             </motion.h2>
@@ -200,7 +200,7 @@ const MacMiniSection: React.FC = () => {
                 </motion.h3>
 
                 <svg
-                    className="absolute w-full h-8 md:h-6 bottom-0 md:bottom-2 left-0 text-[rgb(81,108,180)] z-0 pointer-events-none transform -rotate-3"
+                    className="absolute w-full h-8 md:h-6 bottom-0 md:bottom-2 left-0 text-[rgb(74,108,196)] z-0 pointer-events-none transform -rotate-3"
                     viewBox="0 0 182 15"
                     fill="none"
                     xmlns="http://www.w3.org/2000/svg"
