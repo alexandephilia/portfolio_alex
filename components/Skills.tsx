@@ -2,7 +2,16 @@ import { motion } from 'framer-motion';
 import React from 'react';
 import { SKILL_CATEGORIES } from '../constants';
 import { SkillCategory } from '../types';
-import { antiFlickerStyle, popRevealVariants, sectionHeaderVariants, staggerContainerVariants, staggerItemVariants, viewportSettings } from './animations';
+import {
+    antiFlickerStyle,
+    dailyDriverCardVariants,
+    dailyDriverContentVariants,
+    dailyDriverPillsVariants,
+    popRevealVariants,
+    sectionHeaderVariants,
+    staggerContainerVariants,
+    staggerItemVariants,
+} from './animations';
 
 export const Skills: React.FC = () => {
     return (
@@ -134,7 +143,7 @@ const Keycap: React.FC<{ label: string }> = ({ label }) => {
                 text-gray-600 font-mono text-[8px] md:text-[11px] font-bold uppercase tracking-wide
 
                 /* Transitions */
-                transition-all duration-100 ease-out
+                transition-transform duration-100 ease-out
 
                 /* Hover Effects - Slight Depress */
                 hover:shadow-[0_2px_0_#d1d5db,0_2px_4px_rgba(0,0,0,0.1),inset_0_1px_0_rgba(255,255,255,0.9)]
@@ -153,21 +162,29 @@ const Keycap: React.FC<{ label: string }> = ({ label }) => {
     )
 }
 
+const dailyDriverViewport = {
+    once: true,
+    amount: 0.25 as const,
+};
+
 const MacMiniSection: React.FC = () => {
     return (
         <motion.div
-            variants={staggerItemVariants}
+            initial="hidden"
+            whileInView="visible"
+            viewport={dailyDriverViewport}
+            variants={staggerContainerVariants}
             className="mt-24 flex flex-col gap-6 items-center w-full"
         >
-            <div className="relative pb-6">
+            <motion.div variants={staggerItemVariants} className="relative pb-6">
                 <motion.h3
                     variants={{
                         hidden: { opacity: 0, y: 10 },
-                        visible: { 
-                            opacity: 1, 
+                        visible: {
+                            opacity: 1,
                             y: 0,
-                            transition: { duration: 0.6, ease: "easeOut" }
-                        }
+                            transition: { duration: 0.6, ease: 'easeOut' },
+                        },
                     }}
                     className="
                         font-serif italic
@@ -181,7 +198,7 @@ const MacMiniSection: React.FC = () => {
                 >
                     My Daily Driver
                 </motion.h3>
-                {/* Squiggle Lines SVG - Animated and Tilted */}
+
                 <svg
                     className="absolute w-full h-8 md:h-6 bottom-0 md:bottom-2 left-0 text-[rgb(81,108,180)] z-0 pointer-events-none transform -rotate-3"
                     viewBox="0 0 182 15"
@@ -192,15 +209,15 @@ const MacMiniSection: React.FC = () => {
                     <motion.path
                         variants={{
                             hidden: { pathLength: 0, opacity: 0 },
-                            visible: { 
-                                pathLength: 1, 
+                            visible: {
+                                pathLength: 1,
                                 opacity: 1,
                                 transition: {
                                     duration: 1.5,
                                     delay: 0.5,
-                                    ease: "easeInOut"
-                                }
-                            }
+                                    ease: 'easeInOut',
+                                },
+                            },
                         }}
                         d="M2 7.5C15 2 30 13 45 7.5C60 2 75 13 90 7.5C105 2 120 13 135 7.5C150 2 165 13 180 7.5"
                         stroke="currentColor"
@@ -209,94 +226,97 @@ const MacMiniSection: React.FC = () => {
                         strokeLinejoin="round"
                     />
                 </svg>
-            </div>
+            </motion.div>
 
             <motion.div
-                variants={{
-                    hidden: { opacity: 0, y: 20 },
-                    visible: { 
-                        opacity: 1, 
-                        y: 0,
-                        transition: { duration: 0.8, delay: 0.2, ease: "easeOut" }
-                    }
-                }}
+                variants={dailyDriverCardVariants}
                 className="
                     relative
                     w-full
                     p-0
                     rounded-2xl md:rounded-[24px]
-                    /* Lighter gradient as requested */
                     bg-gradient-to-b from-white to-[#F5F5F7]
                     border border-gray-200
                     shadow-[inset_0_1px_0_rgba(255,255,255,1),0_2px_5px_rgba(0,0,0,0.03)]
                     overflow-hidden
                     group
+                    flex flex-col md:flex-row items-center
                 "
             >
-                {/* Background Dot Pattern */}
-                <div className="absolute inset-0 opacity-[0.03]"
+                <div
+                    className="absolute inset-0 opacity-[0.03] pointer-events-none"
                     style={{
                         backgroundImage: 'radial-gradient(#000 1px, transparent 1px)',
-                        backgroundSize: '16px 16px'
+                        backgroundSize: '16px 16px',
                     }}
                 />
 
-                <div className="flex flex-col md:flex-row items-center relative z-10">
-                    {/* Image Section */}
-                    <div className="w-full md:w-5/12 p-8 pb-0 md:pb-8 flex items-center justify-center">
+                <motion.div
+                    variants={popRevealVariants}
+                    className="w-full md:w-5/12 p-8 pb-0 md:pb-8 flex items-center justify-center relative z-10"
+                >
+                    <div className="relative w-[180px] md:w-[220px] aspect-square flex items-center justify-center">
+                        <div className="absolute inset-x-4 bottom-6 h-6 bg-black/20 blur-xl rounded-[100%] transform scale-x-75 group-hover:scale-x-90 group-hover:bg-black/25 transition-transform duration-500" />
+
+                        <img
+                            src="https://www.datalogicsindia.com/Apple/mac_mini/mac_mini_M4/assets/Hero.png"
+                            alt="Mac Mini M4"
+                            draggable={false}
+                            onContextMenu={(e) => e.preventDefault()}
+                            className="w-full h-full object-contain relative z-10 drop-shadow-[0_10px_20px_rgba(0,0,0,0.15)] select-none"
+                            style={{ WebkitTouchCallout: 'none', WebkitUserSelect: 'none' }}
+                        />
+                    </div>
+                </motion.div>
+
+                <motion.div
+                    variants={dailyDriverContentVariants}
+                    className="w-full md:w-7/12 p-6 pt-2 md:pt-8 md:pl-0 text-center md:text-left flex flex-col justify-center gap-4 relative z-10"
+                >
+                    <motion.div variants={dailyDriverContentVariants}>
                         <motion.div
-                            variants={popRevealVariants}
-                            className="relative w-[180px] md:w-[220px] aspect-square flex items-center justify-center"
+                            variants={dailyDriverContentVariants}
+                            className="flex items-center justify-center md:justify-start gap-3 mb-2"
                         >
-                            {/* Floating Shadow */}
-                            <div className="absolute inset-x-4 bottom-6 h-6 bg-black/20 blur-xl rounded-[100%] transform scale-x-75 group-hover:scale-x-90 group-hover:bg-black/25 transition-all duration-500" />
-
-                            <img
-                                src="https://www.datalogicsindia.com/Apple/mac_mini/mac_mini_M4/assets/Hero.png"
-                                alt="Mac Mini M4"
-                                draggable={false}
-                                onContextMenu={(e) => e.preventDefault()}
-                                className="w-full h-full object-contain relative z-10 drop-shadow-[0_10px_20px_rgba(0,0,0,0.15)] select-none"
-                                style={{ WebkitTouchCallout: 'none', WebkitUserSelect: 'none' }}
-                            />
-                        </motion.div>
-                    </div>
-
-                    {/* Content Section */}
-                    <div className="w-full md:w-7/12 p-6 pt-2 md:pt-8 md:pl-0 text-center md:text-left flex flex-col justify-center">
-                        <div className="flex flex-col gap-4">
-                            <div>
-                                <div className="flex items-center justify-center md:justify-start gap-3 mb-2">
-                                    <h4 className="text-xl md:text-3xl font-bold text-gray-900 tracking-tight">Mac mini</h4>
-                                    <span className="px-2 bg-gradient-to-br from-slate-800 via-slate-600 to-slate-900py-0.5 rounded text-[10px] font-bold bg-black text-white border border-black uppercase tracking-wide">
-                                        M4
-                                    </span>
-                                </div>
-                                <p className="text-[10px] md:text-sm font-bold text-gray-400 uppercase tracking-widest">
-                                    It's my personal station!
-                                </p>
-                            </div>
-
-                            <p className="text-[11px] md:text-sm text-gray-600 font-medium leading-relaxed max-w-sm mx-auto md:mx-0 text-center md:text-left">
-                                Compact yet incredibly powerful. This little machine handles my entire development stack from Backend to heavy frontend builds silently and efficiently. I also use multi-screen setup which allow me to do rapid prototyping and testing.
-                            </p>
-
-                            <motion.div
-                                variants={staggerContainerVariants}
-                                initial="hidden"
-                                whileInView="visible"
-                                viewport={viewportSettings}
-                                className="flex flex-wrap gap-2 justify-center md:justify-start mt-2"
+                            <motion.h4
+                                variants={staggerItemVariants}
+                                className="text-xl md:text-3xl font-bold text-gray-900 tracking-tight"
                             >
-                                <SpecBadge>Apple Silicon</SpecBadge>
-                                <SpecBadge>16GB Unified</SpecBadge>
-                                <SpecBadge>512GB SSD</SpecBadge>
-                                <SpecBadge>Remote Access</SpecBadge>
-                                <SpecBadge>mac OS Tahoe</SpecBadge>
-                            </motion.div>
-                        </div>
-                    </div>
-                </div>
+                                Mac mini
+                            </motion.h4>
+                            <motion.span
+                                variants={staggerItemVariants}
+                                className="px-2 py-0.5 bg-gradient-to-br from-slate-800 via-slate-600 to-slate-900 rounded text-[10px] font-bold text-white border border-black uppercase tracking-wide"
+                            >
+                                M4
+                            </motion.span>
+                        </motion.div>
+                        <motion.p
+                            variants={staggerItemVariants}
+                            className="text-[10px] md:text-sm font-bold text-gray-400 uppercase tracking-widest"
+                        >
+                            It's my personal station!
+                        </motion.p>
+                    </motion.div>
+
+                    <motion.p
+                        variants={staggerItemVariants}
+                        className="text-[11px] md:text-sm text-gray-600 font-medium leading-relaxed max-w-sm mx-auto md:mx-0 text-center md:text-left"
+                    >
+                        Compact yet incredibly powerful. This little machine handles my entire development stack from Backend to heavy frontend builds silently and efficiently. I also use multi-screen setup which allow me to do rapid prototyping and testing.
+                    </motion.p>
+
+                    <motion.div
+                        variants={dailyDriverPillsVariants}
+                        className="flex flex-wrap gap-2 justify-center md:justify-start mt-2"
+                    >
+                        <SpecBadge>Apple Silicon</SpecBadge>
+                        <SpecBadge>16GB Unified</SpecBadge>
+                        <SpecBadge>512GB SSD</SpecBadge>
+                        <SpecBadge>Remote Access</SpecBadge>
+                        <SpecBadge>mac OS Tahoe</SpecBadge>
+                    </motion.div>
+                </motion.div>
             </motion.div>
         </motion.div>
     )

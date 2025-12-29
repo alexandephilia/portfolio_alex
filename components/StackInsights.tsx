@@ -87,7 +87,7 @@ export const StackInsights: React.FC = () => {
                                         absolute -top-5 h-6 rounded-t-[10px]
                                         px-3 md:px-4 pt-1
                                         flex items-start w-fit
-                                        transition-all duration-300
+                                        transition-transform duration-300
                                         cursor-grab active:cursor-grabbing
                                         pointer-events-auto
                                     `}

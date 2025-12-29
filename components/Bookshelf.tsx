@@ -49,7 +49,7 @@ const BookCard: React.FC<BookCardProps> = ({ book, onSelect, isActive, onActivat
 
     return (
         <div
-            className={`relative w-[90px] md:w-[140px] aspect-[2/3] flex flex-col items-center group/book perspective-[1000px] z-0 transition-all duration-300 ${isFloating ? 'z-50' : ''} ${isActive ? 'is-active' : ''}`}
+            className={`relative w-[90px] md:w-[140px] aspect-[2/3] flex flex-col items-center group/book perspective-[1000px] z-0 transition-transform duration-300 ${isFloating ? 'z-50' : ''} ${isActive ? 'is-active' : ''}`}
             onMouseEnter={() => !isTouchDevice && setIsHovered(true)}
             onMouseLeave={() => !isTouchDevice && setIsHovered(false)}
             onClick={handleClick}
@@ -172,7 +172,7 @@ const BookCard: React.FC<BookCardProps> = ({ book, onSelect, isActive, onActivat
 
             {/* Dynamic Box Shadow on Shelf */}
             <div
-                className="absolute -bottom-6 w-[80%] h-4 bg-black/40 blur-md rounded-[50%] opacity-0 group-hover/book:opacity-60 group-[.is-active]/book:opacity-60 transition-all duration-300 transform scale-50 group-hover/book:scale-110 group-[.is-active]/book:scale-110"
+                className="absolute -bottom-6 w-[80%] h-4 bg-black/40 blur-md rounded-[50%] opacity-0 group-hover/book:opacity-60 group-[.is-active]/book:opacity-60 transition-opacity duration-300"
                 style={{ filter: 'blur(8px)' }}
             />
         </div>
