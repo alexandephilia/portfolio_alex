@@ -269,25 +269,25 @@ export const TOOL_STACK_URLS = [
 
 export const SONGS: Song[] = [
     {
-        id: "3",
-        title: "Heavenly",
-        artist: "Cigarettes After Sex",
-        url: "/songs/Heavenly - Cigarettes After Sex.mp3",
-        coverUrl: "/songs/cas1.jpg"
-    },
-    {
         id: "1",
-        title: "Hideaway",
-        artist: "Cigarettes After Sex",
-        url: "/songs/Hideaway - Cigarettes After Sex.mp3",
-        coverUrl: "/songs/cas.jpg"
+        title: "Hungry Cat",
+        artist: "Cat Songs",
+        url: "/songs/hungry cat.mp3",
+        coverUrl: "/songs/hungrycat.jpeg"
     },
     {
         id: "2",
-        title: "Holding You, Holding Me",
-        artist: "Cigarettes After Sex",
-        url: "/songs/Holding You, Holding Me - Cigarettes After Sex.mp3",
-        coverUrl: "/songs/cas.jpg"
+        title: "Jelly Belly",
+        artist: "Cat Songs",
+        url: "/songs/jelly belly.mp3",
+        coverUrl: "/songs/beancat.jpeg"
+    },
+    {
+        id: "3",
+        title: "Silly Cat",
+        artist: "Cat Songs",
+        url: "/songs/silly cat.mp3",
+        coverUrl: "/songs/sillycat.gif"
     }
 ];
 

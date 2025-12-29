@@ -227,12 +227,18 @@ export const MusicDock: React.FC = () => {
                                     >
                                         <img
                                             src={currentSong.coverUrl}
-                                            className={`w-full h-full object-cover opacity-80 grayscale brightness-110 transition-transform duration-1000 pointer-events-none select-none ${isPlaying ? 'scale-110' : 'scale-100'}`}
+                                            className={`w-full h-full object-cover transition-transform duration-1000 pointer-events-none select-none ${isPlaying ? 'scale-110' : 'scale-100'}`}
                                             alt={currentSong.title}
                                             draggable={false}
                                         />
 
-                                        <div className="absolute inset-0 bg-gradient-to-tr from-white/20 via-transparent to-transparent opacity-60 pointer-events-none" />
+                                        {/* Shiny glossy overlay */}
+                                        <div 
+                                            className="absolute inset-0 pointer-events-none"
+                                            style={{
+                                                background: 'linear-gradient(135deg, rgba(255,255,255,0.4) 0%, rgba(255,255,255,0.1) 30%, transparent 50%, rgba(255,255,255,0.05) 80%, rgba(255,255,255,0.15) 100%)',
+                                            }}
+                                        />
 
                                         {/* Playing Indicator - Only shown when minimized to avoid cluttering expanded view */}
                                         <AnimatePresence>
