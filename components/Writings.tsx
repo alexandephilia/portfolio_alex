@@ -59,23 +59,25 @@ const NotionEditor: React.FC<NotionEditorProps> = ({ value, onChange, placeholde
         const textBefore = value.slice(0, cursorPos);
         const lastNewline = textBefore.lastIndexOf('\n');
 
-        // Get the ENTIRE current line content
+        // Get the ENTIRE current line content (from line start to line end)
         const lineStart = lastNewline + 1;
         const nextNewline = value.indexOf('\n', lineStart);
         const lineEnd = nextNewline === -1 ? value.length : nextNewline;
         const entireLineContent = value.slice(lineStart, lineEnd);
 
-        // Placeholder should only show on truly empty lines
-        const isLineContentEmpty = entireLineContent.trim().length === 0;
-        const isUsingSlash = entireLineContent.trim().startsWith('/');
+        // Placeholder should only show when:
+        // 1. The entire line is completely empty (no characters at all)
+        // 2. Slash menu is not open
+        // This means any character (including spaces, markdown prefixes, etc.) hides the placeholder
+        const isLineCompletelyEmpty = entireLineContent.length === 0;
 
         // Count lines before cursor for vertical positioning
         const linesBefore = textBefore.split('\n').length - 1;
-        const lineHeight = 27; 
+        const lineHeight = 27;
 
         setHintPosition({
             top: linesBefore * lineHeight,
-            show: isLineContentEmpty && !showSlashMenu && !isUsingSlash
+            show: isLineCompletelyEmpty && !showSlashMenu
         });
     }, [value, showSlashMenu]);
 
@@ -218,8 +220,8 @@ const NotionEditor: React.FC<NotionEditorProps> = ({ value, onChange, placeholde
                 onKeyDown={handleKeyDown}
                 onSelect={updateHintPosition}
                 onClick={updateHintPosition}
-                className="w-full min-h-[300px] outline-none text-[15px] md:text-[15px] text-[16px] leading-[1.8] text-gray-800 resize-none bg-transparent"
-                style={{ caretColor: '#111', fontSize: '16px' }}
+                className="w-full min-h-[300px] outline-none text-[16px] leading-[1.8] text-gray-800 resize-none bg-transparent"
+                style={{ caretColor: '#111' }}
             />
 
             {/* Slash command menu */}
@@ -572,8 +574,13 @@ export const Writings: React.FC = () => {
                             initial={{ opacity: 0 }}
                             animate={{ opacity: 1 }}
                             exit={{ opacity: 0 }}
-                            className="fixed inset-0 bg-black/40 backdrop-blur-sm z-[200] flex items-start justify-center pt-[5vh] md:pt-[10vh] px-4 overflow-y-auto overscroll-contain touch-none"
-                            onTouchMove={(e) => e.stopPropagation()}
+                            className="fixed inset-0 bg-black/40 backdrop-blur-sm z-[200] flex items-start justify-center md:pt-[10vh] px-0 md:px-4 overflow-y-auto overscroll-contain"
+                            onTouchMove={(e) => {
+                                const target = e.target as HTMLElement;
+                                if (!target.closest('[data-modal-content]')) {
+                                    e.preventDefault();
+                                }
+                            }}
                         >
                             <motion.div
                                 initial={{ scale: 0.98, opacity: 0, y: 10 }}
@@ -581,7 +588,7 @@ export const Writings: React.FC = () => {
                                 exit={{ scale: 0.98, opacity: 0, y: 10 }}
                                 transition={{ type: 'spring', damping: 30, stiffness: 400 }}
                                 onClick={(e) => e.stopPropagation()}
-                                className="w-full max-w-2xl mb-10 rounded-[24px] p-[3px] border-[3px] border-white/50"
+                                className="w-full max-w-2xl min-h-screen md:min-h-0 md:mb-10 rounded-none md:rounded-[24px] p-0 md:p-[3px] border-0 md:border-[3px] border-white/50"
                                 style={{
                                     background: 'linear-gradient(180deg, #FFFFFF 0%, #F3F4F6 50%, #E5E7EB 100%)',
                                     boxShadow: 'rgba(0, 0, 0, 0.13) 0px 8px 10px, rgba(0, 0, 0, 0.05) 0px 4px 4px'
@@ -590,22 +597,23 @@ export const Writings: React.FC = () => {
                                 <form
                                     onSubmit={handleSubmit}
                                     data-modal-content
-                                    className="bg-white rounded-[20px] w-full overflow-hidden"
+                                    className="bg-white rounded-none md:rounded-[20px] w-full min-h-screen md:min-h-0 overflow-hidden flex flex-col"
                                 >
                                     {/* Title Input */}
-                                    <div className="px-8 pt-8">
+                                    <div className="px-6 md:px-8 pt-6 md:pt-8">
                                         <input
                                             type="text"
                                             placeholder="Untitled"
                                             value={newTitle}
                                             onChange={(e) => setNewTitle(e.target.value)}
-                                            className="w-full text-3xl md:text-4xl font-bold text-gray-900 placeholder-gray-300 outline-none border-none bg-transparent"
+                                            className="w-full text-2xl md:text-4xl font-bold text-gray-900 placeholder-gray-300 outline-none border-none bg-transparent"
+                                            style={{ fontSize: '16px' }} // Fallback check
                                             autoFocus
                                         />
                                     </div>
 
                                     {/* Content Editor */}
-                                    <div className="px-8 py-6">
+                                    <div className="px-6 md:px-8 py-4 md:py-6 flex-1">
                                         <NotionEditor
                                             value={newContent}
                                             onChange={setNewContent}
@@ -614,8 +622,8 @@ export const Writings: React.FC = () => {
                                     </div>
 
                                     {/* Footer with styled buttons */}
-                                    <div className="flex flex-col gap-3 px-8 py-4 border-t border-gray-100 bg-gray-50/50 rounded-b-2xl">
-                                        <div className="text-xs text-gray-400 italic leading-relaxed">
+                                    <div className="sticky bottom-0 mt-auto flex flex-col gap-3 px-6 md:px-8 py-4 border-t border-gray-100 bg-white/80 backdrop-blur-md rounded-b-none md:rounded-b-2xl">
+                                        <div className="text-[10px] md:text-xs text-gray-400 italic leading-relaxed line-clamp-1 md:line-clamp-none">
                                             {inspirationalQuote
                                                 ? `"${inspirationalQuote}"`
                                                 : "Loading inspiration..."
@@ -625,14 +633,14 @@ export const Writings: React.FC = () => {
                                             <button
                                                 type="button"
                                                 onClick={() => setShowAddForm(false)}
-                                                className="px-4 py-2 rounded-lg text-xs font-medium transition-all bg-gradient-to-b from-white to-gray-100 border border-gray-200 shadow-[0_2px_4px_rgba(0,0,0,0.05),0_1px_2px_rgba(0,0,0,0.04),inset_0_1px_0_rgba(255,255,255,0.8)] text-gray-600 hover:text-gray-900 hover:shadow-[0_3px_6px_rgba(0,0,0,0.08)] active:shadow-sm active:translate-y-[1px]"
+                                                className="px-4 py-2 rounded-lg text-xs font-medium transition-all bg-gradient-to-b from-white to-gray-100 border border-gray-200 shadow-[0_2px_4px_rgba(0,0,0,0.05)] text-gray-600 hover:text-gray-900 active:translate-y-[1px]"
                                             >
                                                 Cancel
                                             </button>
                                             <button
                                                 type="submit"
                                                 disabled={isSubmitting || !newTitle.trim() || !newContent.trim()}
-                                                className="flex items-center gap-2 px-4 py-2 rounded-lg text-xs font-medium transition-all bg-gradient-to-b from-gray-800 to-gray-900 border border-gray-700 shadow-[0_2px_4px_rgba(0,0,0,0.2),0_1px_2px_rgba(0,0,0,0.1),inset_0_1px_0_rgba(255,255,255,0.1)] text-white hover:from-gray-700 hover:to-gray-800 hover:shadow-[0_3px_6px_rgba(0,0,0,0.25)] active:shadow-sm active:translate-y-[1px] disabled:opacity-50 disabled:cursor-not-allowed"
+                                                className="flex items-center gap-2 px-4 py-2 rounded-lg text-xs font-medium transition-all bg-gradient-to-b from-gray-800 to-gray-900 border border-gray-700 shadow-[0_2px_4px_rgba(0,0,0,0.2)] text-white disabled:opacity-50 active:translate-y-[1px]"
                                             >
                                                 {isSubmitting ? (
                                                     <Loader2 size={14} className="animate-spin" />
@@ -658,10 +666,9 @@ export const Writings: React.FC = () => {
                             initial={{ opacity: 0 }}
                             animate={{ opacity: 1 }}
                             exit={{ opacity: 0 }}
-                            className="fixed inset-0 bg-black/40 backdrop-blur-sm z-[200] flex items-start justify-center pt-[5vh] md:pt-[10vh] px-4 overflow-y-auto overscroll-contain"
+                            className="fixed inset-0 bg-black/40 backdrop-blur-sm z-[200] flex items-start justify-center md:pt-[10vh] px-0 md:px-4 overflow-y-auto overscroll-contain"
                             onClick={() => setSelectedWriting(null)}
                             onTouchMove={(e) => {
-                                // Allow scrolling within the modal content
                                 const target = e.target as HTMLElement;
                                 if (!target.closest('article')) {
                                     e.stopPropagation();
@@ -674,7 +681,7 @@ export const Writings: React.FC = () => {
                                 exit={{ scale: 0.98, opacity: 0, y: 10 }}
                                 transition={{ type: 'spring', damping: 30, stiffness: 400 }}
                                 onClick={(e) => e.stopPropagation()}
-                                className="w-full max-w-2xl mb-10 rounded-[24px] p-[4px]"
+                                className="w-full max-w-2xl min-h-screen md:min-h-0 md:mb-10 rounded-none md:rounded-[24px] p-0 md:p-[4px]"
                                 style={{
                                     background: 'linear-gradient(180deg, #FFFFFF 0%, #F3F4F6 50%, #E5E7EB 100%)',
                                     boxShadow: 'rgba(0, 0, 0, 0.13) 0px 8px 10px, rgba(0, 0, 0, 0.05) 0px 4px 4px'
@@ -682,15 +689,15 @@ export const Writings: React.FC = () => {
                             >
                                 <article
                                     data-modal-content
-                                    className="bg-white rounded-[20px] w-full overflow-hidden"
+                                    className="bg-white rounded-none md:rounded-[20px] w-full min-h-screen md:min-h-0 overflow-hidden flex flex-col"
                                 >
-                                    <div className="px-8 pt-8 pb-4 border-b border-gray-100">
+                                    <div className="px-6 md:px-8 pt-6 md:pt-8 pb-4 border-b border-gray-100 bg-white sticky top-0 z-10">
                                         <div className="flex items-start justify-between gap-4">
                                             <div className="flex-1">
-                                                <h1 className="text-4xl md:text-5xl font-serif italic text-gray-900 leading-tight">
+                                                <h1 className="text-2xl md:text-5xl font-serif italic text-gray-900 leading-tight">
                                                     {selectedWriting.title}
                                                 </h1>
-                                                <div className="flex items-center gap-3 mt-4 text-sm text-gray-400">
+                                                <div className="flex items-center gap-3 mt-3 md:mt-4 text-xs md:text-sm text-gray-400">
                                                     <span>{formatDate(selectedWriting.createdAt)}</span>
                                                     <span>·</span>
                                                     <span>{getReadingTime(selectedWriting.content)}</span>
@@ -704,7 +711,7 @@ export const Writings: React.FC = () => {
                                             </button>
                                         </div>
                                     </div>
-                                    <div className="px-8 py-8">
+                                    <div className="px-6 md:px-8 py-6 md:py-8 flex-1">
                                         <MarkdownContent content={selectedWriting.content} />
                                     </div>
                                 </article>
