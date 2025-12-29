@@ -1,6 +1,6 @@
 import { AnimatePresence, motion } from 'framer-motion';
 import { ArrowUp, Sparkles } from 'lucide-react';
-import React, { useCallback, useEffect, useRef, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { CONTACT_INFO } from '../constants';
 import { antiFlickerStyle, blurOnlyVariants, viewportSettings } from './animations';
 
@@ -23,9 +23,7 @@ export const Footer: React.FC = () => {
     const email = CONTACT_INFO.find(c => c.label === "Email")?.value || "garry.alexander@email.com";
     const mailtoLink = `mailto:${email}`;
 
-    const [isHovered, setIsHovered] = useState(false);
-    const hoverTimeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null);
-    const isAnimatingRef = useRef(false);
+    const [showAlternate, setShowAlternate] = useState(false);
     const containerRef = useRef<HTMLDivElement>(null);
     const isMobile = useIsMobile();
 
@@ -33,62 +31,14 @@ export const Footer: React.FC = () => {
     const idleWidth = isMobile ? 235 : 295;
     const hoverWidth = isMobile ? 115 : 145;
 
-    // Debounced hover handlers to prevent race conditions
-    const handleHoverStart = useCallback(() => {
-        if (hoverTimeoutRef.current) {
-            clearTimeout(hoverTimeoutRef.current);
-        }
-        if (!isHovered && !isAnimatingRef.current) {
-            isAnimatingRef.current = true;
-            setIsHovered(true);
-            setTimeout(() => {
-                isAnimatingRef.current = false;
-            }, 400);
-        }
-    }, [isHovered]);
-
-    const handleHoverEnd = useCallback(() => {
-        if (hoverTimeoutRef.current) {
-            clearTimeout(hoverTimeoutRef.current);
-        }
-        hoverTimeoutRef.current = setTimeout(() => {
-            if (isHovered && !isAnimatingRef.current) {
-                isAnimatingRef.current = true;
-                setIsHovered(false);
-                setTimeout(() => {
-                    isAnimatingRef.current = false;
-                }, 400);
-            }
-        }, 50);
-    }, [isHovered]);
-
-    // Handle click outside for mobile - tap anywhere else to unhover
+    // Auto-repeating animation loop
     useEffect(() => {
-        const handleClickOutside = (event: MouseEvent | TouchEvent) => {
-            if (containerRef.current && !containerRef.current.contains(event.target as Node)) {
-                if (isHovered) {
-                    handleHoverEnd();
-                }
-            }
-        };
+        const interval = setInterval(() => {
+            setShowAlternate(prev => !prev);
+        }, 2500); // Toggle every 2.5 seconds
 
-        document.addEventListener('mousedown', handleClickOutside);
-        document.addEventListener('touchstart', handleClickOutside);
-
-        return () => {
-            document.removeEventListener('mousedown', handleClickOutside);
-            document.removeEventListener('touchstart', handleClickOutside);
-        };
-    }, [isHovered, handleHoverEnd]);
-
-    // Toggle on tap for mobile
-    const handleTap = useCallback(() => {
-        if (isHovered) {
-            handleHoverEnd();
-        } else {
-            handleHoverStart();
-        }
-    }, [isHovered, handleHoverStart, handleHoverEnd]);
+        return () => clearInterval(interval);
+    }, []);
 
     const scrollToTop = () => {
         window.scrollTo({ top: 0, behavior: 'smooth' });
@@ -147,10 +97,7 @@ export const Footer: React.FC = () => {
                         >
                             <motion.div
                                 ref={containerRef}
-                                data-is-hovered={isHovered}
-                                onHoverStart={handleHoverStart}
-                                onHoverEnd={handleHoverEnd}
-                                onTap={handleTap}
+                                data-is-hovered={showAlternate}
                                 className="
                             relative
                             bg-[#FAFAFA]/90 backdrop-blur-sm
@@ -158,7 +105,6 @@ export const Footer: React.FC = () => {
                             rounded-[6px] md:rounded-[8px]
                             border border-dashed border-gray-300
                             select-none
-                            cursor-pointer
                             shadow-sm
                             flex items-center justify-center
                             overflow-hidden
@@ -166,9 +112,9 @@ export const Footer: React.FC = () => {
                         "
                                 // Animate width: use viewport-aware values
                                 animate={{
-                                    width: isHovered ? hoverWidth : idleWidth,
-                                    rotate: isHovered ? -2 : 0,
-                                    scale: isHovered ? 1.05 : 1,
+                                    width: showAlternate ? hoverWidth : idleWidth,
+                                    rotate: showAlternate ? -2 : 0,
+                                    scale: showAlternate ? 1.05 : 1,
                                 }}
                                 transition={{
                                     width: {
@@ -188,10 +134,9 @@ export const Footer: React.FC = () => {
                                         damping: 15,
                                     },
                                 }}
-                                whileTap={{ scale: 0.95 }}
                             >
                                 <AnimatePresence mode="popLayout" initial={false}>
-                                    {isHovered ? (
+                                    {showAlternate ? (
                                         <motion.span
                                             key="hover"
                                             initial={{ opacity: 0, y: 20, rotateX: 90 }}

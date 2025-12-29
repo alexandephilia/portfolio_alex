@@ -39,7 +39,8 @@ export const PROJECTS: Project[] = [
         status: "Live",
         linkUrl: "#",
         company: "Realta Chakradarma",
-        date: "2024 - 2025"
+        date: "2024 - 2025",
+        stack: ["Flutter", "Figma", "NPM", "Rule-based Chatbot"]
     },
     {
         id: "2",
@@ -52,7 +53,8 @@ export const PROJECTS: Project[] = [
         status: "Live",
         linkUrl: "#",
         company: "RnD (Remote)",
-        date: "2025"
+        date: "2025",
+        stack: ["WebSocket", "Telegraf.Js", "Docker", "REST APIs"]
     },
     {
         id: "3",
@@ -66,7 +68,8 @@ export const PROJECTS: Project[] = [
         linkUrl: "#",
         isRedacted: true,
         company: "Discord",
-        date: "2024 - 2025"
+        date: "2024 - 2025",
+        stack: ["Next.JS", "Stablecoin", "Cross-chain", "AI Solutions"]
     },
     {
         id: "5",
@@ -77,18 +80,20 @@ export const PROJECTS: Project[] = [
         iconColor: "bg-purple-600",
         imageUrl: "/Work_5.jpg",
         status: "Live",
-        linkUrl: "https://zetaai-pink.vercel.app/"
+        linkUrl: "https://zetaai-pink.vercel.app/",
+        stack: ["Vite", "Framer Motion", "Exa Search", "Eleven Labs"]
     },
     {
         id: "4",
         category: "Personal",
-        title: "Electron-based Linux LLMs Suite",
+        title: "Electron-based LLMs Suite",
         description: "Created a cross-platform solution for accessing multiple AI services (Grok, ChatGPT, Claude, Deepseek, Manus, and Perplexity) through a single, convenient application packaged as a Linux AppImage using Electron.",
         icon: Terminal,
         iconColor: "bg-slate-700",
         imageUrl: "/Work_4.jpg",
         status: "Live",
-        linkUrl: "https://github.com/alexandephilia/ChatGPT-x-DeepSeek-x-Grok-x-Claude-x-Perplexity-Linux-APP"
+        linkUrl: "https://github.com/alexandephilia/ChatGPT-x-DeepSeek-x-Grok-x-Claude-x-Perplexity-Linux-APP",
+        stack: ["Electron", "NPM", "Wrappers", "Node.js", "AppImage"]
     }
 ];
 

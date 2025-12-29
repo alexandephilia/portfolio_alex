@@ -165,14 +165,15 @@ export default function App() {
                             <Tabs activeTab={activeTab} setActiveTab={setActiveTab} />
                         </SectionWrapper>
 
-                        <SectionWrapper>
-                            <section className="border-b border-dashed border-gray-200">
+                        <SectionWrapper className="relative z-20">
+                            <section className="border-b border-dashed border-gray-200 overflow-visible">
                                 <AnimatePresence mode="wait">
                                     <motion.div
                                         key={activeTab}
                                         initial="hidden"
                                         animate="visible"
                                         exit="exit"
+                                        className="overflow-visible"
                                         variants={{
                                             hidden: {
                                                 opacity: 0,
@@ -210,7 +211,7 @@ export default function App() {
                                                 <Writings />
                                             </div>
                                         ) : (
-                                            <div className="flex flex-col gap-6 p-6 md:p-10">
+                                            <div className="flex flex-col gap-6 p-6 md:p-10 overflow-visible">
                                                 {displayProjects.length > 0 ? (
                                                     displayProjects.map((project) => (
                                                         <ProjectCard key={project.id} project={project} />

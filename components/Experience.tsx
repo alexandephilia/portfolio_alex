@@ -1,6 +1,7 @@
 import { motion } from 'framer-motion';
 import { ExternalLink } from 'lucide-react';
 import React from 'react';
+import { DownloadButton } from './DownloadButton';
 import { EXPERIENCE } from '../constants';
 import { antiFlickerStyle, staggerContainerVariants, staggerItemVariants, viewportSettings } from './animations';
 
@@ -12,15 +13,7 @@ export const Experience: React.FC = () => {
                 className="flex justify-between items-end mb-8"
             >
                 <motion.h2 variants={staggerItemVariants} className="text-[10px] md:text-sm font-bold text-[rgb(81,108,180)] tracking-wider uppercase">Experience</motion.h2>
-                <motion.a
-                    variants={staggerItemVariants}
-                    href="/resume.pdf"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="px-3 py-1.5 md:px-4 md:py-2 rounded-lg text-[10px] md:text-xs font-medium transition-transform bg-gradient-to-b from-white to-gray-100 border border-gray-200 shadow-[0_2px_4px_rgba(0,0,0,0.05),0_1px_2px_rgba(0,0,0,0.04),inset_0_1px_0_rgba(255,255,255,0.8)] text-gray-600 hover:text-gray-900 hover:shadow-[0_3px_6px_rgba(0,0,0,0.08),0_1px_2px_rgba(0,0,0,0.06)] active:shadow-sm active:translate-y-[1px]"
-                >
-                    Download Resume
-                </motion.a>
+                <DownloadButton href="/resume.pdf" fileName="Garry_Alexander_Resume.pdf" />
             </motion.div>
 
             <motion.div

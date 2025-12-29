@@ -79,27 +79,7 @@ const LazyImage: React.FC<{ src: string; alt: string; blur?: number }> = ({ src,
                 }}
             />
 
-            {/* Static Glossy Film Overlay (Top-Left Light Source) */}
-            <div className="absolute inset-0 pointer-events-none z-10 overflow-hidden rounded-[16px]">
-                <div
-                    className="absolute inset-0 w-full h-full"
-                    style={{
-                        // Smooth partial gradient from top-left corner - Opacity reduced
-                        background: 'linear-gradient(135deg, rgba(255,255,255,0.15) 0%, rgba(255,255,255,0.02) 30%, rgba(255,255,255,0) 60%)',
-                        mixBlendMode: 'overlay',
-                        filter: 'contrast(1.1)',
-                    }}
-                />
-
-                {/* Subtle outer top-left highlight - Opacity reduced */}
-                <div
-                    className="absolute top-0 left-0 w-full h-full rounded-[16px]"
-                    style={{
-                        background: 'radial-gradient(circle at 0% 0%, rgba(255,255,255,0.1) 0%, transparent 40%)',
-                        mixBlendMode: 'screen'
-                    }}
-                />
-            </div>
+            {/* Static Glossy Film Overlay REMOVED based on request */}
         </div>
     );
 };
@@ -107,16 +87,106 @@ const LazyImage: React.FC<{ src: string; alt: string; blur?: number }> = ({ src,
 export const ProjectCard: React.FC<ProjectCardProps> = ({ project }) => {
     const Icon = project.icon;
     const [isExpanded, setIsExpanded] = useState(false);
+    const [isHovered, setIsHovered] = useState(false);
 
     return (
         <motion.div
             variants={projectCardVariants}
-            style={{ willChange: 'opacity, filter, transform' }}
-            className="relative group w-full md:w-full"
+            style={{
+                willChange: 'opacity, filter, transform',
+                zIndex: isHovered ? 20 : 1 // Dynamic z-index prevents overlap
+            }}
+            className="relative group w-full md:w-full cursor-pointer"
+            onMouseEnter={() => setIsHovered(true)}
+            onMouseLeave={() => setIsHovered(false)}
+            onClick={() => setIsHovered(!isHovered)} // Toggle for mobile/touch
         >
+            {/* Concept 2: The "Augmented Architecture" Ghost-Deck — Bottom Variety */}
+            {project.stack && project.stack.length > 0 && (
+                <>
+                    {/* Desktop version - original layout */}
+                    <motion.div
+                        className="hidden md:block absolute inset-x-6 bottom-0 z-0"
+                        initial={{ y: 0, opacity: 0, scale: 0.98 }}
+                        animate={{
+                            y: isHovered ? 44 : 0,
+                            opacity: isHovered ? 1 : 0,
+                            scale: isHovered ? 1 : 0.98
+                        }}
+                        transition={{
+                            type: "spring",
+                            stiffness: 450,
+                            damping: 18,
+                            mass: 0.8
+                        }}
+                    >
+                        <div className="w-full h-14 rounded-b-[20px] bg-[#FAFAFA] border-x border-b border-gray-200 shadow-[0_12px_32px_rgba(0,0,0,0.06)] px-6 flex items-center justify-between relative">
+                            {/* Stripped Lines Corners */}
+                            <div className="absolute top-0 left-0 w-4 h-4 opacity-10" style={{ backgroundImage: 'repeating-linear-gradient(45deg, #000, #000 1px, transparent 1px, transparent 5px)' }} />
+                            <div className="absolute top-0 right-0 w-4 h-4 opacity-10" style={{ backgroundImage: 'repeating-linear-gradient(-45deg, #000, #000 1px, transparent 1px, transparent 5px)' }} />
+                            <div className="absolute bottom-0 left-0 w-4 h-4 opacity-10" style={{ backgroundImage: 'repeating-linear-gradient(-45deg, #000, #000 1px, transparent 1px, transparent 5px)' }} />
+                            <div className="absolute bottom-0 right-0 w-4 h-4 opacity-10" style={{ backgroundImage: 'repeating-linear-gradient(45deg, #000, #000 1px, transparent 1px, transparent 5px)' }} />
+
+                            {/* Stack Insight Label - Fixed Left */}
+                            <div className="text-[9px] font-mono font-bold text-[rgb(81,108,180)] uppercase tracking-[0.2em] opacity-60 border-r border-gray-200 pr-6 h-4 flex items-center flex-shrink-0 relative z-10">
+                                Stack Insight
+                            </div>
+
+                            {/* Centered Scrollable Tech Stack */}
+                            <div className="flex-1 min-w-0 flex flex-row items-center justify-center gap-4 px-4 relative z-10 overflow-x-auto no-scrollbar">
+                                {project.stack.map((item, i) => (
+                                    <span key={i} className="text-[10px] font-mono font-medium text-gray-500 whitespace-nowrap flex items-center gap-1.5 transition-colors duration-300 hover:text-gray-900">
+                                        <span className="w-1 h-1 rounded-full bg-[rgb(81,108,180)]/30" />
+                                        {item}
+                                    </span>
+                                ))}
+                            </div>
+
+                            {/* Confidential Tag - Fixed Right */}
+                            <div className="flex items-center gap-1.5 text-[8px] font-mono text-[rgb(126,150,210)] font-bold uppercase relative z-10 border-l border-gray-200 pl-6 h-4 flex-shrink-0">
+                                Confidential
+                            </div>
+                        </div>
+                    </motion.div>
+
+                    {/* Mobile version - wrapping layout to show all items */}
+                    <motion.div
+                        className="md:hidden absolute inset-x-2 z-0"
+                        style={{ bottom: 'calc(var(--spacing) * 2)' }}
+                        initial={{ y: 0, opacity: 0, scale: 0.98 }}
+                        animate={{
+                            y: isHovered ? 52 : 0,
+                            opacity: isHovered ? 1 : 0,
+                            scale: isHovered ? 1 : 0.98
+                        }}
+                        transition={{
+                            type: "spring",
+                            stiffness: 450,
+                            damping: 18,
+                            mass: 0.8
+                        }}
+                    >
+                        <div className="w-full py-2 px-3 rounded-b-[16px] bg-[#FAFAFA] border-x border-b border-gray-200 shadow-[0_12px_32px_rgba(0,0,0,0.06)]">
+                            {/* Stack Insight Label */}
+                            <div className="text-[8px] font-mono font-bold text-[rgb(81,108,180)] uppercase tracking-[0.15em] opacity-60 mb-1.5 text-center">
+                                Stack Insight
+                            </div>
+                            <div className="flex flex-wrap items-center justify-center gap-x-2.5 gap-y-1">
+                                {project.stack.map((item, i) => (
+                                    <span key={i} className="text-[8px] font-mono font-medium text-gray-500 whitespace-nowrap flex items-center gap-1">
+                                        <span className="w-1 h-1 rounded-full bg-[rgb(81,108,180)]/30" />
+                                        {item}
+                                    </span>
+                                ))}
+                            </div>
+                        </div>
+                    </motion.div>
+                </>
+            )}
+
             {/* Outer Rim Container */}
             <div
-                className="w-full rounded-[24px] p-[4px] backdrop-blur-[25px] transition-transform duration-300 group-hover:-translate-y-1"
+                className="w-full rounded-[24px] p-[4px] backdrop-blur-[25px] transition-transform duration-300 group-hover:-translate-y-1 relative z-10"
                 style={{
                     background: `linear-gradient(180deg, #FFFFFF 0%, #F3F4F6 50%, #E5E7EB 100%)`,
                     boxShadow: 'rgba(0, 0, 0, 0.13) 0px 8px 10px, rgba(0, 0, 0, 0.05) 0px 4px 4px'
@@ -140,9 +210,20 @@ export const ProjectCard: React.FC<ProjectCardProps> = ({ project }) => {
                             viewport={{ once: true, amount: 0.2 }}
                             className="flex flex-col gap-1 md:gap-2 relative z-10"
                         >
-                            <motion.h3 variants={staggerItemVariants} className="text-base md:text-xl font-bold text-gray-900 leading-tight">
-                                {project.title}
-                            </motion.h3>
+                            <motion.div variants={staggerItemVariants} className="flex items-start justify-between gap-4 w-full relative z-10">
+                                <h3 className="text-base md:text-xl font-bold text-gray-900 leading-tight flex-1">
+                                    {project.title}
+                                </h3>
+                                <div className="hidden md:flex shrink-0 items-center gap-1.5 p-px rounded-full relative group-hover:opacity-0 transition-all duration-300 translate-x-0 group-hover:translate-x-2 mt-1 overflow-hidden"
+                                    style={{ backgroundImage: 'repeating-linear-gradient(45deg, #E5E7EB, #E5E7EB 1px, transparent 1px, transparent 3px)' }}>
+                                    <div className="flex items-center gap-1.5 px-2 py-0.5 rounded-full bg-linear-to-b from-white to-gray-50/50 shadow-[inset_0_1px_2px_rgba(0,0,0,0.08),inset_0_-1px_1px_rgba(255,255,255,0.8)] border border-transparent">
+                                        <div className="w-1 h-1 rounded-full bg-gray-400 opacity-50 font-mono" />
+                                        <span className="text-[8px] font-mono font-bold text-gray-500 uppercase tracking-widest whitespace-nowrap">
+                                            Hover Me
+                                        </span>
+                                    </div>
+                                </div>
+                            </motion.div>
                             {/* Description with expandable on mobile */}
                             <motion.div variants={staggerItemVariants} className="relative">
                                 <p className={`text-gray-500 leading-relaxed text-[11px] md:text-sm md:line-clamp-none ${isExpanded ? '' : 'line-clamp-2'}`}>

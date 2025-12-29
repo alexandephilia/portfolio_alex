@@ -15,6 +15,7 @@ export const MusicDock: React.FC = () => {
     const [isRepeatOne, setIsRepeatOne] = useState(false);
     const [dragPosition, setDragPosition] = useState({ x: 0, y: 0 });
     const [expandedWidth, setExpandedWidth] = useState(380);
+    const [showSpotlight, setShowSpotlight] = useState(false); // Spotlight onboarding state
 
     const audioRef = useRef<HTMLAudioElement | null>(null);
     const constraintsRef = useRef<HTMLDivElement | null>(null);
@@ -126,6 +127,14 @@ export const MusicDock: React.FC = () => {
             audioRef.current.play().catch(e => console.error("Audio play failed on change:", e));
         }
     }, [currentSongIndex]);
+
+    // Auto-dismiss spotlight after 3 seconds
+    useEffect(() => {
+        if (showSpotlight) {
+            const timer = setTimeout(() => setShowSpotlight(false), 3000);
+            return () => clearTimeout(timer);
+        }
+    }, [showSpotlight]);
 
     return (
         <>
@@ -378,7 +387,8 @@ export const MusicDock: React.FC = () => {
                         <button
                             onClick={() => {
                                 if (!isMinimized) {
-                                    // Reset position when minimizing (optional, or keep position)
+                                    // User is minimizing from expanded state - trigger spotlight onboarding
+                                    setShowSpotlight(true);
                                 } else {
                                     // Reset to center when expanding
                                     setDragPosition({ x: 0, y: 0 });
@@ -389,6 +399,95 @@ export const MusicDock: React.FC = () => {
                         >
                             <span className="text-[10px] font-bold">{isMinimized ? '+' : '−'}</span>
                         </button>
+                    </motion.div>
+                )}
+            </AnimatePresence>
+
+            {/* Spotlight Onboarding Overlay */}
+            <AnimatePresence>
+                {showSpotlight && isMinimized && (
+                    <motion.div
+                        initial={{ opacity: 0 }}
+                        animate={{ opacity: 1 }}
+                        exit={{ opacity: 0 }}
+                        transition={{ duration: 0.4, delay: 0.5 }} // Composed entry delay
+                        onClick={() => setShowSpotlight(false)}
+                        className="fixed inset-0 z-98 cursor-pointer"
+                        style={{
+                            background: 'rgba(0, 0, 0, 0.65)',
+                            backdropFilter: 'blur(5px)',
+                            WebkitBackdropFilter: 'blur(5px)',
+                            // Radial gradient mask with feathered edges
+                            maskImage: 'radial-gradient(circle 48px at 50% calc(100% - 52px), transparent 0%, transparent 92%, black 100%)',
+                            WebkitMaskImage: 'radial-gradient(circle 48px at 50% calc(100% - 52px), transparent 0%, transparent 92%, black 100%)',
+                        }}
+                    >
+                        {/* Tooltip - Premium Technical Sequence */}
+                        <motion.div
+                            initial={{ opacity: 0, scale: 0, filter: 'blur(10px)' }}
+                            animate={{ opacity: 1, scale: 1, filter: 'blur(0px)' }}
+                            transition={{ 
+                                delay: 0.9, 
+                                duration: 0.6, 
+                                type: "spring",
+                                stiffness: 400,
+                                damping: 15
+                            }}
+                            className="absolute bottom-28 left-1/2 -translate-x-1/2 flex flex-col items-center gap-1.5 pointer-events-none"
+                        >
+                            <div className="
+                                px-5 py-2
+                                bg-linear-to-b from-white via-white to-gray-50/90
+                                rounded-full
+                                shadow-[0_12px_24px_rgba(0,0,0,0.1),0_4px_8px_rgba(0,0,0,0.05),inset_0_1px_0_rgba(255,255,255,1)] 
+                                border border-gray-200/80
+                                flex items-center justify-center
+                            ">
+                                <span className="text-[11px] font-['Nunito',sans-serif] font-black text-gray-900 tracking-tight whitespace-nowrap">
+                                    Drag to reposition!
+                                </span>
+                            </div>
+                            
+                            {/* Unified Kinetic Squiggle + Arrow Design - Corrected Connectivity */}
+                            <motion.div
+                                initial={{ opacity: 0 }}
+                                animate={{ opacity: 1 }}
+                                transition={{ delay: 1.4 }}
+                                className="flex flex-col items-center -mt-1.5"
+                            >
+                                <svg width="24" height="65" viewBox="0 0 24 65" fill="none" xmlns="http://www.w3.org/2000/svg" className="drop-shadow-sm">
+                                    {/* The Squiggle Body */}
+                                    <motion.path
+                                        d="M12 0C12 0 20 12 12 24C4 36 12 42 12 42"
+                                        stroke="white"
+                                        strokeWidth="1.5"
+                                        strokeLinecap="round"
+                                        initial={{ pathLength: 0 }}
+                                        animate={{ pathLength: 1 }}
+                                        transition={{ duration: 0.8, ease: "easeInOut", delay: 1.4 }}
+                                    />
+                                    {/* The Integrated Arrow Head - Connected at exactly y=42 */}
+                                    <motion.path
+                                        d="M5 42L12 52L19 42"
+                                        stroke="white"
+                                        strokeWidth="1.5"
+                                        strokeLinecap="round"
+                                        strokeLinejoin="round"
+                                        initial={{ pathLength: 0, opacity: 0 }}
+                                        animate={{ pathLength: 1, opacity: 1 }}
+                                        transition={{ duration: 0.4, ease: "easeOut", delay: 2.1 }}
+                                    />
+                                </svg>
+                                
+                                <motion.div
+                                    animate={{ y: [0, 4, 0] }}
+                                    transition={{ repeat: Infinity, duration: 1.2, ease: "easeInOut" }}
+                                    className="-mt-4"
+                                >
+                                
+                                </motion.div>
+                            </motion.div>
+                        </motion.div>
                     </motion.div>
                 )}
             </AnimatePresence>
