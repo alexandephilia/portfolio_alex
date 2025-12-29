@@ -28,8 +28,8 @@ export const Footer: React.FC = () => {
     const isMobile = useIsMobile();
 
     // Responsive widths - idle needs to fit "LET'S BUILD AND SHIP TOGETHER" + icon
-    const idleWidth = isMobile ? 235 : 295;
-    const hoverWidth = isMobile ? 115 : 145;
+    const idleWidth = isMobile ? 200 : 295;
+    const hoverWidth = isMobile ? 100 : 145;
 
     // Auto-repeating animation loop
     useEffect(() => {
@@ -76,24 +76,24 @@ export const Footer: React.FC = () => {
                     className="text-center mb-4 md:mb-8 relative mt-10 md:mt-10"
                 >
                     <div className="relative inline-block px-4">
-                        <span className="font-serif italic text-5xl md:text-6xl lg:text-7xl text-[rgb(74,108,196)] leading-none">
+                        <span className="font-serif italic text-4xl md:text-6xl lg:text-7xl text-[rgb(74,108,196)] leading-none">
                             You've made it so far...
                         </span>
-                        
+
                         {/* Attribution Pill - Left Aligned */}
                         <div className="flex justify-start mt-0 mb-1 ml-1 opacity-70">
                             <span className="
-                                px-1.5 md:px-2.5 py-0.5 rounded-[4px] md:rounded-[6px] 
-                                bg-[#FAFAFA]/90 backdrop-blur-sm 
+                                px-1.5 md:px-2.5 py-0.5 rounded-[4px] md:rounded-[6px]
+                                bg-[#FAFAFA]/90 backdrop-blur-sm
                                 border border-dashed border-gray-300
                                 shadow-sm
                                 text-[8px] md:text-[10px] font-medium text-gray-500 tracking-wide
                                 flex items-center gap-1 md:gap-1 select-none
                             ">
                                 <span className="text-gray-500">Designed in</span>
-                                <img 
-                                    src="https://img.icons8.com/external-tal-revivo-light-tal-revivo/1200/external-framer-the-only-tool-you-need-to-create-interactive-designs-for-any-platform-logo-light-tal-revivo.jpg" 
-                                    alt="Framer" 
+                                <img
+                                    src="https://img.icons8.com/external-tal-revivo-light-tal-revivo/1200/external-framer-the-only-tool-you-need-to-create-interactive-designs-for-any-platform-logo-light-tal-revivo.jpg"
+                                    alt="Framer"
                                     className="w-2.5 h-2.5 md:w-2.5 md:h-2.5 object-contain"
                                 />
                                 <span className="w-px h-2 md:h-2.5 bg-gray-300 mx-0.1" />
@@ -129,7 +129,7 @@ export const Footer: React.FC = () => {
                             shadow-sm
                             flex items-center justify-center
                             overflow-hidden
-                            min-h-[28px] md:min-h-[32px]
+                            min-h-[24px] md:min-h-[32px]
                         "
                                 // Animate width: use viewport-aware values
                                 animate={{
@@ -176,7 +176,7 @@ export const Footer: React.FC = () => {
                                                 ease: [0.22, 1, 0.36, 1],
                                             }}
                                             style={{ transformPerspective: 600, transformOrigin: "center top" }}
-                                            className="px-4 md:px-6 py-2 md:py-2.5 text-[9px] md:text-xs font-mono font-bold uppercase tracking-widest flex items-center justify-center whitespace-nowrap text-[rgb(74,108,196)] absolute"
+                                            className="px-3 md:px-6 py-1.5 md:py-2.5 text-[8px] md:text-xs font-mono font-bold uppercase tracking-widest flex items-center justify-center whitespace-nowrap text-[rgb(74,108,196)] absolute"
                                         >
                                             Can we talk?
                                         </motion.span>
@@ -199,9 +199,9 @@ export const Footer: React.FC = () => {
                                                 ease: [0.22, 1, 0.36, 1],
                                             }}
                                             style={{ transformPerspective: 600, transformOrigin: "center bottom" }}
-                                            className="px-4 md:px-6 py-2 md:py-2.5 text-[9px] md:text-xs font-mono font-bold uppercase tracking-widest flex items-center justify-center gap-2 md:gap-3 whitespace-nowrap text-gray-400 absolute"
+                                            className="px-3 md:px-6 py-1.5 md:py-2.5 text-[8px] md:text-xs font-mono font-bold uppercase tracking-widest flex items-center justify-center gap-1.5 md:gap-3 whitespace-nowrap text-gray-400 absolute"
                                         >
-                                            LET'S BUILD AND SHIP TOGETHER <Sparkles size={12} className="text-amber-400 md:w-[14px] md:h-[14px]" fill="currentColor" />
+                                            LET'S BUILD AND SHIP TOGETHER <Sparkles size={10} className="text-amber-400 md:w-[14px] md:h-[14px]" fill="currentColor" />
                                         </motion.span>
                                     )}
                                 </AnimatePresence>
