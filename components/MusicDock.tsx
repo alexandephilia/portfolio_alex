@@ -7,7 +7,7 @@ import { SONGS } from '../constants';
 const MAX_TITLE_CHARS = 12;
 
 export const MusicDock: React.FC = () => {
-    const [isPlaying, setIsPlaying] = useState(false);
+    const [isPlaying, setIsPlaying] = useState(true);
     const [isVisible, setIsVisible] = useState(false);
     const [isMinimized, setIsMinimized] = useState(true); // Start minimized
     const [hasExpanded, setHasExpanded] = useState(false); // Track initial expansion
@@ -42,14 +42,58 @@ export const MusicDock: React.FC = () => {
             setIsMinimized(false);
             setHasExpanded(true);
         }, 2000); // 500ms after visibility
+
+        // Auto-play attempt on mount (aggressive zero-volume start)
+        const autoPlayTimer = setTimeout(() => {
+            if (audioRef.current && isPlaying) {
+                audioRef.current.volume = 0;
+                audioRef.current.muted = false; // Some browsers prefer unmuted at zero volume for autoplay
+                audioRef.current.load();
+                audioRef.current.play().catch(() => {
+                    // console.log("Silent autoplay blocked, waiting for interaction");
+                });
+            }
+        }, 800);
+
+        // Global interaction listener to "override" browser permission
+        const handleFirstInteraction = () => {
+            if (audioRef.current) {
+                audioRef.current.volume = 1;
+                audioRef.current.muted = false;
+                if (isPlaying) {
+                    audioRef.current.play().catch(() => {});
+                }
+            }
+            // Remove listeners after first interaction
+            window.removeEventListener('click', handleFirstInteraction);
+            window.removeEventListener('touchstart', handleFirstInteraction);
+            window.removeEventListener('keydown', handleFirstInteraction);
+            window.removeEventListener('mousedown', handleFirstInteraction);
+        };
+
+        window.addEventListener('click', handleFirstInteraction);
+        window.addEventListener('touchstart', handleFirstInteraction);
+        window.addEventListener('keydown', handleFirstInteraction);
+        window.addEventListener('mousedown', handleFirstInteraction);
+
         return () => {
             clearTimeout(visibilityTimer);
             clearTimeout(expandTimer);
+            clearTimeout(autoPlayTimer);
+            window.removeEventListener('click', handleFirstInteraction);
+            window.removeEventListener('touchstart', handleFirstInteraction);
+            window.removeEventListener('keydown', handleFirstInteraction);
+            window.removeEventListener('mousedown', handleFirstInteraction);
         };
     }, []);
 
     const togglePlay = () => {
         if (!audioRef.current) return;
+        
+        // Ensure unmuted and full volume when manually toggling
+        audioRef.current.muted = false;
+        audioRef.current.volume = 1;
+
         if (isPlaying) {
             audioRef.current.pause();
         } else {
@@ -118,6 +162,8 @@ export const MusicDock: React.FC = () => {
                         }}
                         whileDrag={{ scale: 1.02 }}
                         className={`fixed bottom-6 left-1/2 -translate-x-1/2 z-[100] touch-none ${isMinimized ? 'cursor-grab active:cursor-grabbing' : ''}`}
+                        onClick={(e) => e.stopPropagation()}
+                        onPointerDown={(e) => e.stopPropagation()}
                     >
                         <motion.div
                             initial={{ width: 64 }}
@@ -126,16 +172,18 @@ export const MusicDock: React.FC = () => {
                             }}
                             transition={{
                                 type: 'spring',
-                                damping: 15,
-                                stiffness: 150,
+                                damping: 18, // Slightly softer spring
+                                stiffness: 120,
                                 mass: 1,
+                                // Increased delay so content blur is clearly halfway done before width changes
+                                delay: isMinimized ? 0.25 : 0
                             }}
                             style={{ willChange: 'width' }}
                             className="
                             relative
                             bg-white/40 backdrop-blur-3xl
                             border border-white/50
-                            rounded-[20px]
+                            rounded-[18px] md:rounded-[20px]
                             shadow-[0_15px_35px_rgba(0,0,0,0.1),inset_0_1px_1px_rgba(255,255,255,0.8)]
                             overflow-hidden
                             transform-gpu
@@ -146,6 +194,7 @@ export const MusicDock: React.FC = () => {
                                     ref={audioRef}
                                     src={currentSong.url}
                                     onEnded={handleEnded}
+                                    preload="auto"
                                 />
 
                                 {/* Album Art - draggable area when minimized */}
@@ -173,9 +222,9 @@ export const MusicDock: React.FC = () => {
 
                                         <div className="absolute inset-0 bg-gradient-to-tr from-white/20 via-transparent to-transparent opacity-60 pointer-events-none" />
 
-                                        {/* Playing Indicator */}
+                                        {/* Playing Indicator - Only shown when minimized to avoid cluttering expanded view */}
                                         <AnimatePresence>
-                                            {isPlaying && (
+                                            {isPlaying && isMinimized && (
                                                 <motion.div
                                                     initial={{ opacity: 0 }}
                                                     animate={{ opacity: 1 }}
@@ -221,85 +270,104 @@ export const MusicDock: React.FC = () => {
                                     )}
                                 </div>
 
-                                {/* Expanded Content */}
-                                <motion.div
-                                    animate={{
-                                        opacity: isMinimized ? 0 : 1,
-                                        x: isMinimized ? -20 : 0,
-                                    }}
-                                    transition={{ duration: 0.2 }}
-                                    className={`flex-1 flex items-center justify-between gap-3 pl-3 pr-2 overflow-hidden ${isMinimized ? 'pointer-events-none' : ''}`}
-                                >
-                                    {/* Info & Sub-controls */}
-                                    <div className="min-w-[100px] flex flex-col gap-1">
-                                        <div className="flex flex-col">
-                                            <div
-                                                className="overflow-hidden whitespace-nowrap relative h-4 flex items-center w-[100px]"
-                                                style={shouldScroll ? {
-                                                    maskImage: 'linear-gradient(to right, transparent, black 10%, black 90%, transparent)',
-                                                    WebkitMaskImage: 'linear-gradient(to right, transparent, black 10%, black 90%, transparent)'
-                                                } : {}}
-                                            >
-                                                <motion.div
-                                                    key={currentSong.id}
-                                                    initial={{ x: 0 }}
-                                                    animate={shouldScroll ? { x: "-50%" } : { x: 0 }}
-                                                    transition={shouldScroll ? {
-                                                        duration: currentSong.title.length * 0.4,
-                                                        repeat: Infinity,
-                                                        ease: "linear",
-                                                        repeatType: "loop"
-                                                    } : { duration: 0.3 }}
-                                                    className="flex"
-                                                >
-                                                    <span className="text-[10px] md:text-[11px] font-black text-gray-900 pr-8 tracking-tight uppercase whitespace-nowrap">
-                                                        {currentSong.title}
-                                                    </span>
-                                                    {shouldScroll && (
-                                                        <span className="text-[10px] md:text-[11px] font-black text-gray-900 pr-8 tracking-tight uppercase whitespace-nowrap">
-                                                            {currentSong.title}
-                                                        </span>
-                                                    )}
-                                                </motion.div>
-                                            </div>
-                                            <span className="text-[7px] md:text-[8px] text-gray-400 font-bold uppercase tracking-[0.2em] opacity-80 truncate">
-                                                {currentSong.artist}
-                                            </span>
-                                        </div>
-
-                                        <div className="flex items-center gap-3 h-4">
-                                            <div className="flex items-center gap-0.5 h-full">
-                                                {[...Array(6)].map((_, i) => (
-                                                    <motion.div
-                                                        key={i}
-                                                        animate={isPlaying ? { height: [2, 10, 4, 8, 2] } : { height: 1.5 }}
-                                                        transition={{ repeat: Infinity, duration: 0.6 + (i * 0.1) }}
-                                                        className={`w-0.5 rounded-full ${isPlaying ? 'bg-[rgb(81,108,180)]/60' : 'bg-gray-300'}`}
-                                                    />
-                                                ))}
-                                            </div>
-                                            <button onClick={toggleRepeat} className={`p-1 ${isRepeatOne ? 'text-[rgb(81,108,180)]' : 'text-gray-300'}`}>
-                                                {isRepeatOne ? <Repeat1 size={12} /> : <Repeat size={12} />}
-                                            </button>
-                                        </div>
-                                    </div>
-
-                                    {/* Main Controls */}
-                                    <div className="flex items-center gap-1">
-                                        <button onClick={prevSong} className="text-gray-400 hover:text-gray-900 p-1.5 active:scale-90 transition-transform">
-                                            <SkipBack size={14} fill="currentColor" />
-                                        </button>
-                                        <button
-                                            onClick={togglePlay}
-                                            className="w-10 h-10 rounded-full bg-gradient-to-b from-white to-gray-100/80 border border-white/80 shadow-md flex items-center justify-center text-gray-900 hover:scale-105 active:scale-95 transition-transform"
+                                {/* Expanded Content revealed via AnimatePresence */}
+                                <AnimatePresence mode="wait">
+                                    {!isMinimized && (
+                                        <motion.div
+                                            key="expanded-content"
+                                            initial={{ opacity: 0, filter: 'blur(10px)', x: -10 }}
+                                            animate={{ opacity: 1, filter: 'blur(0px)', x: 0 }}
+                                            exit={{ opacity: 0, filter: 'blur(10px)', x: -10 }}
+                                            transition={{
+                                                duration: 0.4,
+                                                ease: [0.4, 0, 0.2, 1],
+                                                // Wait for container to start opening
+                                                delay: 0.1
+                                            }}
+                                            className="flex-1 flex items-center justify-between gap-3 pl-3 pr-2 overflow-hidden"
                                         >
-                                            {isPlaying ? <Pause size={16} fill="currentColor" /> : <Play size={16} fill="currentColor" className="ml-0.5" />}
-                                        </button>
-                                        <button onClick={nextSong} className="text-gray-400 hover:text-gray-900 p-1.5 active:scale-90 transition-transform">
-                                            <SkipForward size={14} fill="currentColor" />
-                                        </button>
-                                    </div>
-                                </motion.div>
+                                            {/* Info Section */}
+                                            <motion.div
+                                                initial={{ opacity: 0, filter: 'blur(4px)' }}
+                                                animate={{ opacity: 1, filter: 'blur(0px)' }}
+                                                transition={{ delay: 0.2 }}
+                                                className="min-w-[100px] flex flex-col gap-1"
+                                            >
+                                                <div className="flex flex-col">
+                                                    <div
+                                                        className="overflow-hidden whitespace-nowrap relative h-4 flex items-center w-[100px]"
+                                                        style={shouldScroll ? {
+                                                            maskImage: 'linear-gradient(to right, transparent, black 10%, black 90%, transparent)',
+                                                            WebkitMaskImage: 'linear-gradient(to right, transparent, black 10%, black 90%, transparent)'
+                                                        } : {}}
+                                                    >
+                                                        <motion.div
+                                                            key={currentSong.id}
+                                                            initial={{ x: 0 }}
+                                                            animate={shouldScroll ? { x: "-50%" } : { x: 0 }}
+                                                            transition={shouldScroll ? {
+                                                                duration: currentSong.title.length * 0.4,
+                                                                repeat: Infinity,
+                                                                ease: "linear",
+                                                                repeatType: "loop"
+                                                            } : { duration: 0.3 }}
+                                                            className="flex"
+                                                        >
+                                                            <span className="text-[10px] md:text-[11px] font-black text-gray-900 pr-8 tracking-tight uppercase whitespace-nowrap">
+                                                                {currentSong.title}
+                                                            </span>
+                                                            {shouldScroll && (
+                                                                <span className="text-[10px] md:text-[11px] font-black text-gray-900 pr-8 tracking-tight uppercase whitespace-nowrap">
+                                                                    {currentSong.title}
+                                                                </span>
+                                                            )}
+                                                        </motion.div>
+                                                    </div>
+                                                    <span className="text-[7px] md:text-[8px] text-gray-400 font-bold uppercase tracking-[0.2em] opacity-80 truncate">
+                                                        {currentSong.artist}
+                                                    </span>
+                                                </div>
+
+                                                <div className="flex items-center gap-3 h-4">
+                                                    <div className="flex items-center gap-0.5 h-full">
+                                                        {[...Array(6)].map((_, i) => (
+                                                            <motion.div
+                                                                key={i}
+                                                                animate={isPlaying ? { height: [2, 10, 4, 8, 2] } : { height: 1.5 }}
+                                                                transition={{ repeat: Infinity, duration: 0.6 + (i * 0.1) }}
+                                                                className={`w-0.5 rounded-full ${isPlaying ? 'bg-[rgb(81,108,180)]/60' : 'bg-gray-300'}`}
+                                                            />
+                                                        ))}
+                                                    </div>
+                                                    <button onClick={toggleRepeat} className={`p-1 ${isRepeatOne ? 'text-[rgb(81,108,180)]' : 'text-gray-300'}`}>
+                                                        {isRepeatOne ? <Repeat1 size={12} /> : <Repeat size={12} />}
+                                                    </button>
+                                                </div>
+                                            </motion.div>
+
+                                            {/* Main Controls */}
+                                            <motion.div
+                                                initial={{ opacity: 0, filter: 'blur(4px)' }}
+                                                animate={{ opacity: 1, filter: 'blur(0px)' }}
+                                                transition={{ delay: 0.3 }}
+                                                className="flex items-center gap-1"
+                                            >
+                                                <button onClick={prevSong} className="text-gray-400 hover:text-gray-900 p-1.5 active:scale-90 transition-transform">
+                                                    <SkipBack size={14} fill="currentColor" />
+                                                </button>
+                                                <button
+                                                    onClick={togglePlay}
+                                                    className="w-10 h-10 rounded-full bg-gradient-to-b from-white to-gray-100/80 border border-white/80 shadow-md flex items-center justify-center text-gray-900 hover:scale-105 active:scale-95 transition-transform"
+                                                >
+                                                    {isPlaying ? <Pause size={16} fill="currentColor" /> : <Play size={16} fill="currentColor" className="ml-0.5" />}
+                                                </button>
+                                                <button onClick={nextSong} className="text-gray-400 hover:text-gray-900 p-1.5 active:scale-90 transition-transform">
+                                                    <SkipForward size={14} fill="currentColor" />
+                                                </button>
+                                            </motion.div>
+                                        </motion.div>
+                                    )}
+                                </AnimatePresence>
                             </div>
                         </motion.div>
 

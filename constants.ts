@@ -264,6 +264,13 @@ export const TOOL_STACK_URLS = [
 
 export const SONGS: Song[] = [
     {
+        id: "3",
+        title: "Heavenly",
+        artist: "Cigarettes After Sex",
+        url: "/songs/Heavenly - Cigarettes After Sex.mp3",
+        coverUrl: "/songs/cas1.jpg"
+    },
+    {
         id: "1",
         title: "Hideaway",
         artist: "Cigarettes After Sex",
@@ -276,12 +283,5 @@ export const SONGS: Song[] = [
         artist: "Cigarettes After Sex",
         url: "/songs/Holding You, Holding Me - Cigarettes After Sex.mp3",
         coverUrl: "/songs/cas.jpg"
-    },
-    {
-        id: "3",
-        title: "Heavenly",
-        artist: "Cigarettes After Sex",
-        url: "/songs/Heavenly - Cigarettes After Sex.mp3",
-        coverUrl: "/songs/cas1.jpg"
     }
 ];

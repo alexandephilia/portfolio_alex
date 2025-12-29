@@ -94,11 +94,19 @@ const KeyboardGroup: React.FC<{ category: SkillCategory; index: number }> = ({ c
     )
 }
 
+// Shared audio instance for keyboard clicks to avoid multiple object creations
+const clickSound = typeof Audio !== 'undefined' ? new Audio('/click.mp3') : null;
+if (clickSound) {
+    clickSound.preload = 'auto';
+}
+
 const Keycap: React.FC<{ label: string }> = ({ label }) => {
     const playClick = () => {
-        const audio = new Audio('/click.mp3');
-        audio.currentTime = 0;
-        audio.play().catch(err => console.error("Audio playback failed:", err));
+        if (!clickSound) return;
+        
+        // Reset and play for snappy feedback
+        clickSound.currentTime = 0;
+        clickSound.play().catch(err => console.error("Audio playback failed:", err));
     };
 
     return (
