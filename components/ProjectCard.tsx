@@ -116,7 +116,7 @@ export const ProjectCard: React.FC<ProjectCardProps> = ({ project }) => {
         >
             {/* Outer Rim Container */}
             <div
-                className="w-full rounded-[24px] p-[4px] backdrop-blur-[25px] transition-all duration-300 group-hover:-translate-y-1"
+                className="w-full rounded-[24px] p-[4px] backdrop-blur-[25px] transition-transform duration-300 group-hover:-translate-y-1"
                 style={{
                     background: `linear-gradient(180deg, #FFFFFF 0%, #F3F4F6 50%, #E5E7EB 100%)`,
                     boxShadow: 'rgba(0, 0, 0, 0.13) 0px 8px 10px, rgba(0, 0, 0, 0.05) 0px 4px 4px'
@@ -201,7 +201,7 @@ export const ProjectCard: React.FC<ProjectCardProps> = ({ project }) => {
                                             href={project.linkUrl}
                                             target="_blank"
                                             rel="noopener noreferrer"
-                                            className="flex items-center gap-1.5 px-3 py-1 rounded-md text-[10px] md:text-xs font-bold transition-all bg-linear-to-b from-white to-gray-100 border border-gray-200 shadow-[0_2px_4px_rgba(0,0,0,0.05),0_1px_2px_rgba(0,0,0,0.04),inset_0_1px_0_rgba(255,255,255,0.8)] text-gray-700 hover:text-gray-900 hover:shadow-[0_3px_6px_rgba(0,0,0,0.08),0_1px_2px_rgba(0,0,0,0.06)] active:shadow-sm active:translate-y-px group/btn"
+                                            className="flex items-center gap-1.5 px-3 py-1 rounded-md text-[10px] md:text-xs font-bold transition-transform bg-linear-to-b from-white to-gray-100 border border-gray-200 shadow-[0_2px_4px_rgba(0,0,0,0.05),0_1px_2px_rgba(0,0,0,0.04),inset_0_1px_0_rgba(255,255,255,0.8)] text-gray-700 hover:text-gray-900 hover:shadow-[0_3px_6px_rgba(0,0,0,0.08),0_1px_2px_rgba(0,0,0,0.06)] active:shadow-sm active:translate-y-px group/btn"
                                         >
                                             View Case Study
                                             <ArrowRight size={12} className="text-gray-400 group-hover/btn:translate-x-1 transition-transform group-hover/btn:text-blue-500" />

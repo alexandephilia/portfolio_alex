@@ -99,7 +99,7 @@ const LazyImage: React.FC<{
         <motion.div
             ref={ref}
             variants={staggerItemVariants}
-            className={`group relative w-[200px] h-[200px] md:w-[220px] md:h-[220px] shrink-0 rounded-[16px] p-[3px] transition-all duration-300 shadow-[0_8px_10px_rgba(0,0,0,0.13),0_4px_4px_rgba(0,0,0,0.05)] hover:shadow-xl hover:-translate-y-1 ${activeIndex === index ? 'shadow-xl -translate-y-1' : ''}`}
+            className={`group relative w-[200px] h-[200px] md:w-[220px] md:h-[220px] shrink-0 rounded-[16px] p-[3px] transition-transform duration-300 shadow-[0_8px_10px_rgba(0,0,0,0.13),0_4px_4px_rgba(0,0,0,0.05)] hover:shadow-xl hover:-translate-y-1 ${activeIndex === index ? 'shadow-xl -translate-y-1' : ''}`}
             style={{
                 background: `linear-gradient(180deg, #FFFFFF 0%, #F3F4F6 50%, #E5E7EB 100%)`,
                 willChange: 'transform'
@@ -109,7 +109,7 @@ const LazyImage: React.FC<{
             onTouchCancel={onTouchEnd}
         >
             {/* Inner Container */}
-            <div className="w-full h-full bg-white rounded-[14px] p-1.5 border border-[rgba(0,0,0,0.05)] transition-all duration-300 group-hover:border-[rgba(0,0,0,0.08)] group-hover:shadow-[0_12px_24px_-8px_rgba(0,0,0,0.12)]">
+            <div className="w-full h-full bg-white rounded-[14px] p-1.5 border border-[rgba(0,0,0,0.05)] transition-shadow duration-300 group-hover:border-[rgba(0,0,0,0.08)] group-hover:shadow-[0_12px_24px_-8px_rgba(0,0,0,0.12)]">
                 <div className="w-full h-full rounded-[10px] overflow-hidden bg-gray-100 relative">
                     {isInView && (
                         <img
@@ -120,7 +120,7 @@ const LazyImage: React.FC<{
                             draggable={false}
                             onContextMenu={(e) => e.preventDefault()}
                             onLoad={() => setIsLoaded(true)}
-                            className={`w-full h-full object-cover transition-all duration-700 ease-in-out transform select-none grayscale group-hover:grayscale-0 group-hover:scale-105 ${activeIndex === index ? 'grayscale-0 scale-105' : ''} ${isLoaded ? 'opacity-100 blur-0' : 'opacity-0 blur-lg'}`}
+                            className={`w-full h-full object-cover transition-opacity duration-700 ease-in-out transform select-none grayscale group-hover:grayscale-0 group-hover:scale-105 ${activeIndex === index ? 'grayscale-0 scale-105' : ''} ${isLoaded ? 'opacity-100 blur-0' : 'opacity-0 blur-lg'}`}
                             style={{ WebkitTouchCallout: 'none', WebkitUserSelect: 'none' }}
                         />
                     )}

@@ -17,7 +17,7 @@ export const Experience: React.FC = () => {
                     href="/resume.pdf"
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="px-3 py-1.5 md:px-4 md:py-2 rounded-lg text-[10px] md:text-xs font-medium transition-all bg-gradient-to-b from-white to-gray-100 border border-gray-200 shadow-[0_2px_4px_rgba(0,0,0,0.05),0_1px_2px_rgba(0,0,0,0.04),inset_0_1px_0_rgba(255,255,255,0.8)] text-gray-600 hover:text-gray-900 hover:shadow-[0_3px_6px_rgba(0,0,0,0.08),0_1px_2px_rgba(0,0,0,0.06)] active:shadow-sm active:translate-y-[1px]"
+                    className="px-3 py-1.5 md:px-4 md:py-2 rounded-lg text-[10px] md:text-xs font-medium transition-transform bg-gradient-to-b from-white to-gray-100 border border-gray-200 shadow-[0_2px_4px_rgba(0,0,0,0.05),0_1px_2px_rgba(0,0,0,0.04),inset_0_1px_0_rgba(255,255,255,0.8)] text-gray-600 hover:text-gray-900 hover:shadow-[0_3px_6px_rgba(0,0,0,0.08),0_1px_2px_rgba(0,0,0,0.06)] active:shadow-sm active:translate-y-[1px]"
                 >
                     Download Resume
                 </motion.a>

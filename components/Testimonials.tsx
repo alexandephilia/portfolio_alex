@@ -57,7 +57,7 @@ export const Testimonials: React.FC = () => {
                                 padding: '5px'
                             }}
                         >
-                            <div className="w-full h-full bg-white rounded-[28px] overflow-hidden relative border border-transparent transition-all duration-500 flex flex-col">
+                            <div className="w-full h-full bg-white rounded-[28px] overflow-hidden relative border border-transparent transition-shadow duration-500 flex flex-col">
 
                                 <div className="relative md:absolute md:inset-0 w-full md:w-[380px] p-3 md:p-8 flex flex-col justify-between gap-2 md:gap-0 h-full">
 
@@ -69,7 +69,7 @@ export const Testimonials: React.FC = () => {
                                         />
                                         
                                         <p className={`
-                        text-[11px] md:text-lg font-medium leading-relaxed text-gray-700 transition-all duration-500
+                        text-[11px] md:text-lg font-medium leading-relaxed text-gray-700 transition-opacity duration-500
                         max-w-[240px] md:max-w-[280px] text-left
                         ${isExpanded ? 'opacity-100' : 'opacity-70 blur-[0.5px] group-hover:opacity-90 group-hover:blur-0'}
                       `}>

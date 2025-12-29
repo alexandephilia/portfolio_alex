@@ -134,7 +134,7 @@ const Keycap: React.FC<{ label: string }> = ({ label }) => {
                 text-gray-600 font-mono text-[8px] md:text-[11px] font-bold uppercase tracking-wide
 
                 /* Transitions */
-                transition-all duration-100 ease-out
+                transition-transform duration-100 ease-out
 
                 /* Hover Effects - Slight Depress */
                 hover:shadow-[0_2px_0_#d1d5db,0_2px_4px_rgba(0,0,0,0.1),inset_0_1px_0_rgba(255,255,255,0.9)]
@@ -249,7 +249,7 @@ const MacMiniSection: React.FC = () => {
                             className="relative w-[180px] md:w-[220px] aspect-square flex items-center justify-center"
                         >
                             {/* Floating Shadow */}
-                            <div className="absolute inset-x-4 bottom-6 h-6 bg-black/20 blur-xl rounded-[100%] transform scale-x-75 group-hover:scale-x-90 group-hover:bg-black/25 transition-all duration-500" />
+                            <div className="absolute inset-x-4 bottom-6 h-6 bg-black/20 blur-xl rounded-[100%] transform scale-x-75 group-hover:scale-x-90 group-hover:bg-black/25 transition-transform duration-500" />
 
                             <img
                                 src="https://www.datalogicsindia.com/Apple/mac_mini/mac_mini_M4/assets/Hero.png"

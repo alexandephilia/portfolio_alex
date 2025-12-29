@@ -385,7 +385,7 @@ export const MusicDock: React.FC = () => {
                                 }
                                 setIsMinimized(!isMinimized);
                             }}
-                            className="absolute -top-1 -right-1 z-50 w-5 h-5 rounded-full bg-white/80 backdrop-blur-sm border border-white/50 shadow-md flex items-center justify-center text-gray-400 hover:text-gray-900 hover:scale-110 active:scale-95 transition-all"
+                            className="absolute -top-1 -right-1 z-50 w-5 h-5 rounded-full bg-white/80 backdrop-blur-sm border border-white/50 shadow-md flex items-center justify-center text-gray-400 hover:text-gray-900 hover:scale-110 active:scale-95 transition-transform"
                         >
                             <span className="text-[10px] font-bold">{isMinimized ? '+' : '−'}</span>
                         </button>

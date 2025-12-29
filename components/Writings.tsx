@@ -556,7 +556,7 @@ export const Writings: React.FC = () => {
                     <motion.button
                         variants={staggerItemVariants}
                         onClick={() => setShowAddForm(true)}
-                        className="flex items-center gap-2 px-3 py-1.5 md:px-4 md:py-2 rounded-lg text-[10px] md:text-xs font-medium transition-all bg-gradient-to-b from-gray-800 to-gray-900 border border-gray-700 shadow-[0_2px_4px_rgba(0,0,0,0.2),0_1px_2px_rgba(0,0,0,0.1),inset_0_1px_0_rgba(255,255,255,0.1)] text-white hover:from-gray-700 hover:to-gray-800 hover:shadow-[0_3px_6px_rgba(0,0,0,0.25)] active:shadow-sm active:translate-y-[1px]"
+                        className="flex items-center gap-2 px-3 py-1.5 md:px-4 md:py-2 rounded-lg text-[10px] md:text-xs font-medium transition-transform bg-gradient-to-b from-gray-800 to-gray-900 border border-gray-700 shadow-[0_2px_4px_rgba(0,0,0,0.2),0_1px_2px_rgba(0,0,0,0.1),inset_0_1px_0_rgba(255,255,255,0.1)] text-white hover:from-gray-700 hover:to-gray-800 hover:shadow-[0_3px_6px_rgba(0,0,0,0.25)] active:shadow-sm active:translate-y-[1px]"
                     >
                         <Plus size={14} />
                         New Writing
@@ -633,14 +633,14 @@ export const Writings: React.FC = () => {
                                             <button
                                                 type="button"
                                                 onClick={() => setShowAddForm(false)}
-                                                className="px-4 py-2 rounded-lg text-xs font-medium transition-all bg-gradient-to-b from-white to-gray-100 border border-gray-200 shadow-[0_2px_4px_rgba(0,0,0,0.05),0_1px_2px_rgba(0,0,0,0.04),inset_0_1px_0_rgba(255,255,255,0.8)] text-gray-600 hover:text-gray-900 hover:shadow-[0_3px_6px_rgba(0,0,0,0.08)] active:shadow-sm active:translate-y-[1px]"
+                                                className="px-4 py-2 rounded-lg text-xs font-medium transition-transform bg-gradient-to-b from-white to-gray-100 border border-gray-200 shadow-[0_2px_4px_rgba(0,0,0,0.05),0_1px_2px_rgba(0,0,0,0.04),inset_0_1px_0_rgba(255,255,255,0.8)] text-gray-600 hover:text-gray-900 hover:shadow-[0_3px_6px_rgba(0,0,0,0.08)] active:shadow-sm active:translate-y-[1px]"
                                             >
                                                 Cancel
                                             </button>
                                             <button
                                                 type="submit"
                                                 disabled={isSubmitting || !newTitle.trim() || !newContent.trim()}
-                                                className="flex items-center gap-2 px-4 py-2 rounded-lg text-xs font-medium transition-all bg-gradient-to-b from-gray-800 to-gray-900 border border-gray-700 shadow-[0_2px_4px_rgba(0,0,0,0.2),0_1px_2px_rgba(0,0,0,0.1),inset_0_1px_0_rgba(255,255,255,0.1)] text-white hover:from-gray-700 hover:to-gray-800 hover:shadow-[0_3px_6px_rgba(0,0,0,0.25)] active:shadow-sm active:translate-y-[1px] disabled:opacity-50 disabled:cursor-not-allowed"
+                                                className="flex items-center gap-2 px-4 py-2 rounded-lg text-xs font-medium transition-transform bg-gradient-to-b from-gray-800 to-gray-900 border border-gray-700 shadow-[0_2px_4px_rgba(0,0,0,0.2),0_1px_2px_rgba(0,0,0,0.1),inset_0_1px_0_rgba(255,255,255,0.1)] text-white hover:from-gray-700 hover:to-gray-800 hover:shadow-[0_3px_6px_rgba(0,0,0,0.25)] active:shadow-sm active:translate-y-[1px] disabled:opacity-50 disabled:cursor-not-allowed"
                                             >
                                                 {isSubmitting ? (
                                                     <Loader2 size={14} className="animate-spin" />
@@ -763,7 +763,7 @@ export const Writings: React.FC = () => {
                                 {isAdmin && (
                                     <button
                                         onClick={(e) => handleDelete(writing.id, e)}
-                                        className="p-2 text-gray-300 hover:text-red-500 hover:bg-red-50 rounded-lg md:opacity-0 md:group-hover:opacity-100 transition-all flex-shrink-0"
+                                        className="p-2 text-gray-300 hover:text-red-500 hover:bg-red-50 rounded-lg md:opacity-0 md:group-hover:opacity-100 transition-opacity flex-shrink-0"
                                     >
                                         <Trash2 size={16} />
                                     </button>

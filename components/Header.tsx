@@ -56,7 +56,7 @@ export const Header: React.FC = () => {
                             flex items-center justify-center
                             w-8 h-8 md:w-10 md:h-10
                             rounded-lg md:rounded-xl
-                            transition-all duration-150
+                            transition-transform duration-150
                             ${link.buttonStyle}
                         `}
                     >
