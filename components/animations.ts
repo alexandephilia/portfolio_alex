@@ -6,7 +6,7 @@ import { Variants } from 'framer-motion';
 export const sectionHeaderVariants: Variants = {
     hidden: {
         opacity: 0,
-        filter: 'blur(10px)',
+        filter: 'blur(4px)',
         y: 8,
     },
     visible: {
@@ -15,8 +15,7 @@ export const sectionHeaderVariants: Variants = {
         y: 0,
         transition: {
             duration: 0.6,
-            ease: [0.25, 0.1, 0.25, 1], // cubic-bezier for smoother animation
-            // Stagger filter slightly after opacity to reduce GPU load
+            ease: [0.25, 0.1, 0.25, 1],
             filter: { duration: 0.5, delay: 0.05 },
         }
     }
@@ -42,7 +41,7 @@ export const staggerContainerVariants: Variants = {
 export const staggerItemVariants: Variants = {
     hidden: {
         opacity: 0,
-        filter: 'blur(6px)',
+        filter: 'blur(2px)',
         y: 6,
     },
     visible: {
@@ -76,7 +75,7 @@ export const antiFlickerStyle: React.CSSProperties = {
 export const blurOnlyVariants: Variants = {
     hidden: {
         opacity: 0,
-        filter: 'blur(6px)',
+        filter: 'blur(2px)',
     },
     visible: {
         opacity: 1,

@@ -144,9 +144,10 @@ export const MusicDock: React.FC = () => {
             <AnimatePresence>
                 {isVisible && (
                     <motion.div
-                        initial={{ opacity: 0 }}
+                        initial={{ opacity: 0, x: 0, y: 0 }}
                         animate={{
                             opacity: 1,
+                            // Only animate position when NOT dragging to prevent fighting
                             x: isMinimized ? dragPosition.x : 0,
                             y: isMinimized ? dragPosition.y : 0,
                         }}
@@ -158,17 +159,19 @@ export const MusicDock: React.FC = () => {
                         }}
                         drag={isMinimized}
                         dragConstraints={constraintsRef}
-                        dragElastic={0.05}
+                        dragElastic={0.08}
                         dragMomentum={false}
-                        dragTransition={{ bounceStiffness: 300, bounceDamping: 20 }}
+                        dragTransition={{ bounceStiffness: 300, bounceDamping: 25 }}
                         onDragEnd={(_: MouseEvent | TouchEvent | PointerEvent, info: PanInfo) => {
+                            // Only update position after drag ends to avoid fighting
                             setDragPosition(prev => ({
                                 x: prev.x + info.offset.x,
                                 y: prev.y + info.offset.y
                             }));
                         }}
-                        whileDrag={{ scale: 1.02 }}
-                        className={`fixed bottom-6 left-1/2 -translate-x-1/2 z-[100] touch-none ${isMinimized ? 'cursor-grab active:cursor-grabbing' : ''}`}
+                        whileDrag={{ scale: 1.03, zIndex: 150 }}
+                        className={`fixed bottom-6 left-1/2 -translate-x-1/2 z-100 touch-none select-none ${isMinimized ? 'cursor-grab active:cursor-grabbing' : ''}`}
+                        style={{ touchAction: 'none' }}
                         onClick={(e) => e.stopPropagation()}
                         onPointerDown={(e) => e.stopPropagation()}
                     >

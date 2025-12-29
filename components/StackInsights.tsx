@@ -134,15 +134,17 @@ export const StackInsights: React.FC = () => {
                                                 <img 
                                                     src="https://upload.wikimedia.org/wikipedia/commons/thumb/b/b0/Claude_AI_symbol.svg/1200px-Claude_AI_symbol.svg.png"
                                                     alt="Claude Symbol"
+                                                    decoding="async"
                                                     className="absolute -top-4 -right-4 w-32 h-32 opacity-[0.1] grayscale object-contain pointer-events-none select-none"
                                                     style={{ transform: 'rotate(15deg)' }}
                                                 />
                                             )}
                                             {insight.id === "2" && (
                                                 <img 
-                                                    src="https://www.freepnglogos.com/uploads/apple-logo-png/apple-logo-png-index-content-uploads-10.png"
-                                                    alt="Apple Logo"
-                                                    className="absolute -top-3 -right-[-2px] w-auto h-32 opacity-[0.1] object-contain pointer-events-none select-none"
+                                                    src="https://framerusercontent.com/images/lfSBU4EhKcMg3iGg98L2F1ESfA.jpg"
+                                                    alt="Cursor AI"
+                                                    decoding="async"
+                                                    className="absolute -top-3 -right-4 w-auto h-32 opacity-[0.1] object-contain pointer-events-none select-none rounded-xl shadow-2xl"
                                                     style={{ transform: 'rotate(10deg)' }}
                                                 />
                                             )}
@@ -150,6 +152,7 @@ export const StackInsights: React.FC = () => {
                                                 <img 
                                                     src="https://assets.streamlinehq.com/image/private/w_300,h_300,ar_1/f_auto/v1/icons/vector-icons/brand-framer-motion-pk1mas1m7u9hi06fqzq77f.png/brand-framer-motion-nuunolaqtcs7zlblwkjs.png?_a=DATAg1AAZAA0"
                                                     alt="Framer Motion Logo"
+                                                    decoding="async"
                                                     className="absolute -top-4 -right-4 w-32 h-32 opacity-[0.1] object-contain pointer-events-none select-none"
                                                     style={{ transform: 'rotate(12deg)' }}
                                                 />

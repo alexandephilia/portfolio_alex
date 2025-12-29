@@ -57,7 +57,7 @@ export default function App() {
 
     // Global Animation Variants
     const sectionVariants = {
-        hidden: { opacity: 0, filter: 'blur(10px)', y: 20 },
+        hidden: { opacity: 0, filter: 'blur(4px)', y: 20 },
         visible: {
             opacity: 1,
             filter: 'blur(0px)',
@@ -87,7 +87,7 @@ export default function App() {
     const itemVariants = {
         hidden: {
             opacity: 0,
-            filter: 'blur(12px)',
+            filter: 'blur(4px)',
             y: 20,
             scale: 0.98
         },
@@ -171,7 +171,7 @@ export default function App() {
                                         variants={{
                                             hidden: {
                                                 opacity: 0,
-                                                filter: 'blur(10px)',
+                                                filter: 'blur(4px)',
                                                 y: 15,
                                                 scale: 0.98
                                             },
@@ -189,7 +189,7 @@ export default function App() {
                                             },
                                             exit: {
                                                 opacity: 0,
-                                                filter: 'blur(8px)',
+                                                filter: 'blur(3px)',
                                                 y: -10,
                                                 transition: {
                                                     duration: 0.2,

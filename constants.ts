@@ -216,20 +216,20 @@ export const SKILL_CATEGORIES: SkillCategory[] = [
 export const STACK_INSIGHTS: StackInsightItem[] = [
     {
         id: "1",
-        title: "Claude The Magnum Opus",
-        text: "My extended brain. Allow to navigate me to imagine of a thousand possibilities being synthesized down to the one elegant line that matters. Claude aren't just output generators; they are intellectual catalysts in architecting the best possible iteration and beyond than just looking for solution to every challange.",
+        title: "Claude the Magnum Opus",
+        text: "My second brain. It helps me explore every possible way to solve a problem until the best one becomes clear. It’s not just for generating code; it’s a partner that helps me think through every detail and find the best way to build something great.",
         category: "The Co-Brain"
     },
     {
         id: "2",
-        title: "The M4 Engine",
-        text: "Silent. Powerful. A silver box of pure unyielding momentum. The M4 treats 10,000-node trees as a casual breeze, providing the clinical headroom to dream bigger and render reality in real-time.",
-        category: "The Core"
+        title: "Cursor the Multi-Editor",
+        text: "The command center for every project. It's more than just a place to type. it's a tool that helps me both design and build software at the speed of thought. It takes the friction out of coding, letting me turn complex ideas into working products without getting stuck.",
+        category: "The Editor"
     },
     {
         id: "3",
-        title: "Framer Motion",
-        text: "The physics of the digital world. I translate the laws of nature into the language of the browser, ensuring every snap, glide, and spring has the undeniable kinetic gravity of a living interface.",
+        title: "Motion the Physics of the Web",
+        text: "The physics of the web. I use it to make digital movements feel real—adding weight and life to every interaction. It ensures that clicking, dragging, and scrolling feels as natural as moving something in the physical world.",
         category: "The Motion"
     }
 ];

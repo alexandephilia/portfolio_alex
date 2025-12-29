@@ -49,9 +49,10 @@ export const BeyondWork: React.FC = () => {
                     {images.map((src, idx) => (
                         <div
                             key={idx}
-                            className={`group relative w-[200px] h-[200px] md:w-[220px] md:h-[220px] shrink-0 rounded-[16px] p-[3px] backdrop-blur-[25px] transition-all duration-300 shadow-[0_8px_10px_rgba(0,0,0,0.13),0_4px_4px_rgba(0,0,0,0.05)] hover:shadow-xl hover:-translate-y-1 ${activeIndex === idx ? 'shadow-xl -translate-y-1' : ''}`}
+                            className={`group relative w-[200px] h-[200px] md:w-[220px] md:h-[220px] shrink-0 rounded-[16px] p-[3px] transition-all duration-300 shadow-[0_8px_10px_rgba(0,0,0,0.13),0_4px_4px_rgba(0,0,0,0.05)] hover:shadow-xl hover:-translate-y-1 ${activeIndex === idx ? 'shadow-xl -translate-y-1' : ''}`}
                             style={{
                                 background: `linear-gradient(180deg, #FFFFFF 0%, #F3F4F6 50%, #E5E7EB 100%)`,
+                                willChange: 'transform'
                             }}
                             onTouchStart={() => handleTouchStart(idx)}
                             onTouchEnd={handleTouchEnd}
@@ -64,6 +65,7 @@ export const BeyondWork: React.FC = () => {
                                         src={src}
                                         alt="Beyond work photography"
                                         loading="lazy"
+                                        decoding="async"
                                         draggable={false}
                                         onContextMenu={(e) => e.preventDefault()}
                                         className={`w-full h-full object-cover transition-all duration-700 ease-in-out transform select-none grayscale group-hover:grayscale-0 group-hover:scale-105 ${activeIndex === idx ? 'grayscale-0 scale-105' : ''}`}
