@@ -172,8 +172,8 @@ const MacMiniSection: React.FC = () => {
                 </motion.h3>
                 {/* Squiggle Lines SVG - Animated and Tilted */}
                 <svg
-                    className="absolute w-[120%] h-8 md:h-6 bottom-0 md:bottom-2 -left-[10%] md:-left-[5%] text-[rgb(81,108,180)] z-0 pointer-events-none transform -rotate-3"
-                    viewBox="0 0 200 15"
+                    className="absolute w-full h-8 md:h-6 bottom-0 md:bottom-2 left-0 text-[rgb(81,108,180)] z-0 pointer-events-none transform -rotate-3"
+                    viewBox="0 0 182 15"
                     fill="none"
                     xmlns="http://www.w3.org/2000/svg"
                     preserveAspectRatio="none"
@@ -187,7 +187,7 @@ const MacMiniSection: React.FC = () => {
                             delay: 0.5, 
                             ease: "easeInOut" 
                         }}
-                        d="M2 7.5C15 2 30 13 45 7.5C60 2 75 13 90 7.5C105 2 120 13 135 7.5C150 2 165 13 180 7.5C195 2 210 13 225 7.5"
+                        d="M2 7.5C15 2 30 13 45 7.5C60 2 75 13 90 7.5C105 2 120 13 135 7.5C150 2 165 13 180 7.5"
                         stroke="currentColor"
                         strokeWidth="2"
                         strokeLinecap="round"

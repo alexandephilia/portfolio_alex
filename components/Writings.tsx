@@ -59,22 +59,30 @@ const NotionEditor: React.FC<NotionEditorProps> = ({ value, onChange, placeholde
         const textBefore = value.slice(0, cursorPos);
         const lastNewline = textBefore.lastIndexOf('\n');
 
-        // Get the ENTIRE current line content (not just text before cursor)
+        // Get the ENTIRE current line content
         const lineStart = lastNewline + 1;
         const nextNewline = value.indexOf('\n', lineStart);
         const lineEnd = nextNewline === -1 ? value.length : nextNewline;
         const entireLineContent = value.slice(lineStart, lineEnd);
 
-        // Only show placeholder if the entire line is empty (Notion-like behavior)
-        const isLineEmpty = entireLineContent.trim().length === 0;
+        // Markdown prefixes that should still show a placeholder if no other text is present
+        const markdownPrefixes = ['# ', '## ', '### ', '> ', '- ', '1. ', '`', '* ', '**'];
+        const hasMarkdownPrefix = markdownPrefixes.some(prefix => entireLineContent.startsWith(prefix));
+        
+        // If line has prefix, check if there's content AFTER the prefix
+        let isLineContentEmpty = entireLineContent.trim().length === 0;
+        if (hasMarkdownPrefix) {
+            const activePrefix = markdownPrefixes.find(prefix => entireLineContent.startsWith(prefix)) || '';
+            isLineContentEmpty = entireLineContent.slice(activePrefix.length).trim().length === 0;
+        }
 
-        // Count lines before cursor
+        // Count lines before cursor for vertical positioning
         const linesBefore = textBefore.split('\n').length - 1;
-        const lineHeight = 27; // Approximate line height based on leading-[1.8] and text-[15px]
+        const lineHeight = 27; 
 
         setHintPosition({
             top: linesBefore * lineHeight,
-            show: isLineEmpty && !showSlashMenu
+            show: isLineContentEmpty && !showSlashMenu
         });
     }, [value, showSlashMenu]);
 
