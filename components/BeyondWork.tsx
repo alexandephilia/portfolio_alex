@@ -83,3 +83,51 @@ export const BeyondWork: React.FC = () => {
         </section>
     );
 };
+
+const LazyImage: React.FC<{
+    src: string;
+    index: number;
+    activeIndex: number | null;
+    onTouchStart: (idx: number) => void;
+    onTouchEnd: () => void;
+}> = ({ src, index, activeIndex, onTouchStart, onTouchEnd }) => {
+    const ref = useRef(null);
+    const isInView = useInView(ref, { margin: "50% 0px 50% 0px", once: true });
+    const [isLoaded, setIsLoaded] = useState(false);
+
+    return (
+        <motion.div
+            ref={ref}
+            variants={staggerItemVariants}
+            className={`group relative w-[200px] h-[200px] md:w-[220px] md:h-[220px] shrink-0 rounded-[16px] p-[3px] transition-all duration-300 shadow-[0_8px_10px_rgba(0,0,0,0.13),0_4px_4px_rgba(0,0,0,0.05)] hover:shadow-xl hover:-translate-y-1 ${activeIndex === index ? 'shadow-xl -translate-y-1' : ''}`}
+            style={{
+                background: `linear-gradient(180deg, #FFFFFF 0%, #F3F4F6 50%, #E5E7EB 100%)`,
+                willChange: 'transform'
+            }}
+            onTouchStart={() => onTouchStart(index)}
+            onTouchEnd={onTouchEnd}
+            onTouchCancel={onTouchEnd}
+        >
+            {/* Inner Container */}
+            <div className="w-full h-full bg-white rounded-[14px] p-1.5 border border-[rgba(0,0,0,0.05)] transition-all duration-300 group-hover:border-[rgba(0,0,0,0.08)] group-hover:shadow-[0_12px_24px_-8px_rgba(0,0,0,0.12)]">
+                <div className="w-full h-full rounded-[10px] overflow-hidden bg-gray-100 relative">
+                    {isInView && (
+                        <img
+                            src={src}
+                            alt="Beyond work photography"
+                            loading="lazy"
+                            decoding="async"
+                            draggable={false}
+                            onContextMenu={(e) => e.preventDefault()}
+                            onLoad={() => setIsLoaded(true)}
+                            className={`w-full h-full object-cover transition-all duration-700 ease-in-out transform select-none grayscale group-hover:grayscale-0 group-hover:scale-105 ${activeIndex === index ? 'grayscale-0 scale-105' : ''} ${isLoaded ? 'opacity-100 blur-0' : 'opacity-0 blur-lg'}`}
+                            style={{ WebkitTouchCallout: 'none', WebkitUserSelect: 'none' }}
+                        />
+                    )}
+                    {/* Inset shadow overlay */}
+                    <div className="absolute inset-0 rounded-[10px] pointer-events-none shadow-[inset_0_2px_8px_rgba(0,0,0,0.15),inset_0_-1px_2px_rgba(0,0,0,0.05)]" />
+                </div>
+            </div>
+        </motion.div>
+    );
+};
