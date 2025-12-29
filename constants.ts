@@ -1,6 +1,6 @@
 import { Bot, Cpu, Globe, Smartphone, Terminal } from 'lucide-react';
 import { FaLinkedinIn, FaWhatsapp, FaXTwitter } from 'react-icons/fa6';
-import { ContactItem, EducationItem, ExperienceItem, Project, SkillCategory, SocialLink, Song, TestimonialItem } from './types';
+import { ContactItem, EducationItem, ExperienceItem, Project, SkillCategory, SocialLink, Song, StackInsightItem, TestimonialItem } from './types';
 
 export const SOCIAL_LINKS: SocialLink[] = [
     {
@@ -213,24 +213,24 @@ export const SKILL_CATEGORIES: SkillCategory[] = [
     }
 ];
 
-export const TESTIMONIALS: TestimonialItem[] = [
+export const STACK_INSIGHTS = [
     {
         id: "1",
-        text: "Garry's ability to drive fast iterations and ship high-quality features while at Realta was remarkable. He has a unique talent for finding the right modern tools to break us out of legacy patterns, significantly accelerating our development cycles and overall delivery.",
-        name: "Gunawan",
-        role: "Manager at Realta Chakradarma"
+        title: "Cursor & Claude",
+        text: "My second brain. *Whirrr.* The sound of a thousand possibilities being winnowed down to the one elegant line that matters. It's not just an editor; it's a partner in the dance of creation.",
+        category: "The Editor"
     },
     {
         id: "2",
-        text: "Garry's engineering skills are matched only by his learning speed and adaptability. He built the whole system in line with our vision and seamlessly helped with the resignation of our core flow. Top tier skills.",
-        name: "Nicholas",
-        role: "Client at RnD (Germany)"
+        title: "The M4 Engine",
+        text: "Silent. Powerful. A sleek silver box—*hummm*—that handles everything I throw at it without breaking a sweat. It's the rock upon which my entire digital world is built.",
+        category: "The Core"
     },
     {
         id: "3",
-        text: "Garry has been instrumental in refining our design workflows at Realta. His proactive exploration of AI tools and his ability to design custom solutions have made our jobs significantly faster and easier. His knowledge in AI-assisted workflows is a game-changer for any creative team.",
-        name: "Dahnil",
-        role: "Designer at Realta Chakradarma"
+        title: "Framer Motion",
+        text: "The physics of the digital world. I don't just animate; I give pixels weight and gravity. It's about how things *feel* when they move—snap, spring, glide.",
+        category: "The Motion"
     }
 ];
 

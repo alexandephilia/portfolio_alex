@@ -51,6 +51,13 @@ export interface TestimonialItem {
     role: string;
 }
 
+export interface StackInsightItem {
+    id: string;
+    title: string;
+    text: string;
+    category: string;
+}
+
 export interface ContactItem {
     label: string;
     value: string;

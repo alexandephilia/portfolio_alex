@@ -12,7 +12,7 @@ import { MusicDock } from './components/MusicDock';
 import { ProjectCard } from './components/ProjectCard';
 import { Skills } from './components/Skills';
 import { Tabs } from './components/Tabs';
-import { Testimonials } from './components/Testimonials';
+import { StackInsights } from './components/StackInsights';
 import { Writings } from './components/Writings';
 import { PROJECTS } from './constants';
 
@@ -235,7 +235,7 @@ export default function App() {
                             <Skills />
                         </motion.div>
                         <motion.div variants={isFirstLoad ? itemVariants : {}}>
-                            <Testimonials />
+                            <StackInsights />
                         </motion.div>
                         <motion.div variants={isFirstLoad ? itemVariants : {}}>
                             <Contact />
