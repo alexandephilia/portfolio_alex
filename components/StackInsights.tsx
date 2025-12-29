@@ -6,120 +6,148 @@ import { antiFlickerStyle, sectionHeaderVariants, viewportSettings } from './ani
 export const StackInsights: React.FC = () => {
     const [currentIndex, setCurrentIndex] = useState(0);
 
-    const cycleStack = () => {
-        setCurrentIndex((prev) => (prev + 1) % STACK_INSIGHTS.length);
+    const bringToFront = (index: number) => {
+        if (index !== currentIndex) {
+            setCurrentIndex(index);
+        }
     };
 
     return (
-        <section className="p-6 md:p-10 bg-[#FAFAFA] border-b border-dashed border-gray-200" style={antiFlickerStyle}>
+        <section className="p-6 md:p-10 bg-[#FAFAFA] border-b border-dashed border-gray-200 overflow-hidden relative" style={antiFlickerStyle}>
             <motion.h2
                 initial="hidden"
                 whileInView="visible"
                 viewport={viewportSettings}
                 variants={sectionHeaderVariants}
-                className="text-[10px] md:text-sm font-bold text-[rgb(81,108,180)] tracking-wider uppercase mb-12"
+                className="text-[10px] md:text-sm font-bold text-[rgb(81,108,180)] tracking-wider uppercase mb-4"
             >
                 The 3 AM Stack
             </motion.h2>
 
-            <div className="relative h-[450px] md:h-[400px] flex items-center justify-center perspective-1000">
-                <AnimatePresence mode="popLayout">
+            <div className="relative h-[280px] md:h-[300px] flex items-end justify-center perspective-1000 pt-6">
+                <AnimatePresence>
                     {STACK_INSIGHTS.map((insight, index) => {
-                        // Calculate relative position in the stack
+                        // Advanced physics: Calculate position relative to whichever one is focused.
+                        // This allows clicking any tab to bring it to the front.
+                        const position = (index === currentIndex) ? 0 : 
+                                         (index > currentIndex) ? index - currentIndex : 
+                                         (STACK_INSIGHTS.length - currentIndex + index);
+                        
                         const isTop = index === currentIndex;
-                        const isBottom = (index + 1) % STACK_INSIGHTS.length === currentIndex;
-                        const isMiddle = !isTop && !isBottom;
                         
-                        // We only actually render the top few or all depending on visual needs
-                        // For a simple stack of 3, we can render all but change their Z and transform
-                        
-                        // Position logic: 0 is top, 1 is middle, 2 is bottom
-                        const position = (index - currentIndex + STACK_INSIGHTS.length) % STACK_INSIGHTS.length;
-                        
-                        if (position > 2) return null; // Only show top 3 layers
+                        // Precise horizontal offsets for desktop - using fixed per-card locations
+                        const desktopOffsets = [8, 38, 70];
+                        const mobileOffsets = [15, 38, 61];
 
                         return (
                             <motion.div
                                 key={insight.id}
-                                onClick={isTop ? cycleStack : undefined}
+                                drag="y"
+                                dragConstraints={{ top: -45, bottom: 0 }} 
+                                dragElastic={0.05} 
+                                onDragStart={() => bringToFront(index)} // Immediate fronting when you start pulling it
+                                onDragEnd={(_, info) => {
+                                    // Only cycle if it was already the top card and pulled high
+                                    if (isTop && info.offset.y < -35) {
+                                        setCurrentIndex((prev) => (prev + 1) % STACK_INSIGHTS.length);
+                                    }
+                                }}
                                 initial={{ 
                                     opacity: 0, 
-                                    scale: 0.8,
-                                    y: 50,
-                                    rotateX: -10
+                                    y: 100,
                                 }}
                                 animate={{ 
-                                    opacity: 1 - position * 0.15,
-                                    scale: 1 - position * 0.05,
-                                    y: position * -12,
-                                    z: -position * 50,
-                                    rotateX: 0,
-                                    rotateZ: position * (index % 2 === 0 ? 1 : -1), // Slight messy stack feel
-                                    cursor: isTop ? 'pointer' : 'default',
-                                    zIndex: STACK_INSIGHTS.length - position
+                                    opacity: 1,
+                                    y: position * -12, 
+                                    x: position * (index % 2 === 0 ? 8 : -8), 
+                                    rotateZ: position * (index % 2 === 0 ? 0.4 : -0.4), 
+                                    scale: 1 - position * 0.015,
+                                    zIndex: STACK_INSIGHTS.length - position,
+                                    cursor: isTop ? 'grab' : 'pointer'
                                 }}
-                                exit={{ 
-                                    opacity: 0,
-                                    x: 300,
-                                    rotateZ: 20,
-                                    transition: { duration: 0.4, ease: "easeIn" }
+                                whileDrag={{ 
+                                    cursor: 'grabbing', 
+                                    rotateZ: 0,
+                                    zIndex: 50 // Bring to absolute front during interaction
                                 }}
                                 transition={{
                                     type: 'spring',
-                                    stiffness: 260,
-                                    damping: 25
+                                    stiffness: 300,
+                                    damping: 45 
                                 }}
                                 style={{ 
                                     position: 'absolute',
+                                    bottom: '-130px', 
                                     width: '100%',
-                                    maxWidth: '500px'
+                                    maxWidth: '520px',
+                                    touchAction: 'none' // Crucial for mobile dragging
                                 }}
                                 className="group"
                             >
-                                {/* Digital Paper / Card Rim */}
-                                <div className="rounded-[32px] p-[4px] shadow-2xl transition-transform duration-300 group-hover:scale-[1.01]">
+                                {/* Folder Tab Component - Precision Offsets & Compact Dimensions */}
+                                <div 
+                                    className={`
+                                        absolute -top-5 h-6 rounded-t-[10px] 
+                                        px-3 md:px-4 pt-1
+                                        flex items-start w-fit
+                                        transition-all duration-300
+                                        cursor-grab active:cursor-grabbing
+                                        pointer-events-auto
+                                    `}
+                                    style={{
+                                        // Simple responsive logic for left: use a slightly different spread for mobile
+                                        left: typeof window !== 'undefined' && window.innerWidth > 768 
+                                            ? `${desktopOffsets[index % 3]}%` 
+                                            : `${mobileOffsets[index % 3]}%`,
+                                        background: `linear-gradient(180deg, #FFFFFF 0%, #F3F4F6 100%)`,
+                                        border: '1px solid rgba(0,0,0,0.1)',
+                                        borderBottom: 'none',
+                                        boxShadow: '0 -2px 6px rgba(0,0,0,0.02)',
+                                        zIndex: 10
+                                    }}
+                                >
+                                    <span className={`
+                                        text-[7px] md:text-[9px] font-mono uppercase tracking-widest whitespace-nowrap
+                                        ${isTop ? 'font-black text-gray-600' : 'font-bold text-gray-400'}
+                                    `}>
+                                        {insight.category}
+                                    </span>
+                                </div>
+
+                                {/* Folder Body - Only interactive if top */}
+                                <div className={`
+                                    rounded-t-[24px] rounded-b-none p-[3px] 
+                                    shadow-[0_4px_12px_rgba(0,0,0,0.12)]
+                                    ${!isTop ? 'pointer-events-none' : 'pointer-events-auto'}
+                                `}>
                                     <div 
-                                        className="rounded-[28px] overflow-hidden"
+                                        className="rounded-t-[21px] rounded-b-none overflow-hidden"
                                         style={{
-                                            background: `linear-gradient(180deg, #FFFFFF 0%, #F3F4F6 50%, #E5E7EB 100%)`,
-                                            boxShadow: 'inset 0 1px 0 rgba(255,255,255,0.8), 0 10px 30px rgba(0,0,0,0.1)'
+                                            background: `linear-gradient(180deg, #FFFFFF 0%, #F9FAFB 100%)`,
+                                            border: '1px solid rgba(0,0,0,0.1)',
+                                            borderBottom: 'none',
+                                            minHeight: '320px' 
                                         }}
                                     >
-                                        <div className="bg-white m-[1px] rounded-[27px] p-6 md:p-10 flex flex-col gap-6 relative overflow-hidden min-h-[320px]">
-                                            {/* Decorative Corner Screws or Elements */}
-                                            <div className="absolute top-4 right-4 opacity-10">
-                                                <div className="w-8 h-8 rounded-full border-2 border-[rgb(81,108,180)]" />
-                                            </div>
-
-                                            <div className="flex flex-col gap-2">
-                                                <span className="
-                                                    inline-flex self-start px-2.5 py-1 
-                                                    rounded-[6px] 
-                                                    bg-gradient-to-b from-white via-gray-100 to-gray-200 
-                                                    border border-gray-300/60 
-                                                    shadow-[0_2px_0_#d1d5db,0_1px_2px_rgba(0,0,0,0.05),inset_0_1px_0_rgba(255,255,255,0.9)]
-                                                    text-[9px] md:text-[10px] font-bold font-mono text-gray-500 uppercase tracking-widest
-                                                ">
-                                                    {insight.category}
-                                                </span>
-                                                <h3 className="text-2xl md:text-3xl font-bold text-gray-900 tracking-tight mt-2">
+                                        <div className="p-7 md:p-9 flex flex-col gap-4 relative">
+                                            <div className="flex flex-col gap-1">
+                                                <h3 className="text-xl md:text-2xl font-bold text-gray-900 tracking-tight">
                                                     {insight.title}
                                                 </h3>
                                             </div>
 
                                             <div className="flex-1">
-                                                <p className="font-serif italic text-lg md:text-xl text-gray-600 leading-relaxed">
+                                                <p className="font-mono text-[11px] md:text-[13px] text-gray-700 leading-relaxed tracking-tight font-medium">
                                                     {insight.text}
                                                 </p>
                                             </div>
 
-                                            {isTop && (
-                                                <div className="flex justify-end pt-4">
-                                                    <span className="text-[10px] font-bold text-gray-300 uppercase tracking-[0.2em] animate-pulse">
-                                                        Click to Cycle →
-                                                    </span>
-                                                </div>
-                                            )}
+                                            <div className="flex items-center gap-2 mt-4 opacity-50 group-hover:opacity-100 transition-opacity">
+                                                <div className="h-0 flex-1 border-t border-dashed border-gray-300" />
+                                                <span className="text-[8px] font-bold text-gray-500 uppercase tracking-[0.2em] font-mono">
+                                                    Pull Up
+                                                </span>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
