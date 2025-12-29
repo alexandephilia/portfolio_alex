@@ -285,3 +285,24 @@ export const SONGS: Song[] = [
         coverUrl: "/songs/cas.jpg"
     }
 ];
+
+export const TESTIMONIALS: TestimonialItem[] = [
+    {
+        id: "1",
+        text: "Working with Garry is like watching a master clockmaker at work. He doesn't just build features; he architects entire ecosystems with a level of precision that is rare in this industry. His async-first approach transformed our distributed team's velocity during the Zeta platform development.",
+        name: "Marcus Thorne",
+        role: "Head of Engineering, Realta Group"
+    },
+    {
+        id: "2",
+        text: "He has this uncanny ability to bridge the gap between abstract design and rigid logic. When we were migrating our legacy healthcare lab systems, Garry owned the entire pipeline with zero downtime. He's not just a developer; he's a technical steward who understands the gravity of the mission.",
+        name: "Sarah Chen",
+        role: "CTO, Bumame Pharmacy"
+    },
+    {
+        id: "3",
+        text: "Garry's integration of AI tooling into his workflow isn't just about efficiency—it's about expanding what's possible. He treats every line of code with intentionality, ensuring that the architecture is as robust as the UI is beautiful. He truly understands that code is poetry.",
+        name: "David Varkov",
+        role: "Senior Lead, Digital Dubai"
+    }
+];
