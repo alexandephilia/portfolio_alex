@@ -216,8 +216,8 @@ export const SKILL_CATEGORIES: SkillCategory[] = [
 export const STACK_INSIGHTS: StackInsightItem[] = [
     {
         id: "1",
-        title: "Gemini & Claude",
-        text: "My extended neural bridge. The imagination of a thousand possibilities being synthesized down to the one elegant line that matters. Gemini and Claude aren't just output generators; they are intellectual catalysts in architecting the best possible solution for every challenge.",
+        title: "Claude The Magnum Opus",
+        text: "My extended brain. Allow to navigate me to imagine of a thousand possibilities being synthesized down to the one elegant line that matters. Claude aren't just output generators; they are intellectual catalysts in architecting the best possible solution for every challenge.",
         category: "The Co-Brain"
     },
     {
