@@ -114,13 +114,34 @@ export const viewportSettings = {
 
 // Anti-flicker styles for GPU compositing stability
 // Apply to parent containers of animated elements
+// Safari iOS requires stronger GPU hints to avoid repainting on blur→opacity changes
 export const antiFlickerStyle: React.CSSProperties = {
-    transform: 'translateZ(0)', // Force GPU layer
+    transform: 'translate3d(0, 0, 0)', // Stronger GPU hint than translateZ
     backfaceVisibility: 'hidden',
     WebkitBackfaceVisibility: 'hidden',
-    perspective: '1000px',
-    WebkitPerspective: '1000px',
-    willChange: 'transform, opacity, filter',
+    perspective: 1000,
+    WebkitPerspective: 1000,
+    // Safari-specific: avoid willChange on filter to prevent repaint-on-blur-end
+};
+
+// Safari-safe variant: removes willChange at animation end to prevent
+// secondary transitions (hover/active) from triggering repaints
+export const safeStaggerItemVariants: Variants = {
+    hidden: {
+        opacity: 0,
+        y: 6,
+        z: 0,
+        // No filter: blur on this variant - rely on opacity + transform only
+    },
+    visible: {
+        opacity: 1,
+        y: 0,
+        z: 0,
+        transition: {
+            duration: 0.6,
+            ease: [0.25, 0.1, 0.25, 1],
+        }
+    }
 };
 
 // Pop reveal for images (Daily Driver)

@@ -1,6 +1,6 @@
 import { motion } from 'framer-motion';
 import React from 'react';
-import { staggerContainerVariants, viewportSettings } from './animations';
+import { antiFlickerStyle, staggerContainerVariants, viewportSettings } from './animations';
 
 interface SectionWrapperProps {
     children: React.ReactNode;
@@ -14,7 +14,7 @@ export const SectionWrapper: React.FC<SectionWrapperProps> = ({ children, classN
         <motion.div
             id={id}
             className={className}
-            style={style}
+            style={{ ...antiFlickerStyle, ...style }}
             initial="hidden"
             whileInView="visible"
             viewport={viewportSettings}
