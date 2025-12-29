@@ -13,7 +13,9 @@ export const Experience: React.FC = () => {
                 className="flex justify-between items-end mb-8"
             >
                 <motion.h2 variants={staggerItemVariants} className="text-[10px] md:text-sm font-bold text-[rgb(74,108,196)] tracking-wider uppercase">Experience</motion.h2>
-                <DownloadButton href="/resume.pdf" fileName="Garry_Alexander_Resume.pdf" />
+                <motion.div variants={staggerItemVariants} className="ml-2 md:ml-0">
+                    <DownloadButton href="/resume.pdf" fileName="Garry_Alexander_Resume.pdf" />
+                </motion.div>
             </motion.div>
 
             <motion.div
