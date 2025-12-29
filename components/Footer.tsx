@@ -220,10 +220,9 @@ export const Footer: React.FC = () => {
 
                     transition-transform duration-200 ease-out
 
-                    /* Hover State */
-                    hover:-translate-y-1
-                    /* Shadow spreads out on hover - creates lift/float effect */
-                    hover:shadow-[inset_0_1px_0_rgba(255,255,255,1),0_10px_0_#374151,0_24px_30px_-8px_rgba(0,0,0,0.3)]
+                    /* Hover State - Half Press (Anticipation) */
+                    hover:translate-y-[3px]
+                    hover:shadow-[inset_0_1px_0_rgba(255,255,255,1),0_5px_0_#9ca3af,0_6px_10px_rgba(0,0,0,0.15)]
 
                     /* Active/Pressed State */
                     active:translate-y-[6px]

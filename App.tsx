@@ -16,6 +16,8 @@ import { StackInsights } from './components/StackInsights';
 import { Writings } from './components/Writings';
 import { SectionWrapper } from './components/SectionWrapper';
 import { PROJECTS } from './constants';
+import { BottomBlur } from './components/BottomBlur';
+import { TopBlur } from './components/TopBlur';
 
 export default function App() {
     const [activeTab, setActiveTab] = useState('Personal');
@@ -262,6 +264,10 @@ export default function App() {
 
             {/* Minimalist Music Dock */}
             <MusicDock />
+
+            {/* Progressive Viewport Blur */}
+            <TopBlur />
+            <BottomBlur />
         </div>
     );
 }
