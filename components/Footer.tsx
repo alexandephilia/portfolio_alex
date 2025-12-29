@@ -109,7 +109,7 @@ export const Footer: React.FC = () => {
             text-gray-400 hover:text-blue-600 hover:border-blue-200
             shadow-[inset_0_1px_0_rgba(255,255,255,1),0_4px_8px_rgba(0,0,0,0.05)]
             active:shadow-[inset_0_2px_4px_rgba(0,0,0,0.05)]
-            transition-all duration-200 flex z-20"
+            transition-colors duration-200 flex z-20"
                 title="Scroll to top"
             >
                 <ArrowUp size={20} />
@@ -273,7 +273,7 @@ export const Footer: React.FC = () => {
                     */
                     shadow-[inset_0_1px_0_rgba(255,255,255,1),0_8px_0_#9ca3af,0_10px_15px_rgba(0,0,0,0.18)]
 
-                    transition-all duration-200 ease-out
+                    transition-transform duration-200 ease-out
 
                     /* Hover State */
                     hover:-translate-y-1
