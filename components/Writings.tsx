@@ -545,9 +545,6 @@ export const Writings: React.FC = () => {
         <div className="p-6 md:p-10" style={antiFlickerStyle}>
             {/* Header */}
             <motion.div 
-                initial="hidden"
-                whileInView="visible"
-                viewport={viewportSettings}
                 variants={staggerContainerVariants}
                 className="flex items-center justify-between mb-8"
             >
@@ -733,9 +730,6 @@ export const Writings: React.FC = () => {
                 </div>
             ) : (
                 <motion.div 
-                    initial="hidden"
-                    whileInView="visible"
-                    viewport={viewportSettings}
                     variants={staggerContainerVariants}
                     className="space-y-6"
                 >

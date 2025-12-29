@@ -268,10 +268,7 @@ export const Bookshelf: React.FC = () => {
 
             {/* Top Shelf (3 Books) */}
             <div className="flex flex-col items-center">
-                <motion.div 
-                    initial="hidden"
-                    whileInView="visible"
-                    viewport={viewportSettings}
+                <motion.div
                     variants={staggerContainerVariants}
                     className="flex flex-wrap justify-center gap-2 md:gap-20 perspective-[1000px] px-2 md:px-4 mb-4"
                 >
@@ -291,10 +288,7 @@ export const Bookshelf: React.FC = () => {
 
             {/* Bottom Shelf (3 Books) */}
             <div className="flex flex-col items-center">
-                <motion.div 
-                    initial="hidden"
-                    whileInView="visible"
-                    viewport={viewportSettings}
+                <motion.div
                     variants={staggerContainerVariants}
                     className="flex flex-wrap justify-center gap-2 md:gap-20 perspective-[1000px] px-2 md:px-4 mb-4"
                 >

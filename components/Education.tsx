@@ -1,15 +1,12 @@
 import { motion } from 'framer-motion';
 import React from 'react';
 import { EDUCATION } from '../constants';
-import { antiFlickerStyle, sectionHeaderVariants, staggerContainerVariants, staggerItemVariants, viewportSettings } from './animations';
+import { antiFlickerStyle, staggerContainerVariants, staggerItemVariants, viewportSettings } from './animations';
 
 export const Education: React.FC = () => {
     return (
         <section className="p-6 md:p-10 border-b border-dashed border-gray-200 bg-[#FAFAFA]" style={antiFlickerStyle}>
             <motion.div
-                initial="hidden"
-                whileInView="visible"
-                viewport={viewportSettings}
                 variants={staggerContainerVariants}
                 className="mb-8"
             >
@@ -17,9 +14,6 @@ export const Education: React.FC = () => {
             </motion.div>
 
             <motion.div
-                initial="hidden"
-                whileInView="visible"
-                viewport={viewportSettings}
                 variants={staggerContainerVariants}
                 className="flex flex-col gap-8 md:gap-10"
             >

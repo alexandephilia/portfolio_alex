@@ -133,7 +133,7 @@ export const ProjectCard: React.FC<ProjectCardProps> = ({ project }) => {
                             <Icon size={140} strokeWidth={1} className="md:w-[160px] md:h-[160px]" />
                         </div>
 
-                        <motion.div 
+                        <motion.div
                             variants={staggerContainerVariants}
                             initial="hidden"
                             whileInView="visible"
@@ -170,7 +170,7 @@ export const ProjectCard: React.FC<ProjectCardProps> = ({ project }) => {
                             </motion.button>
                         </motion.div>
 
-                        <motion.div 
+                        <motion.div
                             variants={staggerItemVariants}
                             className="mt-1 pt-1 relative z-20"
                         >
@@ -225,11 +225,11 @@ export const ProjectCard: React.FC<ProjectCardProps> = ({ project }) => {
                                         <LazyImage src={project.imageUrl} alt={project.title} blur={10} />
                                         <div className="absolute inset-0 bg-black/10 backdrop-blur-[2px]" />
                                     </div>
-                                    
+
                                     <motion.div
                                         initial={{ rotate: -12, scale: 1.8, opacity: 0 }}
                                         animate={{ rotate: -15, scale: 1, opacity: 0.8 }}
-                                        transition={{ 
+                                        transition={{
                                             type: "spring",
                                             stiffness: 260,
                                             damping: 20,
@@ -244,12 +244,12 @@ export const ProjectCard: React.FC<ProjectCardProps> = ({ project }) => {
                                                     Under NDA
                                                 </span>
                                             </div>
-                                            
+
                                             {/* Ink bleed effect (subtle glow) */}
                                             <div className="absolute inset-0 border-2 md:border-4 border-white/20 blur-[0.5px] -z-10" />
                                         </div>
                                     </motion.div>
-                                    
+
                                     {/* Gritty overlay */}
                                     <div className="absolute inset-0 opacity-[0.05] pointer-events-none mix-blend-overlay bg-[url('https://www.transparenttextures.com/patterns/asfalt-dark.png')]" />
                                 </div>

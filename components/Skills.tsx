@@ -6,12 +6,13 @@ import { antiFlickerStyle, popRevealVariants, sectionHeaderVariants, staggerCont
 
 export const Skills: React.FC = () => {
     return (
-        <section className="p-6 md:p-10 border-b border-dashed border-gray-200 bg-[#FAFAFA]" style={antiFlickerStyle}>
+        <motion.section 
+            variants={staggerContainerVariants}
+            className="p-6 md:p-10 border-b border-dashed border-gray-200 bg-[#FAFAFA]" 
+            style={antiFlickerStyle}
+        >
             <motion.h2
                 variants={sectionHeaderVariants}
-                initial="hidden"
-                whileInView="visible"
-                viewport={viewportSettings}
                 className="text-[10px] md:text-sm font-bold text-[rgb(81,108,180)] tracking-wider uppercase mb-8"
             >
                 Skills
@@ -19,9 +20,6 @@ export const Skills: React.FC = () => {
 
             <motion.div
                 variants={staggerContainerVariants}
-                initial="hidden"
-                whileInView="visible"
-                viewport={viewportSettings}
                 className="flex flex-col gap-10"
             >
                 {SKILL_CATEGORIES.map((category, index) => (
@@ -30,7 +28,7 @@ export const Skills: React.FC = () => {
             </motion.div>
 
             <MacMiniSection />
-        </section>
+        </motion.section>
     );
 };
 
@@ -84,7 +82,7 @@ const KeyboardGroup: React.FC<{ category: SkillCategory; index: number }> = ({ c
                 </div>
 
                 {/* Keys Container */}
-                <motion.div 
+                <motion.div
                     variants={staggerContainerVariants}
                     className="flex flex-wrap gap-1.5 md:gap-3 relative z-10 px-1 py-1"
                 >
@@ -159,17 +157,18 @@ const MacMiniSection: React.FC = () => {
     return (
         <motion.div
             variants={staggerItemVariants}
-            initial="hidden"
-            whileInView="visible"
-            viewport={viewportSettings}
             className="mt-24 flex flex-col gap-6 items-center w-full"
         >
             <div className="relative pb-6">
                 <motion.h3
-                    initial={{ opacity: 0, y: 10 }}
-                    whileInView={{ opacity: 1, y: 0 }}
-                    viewport={{ once: true }}
-                    transition={{ duration: 0.6, ease: "easeOut" }}
+                    variants={{
+                        hidden: { opacity: 0, y: 10 },
+                        visible: { 
+                            opacity: 1, 
+                            y: 0,
+                            transition: { duration: 0.6, ease: "easeOut" }
+                        }
+                    }}
                     className="
                         font-serif italic
                         text-4xl md:text-5xl
@@ -191,13 +190,17 @@ const MacMiniSection: React.FC = () => {
                     preserveAspectRatio="none"
                 >
                     <motion.path
-                        initial={{ pathLength: 0, opacity: 0 }}
-                        whileInView={{ pathLength: 1, opacity: 1 }}
-                        viewport={{ once: true }}
-                        transition={{
-                            duration: 1.5,
-                            delay: 0.5,
-                            ease: "easeInOut"
+                        variants={{
+                            hidden: { pathLength: 0, opacity: 0 },
+                            visible: { 
+                                pathLength: 1, 
+                                opacity: 1,
+                                transition: {
+                                    duration: 1.5,
+                                    delay: 0.5,
+                                    ease: "easeInOut"
+                                }
+                            }
                         }}
                         d="M2 7.5C15 2 30 13 45 7.5C60 2 75 13 90 7.5C105 2 120 13 135 7.5C150 2 165 13 180 7.5"
                         stroke="currentColor"
@@ -209,10 +212,14 @@ const MacMiniSection: React.FC = () => {
             </div>
 
             <motion.div
-                initial={{ opacity: 0, y: 20 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
-                transition={{ duration: 0.8, delay: 0.2, ease: "easeOut" }}
+                variants={{
+                    hidden: { opacity: 0, y: 20 },
+                    visible: { 
+                        opacity: 1, 
+                        y: 0,
+                        transition: { duration: 0.8, delay: 0.2, ease: "easeOut" }
+                    }
+                }}
                 className="
                     relative
                     w-full
@@ -274,7 +281,7 @@ const MacMiniSection: React.FC = () => {
                                 Compact yet incredibly powerful. This little machine handles my entire development stack from Backend to heavy frontend builds silently and efficiently. I also use multi-screen setup which allow me to do rapid prototyping and testing.
                             </p>
 
-                            <motion.div 
+                            <motion.div
                                 variants={staggerContainerVariants}
                                 initial="hidden"
                                 whileInView="visible"
@@ -296,7 +303,7 @@ const MacMiniSection: React.FC = () => {
 }
 
 const SpecBadge: React.FC<{ children: React.ReactNode }> = ({ children }) => (
-    <motion.span 
+    <motion.span
         variants={staggerItemVariants}
         className="
         px-2.5 py-1

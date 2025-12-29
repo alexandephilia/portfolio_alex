@@ -9,9 +9,6 @@ export const Contact: React.FC = () => {
     return (
         <section className="p-6 md:p-10 bg-[#FAFAFA]" style={antiFlickerStyle}>
             <motion.h2
-                initial="hidden"
-                whileInView="visible"
-                viewport={viewportSettings}
                 variants={blurOnlyVariants}
                 className="text-sm font-bold text-[rgb(81,108,180)] tracking-wider uppercase mb-8"
             >
@@ -19,9 +16,6 @@ export const Contact: React.FC = () => {
             </motion.h2>
 
             <motion.div
-                initial="hidden"
-                whileInView="visible"
-                viewport={viewportSettings}
                 variants={staggerContainerVariants}
                 className="flex flex-col gap-4 md:gap-6 w-full"
             >

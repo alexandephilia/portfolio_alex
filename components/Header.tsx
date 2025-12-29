@@ -1,11 +1,11 @@
 import { motion } from 'framer-motion';
 import React from 'react';
 import { SOCIAL_LINKS } from '../constants';
-import { sectionHeaderVariants, staggerContainerVariants, staggerItemVariants, antiFlickerStyle } from './animations';
+import { antiFlickerStyle, staggerContainerVariants, staggerItemVariants } from './animations';
 
 export const Header: React.FC = () => {
     return (
-        <motion.header 
+        <motion.header
             initial="hidden"
             animate="visible"
             variants={staggerContainerVariants}
@@ -40,7 +40,7 @@ export const Header: React.FC = () => {
                     </div>
                 </motion.div>
             </motion.div>
-            <motion.div 
+            <motion.div
                 variants={staggerContainerVariants}
                 className="flex gap-2 md:gap-3"
             >

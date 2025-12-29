@@ -8,12 +8,14 @@ export const sectionHeaderVariants: Variants = {
         opacity: 0,
         filter: 'blur(14px)',
         y: 8,
+        z: 0, // Force GPU layer
         willChange: "transform, opacity, filter",
     },
     visible: {
         opacity: 1,
         filter: 'blur(0px)',
         y: 0,
+        z: 0,
         transition: {
             duration: 0.8,
             ease: [0.25, 0.1, 0.25, 1],
@@ -30,7 +32,7 @@ export const staggerContainerVariants: Variants = {
     visible: {
         opacity: 1,
         transition: {
-            staggerChildren: 0.12, 
+            staggerChildren: 0.12,
             delayChildren: 0.1,
             when: "beforeChildren",
         }
@@ -43,12 +45,14 @@ export const staggerItemVariants: Variants = {
         opacity: 0,
         filter: 'blur(14px)',
         y: 6,
+        z: 0,
         willChange: "transform, opacity, filter",
     },
     visible: {
         opacity: 1,
         filter: 'blur(0px)',
         y: 0,
+        z: 0,
         transition: {
             duration: 0.7,
             ease: [0.25, 0.1, 0.25, 1],
@@ -63,12 +67,14 @@ export const floatingStaggerItemVariants: Variants = {
         opacity: 0,
         filter: 'blur(14px)',
         y: 60,
+        z: 0,
         willChange: "transform, opacity, filter",
     },
     visible: {
         opacity: 1,
         filter: 'blur(0px)',
         y: 0,
+        z: 0,
         transition: {
             duration: 1.2,
             ease: [0.22, 1, 0.36, 1], // Quasi-spring "float" ease
@@ -83,12 +89,14 @@ export const floatingTopStaggerItemVariants: Variants = {
         opacity: 0,
         filter: 'blur(14px)',
         y: -60,
+        z: 0,
         willChange: "transform, opacity, filter",
     },
     visible: {
         opacity: 1,
         filter: 'blur(0px)',
         y: 0,
+        z: 0,
         transition: {
             duration: 1.2,
             ease: [0.22, 1, 0.36, 1], // Quasi-spring "float" ease
@@ -116,23 +124,27 @@ export const antiFlickerStyle: React.CSSProperties = {
 };
 
 // Pop reveal for images (Daily Driver)
+// Pop reveal for images (Daily Driver)
 export const popRevealVariants: Variants = {
     hidden: {
         opacity: 0,
-        scale: 0.5,
-        filter: 'blur(14px)',
+        scale: 0.6,
+        filter: 'blur(12px)',
         willChange: "transform, opacity, filter",
+        z: 0,
     },
     visible: {
         opacity: 1,
         scale: 1,
         filter: 'blur(0px)',
+        z: 0,
         transition: {
             type: "spring",
-            stiffness: 260,
-            damping: 20,
-            delay: 0.6, // Sequence after card reveal
-            filter: { duration: 0.6, delay: 0.6 },
+            stiffness: 120,
+            damping: 25,
+            mass: 1.2, // Adds 'weight' for smoothness
+            delay: 0.2, // Make it start a bit earlier to feel responsive within the section
+            filter: { duration: 0.8, delay: 0.2 },
         }
     }
 };
@@ -143,10 +155,12 @@ export const blurOnlyVariants: Variants = {
         opacity: 0,
         filter: 'blur(14px)',
         willChange: "transform, opacity, filter",
+        z: 0,
     },
     visible: {
         opacity: 1,
         filter: 'blur(0px)',
+        z: 0,
         transition: {
             duration: 0.7,
             ease: [0.25, 0.1, 0.25, 1],

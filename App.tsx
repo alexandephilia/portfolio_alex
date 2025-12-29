@@ -14,6 +14,7 @@ import { Skills } from './components/Skills';
 import { Tabs } from './components/Tabs';
 import { StackInsights } from './components/StackInsights';
 import { Writings } from './components/Writings';
+import { SectionWrapper } from './components/SectionWrapper';
 import { PROJECTS } from './constants';
 
 export default function App() {
@@ -57,11 +58,12 @@ export default function App() {
 
     // Global Animation Variants
     const sectionVariants = {
-        hidden: { opacity: 0, filter: 'blur(14px)', y: 20, willChange: "transform, opacity, filter" },
+        hidden: { opacity: 0, filter: 'blur(14px)', y: 20, z: 0, willChange: "transform, opacity, filter" },
         visible: {
             opacity: 1,
             filter: 'blur(0px)',
             y: 0,
+            z: 0,
             transition: { duration: 1.0, ease: [0.25, 0.1, 0.25, 1] }
         }
     };
@@ -89,6 +91,7 @@ export default function App() {
             opacity: 0,
             filter: 'blur(14px)',
             y: 20,
+            z: 0,
             scale: 0.98,
             willChange: "transform, opacity, filter"
         },
@@ -96,6 +99,7 @@ export default function App() {
             opacity: 1,
             filter: 'blur(0px)',
             y: 0,
+            z: 0,
             scale: 1,
             transition: {
                 duration: 1.2,
@@ -153,15 +157,15 @@ export default function App() {
                     </motion.div>
 
                     <main className="flex flex-col">
-                        <motion.div variants={isFirstLoad ? itemVariants : {}}>
+                        <SectionWrapper>
                             <Hero />
-                        </motion.div>
+                        </SectionWrapper>
 
-                        <motion.div variants={isFirstLoad ? itemVariants : {}}>
+                        <SectionWrapper>
                             <Tabs activeTab={activeTab} setActiveTab={setActiveTab} />
-                        </motion.div>
+                        </SectionWrapper>
 
-                        <motion.div variants={isFirstLoad ? itemVariants : {}}>
+                        <SectionWrapper>
                             <section className="border-b border-dashed border-gray-200">
                                 <AnimatePresence mode="wait">
                                     <motion.div
@@ -202,7 +206,9 @@ export default function App() {
                                         style={{ willChange: 'opacity, filter, transform' }}
                                     >
                                         {activeTab === 'Writings' ? (
-                                            <Writings />
+                                            <div className="bg-[#FAFAFA]">
+                                                <Writings />
+                                            </div>
                                         ) : (
                                             <div className="flex flex-col gap-6 p-6 md:p-10">
                                                 {displayProjects.length > 0 ? (
@@ -225,31 +231,31 @@ export default function App() {
                                     </motion.div>
                                 </AnimatePresence>
                             </section>
-                        </motion.div>
+                        </SectionWrapper>
 
-                        <motion.div variants={isFirstLoad ? itemVariants : {}}>
+                        <SectionWrapper>
                             <Experience />
-                        </motion.div>
-                        <motion.div variants={isFirstLoad ? itemVariants : {}}>
+                        </SectionWrapper>
+                        <SectionWrapper>
                             <Education />
-                        </motion.div>
-                        <motion.div variants={isFirstLoad ? itemVariants : {}}>
+                        </SectionWrapper>
+                        <SectionWrapper>
                             <Skills />
-                        </motion.div>
-                        <motion.div variants={isFirstLoad ? itemVariants : {}}>
+                        </SectionWrapper>
+                        <SectionWrapper>
                             <StackInsights />
-                        </motion.div>
-                        <motion.div variants={isFirstLoad ? itemVariants : {}}>
+                        </SectionWrapper>
+                        <SectionWrapper>
                             <Contact />
-                        </motion.div>
-                        <motion.div variants={isFirstLoad ? itemVariants : {}}>
+                        </SectionWrapper>
+                        <SectionWrapper>
                             <BeyondWork />
-                        </motion.div>
+                        </SectionWrapper>
                     </main>
 
-                    <motion.div variants={isFirstLoad ? itemVariants : {}}>
+                    <SectionWrapper>
                         <Footer />
-                    </motion.div>
+                    </SectionWrapper>
                 </motion.div>
             </div>
 

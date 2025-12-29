@@ -1,16 +1,13 @@
 import { motion } from 'framer-motion';
-import React from 'react';
 import { ExternalLink } from 'lucide-react';
+import React from 'react';
 import { EXPERIENCE } from '../constants';
-import { antiFlickerStyle, sectionHeaderVariants, staggerContainerVariants, staggerItemVariants, viewportSettings } from './animations';
+import { antiFlickerStyle, staggerContainerVariants, staggerItemVariants, viewportSettings } from './animations';
 
 export const Experience: React.FC = () => {
     return (
         <section className="p-6 md:p-10 border-b border-dashed border-gray-200 bg-[#FAFAFA]" style={antiFlickerStyle}>
             <motion.div
-                initial="hidden"
-                whileInView="visible"
-                viewport={viewportSettings}
                 variants={staggerContainerVariants} // Staggered reveal for BOTH header items
                 className="flex justify-between items-end mb-8"
             >
@@ -27,9 +24,6 @@ export const Experience: React.FC = () => {
             </motion.div>
 
             <motion.div
-                initial="hidden"
-                whileInView="visible"
-                viewport={viewportSettings}
                 variants={staggerContainerVariants}
                 className="flex flex-col gap-8 md:gap-10"
             >
@@ -43,9 +37,9 @@ export const Experience: React.FC = () => {
                             <motion.h3 variants={staggerItemVariants} className="text-[11px] md:text-base font-semibold text-gray-900">
                                 {job.role} <span className="text-gray-400 font-normal">at</span> {job.company}
                                 {job.company === "Realta Chakradarma" && (
-                                    <a 
-                                        href="https://realta.co.id/site/" 
-                                        target="_blank" 
+                                    <a
+                                        href="https://realta.co.id/site/"
+                                        target="_blank"
                                         rel="noopener noreferrer"
                                         className="inline-flex items-baseline ml-1 text-gray-400 hover:text-[rgb(81,108,180)] transition-colors"
                                     >
@@ -53,9 +47,9 @@ export const Experience: React.FC = () => {
                                     </a>
                                 )}
                                 {job.company === "Tokio Marine Insurance Group" && (
-                                    <a 
-                                        href="https://www.tokiomarine.com/id/id.html" 
-                                        target="_blank" 
+                                    <a
+                                        href="https://www.tokiomarine.com/id/id.html"
+                                        target="_blank"
                                         rel="noopener noreferrer"
                                         className="inline-flex items-baseline ml-1 text-gray-400 hover:text-[rgb(81,108,180)] transition-colors"
                                     >

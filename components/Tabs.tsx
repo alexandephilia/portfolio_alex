@@ -1,6 +1,6 @@
 import { motion } from 'framer-motion';
 import React from 'react';
-import { staggerContainerVariants, staggerItemVariants, antiFlickerStyle, viewportSettings } from './animations';
+import { antiFlickerStyle, staggerContainerVariants, staggerItemVariants, viewportSettings } from './animations';
 
 interface TabsProps {
     activeTab: string;
@@ -12,7 +12,7 @@ const TABS = ['Works', 'Personal', 'Writings'];
 export const Tabs: React.FC<TabsProps> = ({ activeTab, setActiveTab }) => {
     return (
         <div className="p-6 md:p-10 border-b border-dashed border-gray-200 bg-[#FAFAFA]">
-            <motion.div 
+            <motion.div
                 initial="hidden"
                 whileInView="visible"
                 viewport={viewportSettings}
