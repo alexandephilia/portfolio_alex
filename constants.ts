@@ -217,7 +217,7 @@ export const STACK_INSIGHTS: StackInsightItem[] = [
     {
         id: "1",
         title: "Claude The Magnum Opus",
-        text: "My extended brain. Allow to navigate me to imagine of a thousand possibilities being synthesized down to the one elegant line that matters. Claude aren't just output generators; they are intellectual catalysts in architecting the best possible solution for every challenge.",
+        text: "My extended brain. Allow to navigate me to imagine of a thousand possibilities being synthesized down to the one elegant line that matters. Claude aren't just output generators; they are intellectual catalysts in architecting the best possible iteration and beyond than just looking for solution to every challange.",
         category: "The Co-Brain"
     },
     {
