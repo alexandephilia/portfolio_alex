@@ -322,19 +322,17 @@ export const ProjectCard: React.FC<ProjectCardProps> = ({ project }) => {
                                     >
                                         <div className="relative group/stamp max-w-full overflow-hidden">
                                             {/* Stamp Body */}
-                                            <div className="px-2 py-1 md:px-6 md:py-3 border-2 md:border-4 border-white rounded-[2px] flex items-center justify-center stamp-texture">
-                                                <span className="text-[10px] sm:text-xs md:text-xl font-sans font-black text-white uppercase tracking-widest whitespace-nowrap select-none">
+                                            <div className="px-2 py-1 md:px-6 md:py-3 border-2 md:border-4 border-gray-400/50 rounded-[2px] flex items-center justify-center">
+                                                <span className="text-[10px] sm:text-xs md:text-xl font-sans font-black text-gray-500 uppercase tracking-widest whitespace-nowrap select-none">
                                                     Under NDA
                                                 </span>
                                             </div>
 
                                             {/* Ink bleed effect (subtle glow) */}
-                                            <div className="absolute inset-0 border-2 md:border-4 border-white/20 blur-[0.5px] -z-10" />
+                                            <div className="absolute inset-0 border-2 md:border-4 border-gray-400/10 blur-[0.5px] -z-10" />
                                         </div>
                                     </motion.div>
 
-                                    {/* Gritty overlay */}
-                                    <div className="absolute inset-0 opacity-[0.05] pointer-events-none mix-blend-overlay bg-[url('https://www.transparenttextures.com/patterns/asfalt-dark.png')]" />
                                 </div>
                             ) : (
                                 <>
