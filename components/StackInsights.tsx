@@ -145,9 +145,9 @@ export const StackInsights: React.FC = () => {
                                                 )}
                                                 {insight.id === "3" && (
                                                     <img
-                                                        src="/apple.png"
-                                                        alt="Apple"
-                                                        className="absolute -top-4 -right-5 w-32 h-32 opacity-[0.1] object-contain pointer-events-none select-none"
+                                                        src="/motion.png"
+                                                        alt="Motion"
+                                                        className="absolute -top-12 -right-5 w-42 h-42 opacity-[0.1] object-contain pointer-events-none select-none"
                                                         style={{ transform: 'rotate(12deg)' }}
                                                     />
                                                 )}

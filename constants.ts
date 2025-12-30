@@ -257,14 +257,8 @@ export const BEYOND_WORK_IMAGES = [
     "/beyond/beyond_8.jpeg",
     "/beyond/beyond_9.jpeg",
     "/beyond/beyond_10.jpeg",
-];
-
-export const TOOL_STACK_URLS = [
-    "https://cdn.simpleicons.org/figma/F24E1E",
-    "https://cdn.simpleicons.org/linear/5E6AD2",
-    "https://cdn.simpleicons.org/openai/74AA9C",
-    "https://cdn.simpleicons.org/webflow/146EF5",
-    "https://cdn.simpleicons.org/adobexd/470137",
+    "/beyond/beyond_11.jpeg",
+    "/beyond/beyond_12.jpeg",
 ];
 
 export const SONGS: Song[] = [
