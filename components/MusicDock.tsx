@@ -1,7 +1,7 @@
 import { AnimatePresence, motion, PanInfo } from 'framer-motion';
 import { GripVertical, Pause, Play, Repeat, Repeat1, SkipBack, SkipForward } from 'lucide-react';
 import React, { useEffect, useRef, useState } from 'react';
-import { assetPath, SONGS } from '../constants';
+import { SONGS } from '../constants';
 
 // Max characters that fit without scrolling (based on ~100px container width at 10-11px uppercase font)
 const MAX_TITLE_CHARS = 12;
@@ -141,7 +141,7 @@ export const MusicDock: React.FC = () => {
             {/* Audio Engine - Always present in DOM but decoupled from visibility logic */}
             <audio
                 ref={audioRef}
-                src={assetPath(currentSong.url)}
+                src={currentSong.url}
                 onEnded={handleEnded}
                 preload="auto"
                 style={{ display: 'none' }}
@@ -226,7 +226,7 @@ export const MusicDock: React.FC = () => {
                                         `}
                                     >
                                         <img
-                                            src={assetPath(currentSong.coverUrl)}
+                                            src={currentSong.coverUrl}
                                             className={`w-full h-full object-cover transition-transform duration-1000 pointer-events-none select-none ${isPlaying ? 'scale-110' : 'scale-100'}`}
                                             alt={currentSong.title}
                                             draggable={false}

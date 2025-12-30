@@ -1,4 +1,3 @@
-import { assetPath } from '@/constants';
 import { motion } from 'framer-motion';
 import React, { useEffect, useState } from 'react';
 import { Book } from '../types';
@@ -85,7 +84,7 @@ const BookCard: React.FC<BookCardProps> = ({ book, onSelect, isActive, onActivat
                     >
                         <motion.img
                             layoutId={`book-image-${book.id}`}
-                            src={assetPath(book.coverUrl)}
+                            src={book.coverUrl}
                             alt={book.title}
                             className="w-full h-full object-cover"
                         />
@@ -186,7 +185,7 @@ const BOOKS: Book[] = [
         id: 1,
         title: "Design Engineering",
         author: "Garry Alexander",
-        coverUrl: "books/book_1.jpg",
+        coverUrl: "/books/book_1.jpg",
         color: "#2563EB",
         spineText: "DESIGN ENGINEERING"
     },
@@ -194,7 +193,7 @@ const BOOKS: Book[] = [
         id: 2,
         title: "The Art of Code",
         author: "Clean Architecture",
-        coverUrl: "books/book_2.jpg",
+        coverUrl: "/books/book_2.jpg",
         color: "#DC2626",
         spineText: "THE ART OF CODE"
     },
@@ -202,7 +201,7 @@ const BOOKS: Book[] = [
         id: 3,
         title: "Future Interfaces",
         author: "Human Computer",
-        coverUrl: "books/book_3.jpg",
+        coverUrl: "/books/book_3.jpg",
         color: "#059669",
         spineText: "FUTURE INTERFACES"
     },
@@ -210,7 +209,7 @@ const BOOKS: Book[] = [
         id: 4,
         title: "Spatial Computing",
         author: "XR Dynamics",
-        coverUrl: "books/book_4.jpg",
+        coverUrl: "/books/book_4.jpg",
         color: "#7C3AED",
         spineText: "SPATIAL COMPUTING"
     },
@@ -218,7 +217,7 @@ const BOOKS: Book[] = [
         id: 5,
         title: "Creative AI",
         author: "Generative Art",
-        coverUrl: "books/book_5.jpg",
+        coverUrl: "/books/book_5.jpg",
         color: "#DB2777",
         spineText: "CREATIVE AI"
     },
@@ -226,7 +225,7 @@ const BOOKS: Book[] = [
         id: 6,
         title: "System Design",
         author: "Architecture",
-        coverUrl: "books/book_6.jpg",
+        coverUrl: "/books/book_6.jpg",
         color: "#0891B2",
         spineText: "SYSTEM DESIGN"
     },

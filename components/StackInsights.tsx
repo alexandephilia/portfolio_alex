@@ -1,6 +1,6 @@
 import { AnimatePresence, motion } from 'framer-motion';
 import React, { useState } from 'react';
-import { assetPath, STACK_INSIGHTS } from '../constants';
+import { STACK_INSIGHTS } from '../constants';
 import { antiFlickerStyle, floatingStaggerItemVariants, sectionHeaderVariants, staggerContainerVariants } from './animations';
 
 export const StackInsights: React.FC = () => {
@@ -129,7 +129,7 @@ export const StackInsights: React.FC = () => {
                                                 {/* Brand Overlays - using local images */}
                                                 {insight.id === "1" && (
                                                     <img
-                                                        src={assetPath("claude.png")}
+                                                        src="/claude.png"
                                                         alt="Claude"
                                                         className="absolute -top-4 -right-4 w-32 h-32 opacity-[0.1] grayscale object-contain pointer-events-none select-none"
                                                         style={{ transform: 'rotate(15deg)' }}
@@ -137,7 +137,7 @@ export const StackInsights: React.FC = () => {
                                                 )}
                                                 {insight.id === "2" && (
                                                     <img
-                                                        src={assetPath("cursor.png")}
+                                                        src="/cursor.png"
                                                         alt="Cursor AI"
                                                         className="absolute -top-3 -right-4 w-32 h-32 opacity-[0.1] object-contain pointer-events-none select-none"
                                                         style={{ transform: 'rotate(10deg)' }}
@@ -145,7 +145,7 @@ export const StackInsights: React.FC = () => {
                                                 )}
                                                 {insight.id === "3" && (
                                                     <img
-                                                        src={assetPath("motion.png")}
+                                                        src="/motion.png"
                                                         alt="Motion"
                                                         className="absolute -top-12 -right-5 w-42 h-42 opacity-[0.1] object-contain pointer-events-none select-none"
                                                         style={{ transform: 'rotate(12deg)' }}

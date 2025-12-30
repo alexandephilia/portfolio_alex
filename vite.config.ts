@@ -4,10 +4,8 @@ import { defineConfig, loadEnv } from 'vite';
 
 export default defineConfig(({ mode }) => {
     const env = loadEnv(mode, '.', '');
-    // Use VITE_BASE_PATH env var for GitHub Pages, defaults to '/' for Vercel
-    const base = env.VITE_BASE_PATH || '/';
     return {
-        base,
+        base: './',
         server: {
             port: 3000,
             host: '0.0.0.0',

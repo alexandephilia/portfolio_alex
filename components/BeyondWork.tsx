@@ -1,6 +1,6 @@
 import { motion, useInView } from 'framer-motion';
 import React, { useRef, useState } from 'react';
-import { assetPath, BEYOND_WORK_IMAGES } from '../constants';
+import { BEYOND_WORK_IMAGES } from '../constants';
 import { antiFlickerStyle, sectionHeaderVariants, staggerContainerVariants, staggerItemVariants } from './animations';
 import { Bookshelf } from './Bookshelf';
 
@@ -113,7 +113,7 @@ const LazyImage: React.FC<{
                 <div className="w-full h-full rounded-[10px] overflow-hidden bg-gray-100 relative">
                     {isInView && (
                         <img
-                            src={assetPath(src)}
+                            src={src}
                             alt="Beyond work photography"
                             loading="lazy"
                             decoding="async"

@@ -1,6 +1,6 @@
 import { motion } from 'framer-motion';
 import React from 'react';
-import { assetPath, SOCIAL_LINKS } from '../constants';
+import { SOCIAL_LINKS } from '../constants';
 import { antiFlickerStyle, staggerContainerVariants, staggerItemVariants } from './animations';
 
 export const Header: React.FC = () => {
@@ -15,7 +15,7 @@ export const Header: React.FC = () => {
             <motion.div variants={staggerItemVariants} className="flex flex-col gap-2">
                 {/* Branding Logo - Using 14px blur via staggerItemVariants */}
                 <img
-                    src={assetPath("name.png")}
+                    src="/name.png"
                     alt="alex.exit(0)"
                     className="h-6 md:h-8 w-auto object-contain"
                 />

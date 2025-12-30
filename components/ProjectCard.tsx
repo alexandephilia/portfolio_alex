@@ -305,7 +305,7 @@ export const ProjectCard: React.FC<ProjectCardProps> = ({ project }) => {
                             {project.isRedacted ? (
                                 <div className="absolute inset-0 flex items-center justify-center overflow-hidden rounded-[16px] p-2">
                                     <div className="absolute inset-0 scale-110">
-                                        <LazyImage src={assetPath(project.imageUrl)} alt={project.title} blur={10} />
+                                        <LazyImage src={project.imageUrl} alt={project.title} blur={10} />
                                         <div className="absolute inset-0 bg-black/10 backdrop-blur-[2px]" />
                                     </div>
 
@@ -336,7 +336,7 @@ export const ProjectCard: React.FC<ProjectCardProps> = ({ project }) => {
                                 </div>
                             ) : (
                                 <>
-                                    <LazyImage src={assetPath(project.imageUrl)} alt={project.title} />
+                                    <LazyImage src={project.imageUrl} alt={project.title} />
                                     {/* Inner shadow overlay */}
                                     <div className="absolute inset-0 pointer-events-none rounded-[16px] shadow-[inset_0_4px_12px_rgba(0,0,0,0.1)]" />
                                 </>

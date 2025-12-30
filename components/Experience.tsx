@@ -1,7 +1,7 @@
 import { motion } from 'framer-motion';
 import { ExternalLink } from 'lucide-react';
 import React from 'react';
-import { assetPath, EXPERIENCE } from '../constants';
+import { EXPERIENCE } from '../constants';
 import { antiFlickerStyle, staggerContainerVariants, staggerItemVariants } from './animations';
 import { DownloadButton } from './DownloadButton';
 
@@ -14,7 +14,7 @@ export const Experience: React.FC = () => {
             >
                 <motion.h2 variants={staggerItemVariants} className="text-[10px] md:text-sm font-bold text-[rgb(74,108,196)] tracking-wider uppercase">Experience</motion.h2>
                 <motion.div variants={staggerItemVariants} className="ml-2 md:ml-0">
-                    <DownloadButton href={assetPath("Resume.pdf")} fileName="Garry_Alexander_Resume.pdf" />
+                    <DownloadButton href="/resume.pdf" fileName="Garry_Alexander_Resume.pdf" />
                 </motion.div>
             </motion.div>
 
