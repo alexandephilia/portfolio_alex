@@ -6,6 +6,7 @@ import {
     SiTailwindcss
 } from 'react-icons/si';
 import { antiFlickerStyle } from './animations';
+import { assetPath } from '@/constants';
 
 const useIsDesktop = () => {
     const [isDesktop, setIsDesktop] = useState(false);
@@ -63,7 +64,7 @@ const FramerMotionIcon: React.FC<{ size?: number }> = ({ size = 24 }) => (
 // Custom Cursor AI icon - using local image
 const CursorIcon: React.FC<{ size?: number }> = ({ size = 24 }) => (
     <img
-        src="/cursor.png"
+        src={assetPath("cursor.png")}
         alt="Cursor AI"
         width={size}
         height={size}

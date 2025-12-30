@@ -1,7 +1,7 @@
 import { motion, useInView } from 'framer-motion';
 import React, { useRef, useState } from 'react';
-import { BEYOND_WORK_IMAGES } from '../constants';
-import { antiFlickerStyle, sectionHeaderVariants, staggerContainerVariants, staggerItemVariants, viewportSettings } from './animations';
+import { assetPath, BEYOND_WORK_IMAGES } from '../constants';
+import { antiFlickerStyle, sectionHeaderVariants, staggerContainerVariants, staggerItemVariants } from './animations';
 import { Bookshelf } from './Bookshelf';
 
 export const BeyondWork: React.FC = () => {
@@ -45,12 +45,13 @@ export const BeyondWork: React.FC = () => {
                     }}
                 >
                     {images.map((src, idx) => (
-                        <LazyImage 
-                            key={`${idx}-${src}`} 
-                            src={src} 
-                            index={idx} 
-                            activeIndex={activeIndex} 
                             onTouchStart={(i) => handleTouchStart(i)} 
+                        <LazyImage
+                            key={`${idx}-${src}`}
+                            src={src}
+                            index={idx}
+                            activeIndex={activeIndex}
+                            onTouchStart={(i) => handleTouchStart(i)}
                             onTouchEnd={handleTouchEnd}
                         />
                     ))}
@@ -113,7 +114,7 @@ const LazyImage: React.FC<{
                 <div className="w-full h-full rounded-[10px] overflow-hidden bg-gray-100 relative">
                     {isInView && (
                         <img
-                            src={src}
+                            src={assetPath(src)}
                             alt="Beyond work photography"
                             loading="lazy"
                             decoding="async"

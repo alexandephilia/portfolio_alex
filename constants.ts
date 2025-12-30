@@ -3,6 +3,13 @@ import { FaLinkedinIn, FaWhatsapp } from 'react-icons/fa6';
 import { SiNotion } from 'react-icons/si';
 import { ContactItem, EducationItem, ExperienceItem, Project, SkillCategory, SocialLink, Song, StackInsightItem, TestimonialItem } from './types';
 
+// Helper to get correct asset path for both Vercel and GitHub Pages
+export const assetPath = (path: string): string => {
+    const base = import.meta.env.BASE_URL || '/';
+    const cleanPath = path.startsWith('/') ? path.slice(1) : path;
+    return `${base}${cleanPath}`;
+};
+
 export const SOCIAL_LINKS: SocialLink[] = [
     {
         icon: FaLinkedinIn,
@@ -36,7 +43,7 @@ export const PROJECTS: Project[] = [
         description: "Migrated a mobile application legacy with rule-based chatbot to AI-powered conversational system for multi-tenant hospitality mobile application built with Flutter. I also use Figma to revamping the entire workflow of board Tenant app design to integrate with  Gemini 2.5 Flash.",
         icon: Smartphone,
         iconColor: "bg-blue-600",
-        imageUrl: "/Work_1.jpg",
+        imageUrl: "Work_1.jpg",
         status: "Live",
         linkUrl: "#",
         company: "Realta Chakradarma",
@@ -50,7 +57,7 @@ export const PROJECTS: Project[] = [
         description: "Developed modular multi-chain cryptocurrency monitoring system with real-time transaction tracking. Features WebSocket-based monitoring, event-driven subscription management, and automated alert distribution for distributed user communities.",
         icon: Bot,
         iconColor: "bg-emerald-600",
-        imageUrl: "/Work_2.jpg",
+        imageUrl: "Work_2.jpg",
         status: "Live",
         linkUrl: "#",
         company: "RnD (Remote)",
@@ -64,7 +71,7 @@ export const PROJECTS: Project[] = [
         description: "Collaborated as Research and Development on DeFAI (Decentralized Finance AI) for stablecoin cross-chain by leveraging AI solutions. Working with a multi cross nations teams via Discord to coordinate globally distributed development.",
         icon: Globe,
         iconColor: "bg-blue-600",
-        imageUrl: "/Work_3.jpg",
+        imageUrl: "Work_3.jpg",
         status: "Live",
         linkUrl: "#",
         isRedacted: true,
@@ -79,7 +86,7 @@ export const PROJECTS: Project[] = [
         description: "A modern, seamless AI platform featuring advanced animations powered by Framer Motion. Orchestrates multi-AI providers (Groq, Gemini, OpenRouter, RouteAway) and integrates Exa Search for web intelligence. Includes multi-modal capabilities like image/document uploading with PDF parsing, human-like TTS expressions, and persistent chat history.",
         icon: Cpu,
         iconColor: "bg-purple-600",
-        imageUrl: "/Work_5.jpg",
+        imageUrl: "Work_5.jpg",
         status: "Live",
         linkUrl: "https://zetaai-pink.vercel.app/",
         stack: ["Vite", "Framer Motion", "Exa Search", "Eleven Labs"]
@@ -91,7 +98,7 @@ export const PROJECTS: Project[] = [
         description: "Created a cross-platform solution for accessing multiple AI services (Grok, ChatGPT, Claude, Deepseek, Manus, and Perplexity) through a single, convenient application packaged as a Linux AppImage using Electron.",
         icon: Terminal,
         iconColor: "bg-slate-700",
-        imageUrl: "/Work_4.jpg",
+        imageUrl: "Work_4.jpg",
         status: "Live",
         linkUrl: "https://github.com/alexandephilia/ChatGPT-x-DeepSeek-x-Grok-x-Claude-x-Perplexity-Linux-APP",
         stack: ["Electron", "NPM", "Wrappers", "Node.js", "AppImage"]
@@ -248,18 +255,18 @@ export const CONTACT_INFO: ContactItem[] = [
 ];
 
 export const BEYOND_WORK_IMAGES = [
-    "/beyond/beyond_1.jpeg",
-    "/beyond/beyond_2.jpeg",
-    "/beyond/beyond_3.jpeg",
-    "/beyond/beyond_4.jpeg",
-    "/beyond/beyond_5.jpeg",
-    "/beyond/beyond_6.jpeg",
-    "/beyond/beyond_7.jpeg",
-    "/beyond/beyond_8.jpeg",
-    "/beyond/beyond_9.jpeg",
-    "/beyond/beyond_10.jpeg",
-    "/beyond/beyond_11.jpeg",
-    "/beyond/beyond_12.jpeg",
+    "beyond/beyond_1.jpeg",
+    "beyond/beyond_2.jpeg",
+    "beyond/beyond_3.jpeg",
+    "beyond/beyond_4.jpeg",
+    "beyond/beyond_5.jpeg",
+    "beyond/beyond_6.jpeg",
+    "beyond/beyond_7.jpeg",
+    "beyond/beyond_8.jpeg",
+    "beyond/beyond_9.jpeg",
+    "beyond/beyond_10.jpeg",
+    "beyond/beyond_11.jpeg",
+    "beyond/beyond_12.jpeg",
 ];
 
 export const SONGS: Song[] = [
@@ -267,22 +274,22 @@ export const SONGS: Song[] = [
         id: "1",
         title: "Hungry Cat",
         artist: "Cat Songs",
-        url: "/songs/hungry cat.mp3",
-        coverUrl: "/songs/hungrycat.jpeg"
+        url: "songs/hungry cat.mp3",
+        coverUrl: "songs/hungrycat.jpeg"
     },
     {
         id: "2",
         title: "Jelly Belly",
         artist: "Cat Songs",
-        url: "/songs/jelly belly.mp3",
-        coverUrl: "/songs/beancat.jpeg"
+        url: "songs/jelly belly.mp3",
+        coverUrl: "songs/beancat.jpeg"
     },
     {
         id: "3",
         title: "Silly Cat",
         artist: "Cat Songs",
-        url: "/songs/silly cat.mp3",
-        coverUrl: "/songs/sillycat.gif"
+        url: "songs/silly cat.mp3",
+        coverUrl: "songs/sillycat.gif"
     }
 ];
 

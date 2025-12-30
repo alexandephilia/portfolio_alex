@@ -1,7 +1,7 @@
 import { AnimatePresence, motion, PanInfo } from 'framer-motion';
 import { GripVertical, Pause, Play, Repeat, Repeat1, SkipBack, SkipForward } from 'lucide-react';
 import React, { useEffect, useRef, useState } from 'react';
-import { SONGS } from '../constants';
+import { assetPath, SONGS } from '../constants';
 
 // Max characters that fit without scrolling (based on ~100px container width at 10-11px uppercase font)
 const MAX_TITLE_CHARS = 12;
@@ -50,7 +50,7 @@ export const MusicDock: React.FC = () => {
                 audioRef.current.volume = 0;
                 audioRef.current.muted = false;
                 audioRef.current.load();
-                audioRef.current.play().catch(() => {});
+                audioRef.current.play().catch(() => { });
             }
         }, 500);
 
@@ -60,7 +60,7 @@ export const MusicDock: React.FC = () => {
                 audioRef.current.volume = 1;
                 audioRef.current.muted = false;
                 if (isPlaying) {
-                    audioRef.current.play().catch(() => {});
+                    audioRef.current.play().catch(() => { });
                 }
             }
             // Remove listeners after first interaction
@@ -88,7 +88,7 @@ export const MusicDock: React.FC = () => {
 
     const togglePlay = () => {
         if (!audioRef.current) return;
-        
+
         // Ensure unmuted and full volume when manually toggling
         audioRef.current.muted = false;
         audioRef.current.volume = 1;
@@ -141,7 +141,7 @@ export const MusicDock: React.FC = () => {
             {/* Audio Engine - Always present in DOM but decoupled from visibility logic */}
             <audio
                 ref={audioRef}
-                src={currentSong.url}
+                src={assetPath(currentSong.url)}
                 onEnded={handleEnded}
                 preload="auto"
                 style={{ display: 'none' }}
@@ -226,14 +226,14 @@ export const MusicDock: React.FC = () => {
                                         `}
                                     >
                                         <img
-                                            src={currentSong.coverUrl}
+                                            src={assetPath(currentSong.coverUrl)}
                                             className={`w-full h-full object-cover transition-transform duration-1000 pointer-events-none select-none ${isPlaying ? 'scale-110' : 'scale-100'}`}
                                             alt={currentSong.title}
                                             draggable={false}
                                         />
 
                                         {/* Shiny glossy overlay */}
-                                        <div 
+                                        <div
                                             className="absolute inset-0 pointer-events-none"
                                             style={{
                                                 background: 'linear-gradient(135deg, rgba(255,255,255,0.4) 0%, rgba(255,255,255,0.1) 30%, transparent 50%, rgba(255,255,255,0.05) 80%, rgba(255,255,255,0.15) 100%)',
@@ -432,9 +432,9 @@ export const MusicDock: React.FC = () => {
                         <motion.div
                             initial={{ opacity: 0, scale: 0, filter: 'blur(10px)' }}
                             animate={{ opacity: 1, scale: 1, filter: 'blur(0px)' }}
-                            transition={{ 
-                                delay: 0.9, 
-                                duration: 0.6, 
+                            transition={{
+                                delay: 0.9,
+                                duration: 0.6,
                                 type: "spring",
                                 stiffness: 400,
                                 damping: 15
@@ -445,7 +445,7 @@ export const MusicDock: React.FC = () => {
                                 px-5 py-2
                                 bg-linear-to-b from-white via-white to-gray-50/90
                                 rounded-full
-                                shadow-[0_12px_24px_rgba(0,0,0,0.1),0_4px_8px_rgba(0,0,0,0.05),inset_0_1px_0_rgba(255,255,255,1)] 
+                                shadow-[0_12px_24px_rgba(0,0,0,0.1),0_4px_8px_rgba(0,0,0,0.05),inset_0_1px_0_rgba(255,255,255,1)]
                                 border border-gray-200/80
                                 flex items-center justify-center
                             ">
@@ -453,7 +453,7 @@ export const MusicDock: React.FC = () => {
                                     Drag to reposition!
                                 </span>
                             </div>
-                            
+
                             {/* Unified Kinetic Squiggle + Arrow Design - Corrected Connectivity */}
                             <motion.div
                                 initial={{ opacity: 0 }}
@@ -484,13 +484,13 @@ export const MusicDock: React.FC = () => {
                                         transition={{ duration: 0.4, ease: "easeOut", delay: 2.1 }}
                                     />
                                 </svg>
-                                
+
                                 <motion.div
                                     animate={{ y: [0, 4, 0] }}
                                     transition={{ repeat: Infinity, duration: 1.2, ease: "easeInOut" }}
                                     className="-mt-4"
                                 >
-                                
+
                                 </motion.div>
                             </motion.div>
                         </motion.div>

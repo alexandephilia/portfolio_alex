@@ -1,6 +1,6 @@
 import { motion } from 'framer-motion';
 import React from 'react';
-import { SKILL_CATEGORIES } from '../constants';
+import { assetPath, SKILL_CATEGORIES } from '../constants';
 import { SkillCategory } from '../types';
 import {
     antiFlickerStyle,
@@ -105,7 +105,7 @@ const KeyboardGroup: React.FC<{ category: SkillCategory; index: number }> = ({ c
 }
 
 // Shared audio instance for keyboard clicks to avoid multiple object creations
-const clickSound = typeof Audio !== 'undefined' ? new Audio('/click.mp3') : null;
+const clickSound = typeof Audio !== 'undefined' ? new Audio(assetPath('click.mp3')) : null;
 if (clickSound) {
     clickSound.preload = 'auto';
 }
@@ -259,7 +259,7 @@ const MacMiniSection: React.FC = () => {
                         <div className="absolute inset-x-4 bottom-6 h-6 bg-black/20 blur-xl rounded-[100%] transform scale-x-75 group-hover:scale-x-90 group-hover:bg-black/25 transition-transform duration-500" />
 
                         <img
-                            src="/mac_mini.png"
+                            src={assetPath("mac_mini.png")}
                             alt="Mac Mini M4"
                             draggable={false}
                             onContextMenu={(e) => e.preventDefault()}
