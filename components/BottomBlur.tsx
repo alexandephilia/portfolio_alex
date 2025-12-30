@@ -10,7 +10,7 @@ import React from 'react';
 export const BottomBlur: React.FC = () => {
     return (
         <div
-            className="fixed left-0 right-0 h-32 z-40 pointer-events-none select-none overflow-hidden"
+            className="hidden md:block fixed left-0 right-0 h-32 z-40 pointer-events-none select-none overflow-hidden"
             style={{
                 // Use inset for reliable edge positioning on iOS Safari
                 bottom: 0,
