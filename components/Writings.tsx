@@ -5,8 +5,7 @@ import ReactDOM from 'react-dom';
 import ReactMarkdown from 'react-markdown';
 import remarkGfm from 'remark-gfm';
 import { Writing } from '../types';
-import { antiFlickerStyle, sectionHeaderVariants, staggerContainerVariants, staggerItemVariants, viewportSettings } from './animations';
-import { div } from 'framer-motion/client';
+import { antiFlickerStyle, staggerContainerVariants, staggerItemVariants } from './animations';
 
 const API_URL = '/api/writings';
 
@@ -269,7 +268,7 @@ const NotionEditor: React.FC<NotionEditorProps> = ({ value, onChange, placeholde
     );
 };
 
-// Markdown renderer with custom styles
+// Markdown renderer with custom style
 const MarkdownContent: React.FC<{ content: string }> = ({ content }) => {
     return (
         <ReactMarkdown
@@ -544,7 +543,7 @@ export const Writings: React.FC = () => {
     return (
         <div className="p-6 md:p-10" style={antiFlickerStyle}>
             {/* Header */}
-            <motion.div 
+            <motion.div
                 variants={staggerContainerVariants}
                 className="flex items-center justify-between mb-8"
             >
@@ -729,7 +728,7 @@ export const Writings: React.FC = () => {
                     <p className="text-gray-400 text-sm">No writings yet</p>
                 </div>
             ) : (
-                <motion.div 
+                <motion.div
                     variants={staggerContainerVariants}
                     className="space-y-6"
                 >
