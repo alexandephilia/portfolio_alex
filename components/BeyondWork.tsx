@@ -45,7 +45,6 @@ export const BeyondWork: React.FC = () => {
                     }}
                 >
                     {images.map((src, idx) => (
-                            onTouchStart={(i) => handleTouchStart(i)} 
                         <LazyImage
                             key={`${idx}-${src}`}
                             src={src}
