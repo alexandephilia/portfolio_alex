@@ -42,7 +42,7 @@ export const Header: React.FC = () => {
             </motion.div>
             <motion.div
                 variants={staggerContainerVariants}
-                className="flex gap-2 md:gap-3"
+                className="flex gap-1.5 md:gap-2"
             >
                 {SOCIAL_LINKS.map((link, i) => (
                     <motion.a
@@ -54,13 +54,13 @@ export const Header: React.FC = () => {
                         aria-label={link.label}
                         className={`
                             flex items-center justify-center
-                            w-8 h-8 md:w-10 md:h-10
-                            rounded-lg md:rounded-xl
+                            w-7 h-7 md:w-8 md:h-8
+                            rounded-md md:rounded-lg
                             transition-transform duration-150
                             ${link.buttonStyle}
                         `}
                     >
-                        <link.icon className="w-3.5 h-3.5 md:w-[18px] md:h-[18px]" />
+                        <link.icon className="w-3 h-3 md:w-4 md:h-4" />
                     </motion.a>
                 ))}
             </motion.div>

@@ -1,5 +1,6 @@
 import { Bot, Cpu, Globe, Smartphone, Terminal } from 'lucide-react';
-import { FaLinkedinIn, FaWhatsapp, FaXTwitter } from 'react-icons/fa6';
+import { FaLinkedinIn, FaWhatsapp } from 'react-icons/fa6';
+import { SiNotion } from 'react-icons/si';
 import { ContactItem, EducationItem, ExperienceItem, Project, SkillCategory, SocialLink, Song, StackInsightItem, TestimonialItem } from './types';
 
 export const SOCIAL_LINKS: SocialLink[] = [
@@ -19,10 +20,10 @@ export const SOCIAL_LINKS: SocialLink[] = [
         iconSize: 20
     },
     {
-        icon: FaXTwitter,
-        href: "https://x.com/0xnihilism",
-        label: "X",
-        // Gray gradient button with thick shadow, dark icon
+        icon: SiNotion,
+        href: "https://dub.sh/vR17sbt",
+        label: "Notion",
+        // Gray gradient button with thick shadow, Notion dark icon
         buttonStyle: "bg-gradient-to-b from-white via-gray-100 to-gray-200 border border-gray-300/60 shadow-[0_4px_0_#d1d5db,0_4px_8px_rgba(0,0,0,0.1),inset_0_1px_0_rgba(255,255,255,0.9)] text-gray-800 hover:shadow-[0_2px_0_#d1d5db,0_2px_4px_rgba(0,0,0,0.1),inset_0_1px_0_rgba(255,255,255,0.9)] hover:translate-y-[2px] active:shadow-[0_0px_0_#d1d5db,inset_0_2px_4px_rgba(0,0,0,0.1)] active:translate-y-[4px]"
     },
 ];

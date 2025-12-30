@@ -2,33 +2,27 @@ import { motion, Variants } from 'framer-motion';
 import { ArrowRight, ChevronDown } from 'lucide-react';
 import React, { useState } from 'react';
 import { Project } from '../types';
-import { staggerContainerVariants, staggerItemVariants } from './animations';
 
 interface ProjectCardProps {
     project: Project;
     index?: number;
 }
 
-// Local override if specific exit is needed, but we'll use central for consistency
-// Local variant for the card - handles entrance blur AND staggers children
+// Simple card blur reveal - no child staggering for cleaner animation
 export const projectCardVariants: Variants = {
     hidden: { 
         opacity: 0, 
         filter: 'blur(14px)', 
-        y: 12,
-        z: 0
+        y: 12
     },
     visible: { 
         opacity: 1, 
         filter: 'blur(0px)', 
         y: 0,
-        z: 0,
         transition: {
-            duration: 0.8,
+            duration: 0.6,
             ease: [0.25, 0.1, 0.25, 1],
-            when: "beforeChildren",
-            staggerChildren: 0.12,
-            filter: { duration: 0.7, delay: 0.05 },
+            filter: { duration: 0.5 }
         }
     }
 };
@@ -222,7 +216,7 @@ export const ProjectCard: React.FC<ProjectCardProps> = ({ project }) => {
                     <div className="flex-1 p-3 md:p-6 flex flex-col items-start gap-1.5 md:gap-3 justify-center relative z-10 overflow-hidden">
 
                         <div className="flex flex-col gap-1 md:gap-2 relative z-10">
-                            <motion.div variants={staggerItemVariants} className="flex items-start justify-between gap-4 w-full relative z-10">
+                            <div className="flex items-start justify-between gap-4 w-full relative z-10">
                                 <h3 className="text-base md:text-xl font-bold text-gray-900 leading-tight flex-1">
                                     {project.title}
                                 </h3>
@@ -235,9 +229,9 @@ export const ProjectCard: React.FC<ProjectCardProps> = ({ project }) => {
                                         </span>
                                     </div>
                                 </div>
-                            </motion.div>
+                            </div>
                             {/* Description with expandable on mobile */}
-                            <motion.div variants={staggerItemVariants} className="relative">
+                            <div className="relative">
                                 <p className={`text-gray-500 leading-relaxed text-[11px] md:text-sm md:line-clamp-none ${isExpanded ? '' : 'line-clamp-2'}`}>
                                     {project.description}
                                 </p>
@@ -245,10 +239,9 @@ export const ProjectCard: React.FC<ProjectCardProps> = ({ project }) => {
                                 {!isExpanded && (
                                     <div className="absolute bottom-0 left-0 right-0 h-4 bg-gradient-to-t from-white to-transparent pointer-events-none md:hidden" />
                                 )}
-                            </motion.div>
+                            </div>
                             {/* Read more toggle - mobile only */}
-                            <motion.button
-                                variants={staggerItemVariants}
+                            <button
                                 onClick={(e) => {
                                     e.stopPropagation();
                                     setIsExpanded(!isExpanded);
@@ -260,13 +253,10 @@ export const ProjectCard: React.FC<ProjectCardProps> = ({ project }) => {
                                     size={12}
                                     className={`transition-transform duration-200 ${isExpanded ? 'rotate-180' : ''}`}
                                 />
-                            </motion.button>
+                            </button>
                         </div>
 
-                        <motion.div
-                            variants={staggerItemVariants}
-                            className="mt-1 pt-1 relative z-20"
-                        >
+                        <div className="mt-1 pt-1 relative z-20">
                             {project.category === 'Works' ? (
                                 <div className="flex flex-col gap-0.5">
                                     {project.company && (
@@ -306,7 +296,7 @@ export const ProjectCard: React.FC<ProjectCardProps> = ({ project }) => {
                                     )}
                                 </>
                             )}
-                        </motion.div>
+                        </div>
                     </div>
 
                     {/* Right Image Area - Width adjusted for mobile side-by-side */}
