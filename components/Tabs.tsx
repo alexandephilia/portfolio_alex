@@ -39,38 +39,26 @@ export const Tabs: React.FC<TabsProps> = ({ activeTab, setActiveTab }) => {
 
     return (
         <div className="relative p-6 md:py-6 md:px-8 border-b border-dashed border-gray-200 bg-[#FAFAFA]">
-            {/* Left Fade Overlay */}
-            <AnimatePresence>
-                {showLeftFade && (
-                    <motion.div
-                        initial={{ opacity: 0 }}
-                        animate={{ opacity: 1 }}
-                        exit={{ opacity: 0 }}
-                        className="absolute left-0 top-0 bottom-0 w-12 z-10 pointer-events-none bg-linear-to-r from-[#FAFAFA] to-transparent"
-                    />
-                )}
-            </AnimatePresence>
-
-            {/* Right Fade Overlay */}
-            <AnimatePresence>
-                {showRightFade && (
-                    <motion.div
-                        initial={{ opacity: 0 }}
-                        animate={{ opacity: 1 }}
-                        exit={{ opacity: 0 }}
-                        className="absolute right-0 top-0 bottom-0 w-12 z-10 pointer-events-none bg-linear-to-l from-[#FAFAFA] to-transparent"
-                    />
-                )}
-            </AnimatePresence>
-
             <motion.div
                 ref={scrollRef}
                 initial="hidden"
                 whileInView="visible"
                 viewport={viewportSettings}
                 variants={staggerContainerVariants}
-                style={antiFlickerStyle}
-                className="flex gap-4 md:gap-3 overflow-x-auto no-scrollbar items-center p-2 -ml-2"
+                style={{
+                    ...antiFlickerStyle,
+                    WebkitMaskImage: `linear-gradient(to right, 
+                        ${showLeftFade ? 'transparent' : 'black'} 0%, 
+                        black ${showLeftFade ? '40px' : '0px'}, 
+                        black ${showRightFade ? 'calc(100% - 40px)' : '100%'}, 
+                        ${showRightFade ? 'transparent' : 'black'} 100%)`,
+                    maskImage: `linear-gradient(to right, 
+                        ${showLeftFade ? 'transparent' : 'black'} 0%, 
+                        black ${showLeftFade ? '40px' : '0px'}, 
+                        black ${showRightFade ? 'calc(100% - 40px)' : '100%'}, 
+                        ${showRightFade ? 'transparent' : 'black'} 100%)`
+                }}
+                className="flex gap-4 md:gap-3 overflow-x-auto no-scrollbar items-center p-2 -ml-2 transition-[mask-image, -webkit-mask-image] duration-300"
             >
                 {TABS.map((tab) => {
                     const isActive = activeTab === tab;
