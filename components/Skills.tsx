@@ -17,19 +17,19 @@ export const Skills: React.FC = () => {
     return (
         <motion.section
             variants={staggerContainerVariants}
-            className="p-6 md:p-10 border-b border-dashed border-gray-200 bg-[#FAFAFA]"
+            className="p-6 md:p-8 border-b border-dashed border-gray-200 bg-[#FAFAFA]"
             style={antiFlickerStyle}
         >
             <motion.h2
                 variants={sectionHeaderVariants}
-                className="text-[10px] md:text-sm font-bold text-[rgb(74,108,196)] tracking-wider uppercase mb-8"
+                className="text-[10px] md:text-[12px] font-bold text-[rgb(74,108,196)] tracking-wider uppercase mb-6"
             >
                 Skills
             </motion.h2>
 
             <motion.div
                 variants={staggerContainerVariants}
-                className="flex flex-col gap-10"
+                className="flex flex-col gap-8"
             >
                 {SKILL_CATEGORIES.map((category, index) => (
                     <KeyboardGroup key={index} category={category} index={index} />
@@ -51,11 +51,11 @@ const KeyboardGroup: React.FC<{ category: SkillCategory; index: number }> = ({ c
             <div className="ml-1">
                 <h3 className="
             inline-flex items-center justify-center
-            px-3 py-1.5
+            px-3 py-1 md:py-0.5
             rounded-[6px]
             bg-transparent
             border border-dashed border-gray-300
-            text-[8px] md:text-xs font-bold font-mono text-gray-500 uppercase tracking-widest
+            text-[8px] md:text-[9px] font-bold font-mono text-gray-500 uppercase tracking-widest
             select-none
           ">
                     {category.title}
@@ -65,12 +65,12 @@ const KeyboardGroup: React.FC<{ category: SkillCategory; index: number }> = ({ c
             {/* The Keyboard Chassis */}
             <div className="
         relative
-        p-4 md:p-5
-        rounded-xl md:rounded-2xl
+        p-4 md:p-4
+        rounded-xl md:rounded-xl
         bg-gradient-to-b from-white to-gray-100
         border border-gray-200
         shadow-[inset_0_2px_4px_rgba(0,0,0,0.06),0_1px_0_rgba(255,255,255,1)]
-        w-full
+        w-full md:max-w-4xl
       ">
                 {/* Decorative Screws */}
                 <div className="absolute top-2 left-2 md:top-3 md:left-3 w-2 h-2 rounded-full bg-gray-300 border border-gray-400/30 shadow-[inset_0_1px_1px_rgba(0,0,0,0.2)] flex items-center justify-center">
@@ -93,7 +93,7 @@ const KeyboardGroup: React.FC<{ category: SkillCategory; index: number }> = ({ c
                 {/* Keys Container */}
                 <motion.div
                     variants={staggerContainerVariants}
-                    className="flex flex-wrap gap-1.5 md:gap-3 relative z-10 px-1 py-1"
+                    className="flex flex-wrap gap-1.5 md:gap-2 relative z-10 px-1 py-1"
                 >
                     {category.skills.map((skill: string, idx: number) => (
                         <Keycap key={idx} label={skill} />
@@ -126,7 +126,7 @@ const Keycap: React.FC<{ label: string }> = ({ label }) => {
             className="
                 group relative
                 /* Responsive Layout */
-                h-7 md:h-10 px-2 md:px-5
+                h-7 md:h-8 px-2 md:px-3
                 min-w-[max-content]
                 flex-grow
                 flex items-center justify-center
@@ -134,13 +134,14 @@ const Keycap: React.FC<{ label: string }> = ({ label }) => {
                 /* Social Button Style Adoption */
                 bg-gradient-to-b from-white via-gray-100 to-gray-200
                 border border-gray-300/60
-                rounded-[6px] md:rounded-[8px]
+                rounded-[6px] md:rounded-[6px]
 
                 /* Shadow & 3D Depth (Matches Social Buttons) */
                 shadow-[0_4px_0_#d1d5db,0_4px_8px_rgba(0,0,0,0.1),inset_0_1px_0_rgba(255,255,255,0.9)]
+                md:shadow-[0_3px_0_#d1d5db,0_3px_6px_rgba(0,0,0,0.1),inset_0_1px_0_rgba(255,255,255,0.9)]
 
                 /* Typography (Kept Mono for Keyboard feel) */
-                text-gray-600 font-mono text-[8px] md:text-[11px] font-bold uppercase tracking-wide
+                text-gray-600 font-mono text-[8px] md:text-[10px] font-bold uppercase tracking-wide
 
                 /* Transitions */
                 transition-transform duration-100 ease-out
@@ -148,10 +149,13 @@ const Keycap: React.FC<{ label: string }> = ({ label }) => {
                 /* Hover Effects - Slight Depress */
                 hover:shadow-[0_2px_0_#d1d5db,0_2px_4px_rgba(0,0,0,0.1),inset_0_1px_0_rgba(255,255,255,0.9)]
                 hover:translate-y-[2px]
+                md:hover:shadow-[0_1.5px_0_#d1d5db,0_1.5px_3px_rgba(0,0,0,0.1),inset_0_1px_0_rgba(255,255,255,0.9)]
+                md:hover:translate-y-[1.5px]
 
                 /* Active / Pressed State - Full Depress */
                 active:shadow-[0_0px_0_#d1d5db,inset_0_2px_4px_rgba(0,0,0,0.1)]
                 active:translate-y-[4px]
+                md:active:translate-y-[3px]
 
                 /* Focus */
                 outline-none focus:ring-2 focus:ring-blue-500/20
@@ -280,7 +284,7 @@ const MacMiniSection: React.FC = () => {
                         >
                             <motion.h4
                                 variants={staggerItemVariants}
-                                className="text-xl md:text-3xl font-bold text-gray-900 tracking-tight"
+                                className="text-xl md:text-2xl font-bold text-gray-900 tracking-tight"
                             >
                                 Mac mini
                             </motion.h4>
@@ -293,7 +297,7 @@ const MacMiniSection: React.FC = () => {
                         </motion.div>
                         <motion.p
                             variants={staggerItemVariants}
-                            className="text-[10px] md:text-sm font-bold text-gray-400 uppercase tracking-widest"
+                            className="text-[10px] md:text-xs font-bold text-gray-400 uppercase tracking-widest"
                         >
                             It's my personal station!
                         </motion.p>
@@ -301,7 +305,7 @@ const MacMiniSection: React.FC = () => {
 
                     <motion.p
                         variants={staggerItemVariants}
-                        className="text-[11px] md:text-sm text-gray-600 font-medium leading-relaxed max-w-sm mx-auto md:mx-0 text-center md:text-left"
+                        className="text-[11px] md:text-xs text-gray-600 font-medium leading-relaxed max-w-sm mx-auto md:mx-0 text-center md:text-left"
                     >
                         Compact yet incredibly powerful. This little machine handles my entire development stack from Backend to heavy frontend builds silently and efficiently. I also use multi-screen setup which allow me to do rapid prototyping and testing.
                     </motion.p>
@@ -329,7 +333,7 @@ const SpecBadge: React.FC<{ children: React.ReactNode }> = ({ children }) => (
         px-2.5 py-1
         rounded-[6px]
         bg-white/60 border border-gray-200/50
-        text-[8px] md:text-[10px] font-bold text-gray-500 uppercase tracking-wide
+        text-[8px] md:text-[9px] font-bold text-gray-500 uppercase tracking-wide
         shadow-sm backdrop-blur-sm
     ">
         {children}

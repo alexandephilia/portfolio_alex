@@ -5,17 +5,17 @@ import { antiFlickerStyle, staggerContainerVariants, staggerItemVariants, viewpo
 
 export const Education: React.FC = () => {
     return (
-        <section className="p-6 md:p-10 border-b border-dashed border-gray-200 bg-[#FAFAFA]" style={antiFlickerStyle}>
+        <section className="p-6 md:p-8 border-b border-dashed border-gray-200 bg-[#FAFAFA]" style={antiFlickerStyle}>
             <motion.div
                 variants={staggerContainerVariants}
-                className="mb-8"
+                className="mb-6"
             >
-                <motion.h2 variants={staggerItemVariants} className="text-[10px] md:text-sm font-bold text-[rgb(74,108,196)] tracking-wider uppercase">Education</motion.h2>
+                <motion.h2 variants={staggerItemVariants} className="text-[10px] md:text-[12px] font-bold text-[rgb(74,108,196)] tracking-wider uppercase">Education</motion.h2>
             </motion.div>
 
             <motion.div
                 variants={staggerContainerVariants}
-                className="flex flex-col gap-8 md:gap-10"
+                className="flex flex-col gap-8 md:gap-8"
             >
                 {EDUCATION.map((edu) => (
                     <motion.div
@@ -23,15 +23,15 @@ export const Education: React.FC = () => {
                         variants={staggerItemVariants}
                         className="grid grid-cols-1 md:grid-cols-[1fr_auto] gap-1 md:gap-8"
                     >
-                        <motion.div variants={staggerItemVariants} className="flex flex-col gap-0.5 md:gap-1">
-                            <motion.h3 variants={staggerItemVariants} className="text-[11px] md:text-base font-semibold text-gray-900">
+                        <motion.div variants={staggerItemVariants} className="flex flex-col gap-0.5 md:gap-0.5">
+                            <motion.h3 variants={staggerItemVariants} className="text-[11px] md:text-sm font-semibold text-gray-900">
                                 {edu.degree} <span className="text-gray-400 font-normal">at</span> {edu.institution.split(' · ')[0]}
                             </motion.h3>
-                            <motion.p variants={staggerItemVariants} className="text-gray-500 text-[10px] md:text-sm leading-relaxed max-w-xl">
+                            <motion.p variants={staggerItemVariants} className="text-gray-500 text-[10px] md:text-xs leading-relaxed max-w-xl">
                                 {edu.institution.split(' · ').slice(1).join(' · ')}
                             </motion.p>
                         </motion.div>
-                        <motion.div variants={staggerItemVariants} className="text-[8px] md:text-xs font-medium text-gray-400 uppercase tracking-wide pt-0.5 md:pt-1">
+                        <motion.div variants={staggerItemVariants} className="text-[8px] md:text-[11px] font-medium text-gray-400 uppercase tracking-wide pt-0.5 md:pt-1">
                             {edu.period}
                         </motion.div>
                     </motion.div>

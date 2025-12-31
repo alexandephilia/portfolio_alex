@@ -2,6 +2,7 @@ import { AnimatePresence, motion } from 'framer-motion';
 import Lenis from 'lenis';
 import { useEffect, useState } from 'react';
 import { BeyondWork } from './components/BeyondWork';
+import { BottomBlur } from './components/BottomBlur';
 import { Contact } from './components/Contact';
 import { Education } from './components/Education';
 import { Experience } from './components/Experience';
@@ -10,14 +11,14 @@ import { Header } from './components/Header';
 import { Hero } from './components/Hero';
 import { MusicDock } from './components/MusicDock';
 import { ProjectCard } from './components/ProjectCard';
-import { Skills } from './components/Skills';
-import { Tabs } from './components/Tabs';
-import { StackInsights } from './components/StackInsights';
-import { Writings } from './components/Writings';
 import { SectionWrapper } from './components/SectionWrapper';
-import { PROJECTS } from './constants';
-import { BottomBlur } from './components/BottomBlur';
+import { Skills } from './components/Skills';
+import { StackInsights } from './components/StackInsights';
+import { Tabs } from './components/Tabs';
 import { TopBlur } from './components/TopBlur';
+import { Writings } from './components/Writings';
+import { PROJECTS } from './constants';
+import { ComponentShowcase } from './components/ComponentShowcase';
 
 export default function App() {
     const [activeTab, setActiveTab] = useState('Personal');
@@ -212,8 +213,12 @@ export default function App() {
                                             <div className="bg-[#FAFAFA]">
                                                 <Writings />
                                             </div>
+                                        ) : activeTab === 'Components' ? (
+                                            <div className="bg-[#FAFAFA]">
+                                                <ComponentShowcase />
+                                            </div>
                                         ) : (
-                                            <div className="flex flex-col gap-6 p-6 md:p-10 overflow-visible">
+                                            <div className="flex flex-col gap-6 p-6 md:p-8 overflow-visible">
                                                 {displayProjects.length > 0 ? (
                                                     displayProjects.map((project) => (
                                                         <ProjectCard key={project.id} project={project} />

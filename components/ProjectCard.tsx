@@ -212,137 +212,154 @@ export const ProjectCard: React.FC<ProjectCardProps> = ({ project }) => {
                 <div
                     className="w-full bg-white rounded-[20px] overflow-hidden flex flex-row border border-[rgba(0,0,0,0.05)] md:min-h-[240px]"
                 >
-                    {/* Left Content (Text) */}
-                    <div className="flex-1 p-3 md:p-6 flex flex-col items-start gap-1.5 md:gap-3 justify-center relative z-10 overflow-hidden">
-
-                        <div className="flex flex-col gap-1 md:gap-2 relative z-10">
-                            <div className="flex items-start justify-between gap-4 w-full relative z-10">
-                                <h3 className="text-base md:text-xl font-bold text-gray-900 leading-tight flex-1">
-                                    {project.title}
-                                </h3>
-                                <div className="hidden md:flex shrink-0 items-center gap-1.5 p-px rounded-full relative group-hover:opacity-0 translate-x-0 group-hover:translate-x-2 mt-1 overflow-hidden"
-                                    style={{ backgroundImage: 'repeating-linear-gradient(45deg, #E5E7EB, #E5E7EB 1px, transparent 1px, transparent 3px)' }}>
-                                    <div className="flex items-center gap-1.5 px-2 py-0.5 rounded-full bg-linear-to-b from-white to-gray-50/50 shadow-[inset_0_1px_2px_rgba(0,0,0,0.08),inset_0_-1px_1px_rgba(255,255,255,0.8)] border border-transparent">
-                                        <div className="w-1 h-1 rounded-full bg-gray-400 opacity-50 font-mono" />
-                                        <span className="text-[8px] font-mono font-bold text-gray-500 uppercase tracking-widest whitespace-nowrap">
-                                            Hover Me
-                                        </span>
-                                    </div>
-                                </div>
-                            </div>
-                            {/* Description with expandable on mobile */}
-                            <div className="relative">
-                                <p className={`text-gray-500 leading-relaxed text-[11px] md:text-sm md:line-clamp-none ${isExpanded ? '' : 'line-clamp-2'}`}>
-                                    {project.description}
-                                </p>
-                                {/* Fade gradient overlay when collapsed on mobile */}
-                                {!isExpanded && (
-                                    <div className="absolute bottom-0 left-0 right-0 h-4 bg-gradient-to-t from-white to-transparent pointer-events-none md:hidden" />
-                                )}
-                            </div>
-                            {/* Read more toggle - mobile only */}
-                            <button
-                                onClick={(e) => {
-                                    e.stopPropagation();
-                                    setIsExpanded(!isExpanded);
-                                }}
-                                className="flex items-center gap-0.5 text-[10px] text-[rgb(74,108,196)] font-medium mt-0.5 md:hidden"
-                            >
-                                {isExpanded ? 'Show less' : 'Read more'}
-                                <ChevronDown
-                                    size={12}
-                                    className={`transition-transform duration-200 ${isExpanded ? 'rotate-180' : ''}`}
-                                />
-                            </button>
+                    {project.category === 'Components' ? (
+                        <div className="w-full h-[400px] md:h-[420px] relative bg-gray-50">
+                            <iframe
+                                src={project.linkUrl}
+                                className="w-full h-full border-none pointer-events-auto"
+                                title={project.title}
+                                scrolling="no"
+                            />
+                            {/* Protection overlay for scroll/interaction hijacking if needed, but keeping it interactive for now */}
+                            <div className="absolute inset-0 pointer-events-none shadow-[inset_0_2px_10px_rgba(0,0,0,0.05)]" />
                         </div>
+                    ) : (
+                        <>
+                            {/* Left Content (Text) */}
+                            <div className="flex-1 p-3 md:p-6 flex flex-col items-start gap-1.5 md:gap-3 justify-center relative z-10 overflow-hidden">
 
-                        <div className="mt-1 pt-1 relative z-20">
-                            {project.category === 'Works' ? (
-                                <div className="flex flex-col gap-0.5">
-                                    {project.company && (
-                                        <div className="text-[10px] md:text-xs font-bold text-[rgb(74,108,196)] uppercase tracking-tight">
-                                            {project.company}
+                                {project.category !== 'Components' && (
+                                    <div className="flex flex-col gap-1 md:gap-2 relative z-10">
+                                        <div className="flex items-start justify-between gap-4 w-full relative z-10">
+                                            <h3 className="text-base md:text-lg font-bold text-gray-900 leading-tight flex-1">
+                                                {project.title}
+                                            </h3>
+                                            <div className="hidden md:flex shrink-0 items-center gap-1.5 p-px rounded-full relative group-hover:opacity-0 translate-x-0 group-hover:translate-x-2 mt-1 overflow-hidden"
+                                                style={{ backgroundImage: 'repeating-linear-gradient(45deg, #E5E7EB, #E5E7EB 1px, transparent 1px, transparent 3px)' }}>
+                                                <div className="flex items-center gap-1.5 px-2 py-0.5 rounded-full bg-linear-to-b from-white to-gray-50/50 shadow-[inset_0_1px_2px_rgba(0,0,0,0.08),inset_0_-1px_1px_rgba(255,255,255,0.8)] border border-transparent">
+                                                    <div className="w-1 h-1 rounded-full bg-gray-400 opacity-50 font-mono" />
+                                                    <span className="text-[8px] font-mono font-bold text-gray-500 uppercase tracking-widest whitespace-nowrap">
+                                                        Hover Me
+                                                    </span>
+                                                </div>
+                                            </div>
                                         </div>
-                                    )}
-                                    {project.date && (
-                                        <div className="text-[8px] md:text-[10px] font-semibold text-gray-400 font-mono uppercase">
-                                            {project.date}
+                                        {/* Description with expandable on mobile */}
+                                        <div className="relative">
+                                            <p className={`text-gray-500 leading-relaxed text-[11px] md:text-xs md:line-clamp-none ${isExpanded ? '' : 'line-clamp-2'}`}>
+                                                {project.description}
+                                            </p>
+                                            {/* Fade gradient overlay when collapsed on mobile */}
+                                            {!isExpanded && (
+                                                <div className="absolute bottom-0 left-0 right-0 h-4 bg-gradient-to-t from-white to-transparent pointer-events-none md:hidden" />
+                                            )}
                                         </div>
-                                    )}
-                                </div>
-                            ) : (
-                                <>
-                                    {project.isRedacted ? (
+                                        {/* Read more toggle - mobile only */}
                                         <button
-                                            disabled
-                                            className="flex items-center gap-1.5 px-3 py-1.5 rounded-md text-[10px] md:text-xs font-bold bg-gray-50 border border-gray-200 text-gray-400 cursor-not-allowed shadow-[inset_0_1px_2px_rgba(0,0,0,0.06)]"
+                                            onClick={(e) => {
+                                                e.stopPropagation();
+                                                setIsExpanded(!isExpanded);
+                                            }}
+                                            className="flex items-center gap-0.5 text-[10px] text-[rgb(74,108,196)] font-medium mt-0.5 md:hidden"
                                         >
-                                            NDA Protected
+                                            {isExpanded ? 'Show less' : 'Read more'}
+                                            <ChevronDown
+                                                size={12}
+                                                className={`transition-transform duration-200 ${isExpanded ? 'rotate-180' : ''}`}
+                                            />
                                         </button>
-                                    ) : project.status === 'Live' ? (
-                                        <a
-                                            href={project.linkUrl}
-                                            target="_blank"
-                                            rel="noopener noreferrer"
-                                            className="flex items-center gap-1.5 px-3 py-1 rounded-md text-[10px] md:text-xs font-bold transition-transform bg-linear-to-b from-white to-gray-100 border border-gray-200 shadow-[0_2px_4px_rgba(0,0,0,0.05),0_1px_2px_rgba(0,0,0,0.04),inset_0_1px_0_rgba(255,255,255,0.8)] text-gray-700 hover:text-gray-900 hover:shadow-[0_3px_6px_rgba(0,0,0,0.08),0_1px_2px_rgba(0,0,0,0.06)] active:shadow-sm active:translate-y-px group/btn"
-                                        >
-                                            View Case Study
-                                            <ArrowRight size={12} className="text-gray-400 group-hover/btn:translate-x-1 transition-transform group-hover/btn:text-blue-500" />
-                                        </a>
-                                    ) : (
-                                        <span className="inline-block px-3 py-1.5 rounded-md border border-gray-200 text-gray-400 text-[10px] md:text-xs font-medium bg-gray-50 cursor-not-allowed">
-                                            Coming Soon
-                                        </span>
-                                    )}
-                                </>
-                            )}
-                        </div>
-                    </div>
-
-                    {/* Right Image Area - Width adjusted for mobile side-by-side */}
-                    <div className="w-[35%] md:w-[45%] shrink-0 h-auto p-1 bg-gray-50 flex flex-col justify-center border-l border-gray-100">
-                        <div className="w-full h-full md:min-h-full rounded-[16px] overflow-hidden relative shadow-[inset_0_4px_12px_rgba(0,0,0,0.18),inset_0_1px_3px_rgba(0,0,0,0.1),inset_0_-2px_4px_rgba(255,255,255,0.7)] bg-gray-100 border border-black/5 flex items-center justify-center">
-                            {project.isRedacted ? (
-                                <div className="absolute inset-0 flex items-center justify-center overflow-hidden rounded-[16px] p-2">
-                                    <div className="absolute inset-0 scale-110">
-                                        <LazyImage src={project.imageUrl} alt={project.title} blur={10} />
-                                        <div className="absolute inset-0 bg-black/10 backdrop-blur-[2px]" />
                                     </div>
+                                )}
 
-                                    <motion.div
-                                        initial={{ rotate: -12, scale: 1.8, opacity: 0 }}
-                                        animate={{ rotate: -15, scale: 1, opacity: 0.8 }}
-                                        transition={{
-                                            type: "spring",
-                                            stiffness: 260,
-                                            damping: 20,
-                                            delay: 0.1
-                                        }}
-                                        className="relative z-10 w-full flex justify-center"
-                                    >
-                                        <div className="relative group/stamp max-w-full overflow-hidden">
-                                            {/* Stamp Body */}
-                                            <div className="px-2 py-1 md:px-6 md:py-3 border-2 md:border-4 border-gray-400/50 rounded-[2px] flex items-center justify-center">
-                                                <span className="text-[10px] sm:text-xs md:text-xl font-sans font-black text-gray-500 uppercase tracking-widest whitespace-nowrap select-none">
-                                                    Under NDA
+                                <div className="mt-1 pt-1 relative z-20">
+                                    {project.category === 'Works' ? (
+                                        <div className="flex flex-col gap-0.5">
+                                            {project.company && (
+                                                <div className="text-[10px] md:text-[11px] font-bold text-[rgb(74,108,196)] uppercase tracking-tight">
+                                                    {project.company}
+                                                </div>
+                                            )}
+                                            {project.date && (
+                                                <div className="text-[8px] md:text-[9px] font-semibold text-gray-400 font-mono uppercase">
+                                                    {project.date}
+                                                </div>
+                                            )}
+                                        </div>
+                                    ) : (
+                                        <>
+                                            {project.isRedacted ? (
+                                                <button
+                                                    disabled
+                                                    className="flex items-center gap-1.5 px-3 py-1.5 rounded-md text-[10px] md:text-[11px] font-bold bg-gray-50 border border-gray-200 text-gray-400 cursor-not-allowed shadow-[inset_0_1px_2px_rgba(0,0,0,0.06)]"
+                                                >
+                                                    NDA Protected
+                                                </button>
+                                            ) : project.status === 'Live' ? (
+                                                <a
+                                                    href={project.linkUrl}
+                                                    target="_blank"
+                                                    rel="noopener noreferrer"
+                                                    className="flex items-center gap-1.5 px-3 py-1 rounded-md text-[10px] md:text-[11px] font-bold transition-transform bg-linear-to-b from-white to-gray-100 border border-gray-200 shadow-[0_2px_4px_rgba(0,0,0,0.05),0_1px_2px_rgba(0,0,0,0.04),inset_0_1px_0_rgba(255,255,255,0.8)] text-gray-700 hover:text-gray-900 hover:shadow-[0_3px_6px_rgba(0,0,0,0.08),0_1px_2px_rgba(0,0,0,0.06)] active:shadow-sm active:translate-y-px group/btn"
+                                                >
+                                                    View Case Study
+                                                    <ArrowRight size={12} className="text-gray-400 group-hover/btn:translate-x-1 transition-transform group-hover/btn:text-blue-500" />
+                                                </a>
+                                            ) : (
+                                                <span className="inline-block px-3 py-1.5 rounded-md border border-gray-200 text-gray-400 text-[10px] md:text-[11px] font-medium bg-gray-50 cursor-not-allowed">
+                                                    Coming Soon
                                                 </span>
+                                            )}
+                                        </>
+                                    )}
+                                </div>
+                            </div>
+
+                            {/* Right Image Area - Width adjusted for mobile side-by-side */}
+                            <div className="w-[35%] md:w-[45%] shrink-0 h-auto p-1 bg-gray-50 flex flex-col justify-center border-l border-gray-100">
+                                <div className="w-full h-full md:min-h-full rounded-[16px] overflow-hidden relative shadow-[inset_0_4px_12px_rgba(0,0,0,0.18),inset_0_1px_3px_rgba(0,0,0,0.1),inset_0_-2px_4px_rgba(255,255,255,0.7)] bg-gray-100 border border-black/5 flex items-center justify-center">
+                                    {project.isRedacted ? (
+                                        <div className="absolute inset-0 flex items-center justify-center overflow-hidden rounded-[16px] p-2">
+                                            <div className="absolute inset-0 scale-110">
+                                                <LazyImage src={project.imageUrl} alt={project.title} blur={10} />
+                                                <div className="absolute inset-0 bg-black/10 backdrop-blur-[2px]" />
                                             </div>
 
-                                            {/* Ink bleed effect (subtle glow) */}
-                                            <div className="absolute inset-0 border-2 md:border-4 border-gray-400/10 blur-[0.5px] -z-10" />
-                                        </div>
-                                    </motion.div>
+                                            <motion.div
+                                                initial={{ rotate: -12, scale: 1.8, opacity: 0 }}
+                                                animate={{ rotate: -15, scale: 1, opacity: 0.8 }}
+                                                transition={{
+                                                    type: "spring",
+                                                    stiffness: 260,
+                                                    damping: 20,
+                                                    delay: 0.1
+                                                }}
+                                                className="relative z-10 w-full flex justify-center"
+                                            >
+                                                <div className="relative group/stamp max-w-full overflow-hidden">
+                                                    {/* Stamp Body */}
+                                                    <div className="px-2 py-1 md:px-6 md:py-3 border-2 md:border-4 border-gray-400/50 rounded-[2px] flex items-center justify-center">
+                                                        <span className="text-[10px] sm:text-xs md:text-xl font-sans font-black text-gray-500 uppercase tracking-widest whitespace-nowrap select-none">
+                                                            Under NDA
+                                                        </span>
+                                                    </div>
 
+                                                    {/* Ink bleed effect (subtle glow) */}
+                                                    <div className="absolute inset-0 border-2 md:border-4 border-gray-400/10 blur-[0.5px] -z-10" />
+                                                </div>
+                                            </motion.div>
+
+                                        </div>
+                                    ) : (
+                                        <>
+                                            <LazyImage src={project.imageUrl} alt={project.title} />
+                                            {/* Inner shadow overlay */}
+                                            <div className="absolute inset-0 pointer-events-none rounded-[16px] shadow-[inset_0_4px_12px_rgba(0,0,0,0.1)]" />
+                                        </>
+                                    )}
                                 </div>
-                            ) : (
-                                <>
-                                    <LazyImage src={project.imageUrl} alt={project.title} />
-                                    {/* Inner shadow overlay */}
-                                    <div className="absolute inset-0 pointer-events-none rounded-[16px] shadow-[inset_0_4px_12px_rgba(0,0,0,0.1)]" />
-                                </>
-                            )}
-                        </div>
-                    </div>
+                            </div>
+                        </>
+                    )}
                 </div>
             </div>
         </motion.div>

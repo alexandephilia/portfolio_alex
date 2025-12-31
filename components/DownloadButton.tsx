@@ -38,9 +38,9 @@ export const DownloadButton: React.FC<DownloadButtonProps> = ({ href, fileName =
     // Using responsive-aware logic for mobile optimization
     const isMobile = typeof window !== 'undefined' && window.innerWidth < 768;
     
-    const idleWidth = isMobile ? 135 : 150;   // "Download Resume" + icon - more breathing room
-    const streamWidth = isMobile ? 115 : 125;  // "Streaming"
-    const successWidth = isMobile ? 100 : 110;   // "Exported"
+    const idleWidth = isMobile ? 135 : 140;   // "Download Resume" + icon - more breathing room
+    const streamWidth = isMobile ? 115 : 115;  // "Streaming"
+    const successWidth = isMobile ? 100 : 100;   // "Exported"
 
     return (
         <motion.button
@@ -56,7 +56,7 @@ export const DownloadButton: React.FC<DownloadButtonProps> = ({ href, fileName =
                 damping: 18,
                 mass: 1.2
             }}
-            className="group relative h-8 md:h-9 rounded-lg text-[9px] md:text-xs font-medium active:translate-y-px disabled:cursor-default flex items-center justify-center
+            className="group relative h-8 md:h-8 rounded-lg text-[9px] md:text-[11px] font-medium active:translate-y-px disabled:cursor-default flex items-center justify-center
                        bg-linear-to-b from-[#f8f9fc] via-[#f0f2f7] to-[#e8ebf2] border border-gray-300/70 
                        shadow-[0_4px_8px_rgba(0,0,0,0.04),0_2px_4px_rgba(0,0,0,0.06),inset_0_1px_0_rgba(255,255,255,0.9)]
                        hover:shadow-[0_6px_12px_rgba(0,0,0,0.12),0_3px_6px_rgba(0,0,0,0.08),inset_0_1px_0_rgba(255,255,255,1)]"

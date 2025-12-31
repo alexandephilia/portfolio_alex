@@ -7,18 +7,18 @@ interface TabsProps {
     setActiveTab: (tab: string) => void;
 }
 
-const TABS = ['Works', 'Personal', 'Writings'];
+const TABS = ['Works', 'Personal', 'Components', 'Writings'];
 
 export const Tabs: React.FC<TabsProps> = ({ activeTab, setActiveTab }) => {
     return (
-        <div className="p-6 md:p-10 border-b border-dashed border-gray-200 bg-[#FAFAFA]">
+        <div className="p-6 md:py-6 md:px-8 border-b border-dashed border-gray-200 bg-[#FAFAFA]">
             <motion.div
                 initial="hidden"
                 whileInView="visible"
                 viewport={viewportSettings}
                 variants={staggerContainerVariants}
                 style={antiFlickerStyle}
-                className="flex gap-4 md:gap-6 overflow-x-auto no-scrollbar items-center p-2 -ml-2"
+                className="flex gap-4 md:gap-3 overflow-x-auto no-scrollbar items-center p-2 -ml-2"
             >
                 {TABS.map((tab) => {
                     const isActive = activeTab === tab;
@@ -28,7 +28,7 @@ export const Tabs: React.FC<TabsProps> = ({ activeTab, setActiveTab }) => {
                             variants={staggerItemVariants}
                             onClick={() => setActiveTab(tab)}
                             className={`
-                                relative px-3 py-1.5 md:px-5 md:py-2.5 rounded-xl text-xs md:text-sm font-bold transition-colors duration-300 whitespace-nowrap border
+                                relative px-3 py-1.5 md:px-3.5 md:py-2 rounded-xl text-xs md:text-[13px] font-bold transition-colors duration-300 whitespace-nowrap border
                                 ${isActive
                                     ? 'bg-gradient-to-b from-[rgba(74,108,196,0.05)] to-[rgba(74,108,196,0.15)] border-[rgba(74,108,196,0.3)] shadow-[0_2px_4px_rgba(74,108,196,0.15),0_1px_2px_rgba(0,0,0,0.04),inset_0_1px_0_rgba(255,255,255,0.8)] text-[rgb(74,108,196)]'
                                     : 'border-transparent text-gray-400 hover:text-gray-600 hover:bg-gray-50'}

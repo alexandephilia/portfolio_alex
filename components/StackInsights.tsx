@@ -103,7 +103,7 @@ export const StackInsights: React.FC = () => {
                                         }}
                                     >
                                         <span className={`
-                                        text-[7px] md:text-[9px] font-mono uppercase tracking-widest whitespace-nowrap
+                                        text-[7px] md:text-[8px] font-mono uppercase tracking-widest whitespace-nowrap
                                         ${isTop ? 'font-black text-gray-700' : 'font-bold text-gray-400'}
                                     `}>
                                             {insight.category}
@@ -153,13 +153,13 @@ export const StackInsights: React.FC = () => {
                                                 )}
 
                                                 <div className="flex flex-col gap-1 relative z-10">
-                                                    <h3 className="text-xl md:text-2xl font-bold text-gray-900 tracking-tight">
+                                                    <h3 className="text-xl md:text-xl font-bold text-gray-900 tracking-tight">
                                                         {insight.title}
                                                     </h3>
                                                 </div>
 
                                                 <div className="flex-1 relative z-10">
-                                                    <p className="font-mono text-[11px] md:text-[13px] text-gray-700 leading-snug tracking-tighter font-medium">
+                                                    <p className="font-mono text-[11px] md:text-[12px] text-gray-700 leading-snug tracking-tighter font-medium">
                                                         {insight.text}
                                                     </p>
                                                 </div>

@@ -95,6 +95,30 @@ export const PROJECTS: Project[] = [
         status: "Live",
         linkUrl: "https://github.com/alexandephilia/ChatGPT-x-DeepSeek-x-Grok-x-Claude-x-Perplexity-Linux-APP",
         stack: ["Electron", "NPM", "Wrappers", "Node.js", "AppImage"]
+    },
+    {
+        id: "c1",
+        category: "Components",
+        title: "Luminous Budget Dashboard",
+        description: "A premium, dark-mode budget dashboard featuring volumetric lighting effects and fluid animations.",
+        icon: Smartphone,
+        iconColor: "bg-blue-500",
+        imageUrl: "/Work_1.jpg",
+        status: "UI-Kit",
+        linkUrl: "/components/card_1/index.html",
+        stack: ["Framer Motion", "React", "Lucide Icons"]
+    },
+    {
+        id: "c2",
+        category: "Components",
+        title: "Webcore Builder UI",
+        description: "A high-fidelity implementation of a web builder interface featuring complex radial gradients, segmented controls, and a neumorphic-inspired aesthetic.",
+        icon: Terminal,
+        iconColor: "bg-purple-500",
+        imageUrl: "/Work_2.jpg",
+        status: "UI-Kit",
+        linkUrl: "/components/dashboard_1/index.html",
+        stack: ["3D Transforms", "Framer Motion", "React"]
     }
 ];
 

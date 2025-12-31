@@ -7,12 +7,12 @@ import { DownloadButton } from './DownloadButton';
 
 export const Experience: React.FC = () => {
     return (
-        <section className="p-6 md:p-10 border-b border-dashed border-gray-200 bg-[#FAFAFA]" style={antiFlickerStyle}>
+        <section className="p-6 md:p-8 border-b border-dashed border-gray-200 bg-[#FAFAFA]" style={antiFlickerStyle}>
             <motion.div
                 variants={staggerContainerVariants} // Staggered reveal for BOTH header items
-                className="flex justify-between items-end mb-8"
+                className="flex justify-between items-end mb-6"
             >
-                <motion.h2 variants={staggerItemVariants} className="text-[10px] md:text-sm font-bold text-[rgb(74,108,196)] tracking-wider uppercase">Experience</motion.h2>
+                <motion.h2 variants={staggerItemVariants} className="text-[10px] md:text-[12px] font-bold text-[rgb(74,108,196)] tracking-wider uppercase">Experience</motion.h2>
                 <motion.div variants={staggerItemVariants} className="ml-2 md:ml-0">
                     <DownloadButton href="/resume.pdf" fileName="Garry_Alexander_Resume.pdf" />
                 </motion.div>
@@ -20,7 +20,7 @@ export const Experience: React.FC = () => {
 
             <motion.div
                 variants={staggerContainerVariants}
-                className="flex flex-col gap-8 md:gap-10"
+                className="flex flex-col gap-8 md:gap-8"
             >
                 {EXPERIENCE.map((job) => (
                     <motion.div
@@ -28,8 +28,8 @@ export const Experience: React.FC = () => {
                         variants={staggerItemVariants}
                         className="grid grid-cols-1 md:grid-cols-[1fr_auto] gap-1 md:gap-8"
                     >
-                        <motion.div variants={staggerItemVariants} className="flex flex-col gap-0.5 md:gap-1">
-                            <motion.h3 variants={staggerItemVariants} className="text-[11px] md:text-base font-semibold text-gray-900">
+                        <motion.div variants={staggerItemVariants} className="flex flex-col gap-0.5 md:gap-0.5">
+                            <motion.h3 variants={staggerItemVariants} className="text-[11px] md:text-sm font-semibold text-gray-900">
                                 {job.role} <span className="text-gray-400 font-normal">at</span> {job.company}
                                 {job.company === "Realta Chakradarma" && (
                                     <a
@@ -52,11 +52,11 @@ export const Experience: React.FC = () => {
                                     </a>
                                 )}
                             </motion.h3>
-                            <motion.p variants={staggerItemVariants} className="text-gray-500 text-[10px] md:text-sm leading-relaxed max-w-xl">
+                             <motion.p variants={staggerItemVariants} className="text-gray-500 text-[10px] md:text-xs leading-relaxed max-w-xl">
                                 {job.description}
                             </motion.p>
                         </motion.div>
-                        <motion.div variants={staggerItemVariants} className="text-[8px] md:text-xs font-medium text-gray-400 uppercase tracking-wide pt-0.5 md:pt-1">
+                        <motion.div variants={staggerItemVariants} className="text-[8px] md:text-[11px] font-medium text-gray-400 uppercase tracking-wide pt-0.5 md:pt-1">
                             {job.period}
                         </motion.div>
                     </motion.div>
