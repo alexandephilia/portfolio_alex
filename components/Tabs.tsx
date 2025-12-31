@@ -1,5 +1,5 @@
-import { motion, AnimatePresence } from 'framer-motion';
-import React, { useRef, useState, useEffect } from 'react';
+import { AnimatePresence, motion } from 'framer-motion';
+import React, { useEffect, useRef, useState } from 'react';
 import { antiFlickerStyle, staggerContainerVariants, staggerItemVariants, viewportSettings } from './animations';
 
 interface TabsProps {
@@ -7,7 +7,7 @@ interface TabsProps {
     setActiveTab: (tab: string) => void;
 }
 
-const TABS = ['Works', 'Personal', 'Components', 'Writings'];
+const TABS = ['Works', 'Personal', 'Components', 'Experiment', 'Writings'];
 
 export const Tabs: React.FC<TabsProps> = ({ activeTab, setActiveTab }) => {
     const scrollRef = useRef<HTMLDivElement>(null);

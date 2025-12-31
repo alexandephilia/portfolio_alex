@@ -3,9 +3,11 @@ import Lenis from 'lenis';
 import { useEffect, useState } from 'react';
 import { BeyondWork } from './components/BeyondWork';
 import { BottomBlur } from './components/BottomBlur';
+import { ComponentShowcase } from './components/ComponentShowcase';
 import { Contact } from './components/Contact';
 import { Education } from './components/Education';
 import { Experience } from './components/Experience';
+import { ExperimentShowcase } from './components/ExperimentShowcase';
 import { Footer } from './components/Footer';
 import { Header } from './components/Header';
 import { Hero } from './components/Hero';
@@ -18,7 +20,6 @@ import { Tabs } from './components/Tabs';
 import { TopBlur } from './components/TopBlur';
 import { Writings } from './components/Writings';
 import { PROJECTS } from './constants';
-import { ComponentShowcase } from './components/ComponentShowcase';
 
 export default function App() {
     const [activeTab, setActiveTab] = useState('Personal');
@@ -216,6 +217,10 @@ export default function App() {
                                         ) : activeTab === 'Components' ? (
                                             <div className="bg-[#FAFAFA]">
                                                 <ComponentShowcase />
+                                            </div>
+                                        ) : activeTab === 'Experiment' ? (
+                                            <div className="bg-[#FAFAFA]">
+                                                <ExperimentShowcase />
                                             </div>
                                         ) : (
                                             <div className="flex flex-col gap-6 p-6 md:p-8 overflow-visible">
