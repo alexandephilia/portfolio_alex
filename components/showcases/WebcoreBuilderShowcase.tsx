@@ -59,7 +59,7 @@ const BuilderCard: React.FC = () => {
     return (
         <div className="w-full h-[260px] relative rounded-2xl overflow-hidden border border-gray-100 shadow-sm bg-white group">
             {/* Image section */}
-            <div className="absolute top-0 left-0 right-0 h-[60%] overflow-hidden">
+            <div className="absolute top-0 left-0 right-0 h-[60%]">
                 <img
                     src="https://r2.flowith.net/gemini-proxy-go/1767044205483/58c8d357-a61f-4870-917f-ea8547d74e2a.jpg"
                     alt="AI Builder Preview"
@@ -67,7 +67,7 @@ const BuilderCard: React.FC = () => {
                 />
                 {/* Badge */}
                 <div className="absolute top-16 left-1/2 -translate-x-1/2 -translate-y-1/2 z-10">
-                    <div className="px-4 py-1.5 rounded-full bg-black/30 backdrop-blur-[4px] border border-white/20 text-white text-xs font-medium shadow-lg">
+                    <div className="px-4 py-1.5 rounded-full bg-black/20 backdrop-blur-[5px] border border-white/20 text-white text-xs font-medium shadow-lg">
                         AI Builder
                     </div>
                 </div>
@@ -82,12 +82,15 @@ const BuilderCard: React.FC = () => {
                     To design a layout with AI, add a new section and interact.
                 </p>
                 <div className="flex gap-3">
-                    <button className="webcore-btn-dark flex-1 py-2 rounded-full text-xs font-medium transition-all active:scale-95 relative overflow-hidden">
-                        <div className="webcore-btn-shine"></div>
-                        <span className="webcore-btn-text">Try AI</span>
+                    <button className="premium-button flex-1 py-2 rounded-full text-xs font-medium">
+                        <div className="button-shine"></div>
+                        <div className="button-inner-shadow rounded-full"></div>
+                        <span className="button-text">Try AI</span>
                     </button>
-                    <button className="flex-1 py-2 rounded-full text-gray-700 text-xs font-medium border border-gray-200 transition-all active:scale-95 bg-[radial-gradient(circle_at_center,_#ffffff_0%,_#f3f4f6_100%)] shadow-[0_3px_5px_rgba(0,0,0,0.2)]">
-                        Close
+                    <button className="premium-button-light flex-1 py-2 rounded-full text-xs font-medium">
+                        <div className="button-shine-light"></div>
+                        <div className="button-inner-shadow-light rounded-full"></div>
+                        <span className="button-text-light">Close</span>
                     </button>
                 </div>
             </div>
@@ -115,7 +118,7 @@ const Dashboard: React.FC = () => {
                         <span className="text-gray-300">/</span>
                         <span>Home</span>
                     </div>
-                    <span className="ml-2 px-2 py-0.5 rounded-full text-[10px] font-semibold bg-gradient-to-b from-[#93c5fd] to-[#3b82f6] border border-blue-400/50 shadow-[0_2px_4px_rgba(59,130,246,0.25),inset_0_1px_0_rgba(255,255,255,0.3)] text-white">
+                    <span className="ml-2 px-2 py-0.5 rounded-full text-[10px] font-semibold bg-gradient-to-b from-[#3f95ff] to-[#82b5f4] border border-blue-300/50 shadow-[0_2px_4px_rgba(59,130,246,0.2)] text-white">
                         Draft
                     </span>
                 </div>
