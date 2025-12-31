@@ -205,13 +205,13 @@ const Dashboard: React.FC = () => {
 export const WebcoreBuilderShowcase: React.FC = () => {
     return (
         <div
-            className="w-full h-full flex items-center justify-center p-8 bg-cover bg-center bg-no-repeat"
+            className="w-full h-full flex items-center justify-center p-4 md:p-8 bg-cover bg-center bg-no-repeat"
             style={{
                 backgroundImage: `url('https://r2.flowith.net/gemini-proxy-go/1767047299373/10aa2084-aee2-41cb-ac4d-0068729e08b9.jpg')`
             }}
         >
             {/* Outer Glass Frame (The Rim) */}
-            <div className="relative w-[640px] h-[420px] bg-white/30 backdrop-blur-md rounded-[32px] shadow-[0_20px_50px_-12px_rgba(0,0,0,0.1)] p-3 border border-white/40">
+            <div className="relative w-full max-w-[640px] h-[420px] bg-white/30 backdrop-blur-md rounded-[32px] shadow-[0_20px_50px_-12px_rgba(0,0,0,0.1)] p-3 border border-white/40">
                 {/* Inner Container Wrapper */}
                 <div className="relative w-full h-full rounded-[20px] overflow-hidden">
                     {/* LAYER 1: The Background (Solid) */}

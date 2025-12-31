@@ -156,20 +156,19 @@ export const ComponentShowcase: React.FC = () => {
                         >
                             <div className="w-full bg-white rounded-[20px] overflow-hidden border border-[rgba(0,0,0,0.05)]">
                                 {/* Component Container - Responsive scaling */}
-                                <div className="relative w-full h-[320px] md:h-[500px] overflow-hidden showcase-no-ring">
+                                <div className="relative w-full h-[280px] md:h-[500px] overflow-hidden showcase-no-ring">
                                     {/* Scale wrapper for mobile */}
                                     <div
-                                        className="absolute inset-0 origin-top-left md:origin-center"
+                                        className="absolute inset-0 origin-top-left md:hidden"
                                         style={{
-                                            transform: 'scale(0.55)',
+                                            transform: 'scale(0.48)',
                                             transformOrigin: 'top left',
                                         }}
                                     >
                                         <div
-                                            className="md:hidden"
                                             style={{
-                                                width: '182%',
-                                                height: '182%',
+                                                width: '208%',
+                                                height: '208%',
                                             }}
                                         >
                                             {item.component}
