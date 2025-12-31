@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useEffect, useRef, useState, useMemo, memo } from 'react';
 
 type MonthKey = 'may' | 'jun' | 'jul' | 'aug';
 
@@ -28,7 +28,7 @@ interface BudgetCardProps {
     theme?: 'dark' | 'light';
 }
 
-const BudgetCard: React.FC<BudgetCardProps> = ({ theme = 'dark' }) => {
+const BudgetCard: React.FC<BudgetCardProps> = memo(({ theme = 'dark' }) => {
     const [selectedMonth, setSelectedMonth] = useState<MonthKey>('jul');
     const [isDropdownOpen, setIsDropdownOpen] = useState(false);
     const dropdownRef = useRef<HTMLDivElement>(null);
@@ -61,8 +61,8 @@ const BudgetCard: React.FC<BudgetCardProps> = ({ theme = 'dark' }) => {
         };
     }, []);
 
-    // Theme-specific styles
-    const styles = isDark ? {
+    // Theme-specific styles - useMemo to avoid re-calculating on every render if theme hasn't changed
+    const styles = useMemo(() => isDark ? {
         // Dark theme
         outerGlow: 'bg-purple-600/5',
         cardContainer: 'bg-black/40 border-white/[0.02]',
@@ -70,11 +70,11 @@ const BudgetCard: React.FC<BudgetCardProps> = ({ theme = 'dark' }) => {
         mainCard: 'bg-[#0c0c0c] shadow-[inset_0_1px_2px_rgba(255,255,255,0.04)]',
         headerText: 'text-neutral-500',
         monthButton: {
-            background: 'linear-gradient(180deg, rgba(38, 38, 38, 1) 0%, rgba(23, 23, 23, 1) 50%, rgba(10, 10, 10, 1) 100%)',
-            boxShadow: '0 1px 0 0 rgba(255, 255, 255, 0.05) inset, 0 -1px 0 0 rgba(0, 0, 0, 0.5) inset, 0 4px 6px -1px rgba(0, 0, 0, 0.4)'
+            background: 'linear-gradient(180deg, #1a1a1a 0%, #111111 50%, #080808 100%)',
+            boxShadow: '0 1px 0 0 rgba(255, 255, 255, 0.08) inset, 0 -1px 0 0 rgba(0, 0, 0, 0.8) inset, 0 8px 16px -4px rgba(0, 0, 0, 0.6)'
         },
-        monthButtonText: 'text-neutral-400 hover:text-white',
-        monthButtonShine: 'via-white/20',
+        monthButtonText: 'text-neutral-300 hover:text-white',
+        monthButtonShine: 'via-white/30',
         dropdown: 'bg-[#1a1a1a] border-white/10',
         dropdownItem: 'hover:bg-white/5',
         dropdownItemText: 'text-neutral-400',
@@ -86,8 +86,8 @@ const BudgetCard: React.FC<BudgetCardProps> = ({ theme = 'dark' }) => {
         statsLabel: 'text-neutral-500',
         statsValue: 'raised-text-light',
         percentageBadge: {
-            background: 'linear-gradient(180deg, rgba(38, 38, 38, 1) 0%, rgba(23, 23, 23, 1) 50%, rgba(10, 10, 10, 1) 100%)',
-            boxShadow: '0 1px 0 0 rgba(255, 255, 255, 0.05) inset, 0 -1px 0 0 rgba(0, 0, 0, 0.5) inset, 0 4px 6px -1px rgba(0, 0, 0, 0.4)'
+            background: 'linear-gradient(180deg, #1a1a1a 0%, #111111 50%, #080808 100%)',
+            boxShadow: '0 1px 0 0 rgba(255, 255, 255, 0.08) inset, 0 -1px 0 0 rgba(0, 0, 0, 0.8) inset, 0 4px 8px -2px rgba(0, 0, 0, 0.5)'
         },
         percentageText: 'raised-text-xs',
         buttonClass: 'premium-button',
@@ -122,18 +122,18 @@ const BudgetCard: React.FC<BudgetCardProps> = ({ theme = 'dark' }) => {
         percentageText: 'raised-text-light-theme-xs',
         buttonClass: 'premium-button-light',
         buttonTextClass: 'button-text-light'
-    };
+    }, [isDark]);
 
     return (
         <div className="relative w-full max-w-[440px]">
-            {/* Card outer glow */}
-            <div className={`absolute inset-[-30px] ${styles.outerGlow} blur-[60px] rounded-[80px] opacity-30`}></div>
+            {/* Card outer glow - Reduced blur on mobile */}
+            <div className={`absolute inset-[-30px] ${styles.outerGlow} blur-[30px] md:blur-[60px] rounded-[80px] opacity-30`}></div>
 
-            {/* Card Container */}
-            <div className={`relative p-[10px] rounded-[36px] ${styles.cardContainer} shadow-[0_32px_64px_-16px_rgba(0,0,0,0.9)] backdrop-blur-[10px] transition-all duration-500 overflow-hidden border`}>
+            {/* Card Container - Reduced backdrop-blur on mobile */}
+            <div className={`relative p-[10px] rounded-[36px] ${styles.cardContainer} shadow-[0_32px_64px_-16px_rgba(0,0,0,0.9)] backdrop-blur-xs md:backdrop-blur-[10px] transition-all duration-500 overflow-hidden border`}>
 
                 {/* Inner highlight */}
-                <div className={`absolute top-[-20%] left-[-20%] w-[60%] h-[60%] ${styles.innerHighlight} blur-[60px] pointer-events-none`}></div>
+                <div className={`absolute top-[-20%] left-[-20%] w-[60%] h-[60%] ${styles.innerHighlight} blur-[30px] md:blur-[60px] pointer-events-none`}></div>
 
                 {/* Main Card Content */}
                 <article className={`relative ${styles.mainCard} rounded-[32px] p-8 flex flex-col gap-6`}>
@@ -149,11 +149,21 @@ const BudgetCard: React.FC<BudgetCardProps> = ({ theme = 'dark' }) => {
                             <div className="relative" ref={dropdownRef}>
                                 <button
                                     onClick={() => setIsDropdownOpen(!isDropdownOpen)}
-                                    className={`flex items-center gap-1.5 ${styles.monthButtonText} transition-all duration-200 py-0.5 px-2 border ${isDark ? 'border-white/5' : 'border-gray-200/50'} rounded-[6px] focus:outline-none relative overflow-hidden group`}
+                                    className={`flex items-center gap-1.5 ${styles.monthButtonText} transition-all duration-200 py-0.5 px-2 border-r border-l border-b ${isDark ? 'border-white/5' : 'border-gray-200/50'} rounded-[6px] focus:outline-none relative overflow-hidden group`}
                                     style={styles.monthButton}
                                 >
-                                    {/* Inner shine */}
-                                    <div className={`absolute top-0 left-0 right-0 h-[1px] bg-gradient-to-r from-transparent ${styles.monthButtonShine} to-transparent opacity-50`}></div>
+                                    {/* Inset Top Gradient (Replacing Border) - Theme Aware */}
+                                    <div className={`absolute top-0 left-0 right-0 h-[2px] ${isDark ? 'bg-linear-to-b from-white/10 to-transparent' : 'bg-linear-to-b from-gray-500/20 to-transparent'} pointer-events-none`}></div>
+
+                                    {/* Inset Side Gradients - Theme Aware */}
+                                    <div className={`absolute inset-y-0 left-0 w-[5px] ${isDark ? 'bg-linear-to-r from-white/10 via-white/5 to-transparent' : 'bg-linear-to-r from-gray-400/30 via-gray-200/10 to-transparent'} pointer-events-none`}></div>
+                                    <div className={`absolute inset-y-0 right-0 w-[5px] ${isDark ? 'bg-linear-to-l from-white/10 via-white/5 to-transparent' : 'bg-linear-to-l from-gray-400/30 via-gray-400/10 to-transparent'} pointer-events-none`}></div>
+
+                                    {/* Top Shine Effect - Theme Aware Intensity */}
+                                    <div className={`absolute top-0 left-0 right-0 h-[10px] ${isDark ? 'bg-linear-to-b from-white/30 via-white/5 to-transparent' : 'bg-linear-to-b from-white/40 via-white/10 to-transparent'} pointer-events-none`}></div>
+                                    
+                                    {/* Inner shine (Original) */}
+                                    <div className={`absolute top-0 left-0 right-0 h-[1.5px] bg-linear-to-r from-transparent ${isDark ? 'via-white/40' : 'via-white/70'} to-transparent opacity-80`}></div>
 
                                     <span className="text-[11px] font-medium tracking-tight relative z-10">{monthLabels[selectedMonth]}</span>
                                     <svg
@@ -219,48 +229,67 @@ const BudgetCard: React.FC<BudgetCardProps> = ({ theme = 'dark' }) => {
                                     ></div>
                                 </div>
 
-                                {/* Glow layers - same for both themes */}
-                                <div
-                                    className="absolute top-1/2 rounded-full z-0 pointer-events-none"
-                                    style={{
-                                        left: `${percentage}%`,
-                                        width: '60px',
-                                        height: '24px',
-                                        transform: 'translate(-50%, -50%)',
-                                        transition: 'left 1.2s cubic-bezier(0.34, 1.56, 0.64, 1)',
-                                        background: 'radial-gradient(ellipse 100% 100%, rgba(139,92,246,0.25) 0%, rgba(139,92,246,0.12) 40%, rgba(139,92,246,0.04) 70%, transparent 100%)',
-                                        filter: 'blur(8px)'
-                                    }}
-                                ></div>
+                                {/* Glow layers - only on desktop or high performance */}
+                                <div className="hidden md:block">
+                                    <div
+                                        className="absolute top-1/2 rounded-full z-0 pointer-events-none"
+                                        style={{
+                                            left: `${percentage}%`,
+                                            width: '60px',
+                                            height: '24px',
+                                            transform: 'translate(-50%, -50%)',
+                                            transition: 'left 1.2s cubic-bezier(0.34, 1.56, 0.64, 1)',
+                                            background: 'radial-gradient(ellipse 100% 100%, rgba(139,92,246,0.25) 0%, rgba(139,92,246,0.12) 40%, rgba(139,92,246,0.04) 70%, transparent 100%)',
+                                            filter: 'blur(8px)'
+                                        }}
+                                    ></div>
+
+                                    <div
+                                        className="absolute top-1/2 rounded-full z-5 pointer-events-none glow-breath"
+                                        style={{
+                                            left: `${percentage}%`,
+                                            width: '40px',
+                                            height: '20px',
+                                            transform: 'translate(-50%, -50%)',
+                                            transition: 'left 1.2s cubic-bezier(0.34, 1.56, 0.64, 1)',
+                                            background: 'radial-gradient(ellipse 100% 100%, rgba(167,139,250,0.4) 0%, rgba(167,139,250,0.2) 35%, rgba(139,92,246,0.08) 60%, transparent 100%)',
+                                            filter: 'blur(5px)'
+                                        }}
+                                    ></div>
+
+                                    <div
+                                        className="absolute top-1/2 rounded-full z-10 pointer-events-none glow-pulse"
+                                        style={{
+                                            left: `${percentage}%`,
+                                            width: '24px',
+                                            height: '16px',
+                                            transform: 'translate(-50%, -50%)',
+                                            transition: 'left 1.2s cubic-bezier(0.34, 1.56, 0.64, 1)',
+                                            background: 'radial-gradient(ellipse 100% 100%, rgba(196,181,253,0.8) 0%, rgba(196,181,253,0.5) 30%, rgba(167,139,250,0.2) 60%, transparent 100%)',
+                                            filter: 'blur(3px)'
+                                        }}
+                                    ></div>
+                                </div>
+
+                                {/* Minimalist glow for mobile */}
+                                <div className="md:hidden">
+                                    <div
+                                        className="absolute top-1/2 rounded-full z-10 pointer-events-none"
+                                        style={{
+                                            left: `${percentage}%`,
+                                            width: '12px',
+                                            height: '12px',
+                                            transform: 'translate(-50%, -50%)',
+                                            transition: 'left 1.2s cubic-bezier(0.34, 1.56, 0.64, 1)',
+                                            background: 'rgba(196,181,253,0.8)',
+                                            filter: 'blur(2px)',
+                                            boxShadow: '0 0 4px rgba(139,92,246,0.5)'
+                                        }}
+                                    ></div>
+                                </div>
 
                                 <div
-                                    className="absolute top-1/2 rounded-full z-5 pointer-events-none glow-breath"
-                                    style={{
-                                        left: `${percentage}%`,
-                                        width: '40px',
-                                        height: '20px',
-                                        transform: 'translate(-50%, -50%)',
-                                        transition: 'left 1.2s cubic-bezier(0.34, 1.56, 0.64, 1)',
-                                        background: 'radial-gradient(ellipse 100% 100%, rgba(167,139,250,0.4) 0%, rgba(167,139,250,0.2) 35%, rgba(139,92,246,0.08) 60%, transparent 100%)',
-                                        filter: 'blur(5px)'
-                                    }}
-                                ></div>
-
-                                <div
-                                    className="absolute top-1/2 rounded-full z-10 pointer-events-none glow-pulse"
-                                    style={{
-                                        left: `${percentage}%`,
-                                        width: '24px',
-                                        height: '16px',
-                                        transform: 'translate(-50%, -50%)',
-                                        transition: 'left 1.2s cubic-bezier(0.34, 1.56, 0.64, 1)',
-                                        background: 'radial-gradient(ellipse 100% 100%, rgba(196,181,253,0.8) 0%, rgba(196,181,253,0.5) 30%, rgba(167,139,250,0.2) 60%, transparent 100%)',
-                                        filter: 'blur(3px)'
-                                    }}
-                                ></div>
-
-                                <div
-                                    className="absolute top-1/2 rounded-full z-15 pointer-events-none"
+                                    className="absolute top-1/2 rounded-full z-15 pointer-events-none hidden md:block"
                                     style={{
                                         left: `${percentage}%`,
                                         width: '14px',
@@ -298,35 +327,6 @@ const BudgetCard: React.FC<BudgetCardProps> = ({ theme = 'dark' }) => {
                                         boxShadow: '0 0 3px 1px rgba(255,255,255,0.9), 0 0 6px 2px rgba(233,213,255,0.6)'
                                     }}
                                 ></div>
-
-                                <div
-                                    className="absolute top-1/2 z-8 pointer-events-none"
-                                    style={{
-                                        left: `${percentage}%`,
-                                        width: '50px',
-                                        height: '6px',
-                                        transform: 'translate(-50%, -50%)',
-                                        transition: 'left 1.2s cubic-bezier(0.34, 1.56, 0.64, 1)',
-                                        background: 'linear-gradient(90deg, transparent 0%, rgba(196,181,253,0.15) 20%, rgba(233,213,255,0.35) 45%, rgba(255,255,255,0.5) 50%, rgba(233,213,255,0.35) 55%, rgba(196,181,253,0.15) 80%, transparent 100%)',
-                                        filter: 'blur(2px)',
-                                        borderRadius: '50%'
-                                    }}
-                                ></div>
-
-                                <div
-                                    className="absolute z-22 pointer-events-none"
-                                    style={{
-                                        left: `${percentage}%`,
-                                        top: '0px',
-                                        width: '16px',
-                                        height: '4px',
-                                        transform: 'translateX(-50%)',
-                                        transition: 'left 1.2s cubic-bezier(0.34, 1.56, 0.64, 1)',
-                                        background: 'linear-gradient(90deg, transparent 0%, rgba(255,255,255,0.3) 30%, rgba(255,255,255,0.5) 50%, rgba(255,255,255,0.3) 70%, transparent 100%)',
-                                        filter: 'blur(1px)',
-                                        borderRadius: '50%'
-                                    }}
-                                ></div>
                             </div>
                         </div>
                     </section>
@@ -341,10 +341,19 @@ const BudgetCard: React.FC<BudgetCardProps> = ({ theme = 'dark' }) => {
                                 </span>
 
                                 <span
-                                    className={`percentage-badge relative overflow-hidden text-[9px] font-bold px-1 py-px rounded-[4px] border ${isDark ? 'border-white/10' : 'border-gray-200/50'} flex items-center justify-center -translate-y-0.5`}
+                                    className={`percentage-badge relative overflow-hidden text-[9px] font-bold px-1 py-px rounded-[4px] border-r border-l border-b ${isDark ? 'border-white/10' : 'border-gray-200/50'} flex items-center justify-center -translate-y-0.5`}
                                     style={styles.percentageBadge}
                                 >
-                                    <div className={`absolute top-0 left-0 right-0 h-[2px] bg-gradient-to-b ${isDark ? 'from-white/20' : 'from-white/60'} to-transparent opacity-50`}></div>
+                                    {/* Inset Top Gradient (Replacing Border) - Theme Aware */}
+                                    <div className={`absolute top-0 left-0 right-0 h-[1.5px] ${isDark ? 'bg-linear-to-b from-white/15 to-transparent' : 'bg-linear-to-b from-gray-500/20 to-transparent'} pointer-events-none`}></div>
+
+                                    {/* Inset Side Gradients - Theme Aware */}
+                                    <div className={`absolute inset-y-0 left-0 w-[3px] ${isDark ? 'bg-linear-to-r from-white/10 via-white/5 to-transparent' : 'bg-linear-to-r from-gray-400/30 via-gray-200/10 to-transparent'} pointer-events-none`}></div>
+                                    <div className={`absolute inset-y-0 right-0 w-[3px] ${isDark ? 'bg-linear-to-l from-white/10 via-white/5 to-transparent' : 'bg-linear-to-l from-gray-400/30 via-gray-400/10 to-transparent'} pointer-events-none`}></div>
+
+                                    {/* Top Shine Effect */}
+                                    <div className={`absolute top-0 left-0 right-0 h-[6px] ${isDark ? 'bg-linear-to-b from-white/30 via-white/5 to-transparent' : 'bg-linear-to-b from-white/40 via-white/10 to-transparent'} pointer-events-none`}></div>
+                                    
                                     <span className={`relative z-10 leading-none ${styles.percentageText}`}>{percentage}%</span>
                                 </span>
                             </div>
@@ -369,18 +378,18 @@ const BudgetCard: React.FC<BudgetCardProps> = ({ theme = 'dark' }) => {
                 </article>
             </div>
 
-            {/* Bottom Glow */}
-            <div className={`absolute -bottom-16 left-1/2 -translate-x-1/2 w-[100%] h-32 ${isDark ? 'bg-purple-600/5' : 'bg-purple-400/10'} blur-[110px] -z-10`}></div>
+            {/* Bottom Glow - Reduced blur on mobile */}
+            <div className={`absolute -bottom-16 left-1/2 -translate-x-1/2 w-[100%] h-32 ${isDark ? 'bg-purple-600/5' : 'bg-purple-400/10'} blur-[50px] md:blur-[110px] -z-10`}></div>
         </div>
     );
-};
+});
 
 interface BudgetCardShowcaseProps {
     theme?: 'dark' | 'light';
 }
 
-// Full showcase with background
-export const BudgetCardShowcase: React.FC<BudgetCardShowcaseProps> = ({ theme = 'dark' }) => {
+// Full showcase with background - Memoized to prevent re-renders when parent state changes
+export const BudgetCardShowcase: React.FC<BudgetCardShowcaseProps> = memo(({ theme = 'dark' }) => {
     const isDark = theme === 'dark';
 
     const backgroundImage = isDark
@@ -397,12 +406,13 @@ export const BudgetCardShowcase: React.FC<BudgetCardShowcaseProps> = ({ theme = 
             ></div>
             <div className={`absolute inset-0 ${isDark ? 'bg-black/40' : ''}`}></div>
 
-            {/* Background Effects */}
-            <div className={`absolute top-[-15%] right-[-10%] w-[70%] h-[70%] ${isDark ? 'bg-purple-600/8' : 'bg-purple-400/15'} rounded-full blur-[180px]`}></div>
-            <div className={`absolute bottom-[-15%] left-[-15%] w-[60%] h-[60%] ${isDark ? 'bg-blue-600/8' : 'bg-blue-400/10'} rounded-full blur-[160px]`}></div>
+            {/* Background Effects - Reduced blur on mobile */}
+            <div className={`absolute top-[-15%] right-[-10%] w-[70%] h-[70%] ${isDark ? 'bg-purple-600/8' : 'bg-purple-400/15'} rounded-full blur-[90px] md:blur-[180px]`}></div>
+            <div className={`absolute bottom-[-15%] left-[-15%] w-[60%] h-[60%] ${isDark ? 'bg-blue-600/8' : 'bg-blue-400/10'} rounded-full blur-[80px] md:blur-[160px]`}></div>
             <div className={`absolute inset-0 ${isDark ? 'bg-[radial-gradient(#ffffff06_1px,transparent_1px)]' : 'bg-[radial-gradient(#00000008_1px,transparent_1px)]'} [background-size:40px_40px] opacity-15`}></div>
 
             <BudgetCard theme={theme} />
         </div>
     );
-};
+});
+

@@ -46,7 +46,7 @@ export const Tabs: React.FC<TabsProps> = ({ activeTab, setActiveTab }) => {
                         initial={{ opacity: 0 }}
                         animate={{ opacity: 1 }}
                         exit={{ opacity: 0 }}
-                        className="absolute left-0 top-0 bottom-0 w-12 z-10 pointer-events-none bg-gradient-to-r from-[#FAFAFA] to-transparent"
+                        className="absolute left-0 top-0 bottom-0 w-12 z-10 pointer-events-none bg-linear-to-r from-[#FAFAFA] to-transparent"
                     />
                 )}
             </AnimatePresence>
@@ -58,7 +58,7 @@ export const Tabs: React.FC<TabsProps> = ({ activeTab, setActiveTab }) => {
                         initial={{ opacity: 0 }}
                         animate={{ opacity: 1 }}
                         exit={{ opacity: 0 }}
-                        className="absolute right-0 top-0 bottom-0 w-12 z-10 pointer-events-none bg-gradient-to-l from-[#FAFAFA] to-transparent"
+                        className="absolute right-0 top-0 bottom-0 w-12 z-10 pointer-events-none bg-linear-to-l from-[#FAFAFA] to-transparent"
                     />
                 )}
             </AnimatePresence>

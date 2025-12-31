@@ -72,13 +72,10 @@ export const ComponentShowcase: React.FC = () => {
                         initial="hidden"
                         whileInView="visible"
                         viewport={{ once: true, amount: 0.1 }}
-                        style={{
-                            willChange: 'opacity, filter, transform',
-                            zIndex: isHovered ? 20 : 1
-                        }}
                         className="relative group w-full"
                         onMouseEnter={() => setHoveredId(item.id)}
                         onMouseLeave={() => setHoveredId(null)}
+                        style={{ zIndex: isHovered ? 20 : 1 }}
                     >
                         {/* Ghost Card - Stack Insight (Desktop) */}
                         <motion.div
@@ -97,29 +94,20 @@ export const ComponentShowcase: React.FC = () => {
                             }}
                         >
                             <div className="w-full h-14 rounded-b-[20px] bg-[#FAFAFA] border-x border-b border-gray-200 shadow-[0_12px_32px_rgba(0,0,0,0.06)] px-6 flex items-center justify-between relative">
-                                {/* Stripped Lines Corners */}
-                                <div className="absolute top-0 left-0 w-4 h-4 opacity-10" style={{ backgroundImage: 'repeating-linear-gradient(45deg, #000, #000 1px, transparent 1px, transparent 5px)' }} />
-                                <div className="absolute top-0 right-0 w-4 h-4 opacity-10" style={{ backgroundImage: 'repeating-linear-gradient(-45deg, #000, #000 1px, transparent 1px, transparent 5px)' }} />
-                                <div className="absolute bottom-0 left-0 w-4 h-4 opacity-10" style={{ backgroundImage: 'repeating-linear-gradient(-45deg, #000, #000 1px, transparent 1px, transparent 5px)' }} />
-                                <div className="absolute bottom-0 right-0 w-4 h-4 opacity-10" style={{ backgroundImage: 'repeating-linear-gradient(45deg, #000, #000 1px, transparent 1px, transparent 5px)' }} />
-
-                                {/* Stack Insight Label */}
-                                <div className="text-[9px] font-mono font-bold text-[rgb(74,108,196)] uppercase tracking-[0.2em] opacity-60 border-r border-gray-200 pr-6 h-4 flex items-center flex-shrink-0 relative z-10">
+                                <div className="text-[9px] font-mono font-bold text-[rgb(74,108,196)] uppercase tracking-[0.2em] opacity-60 border-r border-gray-200 pr-6 h-4 flex items-center shrink-0">
                                     Stack Insight
                                 </div>
 
-                                {/* Centered Tech Stack */}
-                                <div className="flex-1 min-w-0 flex flex-row items-center justify-center gap-4 px-4 relative z-10 overflow-x-auto no-scrollbar">
+                                <div className="flex-1 min-w-0 flex flex-row items-center justify-center gap-4 px-4 overflow-x-auto no-scrollbar">
                                     {item.stack.map((tech, i) => (
-                                        <span key={i} className="text-[10px] font-mono font-medium text-gray-500 whitespace-nowrap flex items-center gap-1.5 transition-colors duration-300 hover:text-gray-900">
+                                        <span key={i} className="text-[10px] font-mono font-medium text-gray-500 whitespace-nowrap flex items-center gap-1.5">
                                             <span className="w-1 h-1 rounded-full bg-[rgb(74,108,196)]/30" />
                                             {tech}
                                         </span>
                                     ))}
                                 </div>
 
-                                {/* Component Tag */}
-                                <div className="flex items-center gap-1.5 text-[8px] font-mono text-[rgb(126,150,210)] font-bold uppercase relative z-10 border-l border-gray-200 pl-6 h-4 flex-shrink-0">
+                                <div className="flex items-center gap-1.5 text-[8px] font-mono text-[rgb(126,150,210)] font-bold uppercase border-l border-gray-200 pl-6 h-4 shrink-0">
                                     UI Component
                                 </div>
                             </div>
@@ -128,7 +116,6 @@ export const ComponentShowcase: React.FC = () => {
                         {/* Ghost Card - Stack Insight (Mobile) */}
                         <motion.div
                             className="md:hidden absolute inset-x-2 z-0"
-                            style={{ bottom: 'calc(var(--spacing) * 2)' }}
                             initial={{ y: 0, opacity: 0, scale: 0.98 }}
                             animate={{
                                 y: isHovered ? 52 : 0,
@@ -136,11 +123,9 @@ export const ComponentShowcase: React.FC = () => {
                                 scale: isHovered ? 1 : 0.98
                             }}
                             transition={{
-                                type: "spring",
-                                stiffness: 450,
-                                damping: 18,
-                                mass: 0.8
+                                type: "spring", stiffness: 450, damping: 18, mass: 0.8
                             }}
+                            style={{ bottom: '0' }}
                         >
                             <div className="w-full py-2 px-3 rounded-b-[16px] bg-[#FAFAFA] border-x border-b border-gray-200 shadow-[0_12px_32px_rgba(0,0,0,0.06)]">
                                 <div className="text-[8px] font-mono font-bold text-[rgb(74,108,196)] uppercase tracking-[0.15em] opacity-60 mb-1.5 text-center">
@@ -157,47 +142,34 @@ export const ComponentShowcase: React.FC = () => {
                             </div>
                         </motion.div>
 
-                        {/* Outer Rim Container - matching ProjectCard style */}
+                        {/* Outer Rim Container */}
                         <div
-                            className="w-full rounded-[24px] p-[4px] backdrop-blur-[25px] transition-transform duration-300 group-hover:-translate-y-1 relative z-10"
+                            className="w-full rounded-[24px] p-[4px] backdrop-blur-md md:backdrop-blur-xl transition-transform duration-300 group-hover:-translate-y-1 relative z-10"
                             style={{
                                 background: `linear-gradient(180deg, #FFFFFF 0%, #F3F4F6 50%, #E5E7EB 100%)`,
                                 boxShadow: 'rgba(0, 0, 0, 0.13) 0px 8px 10px, rgba(0, 0, 0, 0.05) 0px 4px 4px'
                             }}
                         >
                             <div className="w-full bg-white rounded-[20px] overflow-hidden border border-[rgba(0,0,0,0.05)]">
-                                {/* Component Container - Responsive scaling */}
-                                <div className="relative w-full h-[280px] md:h-[500px] overflow-hidden showcase-no-ring">
-                                    {/* Scale wrapper for mobile */}
+                                <div className="relative w-full h-[280px] md:h-[500px] overflow-hidden">
                                     <div
                                         className="absolute inset-0 origin-top-left md:hidden"
-                                        style={{
-                                            transform: 'scale(0.48)',
-                                            transformOrigin: 'top left',
-                                        }}
+                                        style={{ transform: 'scale(0.48)', transformOrigin: 'top left' }}
                                     >
-                                        <div
-                                            style={{
-                                                width: '208%',
-                                                height: '208%',
-                                            }}
-                                        >
+                                        <div style={{ width: '208%', height: '208%' }}>
                                             {getComponent(item.id)}
                                         </div>
                                     </div>
-                                    {/* Desktop - no scaling */}
                                     <div className="hidden md:block absolute inset-0">
                                         {getComponent(item.id)}
                                     </div>
                                 </div>
 
-                                {/* Info Footer */}
                                 <div className="p-4 md:p-5 bg-white border-t border-gray-100">
                                     <div className="flex items-start justify-between gap-4">
                                         <div className="flex-1">
                                             <div className="flex items-center gap-2 mb-1">
                                                 <h3 className="text-sm md:text-base font-bold text-gray-900">{item.name}</h3>
-                                                {/* Theme Toggle Pill */}
                                                 {item.hasThemeToggle && (
                                                     <button
                                                         onClick={() => setBudgetTheme(budgetTheme === 'dark' ? 'light' : 'dark')}
@@ -228,10 +200,9 @@ export const ComponentShowcase: React.FC = () => {
                                             </div>
                                             <p className="text-[11px] md:text-xs text-gray-500 leading-relaxed">{item.description}</p>
                                         </div>
-                                        {/* Category badge */}
                                         <div className="shrink-0 flex items-center gap-1.5 p-px rounded-full overflow-hidden"
                                             style={{ backgroundImage: 'repeating-linear-gradient(45deg, #E5E7EB, #E5E7EB 1px, transparent 1px, transparent 3px)' }}>
-                                            <div className="flex items-center gap-1.5 px-2 py-0.5 rounded-full bg-gradient-to-b from-white to-gray-50/50 shadow-[inset_0_1px_2px_rgba(0,0,0,0.08),inset_0_-1px_1px_rgba(255,255,255,0.8)] border border-transparent">
+                                            <div className="flex items-center gap-1.5 px-2 py-0.5 rounded-full bg-linear-to-b from-white to-gray-50/50 shadow-[inset_0_1px_2px_rgba(0,0,0,0.08)] border border-transparent">
                                                 <div className="w-1 h-1 rounded-full bg-[rgb(74,108,196)] opacity-50" />
                                                 <span className="text-[8px] font-mono font-bold text-gray-500 uppercase tracking-widest whitespace-nowrap">
                                                     Component

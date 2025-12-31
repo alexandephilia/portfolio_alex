@@ -203,7 +203,7 @@ export const ProjectCard: React.FC<ProjectCardProps> = ({ project }) => {
 
             {/* Outer Rim Container */}
             <div
-                className="w-full rounded-[24px] p-[4px] backdrop-blur-[25px] transition-transform duration-300 group-hover:-translate-y-1 relative z-10"
+                className="w-full rounded-[24px] p-[4px] backdrop-blur-md md:backdrop-blur-[25px] transition-transform duration-300 group-hover:-translate-y-1 relative z-10"
                 style={{
                     background: `linear-gradient(180deg, #FFFFFF 0%, #F3F4F6 50%, #E5E7EB 100%)`,
                     boxShadow: 'rgba(0, 0, 0, 0.13) 0px 8px 10px, rgba(0, 0, 0, 0.05) 0px 4px 4px'
