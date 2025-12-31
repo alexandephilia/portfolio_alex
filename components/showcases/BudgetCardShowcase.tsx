@@ -24,13 +24,11 @@ const monthLabels: Record<MonthKey, string> = {
     aug: 'August'
 };
 
-// Shared premium gradient style to ensure consistency across UI elements
-const premiumGradientStyle = {
-    background: 'linear-gradient(180deg, rgba(38, 38, 38, 1) 0%, rgba(23, 23, 23, 1) 50%, rgba(10, 10, 10, 1) 100%)',
-    boxShadow: '0 1px 0 0 rgba(255, 255, 255, 0.05) inset, 0 -1px 0 0 rgba(0, 0, 0, 0.5) inset, 0 4px 6px -1px rgba(0, 0, 0, 0.4)'
-};
+interface BudgetCardProps {
+    theme?: 'dark' | 'light';
+}
 
-const BudgetCard: React.FC = () => {
+const BudgetCard: React.FC<BudgetCardProps> = ({ theme = 'dark' }) => {
     const [selectedMonth, setSelectedMonth] = useState<MonthKey>('jul');
     const [isDropdownOpen, setIsDropdownOpen] = useState(false);
     const dropdownRef = useRef<HTMLDivElement>(null);
@@ -38,6 +36,8 @@ const BudgetCard: React.FC = () => {
     const currentData = budgetData[selectedMonth];
     const remaining = currentData.totalBudget - currentData.spent;
     const percentage = Math.round((currentData.spent / currentData.totalBudget) * 100);
+
+    const isDark = theme === 'dark';
 
     // Format currency
     const formatCurrency = (amount: number) => {
@@ -61,24 +61,87 @@ const BudgetCard: React.FC = () => {
         };
     }, []);
 
+    // Theme-specific styles
+    const styles = isDark ? {
+        // Dark theme
+        outerGlow: 'bg-purple-600/5',
+        cardContainer: 'bg-black/40 border-white/[0.02]',
+        innerHighlight: 'bg-neutral-800/10',
+        mainCard: 'bg-[#0c0c0c] shadow-[inset_0_1px_2px_rgba(255,255,255,0.04)]',
+        headerText: 'text-neutral-500',
+        monthButton: {
+            background: 'linear-gradient(180deg, rgba(38, 38, 38, 1) 0%, rgba(23, 23, 23, 1) 50%, rgba(10, 10, 10, 1) 100%)',
+            boxShadow: '0 1px 0 0 rgba(255, 255, 255, 0.05) inset, 0 -1px 0 0 rgba(0, 0, 0, 0.5) inset, 0 4px 6px -1px rgba(0, 0, 0, 0.4)'
+        },
+        monthButtonText: 'text-neutral-400 hover:text-white',
+        monthButtonShine: 'via-white/20',
+        dropdown: 'bg-[#1a1a1a] border-white/10',
+        dropdownItem: 'hover:bg-white/5',
+        dropdownItemText: 'text-neutral-400',
+        dropdownItemActive: 'text-purple-400',
+        totalText: 'raised-text',
+        labelText: 'text-neutral-500',
+        progressTrack: 'bg-[#222] border-white/5',
+        progressBar: 'from-[#310e61] via-[#8b5cf6] to-[#e9d5ff]',
+        statsLabel: 'text-neutral-500',
+        statsValue: 'raised-text-light',
+        percentageBadge: {
+            background: 'linear-gradient(180deg, rgba(38, 38, 38, 1) 0%, rgba(23, 23, 23, 1) 50%, rgba(10, 10, 10, 1) 100%)',
+            boxShadow: '0 1px 0 0 rgba(255, 255, 255, 0.05) inset, 0 -1px 0 0 rgba(0, 0, 0, 0.5) inset, 0 4px 6px -1px rgba(0, 0, 0, 0.4)'
+        },
+        percentageText: 'raised-text-xs',
+        buttonClass: 'premium-button',
+        buttonTextClass: 'button-text'
+    } : {
+        // Light theme
+        outerGlow: 'bg-purple-400/10',
+        cardContainer: 'bg-white/25 border-white/20',
+        innerHighlight: 'bg-white/40',
+        mainCard: 'bg-white/90 shadow-[inset_0_1px_2px_rgba(0,0,0,0.02)]',
+        headerText: 'text-gray-500',
+        monthButton: {
+            background: 'linear-gradient(180deg, rgba(255, 255, 255, 1) 0%, rgba(245, 245, 245, 1) 50%, rgba(235, 235, 235, 1) 100%)',
+            boxShadow: '0 1px 0 0 rgba(255, 255, 255, 1) inset, 0 -1px 0 0 rgba(0, 0, 0, 0.05) inset, 0 2px 4px rgba(0, 0, 0, 0.08)'
+        },
+        monthButtonText: 'text-gray-600 hover:text-gray-900',
+        monthButtonShine: 'via-white/60',
+        dropdown: 'bg-white border-gray-200',
+        dropdownItem: 'hover:bg-gray-50',
+        dropdownItemText: 'text-gray-600',
+        dropdownItemActive: 'text-purple-600',
+        totalText: 'raised-text-light-theme',
+        labelText: 'text-gray-500',
+        progressTrack: 'bg-gray-200/80 border-gray-300/50',
+        progressBar: 'from-[#c4b5fd] via-[#8b5cf6] to-[#6d28d9]',
+        statsLabel: 'text-gray-500',
+        statsValue: 'raised-text-light-theme-sm',
+        percentageBadge: {
+            background: 'linear-gradient(180deg, rgba(255, 255, 255, 1) 0%, rgba(245, 245, 245, 1) 50%, rgba(235, 235, 235, 1) 100%)',
+            boxShadow: '0 1px 0 0 rgba(255, 255, 255, 1) inset, 0 -1px 0 0 rgba(0, 0, 0, 0.05) inset, 0 2px 4px rgba(0, 0, 0, 0.08)'
+        },
+        percentageText: 'raised-text-light-theme-xs',
+        buttonClass: 'premium-button-light',
+        buttonTextClass: 'button-text-light'
+    };
+
     return (
         <div className="relative w-full max-w-[440px]">
             {/* Card outer glow */}
-            <div className="absolute inset-[-30px] bg-purple-600/5 blur-[60px] rounded-[80px] opacity-30"></div>
+            <div className={`absolute inset-[-30px] ${styles.outerGlow} blur-[60px] rounded-[80px] opacity-30`}></div>
 
-            {/* Card Container - Reduced border opacity to 0.02 for a subtle rim */}
-            <div className="relative p-[10px] rounded-[36px] bg-black/40 border border-white/[0.02] shadow-[0_32px_64px_-16px_rgba(0,0,0,0.9)] backdrop-blur-[10px] transition-all duration-500 overflow-hidden">
+            {/* Card Container */}
+            <div className={`relative p-[10px] rounded-[36px] ${styles.cardContainer} shadow-[0_32px_64px_-16px_rgba(0,0,0,0.9)] backdrop-blur-[10px] transition-all duration-500 overflow-hidden border`}>
 
                 {/* Inner highlight */}
-                <div className="absolute top-[-20%] left-[-20%] w-[60%] h-[60%] bg-neutral-800/10 blur-[60px] pointer-events-none"></div>
+                <div className={`absolute top-[-20%] left-[-20%] w-[60%] h-[60%] ${styles.innerHighlight} blur-[60px] pointer-events-none`}></div>
 
                 {/* Main Card Content */}
-                <article className="relative bg-[#0c0c0c] rounded-[32px] p-8 flex flex-col gap-6 shadow-[inset_0_1px_2px_rgba(255,255,255,0.04)]">
+                <article className={`relative ${styles.mainCard} rounded-[32px] p-8 flex flex-col gap-6`}>
 
                     {/* Header */}
                     <header className="flex flex-col gap-0.5">
                         <div className="flex justify-between items-center w-full">
-                            <h2 className="text-neutral-500 font-medium text-[11px] tracking-wider uppercase">
+                            <h2 className={`${styles.headerText} font-medium text-[11px] tracking-wider uppercase`}>
                                 Monthly Budget
                             </h2>
 
@@ -86,11 +149,11 @@ const BudgetCard: React.FC = () => {
                             <div className="relative" ref={dropdownRef}>
                                 <button
                                     onClick={() => setIsDropdownOpen(!isDropdownOpen)}
-                                    className="flex items-center gap-1.5 text-neutral-400 hover:text-white transition-all duration-200 py-0.5 px-2 border border-white/5 rounded-[6px] focus:outline-none relative overflow-hidden group"
-                                    style={premiumGradientStyle}
+                                    className={`flex items-center gap-1.5 ${styles.monthButtonText} transition-all duration-200 py-0.5 px-2 border ${isDark ? 'border-white/5' : 'border-gray-200/50'} rounded-[6px] focus:outline-none relative overflow-hidden group`}
+                                    style={styles.monthButton}
                                 >
-                                    {/* Inner shine for consistent premium feel */}
-                                    <div className="absolute top-0 left-0 right-0 h-[1px] bg-gradient-to-r from-transparent via-white/20 to-transparent opacity-50"></div>
+                                    {/* Inner shine */}
+                                    <div className={`absolute top-0 left-0 right-0 h-[1px] bg-gradient-to-r from-transparent ${styles.monthButtonShine} to-transparent opacity-50`}></div>
 
                                     <span className="text-[11px] font-medium tracking-tight relative z-10">{monthLabels[selectedMonth]}</span>
                                     <svg
@@ -105,7 +168,7 @@ const BudgetCard: React.FC = () => {
 
                                 {/* Dropdown Menu */}
                                 <div
-                                    className={`absolute right-0 top-full mt-3 w-32 bg-[#1a1a1a] border border-white/10 rounded-2xl shadow-2xl overflow-hidden z-50 transition-all duration-300 origin-top-right ${isDropdownOpen
+                                    className={`absolute right-0 top-full mt-3 w-32 ${styles.dropdown} border rounded-2xl shadow-2xl overflow-hidden z-50 transition-all duration-300 origin-top-right ${isDropdownOpen
                                         ? 'opacity-100 scale-100 translate-y-0'
                                         : 'opacity-0 scale-95 -translate-y-2 pointer-events-none'
                                         }`}
@@ -117,7 +180,7 @@ const BudgetCard: React.FC = () => {
                                                 setSelectedMonth(key);
                                                 setIsDropdownOpen(false);
                                             }}
-                                            className={`w-full text-left px-4 py-2.5 text-xs flex items-center justify-between transition-colors hover:bg-white/5 ${selectedMonth === key ? 'text-purple-400 font-semibold' : 'text-neutral-400'
+                                            className={`w-full text-left px-4 py-2.5 text-xs flex items-center justify-between transition-colors ${styles.dropdownItem} ${selectedMonth === key ? `${styles.dropdownItemActive} font-semibold` : styles.dropdownItemText
                                                 }`}
                                         >
                                             {monthLabels[key]}
@@ -134,7 +197,7 @@ const BudgetCard: React.FC = () => {
 
                         {/* Total Budget */}
                         <section>
-                            <h1 className="raised-text text-[56px] font-normal tracking-tighter leading-[1] tabular-nums mt-2">
+                            <h1 className={`${styles.totalText} text-[56px] font-normal tracking-tighter leading-[1] tabular-nums mt-2`}>
                                 {formatCurrency(currentData.totalBudget)}
                             </h1>
                         </section>
@@ -143,20 +206,20 @@ const BudgetCard: React.FC = () => {
                     {/* Progress Bar */}
                     <section>
                         <div className="space-y-3">
-                            <label className="text-[10px] font-medium text-neutral-500 tracking-wider uppercase">
+                            <label className={`text-[10px] font-medium ${styles.labelText} tracking-wider uppercase`}>
                                 Monthly spending limit
                             </label>
                             <div className="h-[8px] w-full bg-[#181818] rounded-full overflow-visible relative">
 
                                 {/* Base Track */}
-                                <div className="absolute inset-0 bg-[#222] rounded-full overflow-hidden border border-white/5">
+                                <div className={`absolute inset-0 ${styles.progressTrack} rounded-full overflow-hidden border`}>
                                     <div
-                                        className="h-full rounded-full bg-gradient-to-r from-[#310e61] via-[#8b5cf6] to-[#e9d5ff] relative z-10"
+                                        className={`h-full rounded-full bg-gradient-to-r ${styles.progressBar} relative z-10`}
                                         style={{ width: `${percentage}%`, transition: 'width 1.2s cubic-bezier(0.34, 1.56, 0.64, 1)' }}
                                     ></div>
                                 </div>
 
-                                {/* Layer 1: Wide Ambient Spread */}
+                                {/* Glow layers - same for both themes */}
                                 <div
                                     className="absolute top-1/2 rounded-full z-0 pointer-events-none"
                                     style={{
@@ -170,7 +233,6 @@ const BudgetCard: React.FC = () => {
                                     }}
                                 ></div>
 
-                                {/* Layer 2: Secondary Spread */}
                                 <div
                                     className="absolute top-1/2 rounded-full z-5 pointer-events-none glow-breath"
                                     style={{
@@ -184,7 +246,6 @@ const BudgetCard: React.FC = () => {
                                     }}
                                 ></div>
 
-                                {/* Layer 3: Core Glow */}
                                 <div
                                     className="absolute top-1/2 rounded-full z-10 pointer-events-none glow-pulse"
                                     style={{
@@ -198,7 +259,6 @@ const BudgetCard: React.FC = () => {
                                     }}
                                 ></div>
 
-                                {/* Layer 4: Highlight Ring */}
                                 <div
                                     className="absolute top-1/2 rounded-full z-15 pointer-events-none"
                                     style={{
@@ -212,7 +272,6 @@ const BudgetCard: React.FC = () => {
                                     }}
                                 ></div>
 
-                                {/* Layer 5: Inner Bright Core */}
                                 <div
                                     className="absolute top-1/2 rounded-full z-20 pointer-events-none"
                                     style={{
@@ -226,7 +285,6 @@ const BudgetCard: React.FC = () => {
                                     }}
                                 ></div>
 
-                                {/* Layer 6: Hot Center Point */}
                                 <div
                                     className="absolute top-1/2 rounded-full z-25 pointer-events-none"
                                     style={{
@@ -241,7 +299,6 @@ const BudgetCard: React.FC = () => {
                                     }}
                                 ></div>
 
-                                {/* Layer 7: Horizontal Light Streak */}
                                 <div
                                     className="absolute top-1/2 z-8 pointer-events-none"
                                     style={{
@@ -256,7 +313,6 @@ const BudgetCard: React.FC = () => {
                                     }}
                                 ></div>
 
-                                {/* Layer 8: Top Surface Highlight */}
                                 <div
                                     className="absolute z-22 pointer-events-none"
                                     style={{
@@ -278,25 +334,25 @@ const BudgetCard: React.FC = () => {
                     {/* Stats Section */}
                     <section className="grid grid-cols-2 pt-1">
                         <div className="flex flex-col gap-1.5">
-                            <span className="text-[10px] uppercase tracking-[0.2em] font-semibold text-neutral-500">Spent</span>
+                            <span className={`text-[10px] uppercase tracking-[0.2em] font-semibold ${styles.statsLabel}`}>Spent</span>
                             <div className="flex items-center gap-2">
-                                <span className="text-[15px] font-normal tabular-nums leading-none raised-text-light">
+                                <span className={`text-[15px] font-normal tabular-nums leading-none ${styles.statsValue}`}>
                                     {formatCurrency(currentData.spent)}
                                 </span>
 
                                 <span
-                                    className="percentage-badge relative overflow-hidden text-[9px] font-bold px-1 py-px rounded-[4px] border border-white/10 flex items-center justify-center -translate-y-0.5"
-                                    style={premiumGradientStyle}
+                                    className={`percentage-badge relative overflow-hidden text-[9px] font-bold px-1 py-px rounded-[4px] border ${isDark ? 'border-white/10' : 'border-gray-200/50'} flex items-center justify-center -translate-y-0.5`}
+                                    style={styles.percentageBadge}
                                 >
-                                    <div className="absolute top-0 left-0 right-0 h-[2px] bg-gradient-to-b from-white/20 to-transparent opacity-50"></div>
-                                    <span className="relative z-10 leading-none raised-text-xs">{percentage}%</span>
+                                    <div className={`absolute top-0 left-0 right-0 h-[2px] bg-gradient-to-b ${isDark ? 'from-white/20' : 'from-white/60'} to-transparent opacity-50`}></div>
+                                    <span className={`relative z-10 leading-none ${styles.percentageText}`}>{percentage}%</span>
                                 </span>
                             </div>
                         </div>
 
                         <div className="flex flex-col gap-1.5 items-end">
-                            <span className="text-[10px] uppercase tracking-[0.2em] font-semibold text-neutral-500">Remaining</span>
-                            <span className="text-[15px] font-normal tabular-nums leading-none raised-text-light">
+                            <span className={`text-[10px] uppercase tracking-[0.2em] font-semibold ${styles.statsLabel}`}>Remaining</span>
+                            <span className={`text-[15px] font-normal tabular-nums leading-none ${styles.statsValue}`}>
                                 {formatCurrency(remaining)}
                             </span>
                         </div>
@@ -304,39 +360,49 @@ const BudgetCard: React.FC = () => {
 
                     {/* Premium Button */}
                     <footer className="flex justify-center">
-                        <button className="premium-button w-auto py-2 px-6 rounded-full focus:outline-none focus:ring-2 focus:ring-purple-500/30">
-                            <div className="button-shine"></div>
-                            <div className="button-inner-shadow rounded-full"></div>
-                            <span className="button-text text-[11px] font-semibold tracking-widest uppercase">View Details</span>
+                        <button className={`${styles.buttonClass} w-auto py-2 px-6 rounded-full focus:outline-none`}>
+                            <div className={isDark ? 'button-shine' : 'button-shine-light'}></div>
+                            <div className={`${isDark ? 'button-inner-shadow' : 'button-inner-shadow-light'} rounded-full`}></div>
+                            <span className={`${styles.buttonTextClass} text-[11px] font-semibold tracking-widest uppercase`}>View Details</span>
                         </button>
                     </footer>
                 </article>
             </div>
 
             {/* Bottom Glow */}
-            <div className="absolute -bottom-16 left-1/2 -translate-x-1/2 w-[100%] h-32 bg-purple-600/5 blur-[110px] -z-10"></div>
+            <div className={`absolute -bottom-16 left-1/2 -translate-x-1/2 w-[100%] h-32 ${isDark ? 'bg-purple-600/5' : 'bg-purple-400/10'} blur-[110px] -z-10`}></div>
         </div>
     );
 };
 
-// Full showcase with background - EXACT copy from original App.tsx
-export const BudgetCardShowcase: React.FC = () => {
+interface BudgetCardShowcaseProps {
+    theme?: 'dark' | 'light';
+}
+
+// Full showcase with background
+export const BudgetCardShowcase: React.FC<BudgetCardShowcaseProps> = ({ theme = 'dark' }) => {
+    const isDark = theme === 'dark';
+
+    const backgroundImage = isDark
+        ? "url('https://r2.flowith.net/gemini-proxy-go/1767182681261/7bc14414-7cd2-4229-9ac6-e9099d12cb02.jpg')"
+        : "url('https://r2.flowith.net/gemini-proxy-go/1767044206425/d8652e42-8edd-4ebd-aa73-3a34ffa3d336.jpg')";
+
     return (
-        <div className="w-full h-full bg-[#030303] flex items-center justify-center p-8 relative overflow-hidden">
+        <div className={`w-full h-full ${isDark ? 'bg-[#030303]' : 'bg-[#f8f9fc]'} flex items-center justify-center p-8 relative overflow-hidden`}>
 
             {/* Background Image */}
             <div
                 className="absolute inset-0 bg-cover bg-center bg-no-repeat"
-                style={{ backgroundImage: "url('https://r2.flowith.net/gemini-proxy-go/1767044206425/d8652e42-8edd-4ebd-aa73-3a34ffa3d336.jpg')" }}
+                style={{ backgroundImage }}
             ></div>
-            <div className="absolute inset-0 bg-black/40"></div>
+            <div className={`absolute inset-0 ${isDark ? 'bg-black/40' : ''}`}></div>
 
             {/* Background Effects */}
-            <div className="absolute top-[-15%] right-[-10%] w-[70%] h-[70%] bg-purple-600/8 rounded-full blur-[180px]"></div>
-            <div className="absolute bottom-[-15%] left-[-15%] w-[60%] h-[60%] bg-blue-600/8 rounded-full blur-[160px]"></div>
-            <div className="absolute inset-0 bg-[radial-gradient(#ffffff06_1px,transparent_1px)] [background-size:40px_40px] opacity-15"></div>
+            <div className={`absolute top-[-15%] right-[-10%] w-[70%] h-[70%] ${isDark ? 'bg-purple-600/8' : 'bg-purple-400/15'} rounded-full blur-[180px]`}></div>
+            <div className={`absolute bottom-[-15%] left-[-15%] w-[60%] h-[60%] ${isDark ? 'bg-blue-600/8' : 'bg-blue-400/10'} rounded-full blur-[160px]`}></div>
+            <div className={`absolute inset-0 ${isDark ? 'bg-[radial-gradient(#ffffff06_1px,transparent_1px)]' : 'bg-[radial-gradient(#00000008_1px,transparent_1px)]'} [background-size:40px_40px] opacity-15`}></div>
 
-            <BudgetCard />
+            <BudgetCard theme={theme} />
         </div>
     );
 };

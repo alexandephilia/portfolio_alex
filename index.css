@@ -154,6 +154,40 @@
         filter: drop-shadow(0 1px 1px rgba(0, 0, 0, 0.5));
     }
 
+    /* Light theme raised text - for light backgrounds */
+    .raised-text-light-theme {
+        background: linear-gradient(180deg,
+                #1a1a1a 0%,
+                #404040 45%,
+                #808080 100%);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        background-clip: text;
+        filter: drop-shadow(0 1px 2px rgba(255, 255, 255, 0.8));
+    }
+
+    .raised-text-light-theme-sm {
+        background: linear-gradient(180deg,
+                #2a2a2a 0%,
+                #505050 50%,
+                #888888 100%);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        background-clip: text;
+        filter: drop-shadow(0 1px 1px rgba(255, 255, 255, 0.6));
+    }
+
+    .raised-text-light-theme-xs {
+        background: linear-gradient(180deg,
+                #3a3a3a 0%,
+                #606060 50%,
+                #909090 100%);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        background-clip: text;
+        filter: drop-shadow(0 0.5px 1px rgba(255, 255, 255, 0.5));
+    }
+
     /* Premium gradient black button styling */
     .premium-button {
         position: relative;
@@ -268,11 +302,11 @@
                 rgba(240, 240, 240, 1) 100%);
         box-shadow:
             0 1px 0 0 rgb(255, 255, 255) inset,
-            0 -1px 0 0 rgba(200, 200, 200, 0.578) inset,
-            0 3px 5px rgba(39, 39, 39, 0.1);
+            0 -1px 0 0 rgba(186, 186, 186, 0.578) inset,
+            0 3px 5px rgba(0, 0, 0, 0.1);
         transition: all 0.2s ease;
         overflow: hidden;
-        border: 1px solid rgba(27, 27, 27, 0.06);
+        border: 1px solid rgba(20, 20, 20, 0.06);
     }
 
     .premium-button-light::before {

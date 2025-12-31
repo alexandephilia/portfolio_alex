@@ -1,4 +1,5 @@
 import { motion } from 'framer-motion';
+import { Moon, Sun } from 'lucide-react';
 import React, { useState } from 'react';
 import { BudgetCardShowcase } from './showcases/BudgetCardShowcase';
 import { WebcoreBuilderShowcase } from './showcases/WebcoreBuilderShowcase';
@@ -7,23 +8,22 @@ interface ShowcaseItem {
     id: string;
     name: string;
     description: string;
-    component: React.ReactNode;
     stack: string[];
+    hasThemeToggle?: boolean;
 }
 
 const SHOWCASE_ITEMS: ShowcaseItem[] = [
     {
         id: 'budget-card',
         name: 'Monthly Budget Card',
-        description: 'Premium dark-mode budget card with volumetric lighting effects and fluid animations.',
-        component: <BudgetCardShowcase />,
-        stack: ['React', 'Next.js', 'Vite', 'Tailwind CSS']
+        description: 'Premium budget card with volumetric lighting effects and fluid animations.',
+        stack: ['React', 'Next.js', 'Vite', 'Tailwind CSS'],
+        hasThemeToggle: true
     },
     {
         id: 'webcore-builder',
         name: 'Dashboard Skeuo-modern',
         description: 'High-fidelity web builder interface featuring complex radial gradients and neumorphic aesthetic.',
-        component: <WebcoreBuilderShowcase />,
         stack: ['React', 'Next.js', 'Vite', 'Tailwind CSS']
     }
 ];
@@ -48,6 +48,17 @@ const cardVariants = {
 
 export const ComponentShowcase: React.FC = () => {
     const [hoveredId, setHoveredId] = useState<string | null>(null);
+    const [budgetTheme, setBudgetTheme] = useState<'dark' | 'light'>('dark');
+
+    const getComponent = (id: string) => {
+        if (id === 'budget-card') {
+            return <BudgetCardShowcase theme={budgetTheme} />;
+        }
+        if (id === 'webcore-builder') {
+            return <WebcoreBuilderShowcase />;
+        }
+        return null;
+    };
 
     return (
         <div className="flex flex-col gap-6 p-6 md:p-8">
@@ -171,12 +182,12 @@ export const ComponentShowcase: React.FC = () => {
                                                 height: '208%',
                                             }}
                                         >
-                                            {item.component}
+                                            {getComponent(item.id)}
                                         </div>
                                     </div>
                                     {/* Desktop - no scaling */}
                                     <div className="hidden md:block absolute inset-0">
-                                        {item.component}
+                                        {getComponent(item.id)}
                                     </div>
                                 </div>
 
@@ -184,7 +195,37 @@ export const ComponentShowcase: React.FC = () => {
                                 <div className="p-4 md:p-5 bg-white border-t border-gray-100">
                                     <div className="flex items-start justify-between gap-4">
                                         <div className="flex-1">
-                                            <h3 className="text-sm md:text-base font-bold text-gray-900 mb-1">{item.name}</h3>
+                                            <div className="flex items-center gap-2 mb-1">
+                                                <h3 className="text-sm md:text-base font-bold text-gray-900">{item.name}</h3>
+                                                {/* Theme Toggle Pill */}
+                                                {item.hasThemeToggle && (
+                                                    <button
+                                                        onClick={() => setBudgetTheme(budgetTheme === 'dark' ? 'light' : 'dark')}
+                                                        className="flex items-center gap-1 px-2 py-0.5 rounded-full text-[9px] font-medium transition-all duration-300 border"
+                                                        style={{
+                                                            background: budgetTheme === 'dark'
+                                                                ? 'linear-gradient(180deg, rgba(38, 38, 38, 1) 0%, rgba(23, 23, 23, 1) 100%)'
+                                                                : 'linear-gradient(180deg, rgba(255, 255, 255, 1) 0%, rgba(245, 245, 245, 1) 100%)',
+                                                            borderColor: budgetTheme === 'dark' ? 'rgba(255,255,255,0.1)' : 'rgba(0,0,0,0.1)',
+                                                            boxShadow: budgetTheme === 'dark'
+                                                                ? '0 1px 0 0 rgba(255, 255, 255, 0.1) inset, 0 2px 4px rgba(0, 0, 0, 0.2)'
+                                                                : '0 1px 0 0 rgba(255, 255, 255, 1) inset, 0 2px 4px rgba(0, 0, 0, 0.08)'
+                                                        }}
+                                                    >
+                                                        {budgetTheme === 'dark' ? (
+                                                            <>
+                                                                <Moon size={10} className="text-gray-300" />
+                                                                <span className="text-gray-300">Dark</span>
+                                                            </>
+                                                        ) : (
+                                                            <>
+                                                                <Sun size={10} className="text-gray-600" />
+                                                                <span className="text-gray-600">Light</span>
+                                                            </>
+                                                        )}
+                                                    </button>
+                                                )}
+                                            </div>
                                             <p className="text-[11px] md:text-xs text-gray-500 leading-relaxed">{item.description}</p>
                                         </div>
                                         {/* Category badge */}
