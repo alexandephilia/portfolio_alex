@@ -14,14 +14,14 @@ interface ShowcaseItem {
 const SHOWCASE_ITEMS: ShowcaseItem[] = [
     {
         id: 'budget-card',
-        name: 'Luminous Budget Dashboard',
+        name: 'Monthly Budget Card',
         description: 'Premium dark-mode budget card with volumetric lighting effects and fluid animations.',
         component: <BudgetCardShowcase />,
         stack: ['React', 'Next.js', 'Vite', 'Tailwind CSS']
     },
     {
         id: 'webcore-builder',
-        name: 'Webcore Builder UI',
+        name: 'Dashboard Skeuo-modern',
         description: 'High-fidelity web builder interface featuring complex radial gradients and neumorphic aesthetic.',
         component: <WebcoreBuilderShowcase />,
         stack: ['React', 'Next.js', 'Vite', 'Tailwind CSS']

@@ -101,21 +101,21 @@ const Dashboard: React.FC = () => {
 
     return (
         <div className="flex flex-col min-w-[960px] h-full bg-transparent overflow-hidden">
-            <header className="h-14 flex items-center px-6 bg-[radial-gradient(ellipse_at_top_left,_#ffffff_40%,_#f3f4f6_100%)] border-b border-gray-100 z-20 relative flex-none">
-                <div className="flex items-center gap-3">
+            <header className="h-14 flex items-center px-4 bg-[radial-gradient(ellipse_at_top_left,_#ffffff_40%,_#f3f4f6_100%)] border-b border-gray-100 z-20 relative flex-none">
+                <div className="flex items-center gap-2">
                     <div className="text-gray-800">
-                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
                             <path d="M12 2v20M2 12h20M4.929 4.929l14.142 14.142M4.929 19.071L19.071 4.929" />
                         </svg>
                     </div>
-                    <h1 className="text-lg font-semibold text-gray-900 tracking-tight">Zeta Inc</h1>
-                    <div className="h-4 w-[1px] bg-gray-300 mx-2"></div>
-                    <div className="flex items-center gap-2 text-sm text-gray-600 font-medium">
+                    <h1 className="text-base font-semibold text-gray-900 tracking-tight">Zeta Inc</h1>
+                    <div className="h-4 w-[1px] bg-gray-300 mx-1"></div>
+                    <div className="flex items-center gap-1.5 text-xs text-gray-600 font-medium">
                         <span>Webcore App</span>
                         <span className="text-gray-300">/</span>
                         <span>Home</span>
                     </div>
-                    <span className="ml-3 px-2 py-0.5 rounded-full text-[10px] font-semibold bg-gradient-to-b from-[#93c5fd] to-[#3b82f6] border border-blue-400/50 shadow-[0_2px_4px_rgba(59,130,246,0.25),inset_0_1px_0_rgba(255,255,255,0.3)] text-white">
+                    <span className="ml-2 px-2 py-0.5 rounded-full text-[10px] font-semibold bg-gradient-to-b from-[#93c5fd] to-[#3b82f6] border border-blue-400/50 shadow-[0_2px_4px_rgba(59,130,246,0.25),inset_0_1px_0_rgba(255,255,255,0.3)] text-white">
                         Draft
                     </span>
                 </div>
@@ -128,8 +128,8 @@ const Dashboard: React.FC = () => {
                     <div className="bg-gray-100/80 p-1 rounded-full grid grid-cols-2 gap-1 mb-3 shadow-[inset_0px_2px_4px_rgba(0,0,0,0.08)] flex-none">
                         <button
                             onClick={() => setActiveTab(TabType.ELEMENTS)}
-                            className={`text-sm font-medium py-1.5 rounded-full transition-all duration-200 relative ${activeTab === TabType.ELEMENTS
-                                ? 'bg-gradient-to-b from-white to-gray-50 text-gray-900 shadow-[inset_0px_1px_0px_rgba(255,255,255,1),_0px_2px_4px_rgba(0,0,0,0.05)] ring-1 ring-black/5'
+                            className={`text-sm font-medium py-1.5 px-3 rounded-full transition-colors duration-200 relative ${activeTab === TabType.ELEMENTS
+                                ? 'bg-gradient-to-b from-white to-gray-50 text-gray-900 shadow-[0_2px_8px_rgba(0,0,0,0.1),inset_0px_1px_0px_rgba(255,255,255,1)] ring-1 ring-black/5'
                                 : 'text-gray-500 hover:text-gray-700 hover:bg-gray-50/50'
                                 }`}
                         >
@@ -137,8 +137,8 @@ const Dashboard: React.FC = () => {
                         </button>
                         <button
                             onClick={() => setActiveTab(TabType.SYMBOL)}
-                            className={`text-sm font-medium py-1.5 rounded-full transition-all duration-200 relative ${activeTab === TabType.SYMBOL
-                                ? 'bg-gradient-to-b from-white to-gray-50 text-gray-900 shadow-[inset_0px_1px_0px_rgba(255,255,255,1),_0px_2px_4px_rgba(0,0,0,0.05)] ring-1 ring-black/5'
+                            className={`text-sm font-medium py-1.5 px-3 rounded-full transition-colors duration-200 relative ${activeTab === TabType.SYMBOL
+                                ? 'bg-gradient-to-b from-white to-gray-50 text-gray-900 shadow-[0_2px_8px_rgba(0,0,0,0.1),inset_0px_1px_0px_rgba(255,255,255,1)] ring-1 ring-black/5'
                                 : 'text-gray-500 hover:text-gray-700 hover:bg-gray-50/50'
                                 }`}
                         >

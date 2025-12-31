@@ -1,5 +1,5 @@
-import { motion } from 'framer-motion';
-import React from 'react';
+import { motion, AnimatePresence } from 'framer-motion';
+import React, { useRef, useState, useEffect } from 'react';
 import { antiFlickerStyle, staggerContainerVariants, staggerItemVariants, viewportSettings } from './animations';
 
 interface TabsProps {
@@ -10,9 +10,61 @@ interface TabsProps {
 const TABS = ['Works', 'Personal', 'Components', 'Writings'];
 
 export const Tabs: React.FC<TabsProps> = ({ activeTab, setActiveTab }) => {
+    const scrollRef = useRef<HTMLDivElement>(null);
+    const [showLeftFade, setShowLeftFade] = useState(false);
+    const [showRightFade, setShowRightFade] = useState(false);
+
+    const checkScroll = () => {
+        if (scrollRef.current) {
+            const { scrollLeft, scrollWidth, clientWidth } = scrollRef.current;
+            setShowLeftFade(scrollLeft > 10);
+            setShowRightFade(scrollLeft < scrollWidth - clientWidth - 10);
+        }
+    };
+
+    useEffect(() => {
+        const scrollElement = scrollRef.current;
+        if (scrollElement) {
+            checkScroll();
+            scrollElement.addEventListener('scroll', checkScroll);
+            window.addEventListener('resize', checkScroll);
+        }
+        return () => {
+            if (scrollElement) {
+                scrollElement.removeEventListener('scroll', checkScroll);
+            }
+            window.removeEventListener('resize', checkScroll);
+        };
+    }, []);
+
     return (
-        <div className="p-6 md:py-6 md:px-8 border-b border-dashed border-gray-200 bg-[#FAFAFA]">
+        <div className="relative p-6 md:py-6 md:px-8 border-b border-dashed border-gray-200 bg-[#FAFAFA]">
+            {/* Left Fade Overlay */}
+            <AnimatePresence>
+                {showLeftFade && (
+                    <motion.div
+                        initial={{ opacity: 0 }}
+                        animate={{ opacity: 1 }}
+                        exit={{ opacity: 0 }}
+                        className="absolute left-0 top-0 bottom-0 w-12 z-10 pointer-events-none bg-gradient-to-r from-[#FAFAFA] to-transparent"
+                    />
+                )}
+            </AnimatePresence>
+
+            {/* Right Fade Overlay */}
+            <AnimatePresence>
+                {showRightFade && (
+                    <motion.div
+                        initial={{ opacity: 0 }}
+                        animate={{ opacity: 1 }}
+                        exit={{ opacity: 0 }}
+                        className="absolute right-0 top-0 bottom-0 w-12 z-10 pointer-events-none bg-gradient-to-l from-[#FAFAFA] to-transparent"
+                    />
+                )}
+            </AnimatePresence>
+
             <motion.div
+                ref={scrollRef}
                 initial="hidden"
                 whileInView="visible"
                 viewport={viewportSettings}
@@ -42,3 +94,4 @@ export const Tabs: React.FC<TabsProps> = ({ activeTab, setActiveTab }) => {
         </div>
     );
 };
+

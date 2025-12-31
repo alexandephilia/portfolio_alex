@@ -9,7 +9,6 @@ export const sectionHeaderVariants: Variants = {
         filter: 'blur(14px)',
         y: 8,
         z: 0, // Force GPU layer
-        willChange: "transform, opacity, filter",
     },
     visible: {
         opacity: 1,
@@ -46,7 +45,6 @@ export const staggerItemVariants: Variants = {
         filter: 'blur(14px)',
         y: 6,
         z: 0,
-        willChange: "transform, opacity, filter",
     },
     visible: {
         opacity: 1,
@@ -68,7 +66,6 @@ export const floatingStaggerItemVariants: Variants = {
         filter: 'blur(14px)',
         y: 60,
         z: 0,
-        willChange: "transform, opacity, filter",
     },
     visible: {
         opacity: 1,
@@ -90,7 +87,6 @@ export const floatingTopStaggerItemVariants: Variants = {
         filter: 'blur(14px)',
         y: -60,
         z: 0,
-        willChange: "transform, opacity, filter",
     },
     visible: {
         opacity: 1,
@@ -151,7 +147,6 @@ export const popRevealVariants: Variants = {
         opacity: 0,
         scale: 0.6,
         filter: 'blur(12px)',
-        willChange: "transform, opacity, filter",
         z: 0,
     },
     visible: {
@@ -174,7 +169,6 @@ export const dailyDriverCardVariants: Variants = {
         opacity: 0,
         y: 18,
         filter: 'blur(10px)',
-        willChange: 'transform, opacity, filter',
         z: 0,
     },
     visible: {
@@ -225,7 +219,6 @@ export const blurOnlyVariants: Variants = {
     hidden: {
         opacity: 0,
         filter: 'blur(14px)',
-        willChange: "transform, opacity, filter",
         z: 0,
     },
     visible: {

@@ -67,7 +67,7 @@ const BudgetCard: React.FC = () => {
             <div className="absolute inset-[-30px] bg-purple-600/5 blur-[60px] rounded-[80px] opacity-30"></div>
 
             {/* Card Container - Reduced border opacity to 0.02 for a subtle rim */}
-            <div className="relative p-[10px] rounded-[36px] bg-black/40 border border-white/[0.02] shadow-[0_32px_64px_-16px_rgba(0,0,0,0.9)] backdrop-blur-[40px] transition-all duration-500 overflow-hidden">
+            <div className="relative p-[10px] rounded-[36px] bg-black/40 border border-white/[0.02] shadow-[0_32px_64px_-16px_rgba(0,0,0,0.9)] backdrop-blur-[10px] transition-all duration-500 overflow-hidden">
 
                 {/* Inner highlight */}
                 <div className="absolute top-[-20%] left-[-20%] w-[60%] h-[60%] bg-neutral-800/10 blur-[60px] pointer-events-none"></div>
@@ -106,8 +106,8 @@ const BudgetCard: React.FC = () => {
                                 {/* Dropdown Menu */}
                                 <div
                                     className={`absolute right-0 top-full mt-3 w-32 bg-[#1a1a1a] border border-white/10 rounded-2xl shadow-2xl overflow-hidden z-50 transition-all duration-300 origin-top-right ${isDropdownOpen
-                                            ? 'opacity-100 scale-100 translate-y-0'
-                                            : 'opacity-0 scale-95 -translate-y-2 pointer-events-none'
+                                        ? 'opacity-100 scale-100 translate-y-0'
+                                        : 'opacity-0 scale-95 -translate-y-2 pointer-events-none'
                                         }`}
                                 >
                                     {(Object.keys(budgetData) as MonthKey[]).map((key) => (
