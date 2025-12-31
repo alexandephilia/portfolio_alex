@@ -1,6 +1,6 @@
-import { motion, AnimatePresence } from 'framer-motion';
-import { Download, CheckCircle2, Loader2 } from 'lucide-react';
-import React, { useState, useEffect } from 'react';
+import { AnimatePresence, motion } from 'framer-motion';
+import { CheckCircle2, Download, Loader2 } from 'lucide-react';
+import React, { useState } from 'react';
 
 interface DownloadButtonProps {
     href: string;
@@ -37,16 +37,16 @@ export const DownloadButton: React.FC<DownloadButtonProps> = ({ href, fileName =
     // State-driven widths for the elastic morphing - Tightened for a compact fit
     // Using responsive-aware logic for mobile optimization
     const isMobile = typeof window !== 'undefined' && window.innerWidth < 768;
-    
-    const idleWidth = isMobile ? 135 : 140;   // "Download Resume" + icon - more breathing room
-    const streamWidth = isMobile ? 115 : 115;  // "Streaming"
-    const successWidth = isMobile ? 100 : 100;   // "Exported"
+
+    const idleWidth = isMobile ? 120 : 125;   // "Download Resume" + icon
+    const streamWidth = isMobile ? 100 : 105;  // "Streaming"
+    const successWidth = isMobile ? 88 : 92;   // "Exported"
 
     return (
         <motion.button
             onClick={handleDownload}
             disabled={state !== 'idle'}
-            animate={{ 
+            animate={{
                 width: state === 'idle' ? idleWidth : (state === 'draining' ? streamWidth : successWidth),
                 scale: state === 'draining' ? 0.98 : 1
             }}
@@ -56,8 +56,8 @@ export const DownloadButton: React.FC<DownloadButtonProps> = ({ href, fileName =
                 damping: 18,
                 mass: 1.2
             }}
-            className="group relative h-8 md:h-8 rounded-lg text-[9px] md:text-[11px] font-medium active:translate-y-px disabled:cursor-default flex items-center justify-center
-                       bg-linear-to-b from-[#f8f9fc] via-[#f0f2f7] to-[#e8ebf2] border border-gray-300/70 
+            className="group relative h-7 md:h-7 rounded-lg text-[8px] md:text-[10px] font-medium active:translate-y-px disabled:cursor-default flex items-center justify-center
+                       bg-linear-to-b from-[#f8f9fc] via-[#f0f2f7] to-[#e8ebf2] border border-gray-300/70
                        shadow-[0_4px_8px_rgba(0,0,0,0.04),0_2px_4px_rgba(0,0,0,0.06),inset_0_1px_0_rgba(255,255,255,0.9)]
                        hover:shadow-[0_6px_12px_rgba(0,0,0,0.12),0_3px_6px_rgba(0,0,0,0.08),inset_0_1px_0_rgba(255,255,255,1)]"
         >
@@ -92,10 +92,10 @@ export const DownloadButton: React.FC<DownloadButtonProps> = ({ href, fileName =
                             transition={{ duration: 1.8, ease: [0.16, 1, 0.3, 1] }}
                         >
                             {/* Charging Glow Tip - Tech Blue Pulse */}
-                            <motion.div 
+                            <motion.div
                                 animate={{ opacity: [0.4, 0.8, 0.4], scaleX: [1, 2, 1] }}
                                 transition={{ duration: 0.8, repeat: Infinity }}
-                                className="absolute right-0 top-0 bottom-0 w-8 bg-[rgba(74,108,196,0.2)] blur-[4px]" 
+                                className="absolute right-0 top-0 bottom-0 w-8 bg-[rgba(74,108,196,0.2)] blur-[4px]"
                             />
                         </motion.div>
                     </div>
@@ -111,14 +111,14 @@ export const DownloadButton: React.FC<DownloadButtonProps> = ({ href, fileName =
                             initial={{ opacity: 0, rotateX: -95, y: 25 }}
                             animate={{ opacity: 1, rotateX: 0, y: 0 }}
                             exit={{ opacity: 0, rotateX: 95, y: -25 }}
-                            transition={{ 
+                            transition={{
                                 duration: 0.5,
                                 ease: [0.16, 1, 0.3, 1]
                             }}
                             style={{ transformPerspective: 800 }}
-                            className="flex items-center gap-1.5 px-3 whitespace-nowrap"
+                            className="flex items-center gap-1.5 px-2.5 whitespace-nowrap"
                         >
-                            <Download size={12} className="text-gray-500 group-hover:text-gray-900 transition-colors" />
+                            <Download size={11} className="text-gray-500 group-hover:text-gray-900 transition-colors" />
                             <span className="text-gray-600 group-hover:text-gray-900 font-semibold tracking-tight">
                                 Download Resume
                             </span>
@@ -131,10 +131,10 @@ export const DownloadButton: React.FC<DownloadButtonProps> = ({ href, fileName =
                             animate={{ opacity: 1, y: 0, filter: 'blur(0px)' }}
                             exit={{ opacity: 0, y: -15, filter: 'blur(8px)' }}
                             transition={{ duration: 0.4 }}
-                            className="flex items-center gap-1.5 px-3 whitespace-nowrap"
+                            className="flex items-center gap-1.5 px-2.5 whitespace-nowrap"
                         >
-                            <Loader2 size={11} className="text-[rgb(74,108,196)] animate-spin" />
-                            <span className="text-[8px] font-mono font-black text-[rgb(74,108,196)] uppercase tracking-[0.2em] pl-0.5">
+                            <Loader2 size={10} className="text-[rgb(74,108,196)] animate-spin" />
+                            <span className="text-[7px] font-mono font-black text-[rgb(74,108,196)] uppercase tracking-[0.2em] pl-0.5">
                                 Streaming
                             </span>
                         </motion.div>
@@ -145,14 +145,14 @@ export const DownloadButton: React.FC<DownloadButtonProps> = ({ href, fileName =
                             initial={{ opacity: 0, rotateX: -95, y: 25 }}
                             animate={{ opacity: 1, rotateX: 0, y: 0 }}
                             exit={{ opacity: 0, rotateX: 95, y: -25 }}
-                            transition={{ 
+                            transition={{
                                 duration: 0.5,
                                 ease: [0.16, 1, 0.3, 1]
                             }}
                             style={{ transformPerspective: 800 }}
-                            className="flex items-center gap-1.5 px-3 whitespace-nowrap"
+                            className="flex items-center gap-1.5 px-2.5 whitespace-nowrap"
                         >
-                            <CheckCircle2 size={12} className="text-emerald-600" />
+                            <CheckCircle2 size={11} className="text-emerald-600" />
                             <span className="text-emerald-700 font-bold tracking-tight">
                                 Exported
                             </span>
