@@ -214,6 +214,8 @@ export const Footer: React.FC = () => {
                         href={mailtoLink}
                         initial={{ opacity: 0, y: 10 }}
                         whileInView={{ opacity: 1, y: 0 }}
+                        whileHover={{ y: 3 }}
+                        whileTap={{ y: 6, scale: 0.98 }}
                         viewport={{ once: true, amount: 0.5 }}
                         transition={{ duration: 0.4, ease: "easeOut" }}
                         style={antiFlickerStyle}
@@ -237,14 +239,13 @@ export const Footer: React.FC = () => {
                     */
                     shadow-[inset_0_1px_0_rgba(255,255,255,1),0_8px_0_#9ca3af,0_10px_15px_rgba(0,0,0,0.18)]
 
-                    transition-transform duration-200 ease-out
+                    /* Shadow transitions are fine, but transform is now Framer-controlled */
+                    transition-[box-shadow,background-color] duration-200 ease-out
 
-                    /* Hover State - Half Press (Anticipation) */
-                    hover:translate-y-[3px]
+                    /* Hover State - Shadow only */
                     hover:shadow-[inset_0_1px_0_rgba(255,255,255,1),0_5px_0_#9ca3af,0_6px_10px_rgba(0,0,0,0.15)]
 
-                    /* Active/Pressed State */
-                    active:translate-y-[6px]
+                    /* Active/Pressed State - Shadow/BG only */
                     active:shadow-[inset_0_2px_4px_rgba(0,0,0,0.05),0_2px_0_#9ca3af,0_4px_4px_rgba(0,0,0,0.05)]
                     active:bg-gradient-to-b active:from-gray-100 active:to-gray-200
                 "

@@ -26,7 +26,7 @@ export const Contact: React.FC = () => {
                         target="_blank"
                         rel="noopener noreferrer"
                         variants={staggerItemVariants}
-                        className="group flex flex-row items-center justify-between py-1 transition-opacity"
+                        className="group flex flex-row items-center justify-between py-1"
                     >
                         <span className="text-sm md:text-sm font-medium text-gray-900 group-hover:text-blue-900 transition-colors">
                             {item.label}
