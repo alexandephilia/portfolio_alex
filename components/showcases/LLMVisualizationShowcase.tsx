@@ -38,7 +38,7 @@ interface NodeEntity {
 }
 
 // --- PHYSICS CONSTANTS ---
-const GRAVITY = 0.20;
+const GRAVITY = 0.15; // Lightened to reduce sag
 const FRICTION = 0.95;     // Higher = more momentum, keeps swinging
 const NUM_ITERATIONS = 15;  // Much fewer = very loose rope
 const ROPE_SEGMENTS = 25;
@@ -48,29 +48,25 @@ const COLORS = [
     '#FF00FF', // Magenta
     '#00FF00', // Lime
     '#FFFF00', // Yellow
-    '#FFA500', // Orange
+    '#FACC15', // Bright Yellow
+    '#4ADE80', // Vibrant Green
 ];
 
 // Custom ease: seamless slow start, spring-like pull acceleration
+// Custom ease: WALK -> ACCELERATE
 const easeSnapMove = (x: number): number => {
-    if (x < 0.6) {
-        // WALKING phase (0-60%) - extremely slow crawl
-        // Covers only 15% of the distance in 60% of the time
-        const t = x / 0.6;
-        const sine = Math.sin(t * Math.PI * 0.5);
-        return sine * sine * 0.15; 
-    } else {
-        // ACCELERATE phase (60-100%) - rapid snap to finish
-        // Covers remaining 85% of distance in 40% of the time
-        const t = (x - 0.6) / 0.4;
-        
-        // Cubic ease out for sharp acceleration feel
-        const springTension = 1 - Math.pow(1 - t, 3);
-        const elasticWobble = Math.sin(t * Math.PI * 1.5) * 0.02 * (1 - t);
-
-        const base = 0.15 + springTension * 0.85 + elasticWobble;
-        return Math.min(1, base);
+    // Continuous power curve (x^4) for buttery smooth transition
+    // Starts extremely slow (Walk) and snaps into acceleration at the end
+    const ease = Math.pow(x, 4);
+    
+    // Add subtle micro-spring wobble at the very end (90-100%)
+    if (x > 0.9) {
+        const t = (x - 0.9) / 0.1;
+        const wobble = Math.sin(t * Math.PI * 2) * 0.01 * (1 - t);
+        return Math.min(1, ease + wobble);
     }
+    
+    return ease;
 };
 
 // --- TOKEN STREAM DATA ---
@@ -171,7 +167,7 @@ const HangingVisualization: React.FC = () => {
 
         // CALCULATE UNIFIED ROPE CONFIG
         const maxPossibleWidth = initialMaxX;
-        const FIXED_SLACK = height * 0.45;
+        const FIXED_SLACK = height * 0.25; // Drastically reduced for tighter lines
 
         // Center squeeze point where all ropes converge (tangled)
         const squeezeX = width / 2;
@@ -444,9 +440,9 @@ const HangingVisualization: React.FC = () => {
                         const dist = Math.hypot(dx, dy);
                         if (dist < 0.001) return;
 
-                        // Variable stiffness: looser at top (near anchor), tighter at bottom
+                        // Variable stiffness: tighter overall to reduce sag
                         const ropePosition = stickIndex / node.ropeSticks.length;
-                        const stiffness = 0.25 + ropePosition * 0.35; // 0.25 at top, 0.6 at bottom
+                        const stiffness = 0.45 + ropePosition * 0.35; // 0.45 at top, 0.8 at bottom
 
                         const diff = stick.length - dist;
                         const percent = (diff / dist) / 2 * stiffness;

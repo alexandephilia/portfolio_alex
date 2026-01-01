@@ -197,9 +197,10 @@ const initSimulation = (width: number, height: number): SimulationState => {
 const updateSimulation = (state: SimulationState & { _driftAmp?: number }, time: number) => {
     const driftAmp = state._driftAmp || 80;
 
-    // Global breathing phase - all nodes sway left/right together
-    const breathPhase = time * 0.001;
-    const globalSwayX = Math.sin(breathPhase) * 25;
+    // Global breathing phase - rhythmically sway the whole graph
+    const breathPhase = time * 0.0008;
+    const globalSwayX = Math.sin(breathPhase) * 35;
+    const globalSwayY = Math.cos(breathPhase * 0.5) * 10;
 
     state.nodes.forEach(node => {
         node.history.unshift({ ...node.currentPos });
@@ -211,23 +212,39 @@ const updateSimulation = (state: SimulationState & { _driftAmp?: number }, time:
         const individualOffset = Math.sin(t * 0.3 + node.driftOffsets.x) * 6;
         const offsetX = globalSwayX + individualOffset;
 
-        // Y movement: slow at peaks (top/bottom), accelerate toward middle
+        // Y movement: asymmetric with gravity feel
+        // At peaks: slow, then build up speed (accelerate)
+        // Going down: heavier/faster (gravity inertia)
         const phase = t * node.motionModifiers.speed + node.driftOffsets.y;
-        const rawSine = Math.sin(phase); // -1 to 1
+        const rawSine = Math.sin(phase); // -1 (top) to 1 (bottom)
 
-        // Ease-out from peaks using quadratic
-        // When at peak (±1), velocity is slow; accelerates as it moves toward 0
-        const sign = rawSine >= 0 ? 1 : -1;
-        const mag = Math.abs(rawSine);
-        const easedY = sign * (1 - Math.pow(1 - mag, 2));
+        let easedY: number;
+        if (rawSine >= 0) {
+            // Going DOWN - heavier gravity, faster acceleration (inertia)
+            const mag = rawSine;
+            easedY = mag * mag * mag * mag; // Quartic = builds up speed faster
+        } else {
+            // Going UP - fighting gravity, slower build up
+            const mag = Math.abs(rawSine);
+            easedY = -(mag * mag); // Quadratic = slower acceleration upward
+        }
 
         const offsetY = easedY * (driftAmp * node.motionModifiers.amp);
-
         const offsetZ = Math.cos(t * 0.5 + node.driftOffsets.z) * (driftAmp * 0.4);
-        node.currentPos = { x: node.basePos.x + offsetX, y: node.basePos.y + offsetY, z: node.basePos.z + offsetZ };
-        // Calculate Ring Animation
-        // dy < 0 means moving UP.
+
+        node.currentPos = {
+            x: node.basePos.x + offsetX,
+            y: node.basePos.y + offsetY + globalSwayY,
+            z: node.basePos.z + offsetZ
+        };
+
+        // Calculate velocity for rope physics
         const dy = node.currentPos.y - prevY;
+        const dx = node.currentPos.x - (node.prevPos?.x || node.currentPos.x);
+
+        // Store velocity for rope swing
+        (node as any)._velocityY = dy;
+        (node as any)._velocityX = dx;
 
         // Base intensity from height (higher up = more intense)
         // normalized range roughly -200 (top) to 200 (bottom)
