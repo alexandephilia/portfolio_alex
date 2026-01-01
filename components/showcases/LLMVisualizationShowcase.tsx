@@ -53,21 +53,22 @@ const COLORS = [
 
 // Custom ease: seamless slow start, spring-like pull acceleration
 const easeSnapMove = (x: number): number => {
-    if (x < 0.5) {
-        // Slow seamless warmup - smooth sine-based ease
-        const t = x / 0.5;
+    if (x < 0.6) {
+        // WALKING phase (0-60%) - extremely slow crawl
+        // Covers only 15% of the distance in 60% of the time
+        const t = x / 0.6;
         const sine = Math.sin(t * Math.PI * 0.5);
-        return sine * sine * 0.3; // Covers 30% of distance smoothly
+        return sine * sine * 0.15; 
     } else {
-        // Spring-like pull - elastic acceleration feeling
-        const t = (x - 0.5) / 0.5;
-
-        // Spring physics: starts slow, accelerates with elastic tension
-        // Like being pulled by a stretched spring
+        // ACCELERATE phase (60-100%) - rapid snap to finish
+        // Covers remaining 85% of distance in 40% of the time
+        const t = (x - 0.6) / 0.4;
+        
+        // Cubic ease out for sharp acceleration feel
         const springTension = 1 - Math.pow(1 - t, 3);
-        const elasticWobble = Math.sin(t * Math.PI * 1.5) * 0.03 * (1 - t);
+        const elasticWobble = Math.sin(t * Math.PI * 1.5) * 0.02 * (1 - t);
 
-        const base = 0.3 + springTension * 0.7 + elasticWobble;
+        const base = 0.15 + springTension * 0.85 + elasticWobble;
         return Math.min(1, base);
     }
 };
@@ -317,7 +318,8 @@ const HangingVisualization: React.FC = () => {
                         }
 
                         node.startX = node.currentX;
-                        node.duration = 1000 + Math.random() * 600;
+                        // "WALKING -> ACCELERATE" - Slower overall to see the stages
+                        node.duration = 1600 + Math.random() * 800; 
                     }
                 }
                 else if (node.state === 'MOVING') {
@@ -343,7 +345,8 @@ const HangingVisualization: React.FC = () => {
                         node.currentX = node.targetX;
                         node.state = 'WAITING';
                         node.startTime = time;
-                        node.waitDuration = 300 + Math.random() * 600;
+                        // "BREATHING" - Longer waits to see the idle sway
+                        node.waitDuration = 800 + Math.random() * 1200; 
                     }
                 }
 
@@ -420,8 +423,17 @@ const HangingVisualization: React.FC = () => {
                 points[0].y = anchorY;
 
                 const lastIndex = points.length - 1;
-                points[lastIndex].x = node.currentX;
-                points[lastIndex].y = node.baseY;
+                // --- BREATHING & JITTER ---
+                // Global breathing phase (vertical)
+                const breathingOffset = Math.sin(time * 0.0015 + node.id) * 3;
+                // Idle micro-jitter
+                const jitterX = node.state === 'WAITING' ? (Math.random() - 0.5) * 0.4 : 0;
+                
+                const finalX = node.currentX + jitterX;
+                const finalY = node.baseY + breathingOffset;
+
+                points[lastIndex].x = finalX;
+                points[lastIndex].y = finalY;
 
                 // --- STICKS (with variable elasticity) ---
                 const iterations = isReleasing ? Math.max(2, Math.floor(NUM_ITERATIONS * releaseProgress)) : NUM_ITERATIONS;
@@ -472,12 +484,11 @@ const HangingVisualization: React.FC = () => {
                 // Node
                 ctx.shadowBlur = 15;
                 ctx.shadowColor = node.color;
-
                 ctx.fillStyle = node.color;
                 ctx.globalAlpha = 1.0;
 
                 ctx.beginPath();
-                ctx.arc(node.currentX, node.baseY, 4, 0, Math.PI * 2);
+                ctx.arc(finalX, finalY, 4, 0, Math.PI * 2);
                 ctx.fill();
                 ctx.shadowBlur = 0;
             });
