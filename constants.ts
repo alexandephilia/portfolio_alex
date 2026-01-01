@@ -204,10 +204,13 @@ export const SKILL_CATEGORIES: SkillCategory[] = [
     {
         title: "Backend",
         skills: [
-            "RESTful API Development",
+            "REST API",
             "WebSocket",
             "MongoDB",
-            "Mongoose",
+            "Supabase",
+            "Redis",
+            "In-memory Fallback",
+            "Railway",
             "Multi-chain Integration"
         ]
     },
@@ -218,7 +221,6 @@ export const SKILL_CATEGORIES: SkillCategory[] = [
             "CI/CD",
             "Git/GitHub",
             "Vercel",
-            "Railway",
             "Netlify",
             "Zero-downtime Deployment",
             "Caching Strategies",
