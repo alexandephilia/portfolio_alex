@@ -20,9 +20,9 @@ const EXPERIMENT_ITEMS: ExperimentItem[] = [
         stack: ['Canvas API', 'Verlet Physics', 'React', 'TypeScript']
     },
     {
-        id: 'nebula-network',
-        name: 'Nebula Network',
-        description: '3D multi-node network simulation with dynamic depth perspective and link-tension physics.',
+        id: 'llm-image-generation',
+        name: 'LLM Image generation',
+        description: '3D multi-node simulation visualizing latent space diffusion and text-to-image synthesis.',
         component: <NebulaNodesShowcase />,
         stack: ['3D Web Graphics', 'Physics Engine', 'React', 'TypeScript']
     }
