@@ -626,11 +626,15 @@ const SpecBadge: React.FC<{ children: React.ReactNode }> = ({ children }) => (
     <motion.span
         variants={staggerItemVariants}
         className="
-        px-2.5 py-1
-        rounded-[6px]
-        bg-white/60 border border-gray-200/50
-        text-[8px] md:text-[9px] font-bold text-gray-500 uppercase tracking-wide
-        shadow-sm backdrop-blur-sm
+        px-2 py-0.5
+        rounded-[5px]
+        /* Premium Gradient & Board */
+        bg-linear-to-b from-white via-gray-100 to-gray-200
+        border border-gray-300/60
+        /* Typography - Micro Scale */
+        text-[7.5px] md:text-[8.5px] font-bold text-gray-500 uppercase tracking-widest
+        /* Softened 3D Depth */
+        shadow-[0_1px_0_#d1d5db,0_1px_2px_rgba(0,0,0,0.08),inset_0_1px_0_rgba(255,255,255,0.9)]
     ">
         {children}
     </motion.span>
