@@ -212,22 +212,15 @@ const updateSimulation = (state: SimulationState & { _driftAmp?: number }, time:
         const individualOffset = Math.sin(t * 0.3 + node.driftOffsets.x) * 6;
         const offsetX = globalSwayX + individualOffset;
 
-        // Y movement: asymmetric with gravity feel
-        // At peaks: slow, then build up speed (accelerate)
-        // Going down: heavier/faster (gravity inertia)
+        // Y movement: Symmetric "Building Pressure" at both peaks
         const phase = t * node.motionModifiers.speed + node.driftOffsets.y;
         const rawSine = Math.sin(phase); // -1 (top) to 1 (bottom)
 
-        let easedY: number;
-        if (rawSine >= 0) {
-            // Going DOWN - heavier gravity, faster acceleration (inertia)
-            const mag = rawSine;
-            easedY = mag * mag * mag * mag; // Quartic = builds up speed faster
-        } else {
-            // Going UP - fighting gravity, slower build up
-            const mag = Math.abs(rawSine);
-            easedY = -(mag * mag); // Quadratic = slower acceleration upward
-        }
+        // Use a symmetric power curve that is extremely flat at both extremes (|rawSine|=1)
+        // This ensures a "Slow build up" and "Linger" at both top and bottom
+        const sign = rawSine >= 0 ? 1 : -1;
+        const mag = Math.abs(rawSine);
+        const easedY = sign * (1 - Math.pow(1 - mag, 4));
 
         const offsetY = easedY * (driftAmp * node.motionModifiers.amp);
         const offsetZ = Math.cos(t * 0.5 + node.driftOffsets.z) * (driftAmp * 0.4);
