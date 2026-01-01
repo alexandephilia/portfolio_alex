@@ -1,6 +1,7 @@
 import { motion } from 'framer-motion';
 import React, { useState } from 'react';
 import { LLMVisualizationShowcase } from './showcases/LLMVisualizationShowcase';
+import { NebulaNodesShowcase } from './showcases/NebulaNodesShowcase';
 
 interface ExperimentItem {
     id: string;
@@ -17,6 +18,13 @@ const EXPERIMENT_ITEMS: ExperimentItem[] = [
         description: 'Physics-based visualization of token processing with verlet integration and rope dynamics.',
         component: <LLMVisualizationShowcase />,
         stack: ['Canvas API', 'Verlet Physics', 'React', 'TypeScript']
+    },
+    {
+        id: 'nebula-network',
+        name: 'Nebula Network',
+        description: '3D multi-node network simulation with dynamic depth perspective and link-tension physics.',
+        component: <NebulaNodesShowcase />,
+        stack: ['3D Web Graphics', 'Physics Engine', 'React', 'TypeScript']
     }
 ];
 
@@ -85,7 +93,7 @@ export const ExperimentShowcase: React.FC = () => {
                                 <div className="absolute bottom-0 right-0 w-4 h-4 opacity-10" style={{ backgroundImage: 'repeating-linear-gradient(45deg, #000, #000 1px, transparent 1px, transparent 5px)' }} />
 
                                 {/* Stack Insight Label */}
-                                <div className="text-[9px] font-mono font-bold text-[rgb(74,108,196)] uppercase tracking-[0.2em] opacity-60 border-r border-gray-200 pr-6 h-4 flex items-center flex-shrink-0 relative z-10">
+                                <div className="text-[9px] font-mono font-bold text-[rgb(74,108,196)] uppercase tracking-[0.2em] opacity-60 border-r border-gray-200 pr-6 h-4 flex items-center shrink-0 relative z-10">
                                     Stack Insight
                                 </div>
 
@@ -100,7 +108,7 @@ export const ExperimentShowcase: React.FC = () => {
                                 </div>
 
                                 {/* Experiment Tag */}
-                                <div className="flex items-center gap-1.5 text-[8px] font-mono text-emerald-500 font-bold uppercase relative z-10 border-l border-gray-200 pl-6 h-4 flex-shrink-0">
+                                <div className="flex items-center gap-1.5 text-[8px] font-mono text-emerald-500 font-bold uppercase relative z-10 border-l border-gray-200 pl-6 h-4 shrink-0">
                                     Experiment
                                 </div>
                             </div>
@@ -182,7 +190,7 @@ export const ExperimentShowcase: React.FC = () => {
                                         {/* Category badge */}
                                         <div className="shrink-0 flex items-center gap-1.5 p-px rounded-full overflow-hidden"
                                             style={{ backgroundImage: 'repeating-linear-gradient(45deg, #E5E7EB, #E5E7EB 1px, transparent 1px, transparent 3px)' }}>
-                                            <div className="flex items-center gap-1.5 px-2 py-0.5 rounded-full bg-gradient-to-b from-white to-gray-50/50 shadow-[inset_0_1px_2px_rgba(0,0,0,0.08),inset_0_-1px_1px_rgba(255,255,255,0.8)] border border-transparent">
+                                            <div className="flex items-center gap-1.5 px-2 py-0.5 rounded-full bg-linear-to-b from-white to-gray-50/50 shadow-[inset_0_1px_2px_rgba(0,0,0,0.08),inset_0_-1px_1px_rgba(255,255,255,0.8)] border border-transparent">
                                                 <div className="w-1 h-1 rounded-full bg-emerald-500 opacity-70" />
                                                 <span className="text-[8px] font-mono font-bold text-gray-500 uppercase tracking-widest whitespace-nowrap">
                                                     Experiment

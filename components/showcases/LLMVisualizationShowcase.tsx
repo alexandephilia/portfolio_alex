@@ -479,14 +479,7 @@ const HangingVisualization: React.FC = () => {
                 ctx.beginPath();
                 ctx.arc(node.currentX, node.baseY, 4, 0, Math.PI * 2);
                 ctx.fill();
-
-                // Specular Highlight
                 ctx.shadowBlur = 0;
-                ctx.fillStyle = '#FFFFFF';
-                ctx.globalAlpha = 0.9;
-                ctx.beginPath();
-                ctx.arc(node.currentX - 1.5, node.baseY - 1.5, 1.5, 0, Math.PI * 2);
-                ctx.fill();
             });
 
             animationFrameId = requestAnimationFrame(render);
@@ -519,7 +512,7 @@ const HangingVisualization: React.FC = () => {
                 {/* Left: LLM Indicator */}
                 <div className="flex items-center gap-2 flex-shrink-0">
                     <div className="w-1.5 h-1.5 rounded-full bg-emerald-500 shadow-[0_0_6px_#10b981] animate-pulse"></div>
-                    <span className="text-[10px] bg-linear-to-b from-white to-zinc-500 bg-clip-text text-transparent font-mono tracking-widest font-bold uppercase">LLM-01</span>
+                    <span className="text-[10px] bg-linear-to-b from-white to-zinc-500 bg-clip-text text-transparent font-mono tracking-widest font-bold uppercase">Text to Text</span>
                 </div>
 
                 {/* Right: Processing & Token Stream */}
@@ -567,9 +560,9 @@ export const LLMVisualizationShowcase: React.FC = () => {
         <div className="w-full h-full flex items-center justify-center p-4 md:p-8 relative overflow-hidden">
             {/* Background with blur */}
             <div
-                className="absolute inset-0 bg-cover bg-center bg-no-repeat blur-[3px] scale-105 brightness-150"
+                className="absolute inset-0 bg-cover bg-center bg-no-repeat blur-[2px] scale-105 brightness-100"
                 style={{
-                    backgroundImage: "url('https://r2.flowith.net/gemini-proxy-go/1767217288229/99574396-f2c7-4f9a-b687-b555148fb5aa.jpg')"
+                    backgroundImage: "url('https://r2.flowith.net/gemini-proxy-go/1767216998347/7809a892-bd23-42cd-a57d-ff4d78003fdd.jpg')"
                 }}
             />
             {/* The "Hardware" Chassis */}
