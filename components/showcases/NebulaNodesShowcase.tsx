@@ -220,7 +220,8 @@ const updateSimulation = (state: SimulationState & { _driftAmp?: number }, time:
         // This ensures a "Slow build up" and "Linger" at both top and bottom
         const sign = rawSine >= 0 ? 1 : -1;
         const mag = Math.abs(rawSine);
-        const easedY = sign * (1 - Math.pow(1 - mag, 4));
+        // Moderate power curve (x^2.8) for snappier buildup/takeoff
+        const easedY = sign * (1 - Math.pow(1 - mag, 2.8));
 
         const offsetY = easedY * (driftAmp * node.motionModifiers.amp);
         const offsetZ = Math.cos(t * 0.5 + node.driftOffsets.z) * (driftAmp * 0.4);

@@ -55,14 +55,14 @@ const COLORS = [
 // Custom ease: seamless slow start, spring-like pull acceleration
 // Custom ease: WALK -> ACCELERATE
 const easeSnapMove = (x: number): number => {
-    // Continuous power curve (x^4) for buttery smooth transition
-    // Starts extremely slow (Walk) and snaps into acceleration at the end
-    const ease = Math.pow(x, 4);
+    // Higher-order power curve (x^4.2) for snappier "pressure build-up"
+    // Nodes linger at the start/peaks then decisively accelerate
+    const ease = Math.pow(x, 4.2);
     
-    // Add subtle micro-spring wobble at the very end (90-100%)
+    // Tiny micro-spring at the very end
     if (x > 0.9) {
         const t = (x - 0.9) / 0.1;
-        const wobble = Math.sin(t * Math.PI * 2) * 0.01 * (1 - t);
+        const wobble = Math.sin(t * Math.PI * 2) * 0.006 * (1 - t);
         return Math.min(1, ease + wobble);
     }
     
