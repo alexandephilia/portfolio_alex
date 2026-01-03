@@ -564,7 +564,7 @@ const MacMiniSection: React.FC = () => {
                             draggable={false}
                             onContextMenu={(e) => e.preventDefault()}
                             className="w-full h-full object-contain relative z-10 drop-shadow-[0_10px_20px_rgba(0,0,0,0.15)] select-none"
-                            style={{ WebkitTouchCallout: 'none', WebkitUserSelect: 'none' }}
+                            style={{ WebkitTouchCallout: 'none', WebkitUserSelect: 'none', transform: 'scale(1.12)' }}
                         />
                     </div>
                 </motion.div>
