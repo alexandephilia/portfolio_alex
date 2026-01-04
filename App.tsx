@@ -283,7 +283,7 @@ export default function App() {
             <DraggableSticker 
                 id="global-sticker-1"
                 src="/sticker_1.png"
-                className="top-62 right-2 md:top-98 md:right-58"
+                className="top-75 -right-4 md:top-98 md:right-58"
                 peelFrom="top"
             />
         </div>
