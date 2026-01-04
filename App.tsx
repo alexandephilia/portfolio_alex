@@ -5,6 +5,7 @@ import { BeyondWork } from './components/BeyondWork';
 import { BottomBlur } from './components/BottomBlur';
 import { ComponentShowcase } from './components/ComponentShowcase';
 import { Contact } from './components/Contact';
+import { DraggableSticker } from './components/DraggableSticker';
 import { Education } from './components/Education';
 import { Experience } from './components/Experience';
 import { ExperimentShowcase } from './components/ExperimentShowcase';
@@ -140,7 +141,7 @@ export default function App() {
 
     return (
         <div
-            className="min-h-screen bg-[#FAFAFA] text-gray-900 font-sans"
+            className="min-h-screen bg-[#FAFAFA] text-gray-900 font-sans relative"
             style={{
                 userSelect: 'none',
                 WebkitUserSelect: 'none',
@@ -278,6 +279,13 @@ export default function App() {
             {/* Progressive Viewport Blur */}
             <TopBlur />
             <BottomBlur />
+
+            <DraggableSticker 
+                id="global-sticker-1"
+                src="/sticker_1.png"
+                className="top-62 right-2 md:top-98 md:right-58"
+                peelFrom="top"
+            />
         </div>
     );
 }

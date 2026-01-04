@@ -23,6 +23,20 @@ export const DraggableSticker: React.FC<DraggableStickerProps> = ({
     const pointLightFlippedRef = useRef<SVGFEPointLightElement>(null);
     const [isHovered, setIsHovered] = useState(false);
     const [isActive, setIsActive] = useState(false);
+    const [isMobile, setIsMobile] = useState(false);
+    const [isPlacing, setIsPlacing] = useState(true);
+
+    useEffect(() => {
+        const timer = setTimeout(() => setIsPlacing(false), 800);
+        return () => clearTimeout(timer);
+    }, []);
+
+    useEffect(() => {
+        const checkMobile = () => setIsMobile(window.innerWidth < 768);
+        checkMobile();
+        window.addEventListener('resize', checkMobile);
+        return () => window.removeEventListener('resize', checkMobile);
+    }, []);
     
     useEffect(() => {
         const handleMouseMove = (e: MouseEvent) => {
@@ -55,9 +69,10 @@ export const DraggableSticker: React.FC<DraggableStickerProps> = ({
     const end = 'calc(100% + ' + p + ')';
     const h = 'var(--sticker-peelback-hover)';
     const a = 'var(--sticker-peelback-active)';
+    const i = 'var(--sticker-peelback-initial)';
 
-    const getClipPaths = (state: 'default' | 'hover' | 'active') => {
-        const dist = state === 'active' ? a : state === 'hover' ? h : start;
+    const getClipPaths = (state: 'default' | 'hover' | 'active' | 'initial') => {
+        const dist = state === 'initial' ? i : state === 'active' ? a : state === 'hover' ? h : start;
         
         if (peelFrom === 'top') {
             return `polygon(${start} ${dist}, ${end} ${dist}, ${end} ${end}, ${start} ${end})`;
@@ -76,8 +91,8 @@ export const DraggableSticker: React.FC<DraggableStickerProps> = ({
         return `polygon(${start} ${start}, ${end} ${start}, ${end} ${end}, ${start} ${end})`;
     };
 
-    const getFlapClipPaths = (state: 'default' | 'hover' | 'active') => {
-        const dist = state === 'active' ? a : state === 'hover' ? h : start;
+    const getFlapClipPaths = (state: 'default' | 'hover' | 'active' | 'initial') => {
+        const dist = state === 'initial' ? i : state === 'active' ? a : state === 'hover' ? h : start;
 
         if (peelFrom === 'top') {
             return `polygon(${start} ${start}, ${end} ${start}, ${end} ${dist}, ${start} ${dist})`;
@@ -96,8 +111,8 @@ export const DraggableSticker: React.FC<DraggableStickerProps> = ({
         return `polygon(${start} ${start}, ${end} ${start}, ${end} ${start}, ${start} ${start})`;
     };
 
-    const getFlapPosition = (state: 'default' | 'hover' | 'active') => {
-        const dist = state === 'active' ? a : state === 'hover' ? h : start;
+    const getFlapPosition = (state: 'default' | 'hover' | 'active' | 'initial') => {
+        const dist = state === 'initial' ? i : state === 'active' ? a : state === 'hover' ? h : start;
 
         if (peelFrom === 'top') {
             const pos = `calc(-100% + 2 * ${dist} - 1px)`;
@@ -180,32 +195,41 @@ export const DraggableSticker: React.FC<DraggableStickerProps> = ({
                 onMouseUp={() => setIsActive(false)}
                 onTouchStart={() => setIsActive(true)}
                 onTouchEnd={() => setIsActive(false)}
-                className={`draggable fixed z-100 cursor-grab active:cursor-grabbing touch-none ${className}`}
+                className={`draggable absolute z-100 cursor-grab active:cursor-grabbing touch-none p-4 ${className}`}
                 style={{
                     ['--sticker-p' as any]: '10px',
                     ['--sticker-rotate' as any]: `${rotate}deg`,
-                    ['--sticker-peelback-hover' as any]: '30%',
+                    ['--sticker-peelback-initial' as any]: '80%',
+                    ['--sticker-peelback-hover' as any]: isMobile ? '0%' : '30%',
                     ['--sticker-peelback-active' as any]: '60%',
                     ['--sticker-peel-hover-easing' as any]: `${duration / 2}s cubic-bezier(0.22, 1, 0.36, 1)`,
                     ['--sticker-peel-easing' as any]: `${duration}s cubic-bezier(0.22, 1, 0.36, 1)`,
                     ['--sticker-start' as any]: 'calc(-1 * var(--sticker-p))',
                     ['--sticker-end' as any]: 'calc(100% + var(--sticker-p))',
+                    rotate: `${rotate}deg`,
+                }}
+                initial={{ opacity: 0, scale: 1.5, y: -20 }}
+                animate={{ opacity: 1, scale: 1, y: 0 }}
+                transition={{ 
+                    duration: 0.8, 
+                    ease: [0.22, 1, 0.36, 1],
+                    delay: 0.5 // Start after initial page blur animations
                 }}
             >
-                <div className={`sticker-container ${isHovered ? 'hover' : ''} ${isActive ? 'active' : ''} relative select-none touch-none`}>
+                <div className={`sticker-container ${isHovered ? 'hover' : ''} ${isActive ? 'active' : ''} relative select-none touch-none w-[120px] md:w-[150px]`}>
                    
                     <div className="absolute top-4 left-2 w-full h-full blur-md brightness-0 opacity-10 pointer-events-none">
                          <img 
                             src={src}
                             alt="" 
-                            className="w-[120px] md:w-[150px] rotate-(--sticker-rotate)"
+                            className="w-full rotate-(--sticker-rotate)"
                         />
                     </div>
 
                     <div 
                         className="sticker-main relative"
                         style={{
-                            clipPath: getClipPaths(isActive ? 'active' : isHovered ? 'hover' : 'default'),
+                            clipPath: getClipPaths(isActive ? 'active' : isHovered ? 'hover' : isPlacing ? 'initial' : 'default'),
                             transition: `clip-path ${isHovered ? 'var(--sticker-peel-hover-easing)' : 'var(--sticker-peel-easing)'}`,
                             filter: `url(#dropShadow-${id})`
                         }}
@@ -215,7 +239,7 @@ export const DraggableSticker: React.FC<DraggableStickerProps> = ({
                                 src={src}
                                 alt="sticker" 
                                 draggable={false}
-                                className="sticker-image w-[120px] md:w-[150px] rotate-(--sticker-rotate)"
+                                className="sticker-image w-full"
                             />
                         </div>
                     </div>
@@ -223,8 +247,8 @@ export const DraggableSticker: React.FC<DraggableStickerProps> = ({
                     <div 
                         className="flap absolute w-full h-full pointer-events-none"
                         style={{
-                            ...getFlapPosition(isActive ? 'active' : isHovered ? 'hover' : 'default'),
-                            clipPath: getFlapClipPaths(isActive ? 'active' : isHovered ? 'hover' : 'default'),
+                            ...getFlapPosition(isActive ? 'active' : isHovered ? 'hover' : isPlacing ? 'initial' : 'default'),
+                            clipPath: getFlapClipPaths(isActive ? 'active' : isHovered ? 'hover' : isPlacing ? 'initial' : 'default'),
                             transform: flapTransform,
                             transition: `all ${isHovered ? 'var(--sticker-peel-hover-easing)' : 'var(--sticker-peel-easing)'}`
                         }}
@@ -234,7 +258,7 @@ export const DraggableSticker: React.FC<DraggableStickerProps> = ({
                                 src={src}
                                 alt="" 
                                 draggable={false}
-                                className="flap-image w-[120px] md:w-[150px] rotate-(--sticker-rotate) opacity-80"
+                                className="flap-image w-full opacity-80"
                                 style={{ filter: `url(#expandAndFill-${id})` }}
                             />
                         </div>

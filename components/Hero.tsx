@@ -294,7 +294,7 @@ export const Hero: React.FC = () => {
                 {['AI AUGMENTED DEV', 'FULL STACK FRAMEWORK', '8+ EXPERIENCE'].map((tag, i) => (
                     <span
                         key={i}
-                        className="px-2.5 py-1 md:px-2.5 md:py-1 rounded-full bg-gradient-to-b from-[#f8f9fc] via-[#f0f2f7] to-[#e8ebf2] border border-gray-300/70 shadow-[0_4px_8px_rgba(0,0,0,0.1),0_2px_4px_rgba(0,0,0,0.06),inset_0_1px_0_rgba(255,255,255,0.9)] text-[8px] md:text-[9.5px] font-bold tracking-wider text-gray-600 uppercase"
+                        className="px-2 py-0.5 md:px-2.5 md:py-1 rounded-full bg-gradient-to-b from-[#f8f9fc] via-[#f0f2f7] to-[#e8ebf2] border border-gray-300/70 shadow-[0_4px_8px_rgba(0,0,0,0.1),0_2px_4px_rgba(0,0,0,0.06),inset_0_1px_0_rgba(255,255,255,0.9)] text-[7px] md:text-[9.5px] font-bold tracking-wider text-gray-600 uppercase"
                     >
                         {tag}
                     </span>
