@@ -270,7 +270,6 @@ export const CONTACT_INFO: ContactItem[] = [
     { label: "Email", value: "4lexander31@gmail.com", href: "mailto:4lexander31@gmail.com" },
     { label: "LinkedIn", value: "/in/Alexandephilia", href: "https://www.linkedin.com/in/alexandephilia/" },
     { label: "GitHub", value: "Alexandephilia", href: "https://github.com/alexandephilia" },
-    { label: "X/Twitter", value: "@0xnihilism", href: "https://x.com/0xnihilism" },
 ];
 
 export const BEYOND_WORK_IMAGES = [
