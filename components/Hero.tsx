@@ -294,7 +294,7 @@ export const Hero: React.FC = () => {
                 {['AI AUGMENTED DEV', 'FULL STACK FRAMEWORK', '8+ EXPERIENCE'].map((tag, i) => (
                     <span
                         key={i}
-                        className="px-2 py-0.5 md:px-2.5 md:py-1 rounded-full bg-gradient-to-b from-[#f8f9fc] via-[#f0f2f7] to-[#e8ebf2] border border-gray-300/70 shadow-[0_4px_8px_rgba(0,0,0,0.1),0_2px_4px_rgba(0,0,0,0.06),inset_0_1px_0_rgba(255,255,255,0.9)] text-[7px] md:text-[9.5px] font-bold tracking-wider text-gray-600 uppercase"
+                        className="px-2 py-0.5 md:px-2.5 md:py-1 rounded-full bg-linear-to-b from-[#f8f9fc] via-[#f0f2f7] to-[#e8ebf2] border border-gray-300/70 shadow-[0_4px_8px_rgba(0,0,0,0.1),0_2px_4px_rgba(0,0,0,0.06),inset_0_1px_0_rgba(255,255,255,0.9)] text-[7px] md:text-[9.5px] font-bold tracking-wider text-gray-600 uppercase"
                     >
                         {tag}
                     </span>
@@ -305,7 +305,7 @@ export const Hero: React.FC = () => {
                 initial={{ opacity: 0, filter: 'blur(14px)', y: 20 }}
                 animate={{ opacity: 1, filter: 'blur(0px)', y: 0 }}
                 transition={{ duration: 1.0, delay: 0.1, ease: "easeOut" }}
-                className="text-[1.1rem] md:text-[1.875rem] lg:text-[2.25rem] font-bold text-gray-900 leading-[1]"
+                className="text-[1.1rem] md:text-[1.875rem] lg:text-[2.25rem] font-bold text-gray-900 leading-none"
                 style={{ maxWidth: isDesktop ? '35rem' : '277px' }}
             >
                 I keep iterate and build across <span className="text-[rgb(74,108,196)]">Frontend</span> & <span className="text-[rgb(74,108,196)]">Backend Engineering</span>, embracing{' '}
@@ -324,7 +324,7 @@ export const Hero: React.FC = () => {
                 animate={{ opacity: 1, filter: 'blur(0px)', y: 0 }}
                 transition={{ duration: 1.0, delay: 0.2, ease: "easeOut" }}
                 style={antiFlickerStyle}
-                className="mt-5 max-w-[320px] md:max-w-[34rem]"
+                className="mt-5 max-w-[320px] md:max-w-136"
             >
                 <div className="flex flex-col gap-2">
                     <span className="text-[9px] uppercase tracking-[0.2em] text-[rgb(74,108,196)] font-bold opacity-60">
