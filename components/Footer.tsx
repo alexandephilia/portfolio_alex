@@ -372,7 +372,7 @@ export const Footer: React.FC = () => {
             <DraggableSticker 
                 id="sticker-1"
                 src="/sticker_1.png"
-                className="bottom-16 right-2 md:bottom-24 md:right-8"
+                className="bottom-16 right-6 md:bottom-24 md:right-8"
                 peelFrom="top"
             />
           
