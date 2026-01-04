@@ -70,6 +70,9 @@ export const DraggableSticker: React.FC<DraggableStickerProps> = ({
             const side = `calc(100% - ${dist === start ? start : dist})`;
             return `polygon(${start} ${start}, ${side} ${start}, ${side} ${end}, ${start} ${end})`;
         }
+        if (peelFrom === 'left') {
+            return `polygon(${dist} ${start}, ${end} ${start}, ${end} ${end}, ${dist} ${end})`;
+        }
         return `polygon(${start} ${start}, ${end} ${start}, ${end} ${end}, ${start} ${end})`;
     };
 
@@ -87,6 +90,9 @@ export const DraggableSticker: React.FC<DraggableStickerProps> = ({
             const side = `calc(100% - ${dist === start ? start : dist})`;
             return `polygon(${side} ${start}, ${end} ${start}, ${end} ${end}, ${side} ${end})`;
         }
+        if (peelFrom === 'left') {
+            return `polygon(${start} ${start}, ${dist} ${start}, ${dist} ${end}, ${start} ${end})`;
+        }
         return `polygon(${start} ${start}, ${end} ${start}, ${end} ${start}, ${start} ${start})`;
     };
 
@@ -95,15 +101,31 @@ export const DraggableSticker: React.FC<DraggableStickerProps> = ({
 
         if (peelFrom === 'top') {
             const pos = `calc(-100% + 2 * ${dist} - 1px)`;
-            return { top: state === 'default' ? `calc(-100% - 2 * ${p})` : pos };
+            return { 
+                top: state === 'default' ? `calc(-100% - 2 * ${p})` : pos,
+                left: 0
+            };
         }
         if (peelFrom === 'bottom') {
-            const pos = `calc(-100% + 2 * (100% - ${dist}) - 1px)`;
-            return { bottom: state === 'default' ? `calc(100% + 2 * ${p})` : pos };
+            const pos = `calc(100% - 2 * ${dist} + 1px)`;
+            return { 
+                top: state === 'default' ? `calc(100% + 2 * ${p})` : pos,
+                left: 0
+            };
         }
         if (peelFrom === 'right') {
-            const pos = `calc(-100% + 2 * (100% - ${dist}) - 1px)`;
-            return { left: state === 'default' ? `calc(100% + 2 * ${p})` : pos };
+            const pos = `calc(100% - 2 * ${dist} + 1px)`;
+            return { 
+                left: state === 'default' ? `calc(100% + 2 * ${p})` : pos,
+                top: 0
+            };
+        }
+        if (peelFrom === 'left') {
+            const pos = `calc(-100% + 2 * ${dist} - 1px)`;
+            return { 
+                left: state === 'default' ? `calc(-100% - 2 * ${p})` : pos,
+                top: 0
+            };
         }
         return {};
     };
@@ -114,11 +136,11 @@ export const DraggableSticker: React.FC<DraggableStickerProps> = ({
         <>
             <svg style={{ position: 'absolute', width: 0, height: 0 }} aria-hidden="true">
                 <defs>
-                    <filter id={`dropShadow-${id}`} x="-20%" y="-20%" width="100%" height="100%">
+                    <filter id={`dropShadow-${id}`} x="-20%" y="-20%" width="140%" height="140%">
                         <feGaussianBlur in="SourceAlpha" stdDeviation="1" />
                         <feOffset dx="2" dy="4" result="offsetblur" />
                         <feComponentTransfer>
-                            <feFuncA type="linear" slope="0.3" />
+                            <feFuncA type="linear" slope="0.2" />
                         </feComponentTransfer>
                         <feMerge>
                             <feMergeNode />
