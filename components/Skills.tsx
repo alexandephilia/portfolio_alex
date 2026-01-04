@@ -500,7 +500,7 @@ const MacMiniSection: React.FC = () => {
                 </motion.h3>
 
                 <svg
-                    className="absolute w-full h-8 md:h-6 bottom-0 md:bottom-2 left-0 text-[rgb(74,108,196)] z-0 pointer-events-none transform -rotate-3"
+                    className="absolute w-full h-8 md:h-6 bottom-0 md:bottom-1 left-0 text-[rgb(74,108,196)] z-0 pointer-events-none transform -rotate-3"
                     viewBox="0 0 182 15"
                     fill="none"
                     xmlns="http://www.w3.org/2000/svg"
@@ -553,7 +553,7 @@ const MacMiniSection: React.FC = () => {
 
                 <motion.div
                     variants={popRevealVariants}
-                    className="w-full md:w-7/12 p-8 pb-0 md:pb-8 flex items-center justify-center relative z-10"
+                    className="w-full md:w-5/12 p-8 pb-0 md:pb-8 flex items-center justify-center relative z-10"
                 >
                     <div className="relative w-[240px] md:w-[320px] aspect-square flex items-center justify-center">
                         <div className="absolute inset-x-2 bottom-6 h-6 bg-black/20 blur-xl rounded-[100%] transform scale-x-75 group-hover:scale-x-90 group-hover:bg-black/25 transition-transform duration-500" />
@@ -571,7 +571,7 @@ const MacMiniSection: React.FC = () => {
 
                 <motion.div
                     variants={dailyDriverContentVariants}
-                    className="w-full md:w-7/12 p-6 pt-2 md:pt-8 md:pl-0 text-center md:text-left flex flex-col justify-center gap-4 relative z-10"
+                    className="w-full md:w-7/12 p-6 pt-2 md:pt-8 md:pl-4 text-center md:text-left flex flex-col justify-center gap-4 relative z-10"
                 >
                     <motion.div variants={dailyDriverContentVariants}>
                         <motion.div
@@ -608,7 +608,7 @@ const MacMiniSection: React.FC = () => {
 
                     <motion.div
                         variants={dailyDriverPillsVariants}
-                        className="flex flex-wrap gap-2 justify-center md:justify-start mt-2"
+                        className="flex flex-wrap gap-2 justify-center md:justify-start mt-4 md:mt-4"
                     >
                         <SpecBadge>Apple Silicon</SpecBadge>
                         <SpecBadge>16GB Unified</SpecBadge>
