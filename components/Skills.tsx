@@ -571,12 +571,12 @@ const MacMiniSection: React.FC = () => {
 
                 <motion.div
                     variants={dailyDriverContentVariants}
-                    className="w-full md:w-7/12 p-6 pt-2 md:pt-8 md:pl-4 text-center md:text-left flex flex-col justify-center gap-4 relative z-10"
+                    className="w-full md:w-7/12 p-6 pt-2 md:pt-4 md:pl-4 text-center md:text-left flex flex-col justify-center gap-4 relative z-10"
                 >
                     <motion.div variants={dailyDriverContentVariants}>
                         <motion.div
                             variants={dailyDriverContentVariants}
-                            className="flex items-center justify-center md:justify-start gap-3 mb-2"
+                            className="flex items-center justify-center md:justify-start gap-3 mb-1"
                         >
                             <motion.h4
                                 variants={staggerItemVariants}
@@ -608,7 +608,7 @@ const MacMiniSection: React.FC = () => {
 
                     <motion.div
                         variants={dailyDriverPillsVariants}
-                        className="flex flex-wrap gap-2 justify-center md:justify-start mt-4 md:mt-4"
+                        className="flex flex-wrap gap-2 justify-center md:justify-start mt-2 md:mt-2"
                     >
                         <SpecBadge>Apple Silicon</SpecBadge>
                         <SpecBadge>16GB Unified</SpecBadge>

@@ -2,6 +2,7 @@ import { AnimatePresence, motion } from 'framer-motion';
 import { ArrowUp, Sparkles } from 'lucide-react';
 import React, { useEffect, useRef, useState } from 'react';
 import { CONTACT_INFO } from '../constants';
+import { DraggableSticker } from './DraggableSticker';
 import { antiFlickerStyle, blurOnlyVariants, viewportSettings } from './animations';
 
 // Hook to detect mobile viewport
@@ -54,7 +55,7 @@ export const Footer: React.FC = () => {
                 whileTap={{ y: 0, scale: 0.95 }}
                 className="
             absolute top-4 right-4 md:top-8 md:right-8 p-3 rounded-full
-            bg-gradient-to-b from-white to-gray-100
+            bg-linear-to-b from-white to-gray-100
             border border-gray-200
             text-gray-400 hover:text-blue-600 hover:border-blue-200
             shadow-[inset_0_1px_0_rgba(255,255,255,1),0_4px_8px_rgba(0,0,0,0.05)]
@@ -227,7 +228,7 @@ export const Footer: React.FC = () => {
                     cursor-pointer select-none
 
                     /* Gradient Surface */
-                    bg-gradient-to-b from-white to-gray-50
+                    bg-linear-to-b from-white to-gray-50
 
                     /* Borders */
                     border border-gray-300 border-b-0
@@ -247,7 +248,7 @@ export const Footer: React.FC = () => {
 
                     /* Active/Pressed State - Shadow/BG only */
                     active:shadow-[inset_0_2px_4px_rgba(0,0,0,0.05),0_2px_0_#9ca3af,0_4px_4px_rgba(0,0,0,0.05)]
-                    active:bg-gradient-to-b active:from-gray-100 active:to-gray-200
+                    active:bg-linear-to-b active:from-gray-100 active:to-gray-200
                 "
                     >
                         Let's talk!
@@ -368,6 +369,13 @@ export const Footer: React.FC = () => {
                 </h1>
             </div>
 
+            <DraggableSticker 
+                id="sticker-1"
+                src="/sticker_1.png"
+                className="bottom-16 right-2 md:bottom-24 md:right-8"
+                peelFrom="top"
+            />
+          
         </footer>
     );
 };
